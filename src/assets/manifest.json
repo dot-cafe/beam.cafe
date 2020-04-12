@@ -1,0 +1,10 @@
+{
+    "name": "share.io",
+    "short_name": "shareio",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#000",
+    "theme_color": "#2f95f3",
+    "icons": []
+}

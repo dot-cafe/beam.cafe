@@ -1,0 +1,101 @@
+@import '~normalize.css';
+@import '~sassyfication';
+@import './variables';
+
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(black, 0.3);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--c-secondary-bg);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+input,
+button {
+    outline: none;
+    background: inherit;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+code {
+    background: var(--c-primary-bg);
+    font-family: monospace;
+    font-weight: inherit;
+    padding: 0.15em 0.45em;
+    border-radius: 0.15em;
+    margin: 0 0.25em;
+}
+
+body > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+h2 {
+    @include font(400, 18px);
+}
+
+h3 {
+    @include font(500, 14px);
+}
+
+#app {
+    user-select: none;
+
+    --c-red: #ff252f;
+    --c-info: #ffeb00;
+    --c-text-primary: #242930;
+    --c-text-secondary: #fff;
+    --c-primary: #388dff;
+    --c-primary-accent: #87baff;
+    --c-primary-bg: #fff;
+    --c-secondary-bg: #edeef0;
+}
+
+// TODO: Add button to manually switch
+@media screen and (prefers-color-scheme: dark) {
+    #app {
+        --c-text-primary: #fff;
+        --c-text-secondary: #fff;
+        --c-primary: #2f95f3;
+        --c-primary-accent: #4a617b;
+        --c-primary-bg: #19191f;
+        --c-secondary-bg: #131315;
+    }
+}
