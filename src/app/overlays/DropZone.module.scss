@@ -6,7 +6,7 @@
     background: var(--c-primary-bg);
     pointer-events: none;
     transition: all 0.3s;
-    z-index: 1;
+    z-index: 10;
     opacity: 0;
 
     > div {

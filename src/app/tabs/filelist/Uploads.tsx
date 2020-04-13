@@ -1,6 +1,6 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
-import {listedFiles}  from '../state';
+import {listedFiles}  from '../../../state';
 import {FileItem}     from './FileItem';
 import styles         from './FileList.module.scss';
 

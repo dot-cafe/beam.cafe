@@ -1,0 +1,97 @@
+.tabs {
+    @include flex(column);
+    @include size(100%);
+    overflow: visible;
+}
+
+.header {
+    @include flex(row, stretch, flex-start);
+    border-bottom: 3px solid var(--c-primary);
+    padding: 0.75em 0.75em 0;
+    overflow: visible;
+
+    $roundness: 12px;
+    $smoothness: 2%;
+
+    > button {
+        position: relative;
+        color: var(--c-primary-bg);
+        background: currentColor;
+        border-radius: 0.5em 0.5em 0 0;
+        padding: 0.55em 1em;
+        z-index: 0;
+
+        > span {
+            @include font(600, 0.9em);
+            color: var(--c-text-primary);
+            opacity: 0.5;
+        }
+
+        &:not(.activeButton):hover {
+            color: var(--c-secondary-bg);
+            z-index: 4;
+
+            &::before,
+            &::after {
+                visibility: visible;
+            }
+        }
+
+        &.activeButton {
+            color: var(--c-primary);
+            z-index: 5;
+
+            &::before,
+            &::after {
+                visibility: visible;
+            }
+
+            > span {
+                color: var(--c-text-secondary);
+                opacity: 1;
+            }
+        }
+
+        &::before,
+        &::after {
+            @include pseudo();
+            @include size($roundness);
+            background: radial-gradient(transparent 50% - $smoothness, currentColor 50% + $smoothness);
+            background-size: ($roundness * 3) ($roundness * 3);
+            visibility: hidden;
+            bottom: 0;
+        }
+
+        &::after {
+            left: -$roundness;
+            background-position: ($roundness * 1.5) ($roundness * 1.5);
+        }
+
+        &::before {
+            right: -$roundness;
+            background-position: ($roundness * 8.5) ($roundness * 1.5);
+        }
+    }
+}
+
+.wrapper {
+    position: relative;
+    overflow: hidden;
+    flex-grow: 1;
+
+    > div {
+        @include position(0, 0, 0, 0);
+        transition: all 0.3s;
+        transform: scale(0.98);
+        position: absolute;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+
+        &.activeTab {
+            visibility: visible;
+            opacity: 1;
+            transform: none;
+        }
+    }
+}

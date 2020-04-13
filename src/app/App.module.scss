@@ -1,3 +1,4 @@
 .app {
-    overflow: hidden;
+    @include size(100%);
+    overflow: visible;
 }

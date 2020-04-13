@@ -1,8 +1,8 @@
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
-import {listedFiles}               from '../state';
-import {EventBindingArgs, off, on} from '../utils/events';
-import {cn}                        from '../utils/preact-utils';
+import {listedFiles}               from '../../state';
+import {EventBindingArgs, off, on} from '../../utils/events';
+import {cn}                        from '../../utils/preact-utils';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};
@@ -12,7 +12,7 @@ type State = {
 
 @observer
 export class DropZone extends Component<Props, State> {
-    state = {
+    readonly state = {
         dragover: false
     };
     private readonly listeners: Array<EventBindingArgs>;

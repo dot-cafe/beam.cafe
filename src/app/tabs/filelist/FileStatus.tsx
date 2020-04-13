@@ -1,5 +1,5 @@
 import {Component, createRef, h} from 'preact';
-import {ListedFileStatus}        from '../state/models/ListedFiles';
+import {ListedFileStatus}        from '../../../state/models/ListedFiles';
 import styles                    from './FileStatus.module.scss';
 
 type Props = {
@@ -12,9 +12,10 @@ type State = {
 };
 
 export class FileStatus extends Component<Props, State> {
-    state = {
+    readonly state = {
         pathLength: 0
     };
+
     private readonly rectEl = createRef<SVGRectElement>();
 
     componentDidMount(): void {

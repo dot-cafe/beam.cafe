@@ -1,13 +1,13 @@
 import {Component, h} from 'preact';
 import styles         from './App.module.scss';
-import {DropZone}     from './DropZone';
-import {FileList}     from './FileList';
+import {DropZone}     from './overlays/DropZone';
+import {Tabs}         from './tabs/Tabs';
 
 export class App extends Component {
     render() {
         return (
             <div className={styles.app}>
-                <FileList/>
+                <Tabs/>
                 <DropZone/>
             </div>
         );
