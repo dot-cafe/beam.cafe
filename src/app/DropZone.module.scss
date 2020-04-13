@@ -3,8 +3,10 @@
     @include flex(column, center, center);
     position: absolute;
     color: var(--c-text-primary);
+    background: var(--c-primary-bg);
     pointer-events: none;
     transition: all 0.3s;
+    z-index: 1;
     opacity: 0;
 
     > div {

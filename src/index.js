@@ -1,9 +1,8 @@
-
 /* eslint-disable */
 if (env.NODE_ENV === 'development') {
 
     // Inject react-hot-loader
-    const runtime = require("react-refresh/runtime");
+    const runtime = require('react-refresh/runtime');
     runtime.injectIntoGlobalHook(window);
 
     if (module.hot) {

@@ -3,7 +3,7 @@
 @import './variables';
 
 ::-webkit-scrollbar {
-    width: 16px;
+    width: 14px;
 }
 
 ::-webkit-scrollbar-thumb,
@@ -79,7 +79,6 @@ h3 {
     background: var(--c-primary-bg);
     box-shadow: 0 0.25em 1.5em rgba(#000, 0.025);
     border-radius: 1em;
-    padding: 1em;
     margin: auto;
     position: fixed;
     overflow: hidden;
@@ -89,17 +88,21 @@ h3 {
     user-select: none;
 
     --c-red: #ff252f;
-    --c-info: #ffeb00;
+    --c-info: #f6d400;
     --c-text-primary: #242930;
+    --c-text-primary-accent: #4b515d;
     --c-text-secondary: #fff;
     --c-primary-bg: #fff;
     --c-secondary-bg: #f2f3f5;
+    --c-primary: #3bde81;
+    --c-primary-accent: #3cee8f;
 }
 
 // TODO: Add button to manually switch
 @media screen and (prefers-color-scheme: dark) {
     :root {
         --c-text-primary: #fcfeff;
+        --c-text-primary-accent: #dee0e1;
         --c-primary-bg: #2e3033;
         --c-secondary-bg: #131315;
     }

@@ -73,7 +73,7 @@ module.exports = {
                             sourceMap: true,
                             importLoaders: 1,
                             modules: {
-                                localIdentName: '[local]__local',
+                                localIdentName: '[local]__[name]',
                             }
                         }
                     }

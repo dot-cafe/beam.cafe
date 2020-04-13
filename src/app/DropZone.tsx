@@ -12,11 +12,10 @@ type State = {
 
 @observer
 export class DropZone extends Component<Props, State> {
-    private readonly listeners: Array<EventBindingArgs>;
-
     state = {
         dragover: false
     };
+    private readonly listeners: Array<EventBindingArgs>;
 
     constructor() {
         super();

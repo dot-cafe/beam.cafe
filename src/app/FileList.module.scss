@@ -1,3 +1,26 @@
 .fileList {
-    @include flex(column);
+    @include flex(column, stretch, flex-start);
+    overflow: hidden;
+    max-height: 100%;
 }
+
+.header {
+    @include font(600, 14px);
+    display: grid;
+    grid-gap: 1em;
+    grid-template: 1fr / 2.5em 1fr 5em 5em;
+    border-bottom: 2px solid var(--c-secondary-bg);
+    color: var(--c-text-primary-accent);
+    margin: 1.25em 0 1em;
+    padding: 0 1em 0.75em;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.list {
+    overflow: auto;
+    padding-bottom: 1em;
+}
+

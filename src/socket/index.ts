@@ -2,6 +2,7 @@
 import GracefulWebSocket from 'graceful-ws';
 import {listedFiles}     from '../state';
 import {Keys}            from '../state/models/ListedFiles';
+import {upload}          from '../utils/upload';
 
 const ws = new GracefulWebSocket('ws://localhost:8080');
 
@@ -22,17 +23,14 @@ ws.addEventListener('message', e => {
                 break;
             }
             case 'req-file': {
-                const file = listedFiles.files.find(
+                const item = listedFiles.files.find(
                     value => value.key === payload
                 );
 
-                if (file) {
-                    fetch(`http://localhost:8080/share/${payload}`, {
-                        method: 'POST',
-                        body: file.data
-                    }).then(() => {
-                        console.log('ok');
-                    });
+                if (item) {
+                    upload(
+                        `http://localhost:8080/share/${payload}`, item.file
+                    ).then(() => console.log('ok'));
                 } else {
                     console.warn('[WS] File not longer available...');
                 }

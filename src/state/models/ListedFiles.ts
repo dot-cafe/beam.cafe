@@ -1,10 +1,10 @@
 import {action, observable} from 'mobx';
 import {socket}             from '../../socket';
 
+export type ListedFileStatus = 'loading' | 'ready';
 export type ListedFile = {
-    name: string;
-    size: number;
-    data: ArrayBuffer;
+    file: File;
+    status: ListedFileStatus;
     key: null | string;
 };
 
@@ -26,24 +26,21 @@ export class ListedFiles {
     }
 
     @action
-    public async add(...files: Array<File>) {
+    public add(...files: Array<File>) {
 
         // Read and save files
         const keysToRequest = [];
         for (const file of files) {
 
             // Skip duplicates
-            if (this.listedFiles.find(ef => ef.name === file.name)) {
+            if (this.listedFiles.find(ef => ef.file.name === file.name)) {
                 continue;
             }
 
-            // TODO: Switch to readable stream
-            const buffer = await file.arrayBuffer();
             this.listedFiles.push({
+                status: 'loading',
                 key: null,
-                data: buffer,
-                name: file.name,
-                size: file.size
+                file
             });
 
             keysToRequest.push({
@@ -72,10 +69,11 @@ export class ListedFiles {
     public updateKeys(keys: Keys) {
         for (const {name, key} of keys) {
             const target = this.listedFiles.find(
-                value => value.name === name
+                value => value.file.name === name
             );
 
             if (target) {
+                target.status = 'ready';
                 target.key = key;
             } else {
                 console.warn(`[LF] File ${name} not longer available`);

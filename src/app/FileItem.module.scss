@@ -1,12 +1,56 @@
 .fileItem {
+    font-size: 14px;
     display: grid;
-    grid-template: 1fr / 1fr 1fr 1fr;
+    grid-gap: 1em;
+    grid-template: 1fr / 2.5em 1fr 5em 5em;
+    align-items: center;
+    padding: 0 1em;
+    width: 100%;
 
     &:not(:last-child) {
-        margin-bottom: 0.5em;
-    }
-
-    button {
-        background: var(--c-secondary-bg);
+        margin-bottom: 0.35em;
+        padding-bottom: 0.35em;
+        border-bottom: 1px solid var(--c-secondary-bg);
     }
 }
+
+.actionsBox {
+    @include flex(row, center, flex-end);
+
+    > button {
+        @include font(600, 0.85em);
+        color: var(--c-text-secondary);
+        background: var(--c-primary);
+        transition: all 0.3s;
+        text-transform: uppercase;
+        padding: 0.4em 0.75em;
+        border-radius: 3px;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            background: var(--c-primary-accent);
+            box-shadow: 0 0 0.15em var(--c-primary-accent);
+        }
+
+        &.disabled {
+            filter: grayscale(1);
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.status {
+    justify-items: center;
+}
+
+.itemText {
+    @include font(600, 14px);
+    color: var(--c-text-primary);
+}
+
+.alignRight {
+    text-align: right;
+}
+
