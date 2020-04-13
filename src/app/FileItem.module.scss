@@ -1,0 +1,12 @@
+.fileItem {
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 1fr;
+
+    &:not(:last-child) {
+        margin-bottom: 0.5em;
+    }
+
+    button {
+        background: var(--c-secondary-bg);
+    }
+}

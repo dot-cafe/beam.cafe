@@ -3,12 +3,14 @@
     "compilerOptions": {
         "strict": true,
         "noImplicitAny": true,
+        "experimentalDecorators": true,
         "moduleResolution": "node",
         "sourceMap": true,
-        "lib": [ "esnext", "dom"],
+        "lib": ["esnext", "dom"],
         "module": "ESNext",
         "target": "ES2019",
         "jsx": "react",
-        "jsxFactory": "h"
+        "jsxFactory": "h",
+        "allowSyntheticDefaultImports": true
     }
 }

@@ -1,5 +1,5 @@
 
-/* eslint-disable no-console */
+/* eslint-disable */
 if (env.NODE_ENV === 'development') {
     const interopDefault = m => (m && m.default ? m.default : m);
 
@@ -8,7 +8,7 @@ if (env.NODE_ENV === 'development') {
     hotLoader.preact(interopDefault(require('preact')));
 
     if (module.hot) {
-        module.hot.accept()
+        module.hot.accept();
     }
 } else if (env.NODE_ENV === 'production') {
     console.log(`[INFO] Launching app v${env.VERSION}`);

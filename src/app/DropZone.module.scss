@@ -1,0 +1,48 @@
+.dropZone {
+    @include position(0, 0, 0, 0);
+    @include flex(column, center, center);
+    position: absolute;
+    color: var(--c-text-primary);
+    pointer-events: none;
+    transition: all 0.3s;
+    opacity: 0;
+
+    > div {
+        @include size(3.5em);
+        transition: all 0.3s;
+        transform: translateY(-10%);
+        position: relative;
+
+        &::before,
+        &::after {
+            @include pseudo();
+            @include size(2px, 100%);
+            background: currentColor;
+        }
+
+        &::after {
+            transform: rotate(90deg);
+        }
+    }
+
+    > p {
+        @include font(300, 2em);
+        transform: translateY(10%);
+        transition: all 0.3s;
+        margin-top: 1em;
+        opacity: 0;
+    }
+}
+
+.dragOver {
+    opacity: 1;
+
+    > div {
+        transform: none;
+    }
+
+    > p {
+        transform: none;
+        opacity: 1;
+    }
+}

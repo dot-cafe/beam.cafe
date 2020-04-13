@@ -58,13 +58,8 @@ code {
     margin: 0 0.25em;
 }
 
-body > canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
+body {
+    background: var(--c-secondary-bg);
 }
 
 h2 {
@@ -76,26 +71,36 @@ h3 {
 }
 
 #app {
+    @include width(75vw, 15em, 70em);
+    @include height(85vh, 30em, 45em);
+    @include position(0, 0, 0, 0);
+    @include flex(column);
+    font-family: $font-family;
+    background: var(--c-primary-bg);
+    box-shadow: 0 0.25em 1.5em rgba(#000, 0.025);
+    border-radius: 1em;
+    padding: 1em;
+    margin: auto;
+    position: fixed;
+    overflow: hidden;
+}
+
+:root {
     user-select: none;
 
     --c-red: #ff252f;
     --c-info: #ffeb00;
     --c-text-primary: #242930;
     --c-text-secondary: #fff;
-    --c-primary: #388dff;
-    --c-primary-accent: #87baff;
     --c-primary-bg: #fff;
-    --c-secondary-bg: #edeef0;
+    --c-secondary-bg: #f2f3f5;
 }
 
 // TODO: Add button to manually switch
 @media screen and (prefers-color-scheme: dark) {
-    #app {
-        --c-text-primary: #fff;
-        --c-text-secondary: #fff;
-        --c-primary: #2f95f3;
-        --c-primary-accent: #4a617b;
-        --c-primary-bg: #19191f;
+    :root {
+        --c-text-primary: #fcfeff;
+        --c-primary-bg: #2e3033;
         --c-secondary-bg: #131315;
     }
 }
