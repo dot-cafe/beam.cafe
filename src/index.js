@@ -1,11 +1,10 @@
 
 /* eslint-disable */
 if (env.NODE_ENV === 'development') {
-    const interopDefault = m => (m && m.default ? m.default : m);
 
     // Inject react-hot-loader
-    const hotLoader = interopDefault(require('react-hot-loader'));
-    hotLoader.preact(interopDefault(require('preact')));
+    const runtime = require("react-refresh/runtime");
+    runtime.injectIntoGlobalHook(window);
 
     if (module.hot) {
         module.hot.accept();
