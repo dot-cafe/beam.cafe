@@ -82,7 +82,7 @@ h3 {
     border-radius: 0.5em;
     margin: auto;
     position: fixed;
-    overflow: visible;
+    overflow: hidden;
 }
 
 :root {
@@ -103,9 +103,17 @@ h3 {
 // TODO: Add button to manually switch
 @media screen and (prefers-color-scheme: dark) {
     :root {
-        --c-text-primary: #fcfeff;
-        --c-text-primary-accent: #dee0e1;
-        --c-primary-bg: #2e3033;
-        --c-secondary-bg: #131315;
+        --c-text-primary: #fafafa;
+        --c-text-primary-accent: #dcddde;
+        --c-primary-bg: #2f3136;
+        --c-secondary-bg: #202225;
+    }
+}
+
+@media screen and (max-width: 1200px), (max-height: 675px) {
+    #app {
+        min-width: 100vw;
+        min-height: 100vh;
+        border-radius: 0;
     }
 }

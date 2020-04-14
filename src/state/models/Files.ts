@@ -14,17 +14,17 @@ export type Keys = Array<{
 }>;
 
 /* eslint-disable no-console */
-export class ListedFiles {
-    @observable private readonly listedFiles: Array<ListedFile> = [];
+export class Files {
+    @observable private readonly internalFiles: Array<ListedFile> = [];
 
     @computed
-    public get files() {
-        return [...this.listedFiles];
+    public get listedFiles() {
+        return this.internalFiles;
     }
 
     @computed
     public get isEmpty() {
-        return this.listedFiles.length === 0;
+        return this.internalFiles.length === 0;
     }
 
     @action
@@ -35,11 +35,11 @@ export class ListedFiles {
         for (const file of files) {
 
             // Skip duplicates
-            if (this.listedFiles.find(ef => ef.file.name === file.name)) {
+            if (this.internalFiles.find(ef => ef.file.name === file.name)) {
                 continue;
             }
 
-            this.listedFiles.push({
+            this.internalFiles.push({
                 status: 'loading',
                 key: null,
                 file
@@ -60,8 +60,8 @@ export class ListedFiles {
 
     @action
     public removeFile(file: number) {
-        if (file > 0 && file < this.listedFiles.length) {
-            this.listedFiles.splice(file, 1);
+        if (file > 0 && file < this.internalFiles.length) {
+            this.internalFiles.splice(file, 1);
         } else {
             throw new Error(`Invalid offset: ${file}`);
         }
@@ -70,7 +70,7 @@ export class ListedFiles {
     @action
     public updateKeys(keys: Keys) {
         for (const {name, key} of keys) {
-            const target = this.listedFiles.find(
+            const target = this.internalFiles.find(
                 value => value.file.name === name
             );
 

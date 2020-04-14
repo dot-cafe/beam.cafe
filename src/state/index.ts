@@ -1,5 +1,5 @@
-import {ListedFiles} from './models/ListedFiles';
-import {Uploads}     from './models/Uploads';
+import {Files}   from './models/Files';
+import {Uploads} from './models/Uploads';
 
-export const listedFiles = new ListedFiles();
+export const files = new Files();
 export const uploads = new Uploads();

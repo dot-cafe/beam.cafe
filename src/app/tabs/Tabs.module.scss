@@ -23,13 +23,16 @@
 
         > span {
             @include font(600, 0.9em);
-            color: var(--c-text-primary);
-            opacity: 0.5;
+            color: var(--c-text-primary-accent);
         }
 
         &:not(.activeButton):hover {
             color: var(--c-secondary-bg);
             z-index: 4;
+
+            span {
+                color: var(--c-text-primary);
+            }
 
             &::before,
             &::after {

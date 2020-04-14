@@ -1,7 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import prettyBytes    from 'pretty-bytes';
-import {ListedFile}   from '../../../state/models/ListedFiles';
+import {ListedFile}   from '../../../state/models/Files';
 import {bind, cn}     from '../../../utils/preact-utils';
 import styles         from './FileItem.module.scss';
 import {FileStatus}   from './FileStatus';

@@ -7,11 +7,11 @@ import styles         from './Uploads.module.scss';
 @observer
 export class Uploads extends Component {
     render() {
-        const {items} = uploads;
+        const {listedUploads} = uploads;
 
         return (
             <div className={styles.uploads}>
-                {items.map((value, i) =>
+                {listedUploads.map((value, i) =>
                     <UploadItem key={i} upload={value}/>
                 )}
             </div>

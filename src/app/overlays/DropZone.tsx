@@ -1,6 +1,6 @@
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
-import {listedFiles}               from '../../state';
+import {files}                     from '../../state';
 import {EventBindingArgs, off, on} from '../../utils/events';
 import {cn}                        from '../../utils/preact-utils';
 import styles                      from './DropZone.module.scss';
@@ -66,7 +66,7 @@ export class DropZone extends Component<Props, State> {
     }
 
     accept(fileList: FileList): void {
-        listedFiles.add(...Array.from(fileList));
+        files.add(...Array.from(fileList));
     }
 
     componentWillUnmount(): void {
@@ -80,11 +80,11 @@ export class DropZone extends Component<Props, State> {
 
         return (
             <div className={cn(styles.dropZone, {
-                [styles.dragOver]: listedFiles.isEmpty || dragover
+                [styles.dragOver]: files.isEmpty || dragover
             })}>
                 <div/>
                 <p>{
-                    listedFiles.isEmpty ?
+                    files.isEmpty ?
                         'Drop files  to get started!' :
                         'Release files to upload them!'
                 }</p>

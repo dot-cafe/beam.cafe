@@ -1,11 +1,11 @@
-import {observer}             from 'mobx-react';
-import {Component, h}         from 'preact';
-import {JSXInternal}          from 'preact/src/jsx';
-import {listedFiles, uploads} from '../../state';
-import {bind, cn}             from '../../utils/preact-utils';
-import {FileList}             from './filelist/Uploads';
-import styles                 from './Tabs.module.scss';
-import {Uploads}              from './uploads/Uploads';
+import {observer}       from 'mobx-react';
+import {Component, h}   from 'preact';
+import {JSXInternal}    from 'preact/src/jsx';
+import {files, uploads} from '../../state';
+import {bind, cn}       from '../../utils/preact-utils';
+import {FileList}       from './filelist/FileList';
+import styles           from './Tabs.module.scss';
+import {Uploads}        from './uploads/Uploads';
 
 type Tab = 'file-list' | 'uploads';
 type Props = {};
@@ -30,14 +30,14 @@ export class Tabs extends Component<Props, State> {
     }
 
     render() {
-        const {files} = listedFiles;
-        const {items} = uploads;
+        const {listedFiles} = files;
+        const {listedUploads} = uploads;
         const {activeTab} = this.state;
 
         /* eslint-disable  react/jsx-key */
         const tabs = [
-            [files.length ? `Files (${files.length})` : 'Files', 'file-list', <FileList/>],
-            [items.length ? `Uploads (${items.length})` : 'Uploads', 'uploads', <Uploads/>]
+            [listedFiles.length ? `Files (${listedFiles.length})` : 'Files', 'file-list', <FileList/>],
+            [listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads', 'uploads', <Uploads/>]
         ] as Array<[string, Tab, JSXInternal.Element]>;
 
         const headerButtons = tabs.map(([name, id]) => (

@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import GracefulWebSocket      from 'graceful-ws';
-import {listedFiles, uploads} from '../state';
-import {Keys}                 from '../state/models/ListedFiles';
-import {XHUpload}             from '../utils/XHUpload';
+import GracefulWebSocket from 'graceful-ws';
+import {files, uploads}  from '../state';
+import {Keys}            from '../state/models/Files';
+import {XHUpload}        from '../utils/XHUpload';
 
 const ws = new GracefulWebSocket('ws://localhost:8080');
 
@@ -19,13 +19,13 @@ ws.addEventListener('message', e => {
         const {type, payload} = JSON.parse((e as MessageEvent).data);
         switch (type) {
             case 'download-keys': {
-                listedFiles.updateKeys(payload as Keys);
+                files.updateKeys(payload as Keys);
                 break;
             }
             case 'file-request': {
                 const {fileKey, downloadId} = payload;
 
-                const item = listedFiles.files.find(
+                const item = files.listedFiles.find(
                     value => value.key === fileKey
                 );
 

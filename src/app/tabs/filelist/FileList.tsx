@@ -1,17 +1,14 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
-import {listedFiles}  from '../../../state';
+import {files}        from '../../../state';
 import {FileItem}     from './FileItem';
 import styles         from './FileList.module.scss';
 
-type Props = {};
-type State = {};
-
 @observer
-export class FileList extends Component<Props, State> {
+export class FileList extends Component {
     render() {
-        const {files} = listedFiles;
-        const indexPadding = Math.max(String(files.length).length, 2);
+        const {listedFiles} = files;
+        const indexPadding = Math.max(String(listedFiles.length).length, 2);
 
         return (
             <div className={styles.fileList}>
@@ -23,7 +20,7 @@ export class FileList extends Component<Props, State> {
                 </div>
 
                 <div className={styles.list}>
-                    {files.map((value, i) =>
+                    {listedFiles.map((value, i) =>
                         <FileItem key={i}
                                   item={value}
                                   label={String(i + 1).padStart(indexPadding, '0')}/>
