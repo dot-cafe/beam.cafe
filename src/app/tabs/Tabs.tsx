@@ -1,6 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {JSXInternal}  from 'preact/src/jsx';
+import {listedFiles}  from '../../state';
 import {bind, cn}     from '../../utils/preact-utils';
 import {FileList}     from './filelist/Uploads';
 import styles         from './Tabs.module.scss';
@@ -18,11 +19,6 @@ export class Tabs extends Component<Props, State> {
     readonly state = {
         activeTab: 'file-list'
     };
-    /* eslint-disable  react/jsx-key */
-    private readonly tabs = [
-        ['Files', 'file-list', <FileList/>],
-        ['Uploads', 'uploads', <Uploads/>]
-    ] as Array<[string, Tab, JSXInternal.Element]>;
 
     @bind
     changeTab(tab: Tab) {
@@ -34,20 +30,26 @@ export class Tabs extends Component<Props, State> {
     }
 
     render() {
+        const {files} = listedFiles;
         const {activeTab} = this.state;
 
-        const headerButtons = this.tabs.map(([name, id]) => (
-            <button
-                key={id}
-                onClick={this.changeTab(id)}
-                className={cn({
-                    [styles.activeButton]: activeTab === id
-                })}>
+        /* eslint-disable  react/jsx-key */
+        const tabs = [
+            [`Files (${files.length})`, 'file-list', <FileList/>],
+            ['Uploads', 'uploads', <Uploads/>]
+        ] as Array<[string, Tab, JSXInternal.Element]>;
+
+        const headerButtons = tabs.map(([name, id]) => (
+            <button key={id}
+                    onClick={this.changeTab(id)}
+                    className={cn({
+                        [styles.activeButton]: activeTab === id
+                    })}>
                 <span>{name}</span>
             </button>
         ));
 
-        const tabContainers = this.tabs.map(([, id, tab]) => (
+        const tabContainers = tabs.map(([, id, tab]) => (
             <div key={id}
                  className={cn({
                      [styles.activeTab]: id === activeTab

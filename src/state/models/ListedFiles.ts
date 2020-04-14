@@ -1,5 +1,5 @@
-import {action, observable} from 'mobx';
-import {socket}             from '../../socket';
+import {action, computed, observable} from 'mobx';
+import {socket}                       from '../../socket';
 
 export type ListedFileStatus = 'loading' | 'ready';
 export type ListedFile = {
@@ -17,10 +17,12 @@ export type Keys = Array<{
 export class ListedFiles {
     @observable private readonly listedFiles: Array<ListedFile> = [];
 
+    @computed
     public get files() {
         return [...this.listedFiles];
     }
 
+    @computed
     public get isEmpty() {
         return this.listedFiles.length === 0;
     }
@@ -51,7 +53,7 @@ export class ListedFiles {
 
         // Request first set of download-keys
         socket.send(JSON.stringify({
-            type: 'req-download-keys',
+            type: 'download-keys',
             payload: keysToRequest
         }));
     }

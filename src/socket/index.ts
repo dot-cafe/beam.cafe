@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import GracefulWebSocket from 'graceful-ws';
-import {listedFiles}     from '../state';
-import {Keys}            from '../state/models/ListedFiles';
-import {upload}          from '../utils/upload';
+import GracefulWebSocket      from 'graceful-ws';
+import {listedFiles, uploads} from '../state';
+import {Keys}                 from '../state/models/ListedFiles';
+import {XHUpload}             from '../utils/XHUpload';
 
 const ws = new GracefulWebSocket('ws://localhost:8080');
 
@@ -18,22 +18,27 @@ ws.addEventListener('message', e => {
     try {
         const {type, payload} = JSON.parse((e as MessageEvent).data);
         switch (type) {
-            case 'res-download-keys': {
+            case 'download-keys': {
                 listedFiles.updateKeys(payload as Keys);
                 break;
             }
-            case 'req-file': {
+            case 'file-request': {
+                const {fileKey, downloadId} = payload;
+
                 const item = listedFiles.files.find(
-                    value => value.key === payload
+                    value => value.key === fileKey
                 );
 
-                if (item) {
-                    upload(
-                        `http://localhost:8080/share/${payload}`, item.file
-                    ).then(() => console.log('ok'));
-                } else {
+                if (!item) {
                     console.warn('[WS] File not longer available...');
+                    break;
                 }
+
+                uploads.registerUpload(
+                    new XHUpload(`http://localhost:8080/share/${downloadId}`, item.file),
+                    item
+                );
+
                 break;
             }
             default: {
