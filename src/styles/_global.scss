@@ -1,6 +1,7 @@
 @import '~normalize.css';
 @import '~sassyfication';
 @import './variables';
+@import './functions';
 
 ::-webkit-scrollbar {
     width: 14px;
@@ -89,6 +90,7 @@ h3 {
 
     --c-red: #ff252f;
     --c-info: #f6d400;
+    --c-info-accent: #f6c511;
     --c-text-primary: #242930;
     --c-text-primary-accent: #4b515d;
     --c-text-secondary: #fff;

@@ -1,0 +1,7 @@
+@function striped_background($ca: blue, $cb: red,$width: 5px, $angle: 45deg) {
+    @return repeating-linear-gradient(
+            -45deg,
+            $ca 0 $width,
+            $cb $width ($width * 2)
+    );
+}

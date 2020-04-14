@@ -21,11 +21,14 @@ export class XHUpload extends EventTarget {
 
     public readonly size: number;
     public state: UploadState = 'idle';
+
     // Amount of bytes transferred
     public transferred = 0;
+
     // File and url
     private readonly file: File;
     private readonly url: string;
+
     // Current request instance, byte-offset and if paused
     private xhr: XMLHttpRequest;
 
@@ -53,10 +56,6 @@ export class XHUpload extends EventTarget {
         this.start();
     }
 
-    public getProgress(): number {
-        return this.file.size / this.transferred;
-    }
-
     private emitEvent(): void {
         this.dispatchEvent(new XHUploadEvent(
             this.state
@@ -77,6 +76,7 @@ export class XHUpload extends EventTarget {
             'load',
             'timeout'
         ], (e: ProgressEvent) => {
+
             switch (e.type) {
                 case 'progress': {
                     this.transferred += (e.loaded - lastLoad);

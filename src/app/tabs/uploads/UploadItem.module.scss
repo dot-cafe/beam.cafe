@@ -1,4 +1,70 @@
 .upload {
+    display: grid;
+    grid-gap: 0.5em;
+    grid-template: 1fr / 1fr 0.2fr;
     padding: 0.5em;
-    background: red;
+
+    button {
+        @include font(600, 0.9em);
+        color: var(--c-text-secondary);
+        background: var(--c-info);
+        border-radius: 10em;
+    }
+
+    &[data-state='finished'] {
+        button {
+            filter: grayscale(1);
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+    }
+
+    &[data-state='paused'] {
+        button {
+            background: var(--c-primary);
+        }
+
+        .progressBar {
+            border-color: var(--c-info-accent);
+
+            &::before {
+                background: striped_background(var(--c-info), var(--c-info-accent), 8px);
+            }
+        }
+    }
+}
+
+.progressBar {
+    @include flex(row, center, center);
+    @include font(600, 0.75em);
+    position: relative;
+    border: 2px solid var(--c-primary);
+    border-radius: 10em;
+    padding: 0.85em 0;
+    overflow: hidden;
+
+    p {
+        @include position(0, 0, 0, 0);
+        @include flex(row, center, center);
+        position: absolute;
+
+        &:first-child {
+            clip-path: inset(0 0 0 var(--text-clip-left));
+            color: var(--c-text-primary);
+        }
+
+        &:last-child {
+            clip-path: inset(0 var(--text-clip-right) 0 0);
+            color: var(--c-text-secondary);
+        }
+    }
+
+    &::before {
+        @include pseudo();
+        @include size(110%);
+        left: -5%;
+        top: -5%;
+        clip-path: inset(0 calc(100% - var(--progress)) 0 0);
+        background: striped_background(var(--c-primary), var(--c-primary-accent), 8px);
+    }
 }
