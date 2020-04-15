@@ -1,7 +1,7 @@
 .upload {
     display: grid;
     grid-gap: 0.5em;
-    grid-template: 1fr / 1fr 2em;
+    grid-template: 1fr / 1fr min-content min-content;
     padding: 0.5em;
     --c-status-primary: var(--c-primary);
     --c-status-secondary: var(--c-primary-accent);
@@ -10,12 +10,19 @@
         @include size(26px);
         @include flex(row, center, center);
         border-radius: 100%;
-        color: var(--c-status-primary);
         border: 2px solid currentColor;
 
         svg {
             @include size(14px);
             fill: currentColor;
+        }
+
+        &.pauseBtn {
+            color: var(--c-status-primary);
+        }
+
+        &.abortBtn {
+            color: var(--c-error);
         }
     }
 
@@ -23,6 +30,7 @@
         button {
             pointer-events: none;
             cursor: not-allowed;
+            filter: grayscale(1);
         }
     }
 
@@ -37,6 +45,12 @@
     &[data-state='peer-cancelled'], {
         --c-status-primary: var(--c-error);
         --c-status-secondary: var(--c-error-accent);
+
+        button {
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
     }
 }
 

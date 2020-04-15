@@ -1,4 +1,5 @@
 import {action, computed, observable}           from 'mobx';
+import {socket}                                 from '../../socket';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from './Files';
 
@@ -9,7 +10,7 @@ export type Upload = {
     state: UploadState;
     progress: number;
     listedFile: ListedFile;
-    _xhUpload: XHUpload;
+    xhUpload: XHUpload;
 };
 
 /* eslint-disable no-console */
@@ -28,7 +29,7 @@ export class Uploads {
         });
 
         this.internalUploads.push({
-            _xhUpload: xhUpload,
+            xhUpload,
             state: xhUpload.state,
             progress: 0,
             downloadId,
@@ -50,13 +51,22 @@ export class Uploads {
         const upload = this.internalUploads[index];
         switch (newState) {
             case 'peer-cancelled': {
-                upload._xhUpload.abort();
+                upload.xhUpload.abort();
                 upload.state = 'peer-cancelled';
                 upload.progress = 1;
                 return;
             }
+            case 'cancelled': {
+                socket.send(JSON.stringify({
+                    'type': 'cancel-request',
+                    'payload': upload.downloadId
+                }));
+
+                upload.progress = 1;
+                break;
+            }
             default: {
-                const {size, transferred} = upload._xhUpload;
+                const {size, transferred} = upload.xhUpload;
                 upload.progress = transferred / size;
             }
         }
