@@ -1,6 +1,6 @@
 import {on} from './events';
 
-export type UploadState = 'idle' |
+export type XHUploadState = 'idle' |
     'paused' |
     'running' |
     'cancelled' |
@@ -9,9 +9,9 @@ export type UploadState = 'idle' |
     'finished';
 
 export class XHUploadEvent extends Event {
-    public readonly state: UploadState;
+    public readonly state: XHUploadState;
 
-    constructor(state: UploadState) {
+    constructor(state: XHUploadState) {
         super('update');
         this.state = state;
     }
@@ -20,7 +20,7 @@ export class XHUploadEvent extends Event {
 export class XHUpload extends EventTarget {
 
     public readonly size: number;
-    public state: UploadState = 'idle';
+    public state: XHUploadState = 'idle';
 
     // Amount of bytes transferred
     public transferred = 0;
@@ -38,6 +38,17 @@ export class XHUpload extends EventTarget {
         this.url = url;
         this.size = file.size;
         this.xhr = this.start();
+    }
+
+    public abort(): void {
+        const {readyState} = this.xhr;
+
+        if (readyState !== 0 && readyState !== 4) {
+            this.xhr.abort();
+        }
+
+        this.state = 'cancelled';
+        this.emitEvent();
     }
 
     public pause(): void {
@@ -76,7 +87,6 @@ export class XHUpload extends EventTarget {
             'load',
             'timeout'
         ], (e: ProgressEvent) => {
-
             switch (e.type) {
                 case 'progress': {
                     this.transferred += (e.loaded - lastLoad);

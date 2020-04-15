@@ -4,7 +4,7 @@ import {files, uploads}  from '../state';
 import {Keys}            from '../state/models/Files';
 import {XHUpload}        from '../utils/XHUpload';
 
-const ws = new GracefulWebSocket('ws://localhost:8080');
+const ws = new GracefulWebSocket('ws://192.168.178.49:8080');
 
 ws.addEventListener('connected', () => {
     console.log('[WS] Connected!');
@@ -35,10 +35,14 @@ ws.addEventListener('message', e => {
                 }
 
                 uploads.registerUpload(
-                    new XHUpload(`http://localhost:8080/share/${downloadId}`, item.file),
-                    item
+                    downloadId, item,
+                    new XHUpload(`http://192.168.178.49:8080/share/${downloadId}`, item.file)
                 );
 
+                break;
+            }
+            case 'download-cancelled': {
+                uploads.updateUploadState(payload, 'peer-cancelled');
                 break;
             }
             default: {

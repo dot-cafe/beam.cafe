@@ -3,12 +3,14 @@
     grid-gap: 0.5em;
     grid-template: 1fr / 1fr 2em;
     padding: 0.5em;
+    --c-status-primary: var(--c-primary);
+    --c-status-secondary: var(--c-primary-accent);
 
     button {
         @include size(26px);
         @include flex(row, center, center);
         border-radius: 100%;
-        color: var(--c-primary);
+        color: var(--c-status-primary);
         border: 2px solid currentColor;
 
         svg {
@@ -25,18 +27,16 @@
     }
 
     &[data-state='paused'] {
-        button {
-            color: var(--c-info-accent);
-        }
+        --c-status-primary: var(--c-info);
+        --c-status-secondary: var(--c-info-accent);
+    }
 
-        .progressBar {
-            box-shadow: inset 0 0 0 2px var(--c-info-accent);
-            border-color: var(--c-info-accent);
-
-            &::before {
-                background: striped_background(var(--c-info), var(--c-info-accent), 8px);
-            }
-        }
+    &[data-state='cancelled'],
+    &[data-state='errored'],
+    &[data-state='timeout'],
+    &[data-state='peer-cancelled'], {
+        --c-status-primary: var(--c-error);
+        --c-status-secondary: var(--c-error-accent);
     }
 }
 
@@ -44,7 +44,7 @@
     @include flex(row, center, center);
     @include font(600, 0.75em);
     position: relative;
-    box-shadow: inset 0 0 0 2px var(--c-primary); // A border causes a gap
+    box-shadow: inset 0 0 0 2px var(--c-status-primary); // A border causes a gap
     border-radius: 10em;
     padding: 1em 0;
     overflow: hidden;
@@ -71,6 +71,6 @@
         @include size(100%);
         z-index: -1;
         clip-path: inset(0 calc(100% - var(--progress)) 0 0);
-        background: striped_background(var(--c-primary), var(--c-primary-accent), 8px);
+        background: striped_background(var(--c-status-primary), var(--c-status-secondary), 8px);
     }
 }

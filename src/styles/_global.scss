@@ -88,16 +88,17 @@ h3 {
 :root {
     user-select: none;
 
-    --c-red: #ff252f;
+    --c-error: #ff252f;
+    --c-error-accent: #e51f1f;
     --c-info: #f6d400;
-    --c-info-accent: #f6c511;
+    --c-info-accent: #efbf10;
     --c-text-primary: #242930;
     --c-text-primary-accent: #4b515d;
     --c-text-secondary: #fff;
     --c-primary-bg: #fff;
     --c-secondary-bg: #f2f3f5;
-    --c-primary: #3bde81;
-    --c-primary-accent: #3cee8f;
+    --c-primary: #39dc81;
+    --c-primary-accent: #31ca7d;
 }
 
 // TODO: Add button to manually switch
