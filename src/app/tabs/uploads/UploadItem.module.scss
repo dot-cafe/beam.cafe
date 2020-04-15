@@ -1,19 +1,24 @@
 .upload {
     display: grid;
     grid-gap: 0.5em;
-    grid-template: 1fr / 1fr 0.2fr;
+    grid-template: 1fr / 1fr 2em;
     padding: 0.5em;
 
     button {
-        @include font(600, 0.9em);
-        color: var(--c-text-primary-accent);
-        background: var(--c-info);
-        border-radius: 10em;
+        @include size(26px);
+        @include flex(row, center, center);
+        border-radius: 100%;
+        color: var(--c-primary);
+        border: 2px solid currentColor;
+
+        svg {
+            @include size(14px);
+            fill: currentColor;
+        }
     }
 
     &[data-state='finished'] {
         button {
-            background: var(--c-secondary-bg);
             pointer-events: none;
             cursor: not-allowed;
         }
@@ -21,10 +26,11 @@
 
     &[data-state='paused'] {
         button {
-            background: var(--c-primary);
+            color: var(--c-info-accent);
         }
 
         .progressBar {
+            box-shadow: inset 0 0 0 2px var(--c-info-accent);
             border-color: var(--c-info-accent);
 
             &::before {
@@ -38,7 +44,7 @@
     @include flex(row, center, center);
     @include font(600, 0.75em);
     position: relative;
-    box-shadow: inset 0 0 0 3px var(--c-primary); // A border causes a gap
+    box-shadow: inset 0 0 0 2px var(--c-primary); // A border causes a gap
     border-radius: 10em;
     padding: 1em 0;
     overflow: hidden;
@@ -47,6 +53,7 @@
         @include position(0, 0, 0, 0);
         @include flex(row, center, center);
         position: absolute;
+        text-shadow: 0 0 2px rgba(black, 0.2);
 
         &:first-child {
             clip-path: inset(0 0 0 var(--text-clip-left));

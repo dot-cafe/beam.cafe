@@ -1,8 +1,9 @@
-import {observer}     from 'mobx-react';
-import {Component, h} from 'preact';
-import {Upload}       from '../../../state/models/Uploads';
-import {bind}         from '../../../utils/preact-utils';
-import styles         from './UploadItem.module.scss';
+import {observer}         from 'mobx-react';
+import {Component, h}     from 'preact';
+import {Upload}           from '../../../state/models/Uploads';
+import {bind}             from '../../../utils/preact-utils';
+import {getStatusIconFor} from './statusIcon';
+import styles             from './UploadItem.module.scss';
 
 type Props = {
     upload: Upload;
@@ -32,14 +33,12 @@ export class UploadItem extends Component<Props, State> {
         const progress = transferred / size;
         const percentage = Math.round(progress * 10000) / 100;
 
-        // Descriptive text
-        const text = `${upload.listedFile.file.name} - ${percentage}%`;
-
         // Styling information
         const progressBarStyle = `--progress: ${percentage}%;`
             + `--text-clip-left: ${percentage}%;`
             + `--text-clip-right: ${100 - percentage}%;`;
 
+        const text = percentage ? percentage === 100 ? 'Done' : `${percentage}%` : 'Pending...';
         return (
             <div className={styles.upload}
                  data-state={state}>
@@ -51,9 +50,8 @@ export class UploadItem extends Component<Props, State> {
                 </div>
 
                 <button onClick={this.togglePause}>
-                    {state === 'paused' ? 'Resume' : 'Pause'}
+                    {getStatusIconFor(state)}
                 </button>
-
             </div>
         );
     }

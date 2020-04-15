@@ -15,7 +15,7 @@ export class FileList extends Component {
                 <div className={styles.header}>
                     <p>#</p>
                     <p>Filename</p>
-                    <p>Filesize</p>
+                    <p className={styles.alignRight}>File size</p>
                     <p className={styles.alignRight}>Action</p>
                 </div>
 

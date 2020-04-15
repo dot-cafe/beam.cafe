@@ -17,7 +17,7 @@ type State = {
 export class Tabs extends Component<Props, State> {
 
     readonly state = {
-        activeTab: 'file-list'
+        activeTab: 'file-list' as Tab
     };
 
     @bind
