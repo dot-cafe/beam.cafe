@@ -1,24 +1,22 @@
-module.exports = (api) => {
-    api.cache.using(() => process.env.NODE_ENV);
+const isProduction = process.env.NODE_ENV === 'production';
 
-    return {
-        'presets': [
-            [
-                '@babel/preset-typescript',
-                {'jsxPragma': 'h'}
-            ]
+module.exports = {
+    'presets': [
+        [
+            '@babel/preset-typescript',
+            {'jsxPragma': 'h'}
+        ]
+    ],
+    'plugins': [
+        '@babel/plugin-proposal-class-properties',
+        [
+            '@babel/plugin-transform-react-jsx',
+            {'pragma': 'h', 'pragmaFrag': 'Fragment'}
         ],
-        'plugins': [
-            [
-                '@babel/plugin-transform-react-jsx',
-                {'pragma': 'h', 'pragmaFrag': 'Fragment'}
-            ],
-            [
-                '@babel/plugin-proposal-decorators',
-                {'legacy': true}
-            ],
-            '@babel/plugin-proposal-class-properties',
-            api.env('production') && 'react-refresh/babel'
-        ].filter(Boolean)
-    };
+        [
+            '@babel/plugin-proposal-decorators',
+            {'legacy': true}
+        ],
+        ...(!isProduction ? ['react-refresh/babel'] : [])
+    ]
 };

@@ -7,8 +7,8 @@
     "author": "Simon Reinisch <trash@reinisch.io>",
     "license": "MIT",
     "scripts": {
-        "build": "webpack --config webpack.config.prod.js --progress",
-        "dev": "webpack-dev-server --config webpack.config.dev.js",
+        "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress",
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
         "lint": "eslint src/**/*.{js,ts,tsx}",
         "lint:fix": "eslint src/**/*.{js,ts,tsx} --fix"
     },
@@ -24,6 +24,7 @@
         "babel-loader": "^8.1.0",
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^5.1.1",
+        "cross-env": "^7.0.2",
         "css-hot-loader": "^1.4.4",
         "css-loader": "^3.5.2",
         "eslint": "^6.8.0",
