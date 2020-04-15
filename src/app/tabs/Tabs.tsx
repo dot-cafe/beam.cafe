@@ -2,6 +2,8 @@ import {observer}       from 'mobx-react';
 import {Component, h}   from 'preact';
 import {JSXInternal}    from 'preact/src/jsx';
 import {files, uploads} from '../../state';
+import {rotate}         from '../../utils/array';
+import {on}             from '../../utils/events';
 import {bind, cn}       from '../../utils/preact-utils';
 import {FileList}       from './filelist/FileList';
 import styles           from './Tabs.module.scss';
@@ -15,10 +17,21 @@ type State = {
 
 @observer
 export class Tabs extends Component<Props, State> {
+    private static readonly tabs = ['file-list', 'uploads'];
 
     readonly state = {
         activeTab: 'file-list' as Tab
     };
+
+    componentDidMount(): void {
+        on(window, 'keyup', (e: KeyboardEvent) => {
+            if (e.key === 'Tab') {
+                this.setState({
+                    activeTab: rotate(Tabs.tabs, this.state.activeTab)
+                });
+            }
+        });
+    }
 
     @bind
     changeTab(tab: Tab) {
