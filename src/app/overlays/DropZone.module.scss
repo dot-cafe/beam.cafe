@@ -2,28 +2,49 @@
     @include position(0, 0, 0, 0);
     @include flex(column, center, center);
     position: absolute;
-    color: var(--c-text-primary);
     background: var(--c-primary-bg);
     pointer-events: none;
     transition: all 0.3s;
     z-index: 10;
     opacity: 0;
 
-    > div {
-        @include size(3.5em);
-        transition: all 0.3s;
-        transform: translateY(-10%);
-        position: relative;
+    // Chrome has problems animating currentColor
+    --color: transparent;
 
-        &::before,
-        &::after {
+    > div {
+        @include size(1em, 3.5em);
+        transition: all 0.3s;
+        border: 2px solid var(--color);
+        position: relative;
+        z-index: 5;
+
+        &::before {
+            @include position(-2px, -2px, auto, auto);
             @include pseudo();
-            @include size(2px, 100%);
-            background: currentColor;
+            @include size(0);
+            border: 0.5em solid transparent;
+            border-color: var(--c-primary-bg) var(--c-primary-bg) var(--color) var(--color);
         }
 
-        &::after {
-            transform: rotate(90deg);
+        > div {
+            @include size(1.5em);
+            @include position(0, 0, 0, 0);
+            transition: all 0.3s;
+            transform: scale(0);
+            position: absolute;
+            margin: auto;
+
+            &::before,
+            &::after {
+                @include pseudo();
+                @include size(2px, 100%);
+                background: var(--color);
+                top: 50%;
+            }
+
+            &::after {
+                transform: rotate(90deg);
+            }
         }
     }
 
@@ -31,20 +52,25 @@
         @include font(300, 2em);
         transform: translateY(10%);
         transition: all 0.3s;
+        color: var(--color);
         margin-top: 1em;
-        opacity: 0;
     }
 }
 
 .dragOver {
+    --color: var(--c-text-primary);
+    transition: all 0.3s;
     opacity: 1;
 
     > div {
-        transform: none;
+        height: 4.5em;
+
+        > div {
+            transform: none;
+        }
     }
 
     > p {
         transform: none;
-        opacity: 1;
     }
 }

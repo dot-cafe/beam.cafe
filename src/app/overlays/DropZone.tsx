@@ -82,7 +82,7 @@ export class DropZone extends Component<Props, State> {
             <div className={cn(styles.dropZone, {
                 [styles.dragOver]: files.isEmpty || dragover
             })}>
-                <div/>
+                <div><div/></div>
                 <p>{
                     files.isEmpty ?
                         'Drop files  to get started!' :
