@@ -6,7 +6,6 @@ export type ListedFile = {
     file: File;
     status: ListedFileStatus;
     id: null | string;
-    key: null | string;
 };
 
 export type Keys = Array<{
@@ -43,7 +42,6 @@ export class Files {
 
             this.internalFiles.push({
                 status: 'loading',
-                key: null,
                 id: null,
                 file
             });
@@ -80,15 +78,14 @@ export class Files {
     }
 
     @action
-    public updateKeys(keys: Keys) {
-        for (const {name, key, id} of keys) {
+    public enableFiles(idPairs: Keys) {
+        for (const {name, id} of idPairs) {
             const target = this.internalFiles.find(
                 value => value.file.name === name
             );
 
             if (target) {
                 target.status = 'ready';
-                target.key = key;
                 target.id = id;
             } else {
                 console.warn(`[LF] File ${name} not longer available`);

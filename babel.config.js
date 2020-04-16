@@ -8,14 +8,11 @@ module.exports = {
         ]
     ],
     'plugins': [
-        '@babel/plugin-proposal-class-properties',
+        ['@babel/plugin-proposal-decorators', {'legacy': true}],
+        ['@babel/plugin-proposal-class-properties', {'loose': true}],
         [
             '@babel/plugin-transform-react-jsx',
             {'pragma': 'h', 'pragmaFrag': 'Fragment'}
-        ],
-        [
-            '@babel/plugin-proposal-decorators',
-            {'legacy': true}
         ],
         ...(!isProduction ? ['react-refresh/babel'] : [])
     ]

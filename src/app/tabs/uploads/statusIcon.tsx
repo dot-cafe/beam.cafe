@@ -17,6 +17,7 @@ export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {
                     <path d="M 12 8 L 12 42 L 22 42 L 22 8 Z M 28 8 L 28 42 L 38 42 L 38 8 Z"/>
                 </svg>
             );
+        case 'removed':
         case 'cancelled':
         case 'errored':
         case 'timeout': {

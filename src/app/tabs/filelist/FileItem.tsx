@@ -1,12 +1,12 @@
-import {observer}     from 'mobx-react';
-import {Component, h} from 'preact';
-import prettyBytes    from 'pretty-bytes';
-import {files}        from '../../../state';
-import {ListedFile}   from '../../../state/models/Files';
-import {bind, cn}     from '../../../utils/preact-utils';
-import {Toast}        from '../../overlays/Toast';
-import styles         from './FileItem.module.scss';
-import {FileStatus}   from './FileStatus';
+import {observer}       from 'mobx-react';
+import {Component, h}   from 'preact';
+import prettyBytes      from 'pretty-bytes';
+import {files, uploads} from '../../../state';
+import {ListedFile}     from '../../../state/models/Files';
+import {bind, cn}       from '../../../utils/preact-utils';
+import {Toast}          from '../../overlays/Toast';
+import styles           from './FileItem.module.scss';
+import {FileStatus}     from './FileStatus';
 
 type Props = {
     item: ListedFile;
@@ -20,11 +20,11 @@ export class FileItem extends Component<Props, State> {
 
     @bind
     copyLink() {
-        const {key} = this.props.item;
+        const {id} = this.props.item;
 
         const toast = Toast.getInstance();
         navigator.clipboard.writeText(
-            `http://192.168.178.49:8080/shared/${key}`
+            `http://192.168.178.49:8080/shared/${id}`
         ).then(() => toast.set({
             text: 'Link copied to clipboard!',
             type: 'success'
@@ -39,7 +39,17 @@ export class FileItem extends Component<Props, State> {
         const {id} = this.props.item;
 
         if (id) {
+
+            // Remove file
             files.removeFile(id);
+
+            // Abort all uploads of this file
+            const relatedUploads = uploads.listedUploads.filter(value => value.listedFile.id);
+            for (const upload of relatedUploads) {
+                if (upload.progress < 1) {
+                    uploads.updateUploadState(upload.id, 'removed');
+                }
+            }
         }
     }
 

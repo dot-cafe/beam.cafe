@@ -3,7 +3,7 @@ import {socket}                                 from '../../socket';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from './Files';
 
-export type UploadState = XHUploadState | 'peer-cancelled';
+export type UploadState = XHUploadState | 'peer-cancelled' | 'removed';
 
 export type Upload = {
     id: string;
@@ -50,11 +50,11 @@ export class Uploads {
         // TODO: Clean up event-mess
         const upload = this.internalUploads[index];
         switch (newState) {
+            case 'removed':
             case 'peer-cancelled': {
                 upload.xhUpload.abort();
-                upload.state = 'peer-cancelled';
                 upload.progress = 1;
-                return;
+                break;
             }
             case 'cancelled': {
                 socket.send(JSON.stringify({

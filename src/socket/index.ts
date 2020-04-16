@@ -18,15 +18,15 @@ ws.addEventListener('message', e => {
     try {
         const {type, payload} = JSON.parse((e as MessageEvent).data);
         switch (type) {
-            case 'download-keys': {
-                files.updateKeys(payload as Keys);
+            case 'file-registrations': {
+                files.enableFiles(payload as Keys);
                 break;
             }
             case 'file-request': {
-                const {fileKey, id} = payload;
+                const {fileId, downloadId} = payload;
 
                 const item = files.listedFiles.find(
-                    value => value.key === fileKey
+                    value => value.id === fileId
                 );
 
                 if (!item) {
@@ -35,8 +35,8 @@ ws.addEventListener('message', e => {
                 }
 
                 uploads.registerUpload(
-                    id, item,
-                    new XHUpload(`http://192.168.178.49:8080/share/${id}`, item.file)
+                    downloadId, item,
+                    new XHUpload(`http://192.168.178.49:8080/share/${downloadId}`, item.file)
                 );
 
                 break;

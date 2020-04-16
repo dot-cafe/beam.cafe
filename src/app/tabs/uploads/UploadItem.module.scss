@@ -26,7 +26,7 @@
         }
     }
 
-    &[data-state='finished'] {
+    @mixin disabledButtons {
         button {
             pointer-events: none;
             cursor: not-allowed;
@@ -34,9 +34,19 @@
         }
     }
 
+    &[data-state='finished'] {
+        @include disabledButtons;
+    }
+
+    &[data-state='removed'],
     &[data-state='paused'] {
         --c-status-primary: var(--c-info);
         --c-status-secondary: var(--c-info-accent);
+    }
+
+
+    &[data-state='removed'] {
+        @include disabledButtons;
     }
 
     &[data-state='cancelled'],
@@ -45,12 +55,7 @@
     &[data-state='peer-cancelled'], {
         --c-status-primary: var(--c-error);
         --c-status-secondary: var(--c-error-accent);
-
-        button {
-            pointer-events: none;
-            cursor: not-allowed;
-            filter: grayscale(1);
-        }
+        @include disabledButtons;
     }
 }
 

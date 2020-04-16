@@ -50,6 +50,9 @@ export class UploadItem extends Component<Props, State> {
             case 'paused':
                 text = `${text} - Paused`;
                 break;
+            case 'removed':
+                text = 'File removed';
+                break;
             case 'cancelled':
                 text = 'Cancelled by you';
                 break;
