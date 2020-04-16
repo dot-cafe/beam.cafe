@@ -1,0 +1,33 @@
+.toast {
+    @include position(0, 0, auto, 0);
+    @include flex(row, center, center);
+    transform: translateY(-105%);
+    transition: all 0.25s;
+    pointer-events: none;
+    position: fixed;
+    margin: 0 auto;
+
+    p {
+        @include font(600, 0.9em);
+        padding: 0.65em 2em;
+        border-radius: 0 0 0.5em 0.5em;
+        color: var(--c-text-secondary);
+        box-shadow: 0 0 0.5em rgba(black, 0.1);
+    }
+
+    &[data-state='success'] p {
+        background: var(--c-primary);
+    }
+
+    &[data-state='warning'] p {
+        background: var(--c-info);
+    }
+
+    &[data-state='error'] p {
+        background: var(--c-error);
+    }
+}
+
+.show {
+    transform: none;
+}
