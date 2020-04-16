@@ -6,7 +6,7 @@ import {ListedFile}                             from './Files';
 export type UploadState = XHUploadState | 'peer-cancelled';
 
 export type Upload = {
-    downloadId: string;
+    id: string;
     state: UploadState;
     progress: number;
     listedFile: ListedFile;
@@ -23,16 +23,16 @@ export class Uploads {
     }
 
     @action
-    public registerUpload(downloadId: string, listedFile: ListedFile, xhUpload: XHUpload): void {
+    public registerUpload(id: string, listedFile: ListedFile, xhUpload: XHUpload): void {
         xhUpload.addEventListener('update', s => {
-            this.updateUploadState(downloadId, (s as XHUploadEvent).state);
+            this.updateUploadState(id, (s as XHUploadEvent).state);
         });
 
         this.internalUploads.push({
             xhUpload,
             state: xhUpload.state,
             progress: 0,
-            downloadId,
+            id,
             listedFile
         });
     }
@@ -40,7 +40,7 @@ export class Uploads {
     @action
     public updateUploadState(id: string, newState: UploadState): void {
         const index = this.internalUploads.findIndex(v => {
-            return v.downloadId === id;
+            return v.id === id;
         });
 
         if (index === -1) {
@@ -59,7 +59,7 @@ export class Uploads {
             case 'cancelled': {
                 socket.send(JSON.stringify({
                     'type': 'cancel-request',
-                    'payload': upload.downloadId
+                    'payload': upload.id
                 }));
 
                 upload.progress = 1;

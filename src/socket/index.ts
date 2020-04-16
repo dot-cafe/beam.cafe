@@ -4,7 +4,7 @@ import {files, uploads}  from '../state';
 import {Keys}            from '../state/models/Files';
 import {XHUpload}        from '../utils/XHUpload';
 
-const ws = new GracefulWebSocket('ws://79.214.150.228:8080');
+const ws = new GracefulWebSocket('ws://192.168.178.49:8080');
 
 ws.addEventListener('connected', () => {
     console.log('[WS] Connected!');
@@ -23,7 +23,7 @@ ws.addEventListener('message', e => {
                 break;
             }
             case 'file-request': {
-                const {fileKey, downloadId} = payload;
+                const {fileKey, id} = payload;
 
                 const item = files.listedFiles.find(
                     value => value.key === fileKey
@@ -35,8 +35,8 @@ ws.addEventListener('message', e => {
                 }
 
                 uploads.registerUpload(
-                    downloadId, item,
-                    new XHUpload(`http://79.214.150.228:8080/share/${downloadId}`, item.file)
+                    id, item,
+                    new XHUpload(`http://192.168.178.49:8080/share/${id}`, item.file)
                 );
 
                 break;

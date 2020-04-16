@@ -2,7 +2,7 @@
     font-size: 14px;
     display: grid;
     grid-gap: 1em;
-    grid-template: 1fr / 2.5em 1fr 5em 5em;
+    grid-template: 1fr / 2.5em 1fr 5em 10em;
     align-items: center;
     padding: 0 1em;
     width: 100%;
@@ -20,7 +20,7 @@
     > button {
         @include font(600, 0.85em);
         color: var(--c-text-secondary);
-        background: var(--c-primary);
+        background: var(--color);
         transition: all 0.3s;
         text-transform: uppercase;
         padding: 0.4em 0.75em;
@@ -29,14 +29,28 @@
         overflow: hidden;
 
         &:hover {
-            background: var(--c-primary-accent);
-            box-shadow: 0 0 0.15em var(--c-primary-accent);
+            background: var(--color-accent);
+            box-shadow: 0 0 0.15em var(--color-accent);
+        }
+
+        &:not(:last-child) {
+            margin-right: 0.5em;
         }
 
         &.disabled {
             filter: grayscale(1);
             pointer-events: none;
             cursor: not-allowed;
+        }
+
+        &.shareBtn {
+            --color: var(--c-primary);
+            --color-accent: var(--c-primary-accent);
+        }
+
+        &.removeBtn {
+            --color: var(--c-error);
+            --color-accent: var(--c-error-accent);
         }
     }
 }

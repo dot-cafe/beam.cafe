@@ -1,6 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import prettyBytes    from 'pretty-bytes';
+import {files}        from '../../../state';
 import {ListedFile}   from '../../../state/models/Files';
 import {bind, cn}     from '../../../utils/preact-utils';
 import {Toast}        from '../../overlays/Toast';
@@ -23,7 +24,7 @@ export class FileItem extends Component<Props, State> {
 
         const toast = Toast.getInstance();
         navigator.clipboard.writeText(
-            `http://localhost:8080/shared/${key}`
+            `http://192.168.178.49:8080/shared/${key}`
         ).then(() => toast.set({
             text: 'Link copied to clipboard!',
             type: 'success'
@@ -31,6 +32,15 @@ export class FileItem extends Component<Props, State> {
             text: 'Failed to copy link :(',
             type: 'error'
         }));
+    }
+
+    @bind
+    removeFile() {
+        const {id} = this.props.item;
+
+        if (id) {
+            files.removeFile(id);
+        }
     }
 
     render() {
@@ -51,10 +61,16 @@ export class FileItem extends Component<Props, State> {
                 </p>
 
                 <div className={styles.actionsBox}>
-                    <button className={cn({
+                    <button className={cn(styles.shareBtn, {
                         [styles.disabled]: item.status === 'loading'
                     })} onClick={this.copyLink}>
                         Share
+                    </button>
+
+                    <button className={cn(styles.removeBtn, {
+                        [styles.disabled]: item.status === 'loading'
+                    })} onClick={this.removeFile}>
+                        Remove
                     </button>
                 </div>
             </div>

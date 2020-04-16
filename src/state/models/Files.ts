@@ -5,10 +5,12 @@ export type ListedFileStatus = 'loading' | 'ready';
 export type ListedFile = {
     file: File;
     status: ListedFileStatus;
+    id: null | string;
     key: null | string;
 };
 
 export type Keys = Array<{
+    id: string;
     name: string;
     key: string;
 }>;
@@ -42,6 +44,7 @@ export class Files {
             this.internalFiles.push({
                 status: 'loading',
                 key: null,
+                id: null,
                 file
             });
 
@@ -59,17 +62,26 @@ export class Files {
     }
 
     @action
-    public removeFile(file: number) {
-        if (file > 0 && file < this.internalFiles.length) {
-            this.internalFiles.splice(file, 1);
+    public removeFile(id: string) {
+        const fileIndex = this.internalFiles.findIndex(value => value.id === id);
+
+
+        if (~fileIndex) {
+            const file = this.internalFiles[fileIndex];
+            this.internalFiles.splice(fileIndex, 1);
+
+            socket.send(JSON.stringify({
+                type: 'remove-file',
+                payload: file.id
+            }));
         } else {
-            throw new Error(`Invalid offset: ${file}`);
+            console.warn('File not registered yet.');
         }
     }
 
     @action
     public updateKeys(keys: Keys) {
-        for (const {name, key} of keys) {
+        for (const {name, key, id} of keys) {
             const target = this.internalFiles.find(
                 value => value.file.name === name
             );
@@ -77,6 +89,7 @@ export class Files {
             if (target) {
                 target.status = 'ready';
                 target.key = key;
+                target.id = id;
             } else {
                 console.warn(`[LF] File ${name} not longer available`);
             }
