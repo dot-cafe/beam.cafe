@@ -1,4 +1,3 @@
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -98,12 +97,6 @@ module.exports = {
                     output: {comments: false},
                     mangle: true
                 }
-            }),
-
-            new OptimizeCSSAssetsPlugin({
-                cssProcessorOptions: {
-                    reduceIdents: false
-                }
             })
         ]
     },
@@ -141,7 +134,7 @@ module.exports = {
         }),
 
         new WorkboxPlugin.GenerateSW({
-            swDest: '/sw.js',
+            swDest: 'sw.js',
             clientsClaim: true,
             skipWaiting: true
         }),
