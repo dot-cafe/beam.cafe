@@ -28,14 +28,10 @@
 
     @mixin disabledButtons {
         button {
+            color: var(--c-text-primary-accent) !important;
             pointer-events: none;
             cursor: not-allowed;
-            filter: grayscale(1);
         }
-    }
-
-    &[data-state='finished'] {
-        @include disabledButtons;
     }
 
     &[data-state='removed'],
@@ -44,7 +40,7 @@
         --c-status-secondary: var(--c-info-accent);
     }
 
-
+    &[data-state='finished'],
     &[data-state='removed'] {
         @include disabledButtons;
     }
