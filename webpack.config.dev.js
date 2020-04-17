@@ -73,7 +73,7 @@ module.exports = {
                             sourceMap: true,
                             importLoaders: 1,
                             modules: {
-                                localIdentName: '[local]__[name]',
+                                localIdentName: '[local]__[name]'
                             }
                         }
                     }
@@ -112,7 +112,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'env': {
                 'NODE_ENV': JSON.stringify('development'),
-                'VERSION': JSON.stringify(pkg.version)
+                'VERSION': JSON.stringify(pkg.version),
+                'WS_ENDPOINT': JSON.stringify('ws://localhost:8080'),
+                'API_ENDPOINT': JSON.stringify('http://localhost:8080')
             }
         }),
 

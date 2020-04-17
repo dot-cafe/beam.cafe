@@ -105,7 +105,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'env': {
                 'NODE_ENV': JSON.stringify('production'),
-                'VERSION': JSON.stringify(pkg.version)
+                'VERSION': JSON.stringify(pkg.version),
+                'WS_ENDPOINT': JSON.stringify('wss://beam.cafe/ws'),
+                'API_ENDPOINT': JSON.stringify('https://beam.cafe'),
             }
         }),
 

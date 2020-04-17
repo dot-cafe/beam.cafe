@@ -24,7 +24,7 @@ export class FileItem extends Component<Props, State> {
 
         const toast = Toast.getInstance();
         navigator.clipboard.writeText(
-            `http://192.168.178.49:8080/shared/${id}`
+            `${env.API_ENDPOINT}/shared/${id}`
         ).then(() => toast.set({
             text: 'Link copied to clipboard!',
             type: 'success'
