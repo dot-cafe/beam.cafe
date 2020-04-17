@@ -4,11 +4,12 @@
     position: relative;
     overflow: visible;
     margin: auto;
+    --color: var(--c-primary);
 
     span {
         @include font(600, 0.9em);
         line-height: 1.4em;
-        color: var(--c-primary);
+        color: var(--color);
         transition: all 0.3s;
     }
 
@@ -29,7 +30,7 @@
             &.outline {
                 transition: all 0.3s;
                 stroke-dasharray: 20 var(--path-length);
-                stroke: transparent;
+                stroke: var(--stroke);
 
                 @include animate('1s infinite linear') {
                     from {
@@ -45,18 +46,26 @@
         }
     }
 
-    &[data-status='loading'] {
-        span {
-            color: var(--c-info);
-        }
-
+    &[data-status='loading'],
+    &[data-status='removing'] {
         svg rect {
-            stroke: var(--c-secondary-bg);
+            &:not(.outline) {
+                stroke: var(--c-secondary-bg);
+            }
 
             &.outline {
-                stroke: var(--c-info);
                 animation-play-state: running;
             }
         }
+    }
+
+    &[data-status='loading'] {
+        --color: var(--c-info);
+        --stroke: var(--c-info);
+    }
+
+    &[data-status='removing'] {
+        --color: var(--c-error);
+        --stroke: var(--c-error);
     }
 }

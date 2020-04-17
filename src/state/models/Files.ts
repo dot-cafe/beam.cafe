@@ -1,11 +1,18 @@
 import {action, computed, observable} from 'mobx';
 import {socket}                       from '../../socket';
 
-export type ListedFileStatus = 'loading' | 'ready';
+export type ListedFileStatus = 'loading' | 'ready' | 'removing';
+
 export type ListedFile = {
-    file: File;
     status: ListedFileStatus;
+    file: File;
     id: null | string;
+
+    /**
+     * Timestamp of last status-update. Used to improve
+     * perceived performance.
+     */
+    updated: number;
 };
 
 export type Keys = Array<{
@@ -13,6 +20,12 @@ export type Keys = Array<{
     name: string;
     key: string;
 }>;
+
+const remainingWaitingTime = (ts: number): number => {
+    const diff = performance.now() - ts;
+    const remaining = (Math.random() * 500 + 250) - diff;
+    return Math.max(0, remaining);
+};
 
 /* eslint-disable no-console */
 export class Files {
@@ -41,6 +54,7 @@ export class Files {
             }
 
             this.internalFiles.push({
+                updated: performance.now(),
                 status: 'loading',
                 id: null,
                 file
@@ -61,17 +75,24 @@ export class Files {
 
     @action
     public removeFile(id: string) {
-        const fileIndex = this.internalFiles.findIndex(value => value.id === id);
-
+        const fileIndex = this.internalFiles.findIndex(
+            value => value.id === id
+        );
 
         if (~fileIndex) {
             const file = this.internalFiles[fileIndex];
-            this.internalFiles.splice(fileIndex, 1);
+            file.updated = performance.now();
+            file.status = 'removing';
 
             socket.send(JSON.stringify({
                 type: 'remove-file',
                 payload: file.id
             }));
+
+            setTimeout(() => {
+                const currentIndex = this.internalFiles.findIndex(value => value.id === id);
+                this.internalFiles.splice(currentIndex, 1);
+            }, remainingWaitingTime(file.updated));
         } else {
             console.warn('File not registered yet.');
         }
@@ -85,8 +106,11 @@ export class Files {
             );
 
             if (target) {
-                target.status = 'ready';
-                target.id = id;
+                setTimeout(() => {
+                    target.updated = performance.now();
+                    target.status = 'ready';
+                    target.id = id;
+                }, remainingWaitingTime(target.updated));
             } else {
                 console.warn(`[LF] File ${name} not longer available`);
             }

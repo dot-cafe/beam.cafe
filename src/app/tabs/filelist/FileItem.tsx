@@ -70,16 +70,16 @@ export class FileItem extends Component<Props, State> {
                     {prettyBytes(item.file.size)}
                 </p>
 
-                <div className={styles.actionsBox}>
-                    <button className={cn(styles.shareBtn, {
-                        [styles.disabled]: item.status === 'loading'
-                    })} onClick={this.copyLink}>
+                <div className={cn(styles.actionsBox, {
+                    [styles.disabled]: item.status !== 'ready'
+                })}>
+                    <button className={styles.shareBtn}
+                            onClick={this.copyLink}>
                         Share
                     </button>
 
-                    <button className={cn(styles.removeBtn, {
-                        [styles.disabled]: item.status === 'loading'
-                    })} onClick={this.removeFile}>
+                    <button className={styles.removeBtn}
+                            onClick={this.removeFile}>
                         Remove
                     </button>
                 </div>

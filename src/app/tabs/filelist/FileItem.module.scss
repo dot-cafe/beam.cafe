@@ -17,13 +17,19 @@
 .actionsBox {
     @include flex(row, center, flex-end);
 
+    &.disabled > button {
+        --color: var(--c-text-primary-accent) !important;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+
     > button {
         @include font(600, 0.85em);
-        color: var(--c-text-secondary);
-        background: var(--color);
-        transition: all 0.3s;
+        border: 2px solid var(--color);
         text-transform: uppercase;
         padding: 0.4em 0.75em;
+        transition: all 0.3s;
+        color: var(--color);
         border-radius: 3px;
         position: relative;
         overflow: hidden;
@@ -37,20 +43,17 @@
             margin-right: 0.5em;
         }
 
-        &.disabled {
-            filter: grayscale(1);
-            pointer-events: none;
-            cursor: not-allowed;
-        }
-
         &.shareBtn {
             --color: var(--c-primary);
-            --color-accent: var(--c-primary-accent);
         }
 
         &.removeBtn {
             --color: var(--c-error);
-            --color-accent: var(--c-error-accent);
+        }
+
+        &:hover {
+            background: var(--color);
+            color: var(--c-text-secondary);
         }
     }
 }
