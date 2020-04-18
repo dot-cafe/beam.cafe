@@ -1,0 +1,42 @@
+$width: 40px;
+$height: 16px;
+$margin: 6px;
+
+.themeSwitcher {
+    @include flex(row, flex-start, flex-end);
+    @include size($height, $width);
+    justify-self: flex-end;
+    border-radius: 1em;
+    background: var(--c-secondary-bg);
+    cursor: pointer;
+
+    > div {
+        @include size($height + $margin);
+        background: var(--c-text-primary);
+        transform: translateX(#{$margin / 2});
+        border-radius: 100%;
+        margin-top: -($margin / 2);
+        transition: all 0.3s;
+        position: relative;
+
+        > svg {
+            @include size(70%);
+            @include position(0, 0, 0, 0);
+            margin: auto;
+            position: absolute;
+            fill: var(--c-secondary-bg);
+            transition: all 0.3s;
+            opacity: 0;
+
+            &.visible {
+                opacity: 1;
+            }
+        }
+    }
+
+    &.toggled {
+        > div {
+            transform: translateX(-$width + $height + $margin / 2);
+        }
+    }
+}

@@ -2,6 +2,7 @@
 @import '~sassyfication';
 @import './variables';
 @import './functions';
+@import './theme';
 
 ::-webkit-scrollbar {
     width: 14px;
@@ -61,6 +62,22 @@ code {
 
 body {
     background: var(--c-secondary-bg);
+    user-select: none;
+
+    // Light theme is base and gets extended by the dark one
+    @include light_theme;
+
+    &.light {
+        @include light_theme;
+    }
+
+    &.dark {
+        @include dark_theme;
+    }
+
+    &.theme-refreshing > * {
+        transition: all 0.3s !important;
+    }
 }
 
 h2 {
@@ -85,29 +102,10 @@ h3 {
     overflow: hidden;
 }
 
-:root {
-    user-select: none;
-
-    --c-error: #ff252f;
-    --c-error-accent: #e51f1f;
-    --c-info: #f6d400;
-    --c-info-accent: #efbf10;
-    --c-text-primary: #242930;
-    --c-text-primary-accent: #4b515d;
-    --c-text-secondary: #fff;
-    --c-primary-bg: #fff;
-    --c-secondary-bg: #edeef0;
-    --c-primary: #39dc81;
-    --c-primary-accent: #31ca7d;
-}
-
-// TODO: Add button to manually switch
+// Prevent flashing during js-execution
 @media screen and (prefers-color-scheme: dark) {
-    :root {
-        --c-text-primary: #fafafa;
-        --c-text-primary-accent: #dcddde;
-        --c-primary-bg: #2f3136;
-        --c-secondary-bg: #202225;
+    body {
+        @include dark_theme;
     }
 }
 

@@ -7,6 +7,7 @@ import {on}             from '../../utils/events';
 import {bind, cn}       from '../../utils/preact-utils';
 import {FileList}       from './filelist/FileList';
 import styles           from './Tabs.module.scss';
+import {ThemeSwitcher}  from './ThemeSwitcher';
 import {Uploads}        from './uploads/Uploads';
 
 type Tab = 'file-list' | 'uploads';
@@ -27,7 +28,7 @@ export class Tabs extends Component<Props, State> {
         on(window, 'keyup', (e: KeyboardEvent) => {
             if (e.key === 'Tab') {
                 this.setState({
-                    activeTab: rotate(Tabs.tabs, this.state.activeTab)
+                    activeTab: rotate(Tabs.tabs, this.state.activeTab) as Tab
                 });
             }
         });
@@ -75,7 +76,10 @@ export class Tabs extends Component<Props, State> {
         return (
             <div className={styles.tabs}>
                 <div className={styles.header}>
-                    {headerButtons}
+                    <div className={styles.tabButtons}>
+                        {headerButtons}
+                    </div>
+                    <ThemeSwitcher/>
                 </div>
 
                 <div className={styles.wrapper}>
