@@ -36,7 +36,7 @@ ws.addEventListener('message', e => {
 
                 uploads.registerUpload(
                     downloadId, item,
-                    new XHUpload(`${env.API_ENDPOINT}/share/${downloadId}`, item.file)
+                    new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file)
                 );
 
                 break;
