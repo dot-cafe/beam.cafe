@@ -1,8 +1,9 @@
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
 import {files}                     from '../../state';
+import {chooseFiles}               from '../../utils/choose-files';
 import {EventBindingArgs, off, on} from '../../utils/events';
-import {cn}                        from '../../utils/preact-utils';
+import {bind, cn}                  from '../../utils/preact-utils';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};
@@ -65,8 +66,15 @@ export class DropZone extends Component<Props, State> {
         ];
     }
 
+    @bind
     accept(fileList: FileList): void {
         files.add(...Array.from(fileList));
+    }
+
+    @bind
+    chooseFiles(): void {
+        chooseFiles().then(this.accept)
+            .catch(() => null);
     }
 
     componentWillUnmount(): void {
@@ -82,12 +90,17 @@ export class DropZone extends Component<Props, State> {
             <div className={cn(styles.dropZone, {
                 [styles.dragOver]: files.isEmpty || dragover
             })}>
-                <div><div/></div>
+                <div>
+                    <div/>
+                </div>
+
                 <p>{
                     files.isEmpty ?
                         'Drop files  to get started!' :
                         'Release files to upload them!'
                 }</p>
+
+                <button onClick={this.chooseFiles}>Choose Files</button>
             </div>
         );
     }

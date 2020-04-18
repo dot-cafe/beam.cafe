@@ -55,6 +55,20 @@
         color: var(--color);
         margin-top: 1em;
     }
+
+    > button {
+        margin-top: 1em;
+        border-radius: 0.25em;
+        padding: 0.5em 0.75em;
+        background: var(--c-primary);
+        color: var(--c-text-secondary);
+        pointer-events: all;
+        transition: all 0.3s;
+
+        &:hover {
+            background: var(--c-primary-accent);
+        }
+    }
 }
 
 .dragOver {
