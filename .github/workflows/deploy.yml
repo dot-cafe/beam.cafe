@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+    push:
+        branches: [ master ]
+
+jobs:
+    build:
+        name: Update frontend
+        runs-on: ubuntu-latest
+
+        steps:
+            -   env:
+                    SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+                    SSH_HOST: ${{secrets.SSH_HOST}}
+                    SSH_USERNAME: ${{secrets.SSH_USERNAME}}
+                run: |
+                    cd ~
+                    mkdir -p .ssh/
+                    echo "$SSH_PRIVATE_KEY" > ./private.key
+                    chmod 600 ./private.key
+                    ssh-keyscan -H "$SSH_HOST" >> .ssh/known_hosts
+                    ssh -i ./private.key "${SSH_USERNAME}@${SSH_HOST}" bash --login ./update-frontend.sh
