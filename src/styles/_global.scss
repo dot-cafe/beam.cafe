@@ -100,6 +100,18 @@ h3 {
     margin: auto;
     position: fixed;
     overflow: hidden;
+
+    // Entrance animation
+    @include animate('0.45s ease-in-out') {
+        from {
+            transform: translateY(-3vh) scale(0.97);
+            opacity: 0;
+        }
+        to {
+            transform: none;
+            opacity: 1;
+        }
+    }
 }
 
 // Prevent flashing during js-execution
