@@ -40,7 +40,7 @@ export class XHUpload extends EventTarget {
         this.xhr = this.start();
     }
 
-    public abort(): void {
+    public abort(silent = false): void {
         const {readyState} = this.xhr;
 
         if (readyState !== 0 && readyState !== 4) {
@@ -48,7 +48,10 @@ export class XHUpload extends EventTarget {
         }
 
         this.state = 'cancelled';
-        this.emitEvent();
+
+        if (!silent) {
+            this.emitEvent();
+        }
     }
 
     public pause(): void {
@@ -87,6 +90,8 @@ export class XHUpload extends EventTarget {
             'load',
             'timeout'
         ], (e: ProgressEvent) => {
+            const prevState = this.state;
+
             switch (e.type) {
                 case 'progress': {
                     this.transferred += (e.loaded - lastLoad);
@@ -115,7 +120,9 @@ export class XHUpload extends EventTarget {
                 }
             }
 
-            this.emitEvent();
+            if (this.state !== prevState) {
+                this.emitEvent();
+            }
         });
 
         // Transfer bytes

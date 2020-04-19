@@ -52,7 +52,7 @@ export class Uploads {
         switch (newState) {
             case 'removed':
             case 'peer-cancelled': {
-                upload.xhUpload.abort();
+                upload.xhUpload.abort(true);
                 upload.progress = 1;
                 break;
             }
