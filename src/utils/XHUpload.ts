@@ -48,7 +48,6 @@ export class XHUpload extends EventTarget {
         }
 
         this.state = 'cancelled';
-
         if (!silent) {
             this.emitEvent();
         }
@@ -90,8 +89,6 @@ export class XHUpload extends EventTarget {
             'load',
             'timeout'
         ], (e: ProgressEvent) => {
-            const prevState = this.state;
-
             switch (e.type) {
                 case 'progress': {
                     this.transferred += (e.loaded - lastLoad);
@@ -120,9 +117,7 @@ export class XHUpload extends EventTarget {
                 }
             }
 
-            if (this.state !== prevState) {
-                this.emitEvent();
-            }
+            this.emitEvent();
         });
 
         // Transfer bytes
