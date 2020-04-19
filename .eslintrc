@@ -6,6 +6,11 @@
         "plugin:react/recommended",
         "simon/lib/react"
     ],
+    "settings": {
+        "react": {
+            "version": "latest"
+        }
+    },
     "env": {
         "browser": true,
         "es6": true
