@@ -18,11 +18,15 @@ export class XHUploadEvent extends Event {
 }
 
 export class XHUpload extends EventTarget {
+    public static readonly SPEED_BUFFER_SIZE = 10;
 
     public readonly size: number;
     public state: XHUploadState = 'idle';
 
-    // Amount of bytes transferred
+    // Amount of bytes transferred and current upload speed
+    private speedBufferIndex = 0;
+    private speedBufferFull = false;
+    private speedBuffer = new Uint32Array(XHUpload.SPEED_BUFFER_SIZE);
     public transferred = 0;
 
     // File and url
@@ -38,6 +42,23 @@ export class XHUpload extends EventTarget {
         this.url = url;
         this.size = file.size;
         this.xhr = this.start();
+    }
+
+    get currentSpeed(): number {
+        const available = this.speedBufferFull ?
+            this.speedBuffer.length :
+            this.speedBufferIndex;
+
+        if (available === 0) {
+            return 0;
+        }
+
+        let sum = 0;
+        for (let i = 0; i < available; i++) {
+            sum += this.speedBuffer[i];
+        }
+
+        return sum / available;
     }
 
     public abort(silent = false): void {
@@ -79,6 +100,11 @@ export class XHUpload extends EventTarget {
         const {file, url} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 
+        // Speed buffer
+        this.speedBufferFull = false;
+        this.speedBufferIndex = 0;
+        let lastMeasure = 0;
+
         // Track upload progress
         let lastLoad = 0;
         on(xhr.upload, [
@@ -91,8 +117,21 @@ export class XHUpload extends EventTarget {
         ], (e: ProgressEvent) => {
             switch (e.type) {
                 case 'progress': {
-                    this.transferred += (e.loaded - lastLoad);
+                    const loaded = (e.loaded - lastLoad);
                     lastLoad = e.loaded;
+
+                    this.transferred += loaded;
+
+                    const now = performance.now();
+                    this.speedBuffer[this.speedBufferIndex] = (loaded / (now - lastMeasure)) * 1000;
+                    lastMeasure = now;
+
+                    this.speedBufferIndex++;
+                    if (this.speedBufferIndex > this.speedBuffer.length) {
+                        this.speedBufferFull = true;
+                        this.speedBufferIndex = 0;
+                    }
+
                     break;
                 }
                 case 'timeout': {

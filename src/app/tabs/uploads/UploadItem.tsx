@@ -1,5 +1,6 @@
 import {observer}         from 'mobx-react';
 import {Component, h}     from 'preact';
+import prettyBytes        from 'pretty-bytes';
 import {Upload}           from '../../../state/models/Uploads';
 import {bind}             from '../../../utils/preact-utils';
 import {getStatusIconFor} from './statusIcon';
@@ -42,7 +43,7 @@ export class UploadItem extends Component<Props, State> {
             + `--text-clip-left: ${percentage}%;`
             + `--text-clip-right: ${100 - percentage}%;`;
 
-        let text = `${percentage}%`;
+        let text = `${percentage.toFixed(2)}%`;
         switch (state) {
             case 'idle':
                 text = 'Pending...';
@@ -50,6 +51,11 @@ export class UploadItem extends Component<Props, State> {
             case 'paused':
                 text = `${text} - Paused`;
                 break;
+            case 'running': {
+                const speed = prettyBytes(upload.xhUpload.currentSpeed, {bits: true});
+                text = `${text} - ${speed}/s`;
+                break;
+            }
             case 'removed':
                 text = 'File removed';
                 break;

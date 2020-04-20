@@ -60,7 +60,7 @@
     @include font(600, 0.75em);
     position: relative;
     box-shadow: inset 0 0 0 2px var(--c-status-primary); // A border causes a gap
-    border-radius: 10em;
+    border-radius: 0.2em;
     padding: 1em 0;
     overflow: hidden;
 
@@ -69,6 +69,7 @@
         @include flex(row, center, center);
         position: absolute;
         text-shadow: 0 0 2px rgba(black, 0.2);
+        transition: clip-path 0.3s;
 
         &:first-child {
             clip-path: inset(0 0 0 var(--text-clip-left));
@@ -87,5 +88,6 @@
         z-index: -1;
         clip-path: inset(0 calc(100% - var(--progress)) 0 0);
         background: striped_background(var(--c-status-primary), var(--c-status-secondary), 8px);
+        transition: clip-path 0.3s;
     }
 }
