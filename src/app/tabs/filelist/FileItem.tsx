@@ -1,12 +1,13 @@
-import {observer}       from 'mobx-react';
-import {Component, h}   from 'preact';
-import prettyBytes      from 'pretty-bytes';
-import {files, uploads} from '../../../state';
-import {ListedFile}     from '../../../state/models/Files';
-import {bind, cn}       from '../../../utils/preact-utils';
-import {Toast}          from '../../overlays/Toast';
-import styles           from './FileItem.module.scss';
-import {FileStatus}     from './FileStatus';
+import {observer}        from 'mobx-react';
+import {Component, h}    from 'preact';
+import prettyBytes       from 'pretty-bytes';
+import {files, uploads}  from '../../../state';
+import {ListedFile}      from '../../../state/models/Files';
+import {copyToClipboard} from '../../../utils/copyToClipboard';
+import {bind, cn}        from '../../../utils/preact-utils';
+import {Toast}           from '../../overlays/Toast';
+import styles            from './FileItem.module.scss';
+import {FileStatus}      from './FileStatus';
 
 type Props = {
     item: ListedFile;
@@ -23,7 +24,7 @@ export class FileItem extends Component<Props, State> {
         const {id} = this.props.item;
 
         const toast = Toast.getInstance();
-        navigator.clipboard.writeText(
+        copyToClipboard(
             `${env.API_ENDPOINT}/file/${id}`
         ).then(() => toast.set({
             text: 'Link copied to clipboard!',

@@ -21,7 +21,7 @@ export class Tabs extends Component<Props, State> {
     private static readonly tabs = ['file-list', 'uploads'];
 
     readonly state = {
-        activeTab: 'uploads' as Tab
+        activeTab: 'file-list' as Tab
     };
 
     componentDidMount(): void {
