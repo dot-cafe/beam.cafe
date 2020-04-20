@@ -7,7 +7,7 @@ $margin: 6px;
     @include size($height, $width);
     justify-self: flex-end;
     border-radius: 1em;
-    background: var(--c-secondary-bg);
+    background: var(--c-background-secondary);
     cursor: pointer;
 
     > div {
@@ -24,7 +24,7 @@ $margin: 6px;
             @include position(0, 0, 0, 0);
             margin: auto;
             position: absolute;
-            fill: var(--c-secondary-bg);
+            fill: var(--c-background-secondary);
             transition: all 0.3s;
             opacity: 0;
 

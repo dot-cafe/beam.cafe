@@ -7,7 +7,7 @@
 .header {
     @include flex(row, center, space-between);
     border-bottom: 3px solid var(--c-primary);
-    padding: 0.75em 0.75em 0;
+    padding: 0 0.75em 0;
     overflow: visible;
 
     $roundness: 12px;
@@ -15,10 +15,11 @@
 
     .tabButtons {
         @include flex(row, stretch, flex-start);
+        padding: 0.75em 0 0;
 
         > button {
             position: relative;
-            color: var(--c-primary-bg);
+            color: var(--c-background-primary);
             background: currentColor;
             border-radius: 0.5em 0.5em 0 0;
             padding: 0.55em 1em;
@@ -30,7 +31,7 @@
             }
 
             &:not(.activeButton):hover {
-                color: var(--c-secondary-bg);
+                color: var(--c-background-secondary);
                 z-index: 4;
 
                 span {
@@ -53,7 +54,7 @@
                 }
 
                 > span {
-                    color: var(--c-text-secondary);
+                    color: var(--c-text-secondary-accent);
                     opacity: 1;
                 }
             }

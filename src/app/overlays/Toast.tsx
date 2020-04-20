@@ -17,19 +17,29 @@ type State = {
 export class Toast extends Component<Props, State> {
     private static instance: Toast;
     private static element: JSXInternal.Element;
+    readonly state = {
+        visible: false,
+        item: {text: '', type: 'success'} as ToastItem
+    };
     private hideTimeout: number | null = null;
-    private locked = false;
 
     // It symbolizes a singleton
+    private locked = false;
+
     /* eslint-disable no-useless-constructor */
     private constructor() {
         super();
     }
 
-    readonly state = {
-        visible: false,
-        item: {text: '', type: 'success'} as ToastItem
-    };
+    public static getInstance() {
+        Toast.createInstance();
+        return Toast.instance;
+    }
+
+    public static getElement(): JSXInternal.Element {
+        Toast.createInstance();
+        return Toast.element;
+    }
 
     private static createInstance(): void {
 
@@ -48,33 +58,6 @@ export class Toast extends Component<Props, State> {
                 Toast.instance = ref.current;
             });
         }
-    }
-
-    public static getInstance() {
-        Toast.createInstance();
-        return Toast.instance;
-    }
-
-    public static getElement(): JSXInternal.Element {
-        Toast.createInstance();
-        return Toast.element;
-    }
-
-    private hide(): void {
-        this.setState({
-            visible: false
-        });
-    }
-
-    private setItem(item: ToastItem): void {
-        this.setState({
-            visible: true,
-            item
-        });
-
-        this.hideTimeout = setTimeout(() => {
-            this.hide();
-        }, 2000) as unknown as number;
     }
 
     public set(item: ToastItem): void {
@@ -105,5 +88,22 @@ export class Toast extends Component<Props, State> {
                 <p>{item.text}</p>
             </div>
         );
+    }
+
+    private hide(): void {
+        this.setState({
+            visible: false
+        });
+    }
+
+    private setItem(item: ToastItem): void {
+        this.setState({
+            visible: true,
+            item
+        });
+
+        this.hideTimeout = setTimeout(() => {
+            this.hide();
+        }, 2000) as unknown as number;
     }
 }

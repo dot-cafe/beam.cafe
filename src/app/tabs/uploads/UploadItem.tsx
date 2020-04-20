@@ -17,13 +17,7 @@ export class UploadItem extends Component<Props, State> {
 
     @bind
     togglePause(): void {
-        const {xhUpload} = this.props.upload;
-
-        if (xhUpload.state === 'running') {
-            xhUpload.pause();
-        } else if (xhUpload.state === 'paused') {
-            xhUpload.resume();
-        }
+        this.props.upload.xhUpload.toggleState();
     }
 
     @bind

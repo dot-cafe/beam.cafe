@@ -50,7 +50,7 @@
     &[data-status='removing'] {
         svg rect {
             &:not(.outline) {
-                stroke: var(--c-secondary-bg);
+                stroke: var(--c-background-secondary);
             }
 
             &.outline {
@@ -60,12 +60,12 @@
     }
 
     &[data-status='loading'] {
-        --color: var(--c-info);
-        --stroke: var(--c-info);
+        --color: var(--c-yellow);
+        --stroke: var(--c-yellow);
     }
 
     &[data-status='removing'] {
-        --color: var(--c-error);
-        --stroke: var(--c-error);
+        --color: var(--c-red);
+        --stroke: var(--c-red);
     }
 }

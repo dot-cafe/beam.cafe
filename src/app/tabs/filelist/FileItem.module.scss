@@ -10,7 +10,7 @@
     &:not(:last-child) {
         margin-bottom: 0.35em;
         padding-bottom: 0.35em;
-        border-bottom: 1px solid var(--c-secondary-bg);
+        border-bottom: 1px solid var(--c-background-secondary);
     }
 }
 
@@ -48,12 +48,12 @@
         }
 
         &.removeBtn {
-            --color: var(--c-error);
+            --color: var(--c-red);
         }
 
         &:hover {
             background: var(--color);
-            color: var(--c-text-secondary);
+            color: var(--c-text-secondary-accent);
         }
     }
 }

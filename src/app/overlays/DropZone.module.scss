@@ -2,7 +2,7 @@
     @include position(0, 0, 0, 0);
     @include flex(column, center, center);
     position: absolute;
-    background: var(--c-primary-bg);
+    background: var(--c-background-primary);
     pointer-events: none;
     transition: all 0.3s;
     z-index: 10;
@@ -23,7 +23,7 @@
             @include pseudo();
             @include size(0);
             border: 0.5em solid transparent;
-            border-color: var(--c-primary-bg) var(--c-primary-bg) var(--color) var(--color);
+            border-color: var(--c-background-primary) var(--c-background-primary) var(--color) var(--color);
         }
 
         > div {
@@ -61,7 +61,7 @@
         border-radius: 0.25em;
         padding: 0.5em 0.75em;
         background: var(--c-primary);
-        color: var(--c-text-secondary);
+        color: var(--c-text-secondary-accent);
         pointer-events: all;
         transition: all 0.3s;
 

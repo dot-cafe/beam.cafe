@@ -1,6 +1,6 @@
 .upload {
     display: grid;
-    grid-gap: 0.5em;
+    grid-gap: 0.75em;
     grid-template: 1fr / 1fr min-content min-content;
     padding: 0.5em;
     --c-status-primary: var(--c-primary);
@@ -22,7 +22,7 @@
         }
 
         &.abortBtn {
-            color: var(--c-error);
+            color: var(--c-red);
         }
     }
 
@@ -36,8 +36,8 @@
 
     &[data-state='removed'],
     &[data-state='paused'] {
-        --c-status-primary: var(--c-info);
-        --c-status-secondary: var(--c-info-accent);
+        --c-status-primary: var(--c-yellow);
+        --c-status-secondary: var(--c-yellow-accent);
     }
 
     &[data-state='finished'],
@@ -49,8 +49,8 @@
     &[data-state='errored'],
     &[data-state='timeout'],
     &[data-state='peer-cancelled'], {
-        --c-status-primary: var(--c-error);
-        --c-status-secondary: var(--c-error-accent);
+        --c-status-primary: var(--c-red);
+        --c-status-secondary: var(--c-red-accent);
         @include disabledButtons;
     }
 }
@@ -60,7 +60,7 @@
     @include font(600, 0.75em);
     position: relative;
     box-shadow: inset 0 0 0 2px var(--c-status-primary); // A border causes a gap
-    border-radius: 0.2em;
+    border-radius: 50em;
     padding: 1em 0;
     overflow: hidden;
 
@@ -78,7 +78,7 @@
 
         &:last-child {
             clip-path: inset(0 var(--text-clip-right) 0 0);
-            color: var(--c-text-secondary);
+            color: var(--c-text-secondary-accent);
         }
     }
 

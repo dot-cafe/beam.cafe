@@ -1,13 +1,19 @@
 @mixin light_theme() {
-    --c-error: #ff252f;
-    --c-error-accent: #e51f1f;
-    --c-info: #f6d400;
-    --c-info-accent: #efbf10;
+    --c-red: #ff252f;
+    --c-red-accent: #e51f1f;
+
+    --c-yellow: #f6d400;
+    --c-yellow-accent: #efbf10;
+
+    --c-blue: #2d8af6;
+    --c-blue-accent: #1e74f6;
+
     --c-text-primary: #242930;
     --c-text-primary-accent: #4b515d;
-    --c-text-secondary: #fff;
-    --c-primary-bg: #fff;
-    --c-secondary-bg: #e8e9eb;
+    --c-text-secondary: #b6b9bf;
+    --c-text-secondary-accent: #fff;
+    --c-background-primary: #fff;
+    --c-background-secondary: #e8e9eb;
     --c-primary: #39dc81;
     --c-primary-accent: #31ca7d;
 }
@@ -15,6 +21,7 @@
 @mixin dark_theme() {
     --c-text-primary: #fafafa;
     --c-text-primary-accent: #dcddde;
-    --c-primary-bg: #2f3136;
-    --c-secondary-bg: #202225;
+    --c-text-secondary: #565a61;
+    --c-background-primary: #2f3136;
+    --c-background-secondary: #202225;
 }

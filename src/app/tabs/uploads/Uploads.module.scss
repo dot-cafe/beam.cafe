@@ -6,28 +6,72 @@
 }
 
 .listItem {
-    @include flex(row);
-    border-top: 2px solid var(--c-secondary-bg);
+    @include flex(column);
+    border-radius: 0.5em;
+    border: 2px solid var(--c-background-secondary);
 
-    > h3 {
-        @include white-space-overflow();
-        @include width(20vw, 15em, 30em);
-        font-weight: 600;
-        border-right: 2px solid var(--c-secondary-bg);
-        padding: 0.5em 0.5em 0 0;
-        color: var(--c-text-primary);
+    .header {
+        @include flex(row, center, space-between);
+        border-bottom: 2px solid var(--c-background-secondary);
+        padding: 0.75em;
+        width: 100%;
+
+        > h3 {
+            @include white-space-overflow();
+            font-weight: 600;
+            color: var(--c-text-primary);
+            flex-shrink: 1;
+            margin-right: 1em;
+            padding: 0.25em 0; // Prevent letters getting cut off
+        }
     }
 
     > div {
         padding: 0.25em;
     }
+}
 
-    &:last-child {
-        border-bottom: 2px solid var(--c-secondary-bg);
+.controls {
+    flex-shrink: 0;
+
+    > button {
+        @include font(600, 0.75em);
+        padding: 0.5em 0.75em;
+        transition: all 0.3s;
+        color: var(--c-text-secondary-accent);
+        border-radius: 0.25em;
+
+        $colors: (
+                (var(--c-blue), var(--c-blue-accent)),
+                (var(--c-yellow), var(--c-yellow-accent)),
+                (var(--c-red), var(--c-red-accent))
+        );
+
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                background: nth(nth($colors, $i), 1);
+
+                &:hover {
+                    background: nth(nth($colors, $i), 2);
+                }
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            background: var(--c-background-secondary);
+            color: var(--c-text-secondary);
+            cursor: not-allowed;
+        }
+
+        &:not(:last-child) {
+            margin-right: 0.5em;
+        }
     }
 }
 
 .uploadList {
     width: 100%;
     margin-left: -0.2em;
+    padding: 0.5em;
 }

@@ -22,13 +22,11 @@ export class XHUpload extends EventTarget {
 
     public readonly size: number;
     public state: XHUploadState = 'idle';
-
+    public transferred = 0;
     // Amount of bytes transferred and current upload speed
     private speedBufferIndex = 0;
     private speedBufferFull = false;
     private speedBuffer = new Uint32Array(XHUpload.SPEED_BUFFER_SIZE);
-    public transferred = 0;
-
     // File and url
     private readonly file: File;
     private readonly url: string;
@@ -71,6 +69,22 @@ export class XHUpload extends EventTarget {
         this.state = 'cancelled';
         if (!silent) {
             this.emitEvent();
+        }
+    }
+
+    public toggleState(): void {
+        switch (this.state) {
+            case 'running': {
+                this.pause();
+                break;
+            }
+            case 'paused': {
+                this.resume();
+                break;
+            }
+            default: {
+                throw new Error('Upload must be active or paused.');
+            }
         }
     }
 
