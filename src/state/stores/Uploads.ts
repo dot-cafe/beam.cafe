@@ -13,14 +13,8 @@ export const FINAL_STATES: Array<UploadState> = [
     'finished'
 ];
 
+export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
 export type UploadState = XHUploadState | 'peer-cancelled' | 'removed';
-
-export enum SelectType {
-    Select = 'Select',
-    Unselect = 'Unselect',
-    Toggle = 'Toggle'
-}
-
 export type Upload = {
     id: string;
     listedFile: ListedFile;
@@ -28,6 +22,12 @@ export type Upload = {
     progress: number;
     xhUpload: XHUpload;
 };
+
+export enum SelectType {
+    Select = 'Select',
+    Unselect = 'Unselect',
+    Toggle = 'Toggle'
+}
 
 /* eslint-disable no-console */
 class Uploads {
@@ -46,6 +46,56 @@ class Uploads {
         }
 
         return this.selectedUploads.includes(upload);
+    }
+
+    public getAvailableMassActionsFor(uploads: Array<Upload>): Array<MassAction> {
+        const canPause = uploads.some(v => v.state === 'running');
+        const canResume = uploads.some(v => v.state === 'paused');
+        const canRemove = !canPause && !canResume && uploads.every(v => FINAL_STATES.includes(v.state));
+        const canCancel = canPause || canResume;
+
+        const actions: Array<MassAction> = [];
+        canPause && actions.push('pause');
+        canResume && actions.push('resume');
+        canRemove && actions.push('remove');
+        canCancel && actions.push('cancel');
+
+        return actions;
+    }
+
+    @action
+    public performMassActionFor(uploads: Array<Upload>, massAction: MassAction): void {
+        switch (massAction) {
+            case 'remove': {
+                this.remove(...uploads.map(value => value.id));
+                break;
+            }
+            case 'pause': {
+                for (const {xhUpload} of uploads) {
+                    if (xhUpload.state === 'running') {
+                        xhUpload.pause();
+                    }
+                }
+
+                break;
+            }
+            case 'resume': {
+                for (const {xhUpload} of uploads) {
+                    if (xhUpload.state === 'paused') {
+                        xhUpload.resume();
+                    }
+                }
+
+                break;
+            }
+            case 'cancel': {
+                for (const {xhUpload} of uploads) {
+                    xhUpload.abort();
+                }
+
+                break;
+            }
+        }
     }
 
     @action

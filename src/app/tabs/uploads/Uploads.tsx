@@ -1,53 +1,19 @@
-import {observer}             from 'mobx-react';
-import {Component, h}         from 'preact';
-import {files, uploads}       from '../../../state';
-import {ListedFile}           from '../../../state/models/ListedFile';
-import {FINAL_STATES, Upload} from '../../../state/stores/Uploads';
-import {bind}                 from '../../../utils/preact-utils';
-import Icon                   from '../../components/Icon';
-import {MassAction}           from './MassAction';
-import {UploadItem}           from './UploadItem';
-import styles                 from './Uploads.module.scss';
+import {observer}            from 'mobx-react';
+import {Component, h}        from 'preact';
+import {MassAction, uploads} from '../../../state';
+import {Upload}              from '../../../state';
+import {bind}                from '../../../utils/preact-utils';
+import Icon                  from '../../components/Icon';
+import {MassActions}         from './MassActions';
+import {UploadItem}          from './UploadItem';
+import styles                from './Uploads.module.scss';
 
 @observer
 export class Uploads extends Component {
 
     @bind
-    removeAll(ups: Array<Upload>) {
-        return () => {
-            uploads.remove(...ups.map(value => value.id));
-        };
-    }
-
-    @bind
-    resumeAll(uploads: Array<Upload>) {
-        return () => {
-            for (const {xhUpload} of uploads) {
-                if (xhUpload.state === 'paused') {
-                    xhUpload.resume();
-                }
-            }
-        };
-    }
-
-    @bind
-    pauseAll(uploads: Array<Upload>) {
-        return () => {
-            for (const {xhUpload} of uploads) {
-                if (xhUpload.state === 'running') {
-                    xhUpload.pause();
-                }
-            }
-        };
-    }
-
-    @bind
-    cancelAll(uploads: Array<Upload>) {
-        return () => {
-            for (const {xhUpload} of uploads) {
-                xhUpload.abort();
-            }
-        };
+    massAction(ups: Array<Upload>, action: MassAction) {
+        return () => uploads.performMassActionFor(ups, action);
     }
 
     render() {
@@ -61,11 +27,8 @@ export class Uploads extends Component {
         }
 
         const items = [...groupedDownloads.entries()].map(
-            ([fileName, uploads], index) => {
-                const canPause = uploads.some(v => v.state === 'running');
-                const canResume = uploads.some(v => v.state === 'paused');
-                const canRemove = !canPause && !canResume && uploads.every(v => FINAL_STATES.includes(v.state));
-                const canCancel = canPause || canResume;
+            ([fileName, ups], index) => {
+                const massActions = uploads.getAvailableMassActionsFor(ups);
 
                 return (
                     <div className={styles.listItem}
@@ -73,21 +36,35 @@ export class Uploads extends Component {
 
                         <div className={styles.header}>
                             <div className={styles.fileName}>
-                                {canRemove &&
-                                <button onClick={this.removeAll(listedUploads)}>
-                                    <Icon name="cross"/>
-                                </button>}
+                                {
+                                    massActions.includes('remove') ?
+                                        <button onClick={this.massAction(ups, 'remove')}>
+                                            <Icon name="cross"/>
+                                        </button> : ''
+                                }
                                 <h3>{fileName}</h3>
                             </div>
+
                             <div className={styles.controls}>
-                                <button disabled={!canResume} onClick={this.resumeAll(uploads)}>Resume</button>
-                                <button disabled={!canPause} onClick={this.pauseAll(uploads)}>Pause</button>
-                                <button disabled={!canCancel} onClick={this.cancelAll(uploads)}>Cancel</button>
+                                <button disabled={!massActions.includes('resume')}
+                                        onClick={this.massAction(ups, 'resume')}>
+                                    Resume
+                                </button>
+
+                                <button disabled={!massActions.includes('pause')}
+                                        onClick={this.massAction(ups, 'pause')}>
+                                    Pause
+                                </button>
+
+                                <button disabled={!massActions.includes('cancel')}
+                                        onClick={this.massAction(ups, 'cancel')}>
+                                    Cancel
+                                </button>
                             </div>
                         </div>
 
                         <div className={styles.uploadList}>
-                            {uploads.map((value, i) =>
+                            {ups.map((value, i) =>
                                 <UploadItem key={i} upload={value}/>
                             )}
                         </div>
@@ -98,7 +75,7 @@ export class Uploads extends Component {
 
         return (
             <div className={styles.uploads}>
-                <MassAction/>
+                <MassActions/>
                 {items}
             </div>
         );
