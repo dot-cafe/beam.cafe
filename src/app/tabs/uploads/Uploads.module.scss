@@ -15,14 +15,28 @@
         border-bottom: 2px solid var(--c-background-secondary);
         padding: 0.75em;
         width: 100%;
+    }
+
+    .fileName {
+        @include flex(row, center);
+        color: var(--c-text-primary);
+        font-weight: 600;
+        flex-shrink: 1;
+
+        > button {
+            @include size(14px);
+            margin-right: 0.5em;
+            color: currentColor;
+
+            > svg {
+                fill: currentColor;
+            }
+        }
 
         > h3 {
             @include white-space-overflow();
-            font-weight: 600;
-            color: var(--c-text-primary);
-            flex-shrink: 1;
             margin-right: 1em;
-            padding: 0.25em 0; // Prevent letters getting cut off
+            margin-top: 1px;
         }
     }
 

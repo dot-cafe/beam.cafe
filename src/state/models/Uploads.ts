@@ -3,7 +3,17 @@ import {socket}                                 from '../../socket';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from './Files';
 
+export const FINAL_STATES: Array<UploadState> = [
+    'peer-cancelled',
+    'cancelled',
+    'removed',
+    'errored',
+    'timeout',
+    'finished'
+];
+
 export type UploadState = XHUploadState | 'peer-cancelled' | 'removed';
+
 
 export type Upload = {
     id: string;
@@ -72,5 +82,21 @@ export class Uploads {
         }
 
         upload.state = newState;
+    }
+
+    @action
+    public removeByFileName(fileName: string): void {
+        for (let i = 0; i < this.internalUploads.length; i++) {
+            const upload = this.internalUploads[i];
+
+            if (upload.listedFile.file.name === fileName) {
+                if (!FINAL_STATES.includes(upload.state)) {
+                    throw new Error('Cannot remove file since it\'s not in a final state');
+                }
+
+                this.internalUploads.splice(i, 1);
+                i--;
+            }
+        }
     }
 }

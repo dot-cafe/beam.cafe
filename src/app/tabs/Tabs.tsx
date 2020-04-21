@@ -48,11 +48,19 @@ export class Tabs extends Component<Props, State> {
         const {listedUploads} = uploads;
         const {activeTab} = this.state;
 
-        /* eslint-disable  react/jsx-key */
-        const tabs = [
-            [listedFiles.length ? `Files (${listedFiles.length})` : 'Files', 'file-list', <FileList/>],
-            [listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads', 'uploads', <Uploads/>]
-        ] as Array<[string, Tab, JSXInternal.Element]>;
+        /* eslint-disable react/jsx-key */
+        const tabs: Array<[string, Tab, JSXInternal.Element]> = [
+            [
+                listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
+                'file-list',
+                <FileList/>
+            ],
+            [
+                listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
+                'uploads',
+                <Uploads/>
+            ]
+        ];
 
         const headerButtons = tabs.map(([name, id]) => (
             <button key={id}
