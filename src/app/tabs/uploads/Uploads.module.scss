@@ -2,6 +2,24 @@
     @include flex(column);
     overflow: auto;
     max-height: 100%;
+    height: 100%;
+}
+
+.placeholder {
+    @include flex(column, center, center);
+    color: var(--c-text-primary);
+    margin: auto;
+    flex-grow: 1;
+    max-height: 100%;
+
+    .icon {
+        height: 15%;
+    }
+
+    p {
+        @include font(600, 1.5em);
+        margin-top: 15%;
+    }
 }
 
 .listItem {
@@ -25,7 +43,7 @@
 
         > button {
             @include size(14px);
-            margin-right: 0.5em;
+            margin: 0 0.75em 0 0.25em;
             color: currentColor;
 
             > svg {

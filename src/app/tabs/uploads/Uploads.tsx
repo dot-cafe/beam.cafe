@@ -75,8 +75,15 @@ export class Uploads extends Component {
 
         return (
             <div className={styles.uploads}>
-                <MassActions/>
-                {items}
+                { /* eslint-disable react/jsx-key */
+                    items.length ? [
+                        <MassActions/>,
+                        items
+                    ] : <div className={styles.placeholder}>
+                        <Icon name="link" className={styles.icon}/>
+                        <p>Share a file to get started!</p>
+                    </div>
+                }
             </div>
         );
     }
