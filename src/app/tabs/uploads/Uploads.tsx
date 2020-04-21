@@ -1,7 +1,8 @@
 import {observer}             from 'mobx-react';
 import {Component, h}         from 'preact';
-import {uploads}              from '../../../state';
-import {FINAL_STATES, Upload} from '../../../state/models/Uploads';
+import {files, uploads}       from '../../../state';
+import {ListedFile}           from '../../../state/models/ListedFile';
+import {FINAL_STATES, Upload} from '../../../state/stores/Uploads';
 import {bind}                 from '../../../utils/preact-utils';
 import Icon                   from '../../components/Icon';
 import {MassAction}           from './MassAction';
@@ -12,8 +13,10 @@ import styles                 from './Uploads.module.scss';
 export class Uploads extends Component {
 
     @bind
-    removeAll(fileName: string) {
-        return () => uploads.removeByFileName(fileName);
+    removeAll(ups: Array<Upload>) {
+        return () => {
+            uploads.remove(...ups.map(value => value.id));
+        };
     }
 
     @bind
@@ -71,7 +74,7 @@ export class Uploads extends Component {
                         <div className={styles.header}>
                             <div className={styles.fileName}>
                                 {canRemove &&
-                                <button onClick={this.removeAll(fileName)}>
+                                <button onClick={this.removeAll(listedUploads)}>
                                     <Icon name="cross"/>
                                 </button>}
                                 <h3>{fileName}</h3>

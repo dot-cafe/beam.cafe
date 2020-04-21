@@ -1,7 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {uploads}      from '../../../state';
-import {Upload}       from '../../../state/models/Uploads';
+import {Upload}       from '../../../state/stores/Uploads';
 import {bind, cn}     from '../../../utils/preact-utils';
 import styles         from './MassAction.module.scss';
 

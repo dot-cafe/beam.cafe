@@ -8,7 +8,7 @@
     @include font(600, 14px);
     display: grid;
     grid-gap: 1em;
-    grid-template: 1fr / 2.5em 1fr 5em  5em;
+    grid-template: 1fr / 2.5em 1fr 5em 5em;
     border-bottom: 2px solid var(--c-background-secondary);
     color: var(--c-text-primary-accent);
     margin: 1.25em 0 1em;

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import GracefulWebSocket from 'graceful-ws';
 import {files, uploads}  from '../state';
-import {Keys}            from '../state/models/Files';
+import {Keys}            from '../state/stores/Files';
 import {XHUpload}        from '../utils/XHUpload';
 
 const ws = new GracefulWebSocket(env.WS_ENDPOINT);

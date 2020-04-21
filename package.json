@@ -9,6 +9,7 @@
     "scripts": {
         "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+        "types:check": "tsc --project tsconfig.json --noEmit",
         "lint": "eslint src/**/*.{js,ts,tsx}",
         "lint:fix": "eslint src/**/*.{js,ts,tsx} --fix"
     },

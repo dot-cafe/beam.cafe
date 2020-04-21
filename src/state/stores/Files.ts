@@ -1,19 +1,7 @@
 import {action, computed, observable} from 'mobx';
 import {socket}                       from '../../socket';
-
-export type ListedFileStatus = 'loading' | 'ready' | 'removing';
-
-export type ListedFile = {
-    status: ListedFileStatus;
-    file: File;
-    id: null | string;
-
-    /**
-     * Timestamp of last status-update. Used to improve
-     * perceived performance.
-     */
-    updated: number;
-};
+import {uploads}                      from '../index';
+import {ListedFile}                   from '../models/ListedFile';
 
 export type Keys = Array<{
     id: string;
@@ -28,13 +16,16 @@ const remainingWaitingTime = (ts: number): number => {
 };
 
 /* eslint-disable no-console */
-export class Files {
+class Files {
     @observable public readonly listedFiles: Array<ListedFile> = [];
-
 
     @computed
     public get isEmpty() {
         return this.listedFiles.length === 0;
+    }
+
+    public byId(id: string): ListedFile | null {
+        return this.listedFiles.find(value => value.id === id) || null;
     }
 
     @action
@@ -49,13 +40,7 @@ export class Files {
                 continue;
             }
 
-            this.listedFiles.push({
-                updated: performance.now(),
-                status: 'loading',
-                id: null,
-                file
-            });
-
+            this.listedFiles.push(new ListedFile(file));
             keysToRequest.push({
                 name: file.name,
                 size: file.size
@@ -71,23 +56,23 @@ export class Files {
 
     @action
     public removeFile(id: string) {
-        const fileIndex = this.listedFiles.findIndex(
-            value => value.id === id
-        );
+        const file = this.byId(id);
 
-        if (~fileIndex) {
-            const file = this.listedFiles[fileIndex];
-            file.updated = performance.now();
-            file.status = 'removing';
+        if (file) {
+            file.remove();
 
-            socket.send(JSON.stringify({
-                type: 'remove-file',
-                payload: file.id
-            }));
+            // Cancel uploads
+            const relatedUploads = uploads.listedUploads.filter(u => u.listedFile === file);
+            for (const upload of relatedUploads) {
+                if (upload.state === 'paused' ||
+                    upload.state === 'running') {
+                    uploads.updateUploadState(upload.id, 'removed');
+                }
+            }
 
             setTimeout(() => {
-                const currentIndex = this.listedFiles.findIndex(value => value.id === id);
-                this.listedFiles.splice(currentIndex, 1);
+                const index = this.listedFiles.findIndex(value => value.id === id);
+                this.listedFiles.splice(index, 1);
             }, remainingWaitingTime(file.updated));
         } else {
             console.warn('File not registered yet.');
@@ -102,14 +87,15 @@ export class Files {
             );
 
             if (target) {
-                setTimeout(() => {
-                    target.updated = performance.now();
-                    target.status = 'ready';
-                    target.id = id;
-                }, remainingWaitingTime(target.updated));
+                setTimeout(
+                    () => target.activate(id),
+                    remainingWaitingTime(target.updated)
+                );
             } else {
                 console.warn(`[LF] File ${name} not longer available`);
             }
         }
     }
 }
+
+export const files = new Files();

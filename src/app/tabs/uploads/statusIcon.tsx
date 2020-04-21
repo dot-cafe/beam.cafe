@@ -1,6 +1,6 @@
 import {h}           from 'preact';
 import {JSXInternal} from 'preact/src/jsx';
-import {UploadState} from '../../../state/models/Uploads';
+import {UploadState} from '../../../state/stores/Uploads';
 import Icon          from '../../components/Icon';
 
 export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {

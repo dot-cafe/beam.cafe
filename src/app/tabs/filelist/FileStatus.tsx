@@ -1,5 +1,5 @@
 import {Component, createRef, h} from 'preact';
-import {ListedFileStatus}        from '../../../state/models/Files';
+import {ListedFileStatus}        from '../../../state/models/ListedFile';
 import styles                    from './FileStatus.module.scss';
 
 type Props = {

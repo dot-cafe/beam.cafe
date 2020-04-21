@@ -3,6 +3,7 @@
     "compilerOptions": {
         "strict": true,
         "noImplicitAny": true,
+        "skipLibCheck": true,
         "experimentalDecorators": true,
         "moduleResolution": "node",
         "sourceMap": true,
@@ -12,5 +13,11 @@
         "jsx": "react",
         "jsxFactory": "h",
         "allowSyntheticDefaultImports": true
-    }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

@@ -2,7 +2,7 @@ import {observer}           from 'mobx-react';
 import {Component, h}       from 'preact';
 import prettyBytes          from 'pretty-bytes';
 import {uploads}            from '../../../state';
-import {SelectType, Upload} from '../../../state/models/Uploads';
+import {SelectType, Upload} from '../../../state/stores/Uploads';
 import {bind, cn}           from '../../../utils/preact-utils';
 import {Checkbox}           from '../../components/Checkbox';
 import Icon                 from '../../components/Icon';

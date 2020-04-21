@@ -2,7 +2,7 @@ import {action, observable}                     from 'mobx';
 import {socket}                                 from '../../socket';
 import {removeItem}                             from '../../utils/array';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
-import {ListedFile}                             from './Files';
+import {ListedFile}                             from '../models/ListedFile';
 
 export const FINAL_STATES: Array<UploadState> = [
     'peer-cancelled',
@@ -23,14 +23,14 @@ export enum SelectType {
 
 export type Upload = {
     id: string;
+    listedFile: ListedFile;
     state: UploadState;
     progress: number;
-    listedFile: ListedFile;
     xhUpload: XHUpload;
 };
 
 /* eslint-disable no-console */
-export class Uploads {
+class Uploads {
     @observable public readonly listedUploads: Array<Upload> = [];
     @observable public readonly selectedUploads: Array<Upload> = [];
 
@@ -49,7 +49,7 @@ export class Uploads {
     }
 
     @action
-    public registerUpload(id: string, listedFile: ListedFile, xhUpload: XHUpload): void {
+    public registerUpload(id: string, file: ListedFile, xhUpload: XHUpload): void {
         xhUpload.addEventListener('update', s => {
             this.updateUploadState(id, (s as XHUploadEvent).state);
         });
@@ -58,8 +58,8 @@ export class Uploads {
             xhUpload,
             state: xhUpload.state,
             progress: 0,
-            id,
-            listedFile
+            listedFile: file,
+            id
         });
     }
 
@@ -73,7 +73,6 @@ export class Uploads {
             throw new Error('Failed to update upload status.');
         }
 
-        // TODO: Clean up event-mess
         const upload = this.listedUploads[index];
         switch (newState) {
             case 'removed':
@@ -100,13 +99,12 @@ export class Uploads {
         upload.state = newState;
     }
 
-    // TODO: Cleanup is not done properly...
     @action
-    public removeByFileName(fileName: string): void {
+    public remove(...ids: Array<string>): void {
         for (let i = 0; i < this.listedUploads.length; i++) {
             const upload = this.listedUploads[i];
 
-            if (upload.listedFile.file.name === fileName) {
+            if (ids.includes(upload.id)) {
                 if (!FINAL_STATES.includes(upload.state)) {
                     throw new Error('Cannot remove file since it\'s not in a final state');
                 }
@@ -147,3 +145,5 @@ export class Uploads {
         }
     }
 }
+
+export const uploads = new Uploads();

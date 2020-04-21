@@ -2,7 +2,7 @@ import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import prettyBytes       from 'pretty-bytes';
 import {files, uploads}  from '../../../state';
-import {ListedFile}      from '../../../state/models/Files';
+import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copyToClipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
 import Icon              from '../../components/Icon';
@@ -41,17 +41,7 @@ export class FileItem extends Component<Props, State> {
         const {id} = this.props.item;
 
         if (id) {
-
-            // Remove file
             files.removeFile(id);
-
-            // Abort all uploads of this file
-            const relatedUploads = uploads.listedUploads.filter(value => value.listedFile.id);
-            for (const upload of relatedUploads) {
-                if (upload.progress < 1) {
-                    uploads.updateUploadState(upload.id, 'removed');
-                }
-            }
         }
     }
 
