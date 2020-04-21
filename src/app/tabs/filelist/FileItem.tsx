@@ -1,7 +1,7 @@
 import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import prettyBytes       from 'pretty-bytes';
-import {files, uploads}  from '../../../state';
+import {files}           from '../../../state';
 import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copyToClipboard';
 import {bind, cn}        from '../../../utils/preact-utils';

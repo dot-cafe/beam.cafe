@@ -30,7 +30,7 @@
             &.outline {
                 transition: all 0.3s;
                 stroke-dasharray: 20 var(--path-length);
-                stroke: var(--stroke);
+                stroke: var(--color);
 
                 @include animate('1s infinite linear') {
                     from {
@@ -61,11 +61,9 @@
 
     &[data-status='loading'] {
         --color: var(--c-yellow);
-        --stroke: var(--c-yellow);
     }
 
     &[data-status='removing'] {
         --color: var(--c-red);
-        --stroke: var(--c-red);
     }
 }
