@@ -6,6 +6,7 @@ declare module '*.svg';
 declare const VERSION: string;
 declare const env: {
     NODE_ENV: 'development' | 'production';
+    BUILD_DATE: number;
     VERSION: string;
     API_ENDPOINT: string;
     WS_ENDPOINT: string;

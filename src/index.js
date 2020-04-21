@@ -9,7 +9,8 @@ if (env.NODE_ENV === 'development') {
         module.hot.accept();
     }
 } else if (env.NODE_ENV === 'production') {
-    console.log(`[INFO] Launching app v${env.VERSION}`);
+    console.log(`[APP] Launching v${env.VERSION}`);
+    console.log(`[APP] Build at ${new Date(env.BUILD_DATE).toUTCString()}`);
 
     navigator.serviceWorker.register(
         '/sw.js'
