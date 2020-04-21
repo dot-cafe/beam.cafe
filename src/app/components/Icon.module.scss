@@ -1,0 +1,9 @@
+.icon {
+    display: inline-flex;
+    color: currentColor;
+
+    > svg {
+        @include size(100%);
+        fill: currentColor;
+    }
+}
