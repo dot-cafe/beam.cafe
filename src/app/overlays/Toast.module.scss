@@ -12,19 +12,22 @@
         padding: 0.65em 2em;
         border-radius: 0 0 0.5em 0.5em;
         color: var(--c-text-secondary-accent);
-        box-shadow: 0 0 0.5em rgba(black, 0.1);
+        border: 2px solid transparent;
     }
 
-    &[data-state='success'] p {
-        background: var(--c-primary);
-    }
+    $states: (
+            ('success', --c-primary),
+            ('warning', --c-yellow),
+            ('error', --c-red),
+    );
 
-    &[data-state='warning'] p {
-        background: var(--c-yellow);
-    }
-
-    &[data-state='error'] p {
-        background: var(--c-red);
+    @each $state in $states {
+        $color: nth($state, 2);
+        &[data-state=#{nth($state, 1)}] p {
+            background: var(#{$color});
+            border-color: var(#{$color + '-accent'});
+            border-top-color: transparent;
+        }
     }
 }
 
