@@ -2,10 +2,14 @@
     font-size: 14px;
     display: grid;
     grid-gap: 1em;
-    grid-template: 1fr / 2.5em 1fr 5em 10em;
+    grid-template: 1fr / 2.5em 1fr 5em 5em;
     align-items: center;
     padding: 0 1em;
     width: 100%;
+
+    &:first-child{
+        margin-top: 0.2em;
+    }
 
     &:not(:last-child) {
         margin-bottom: 0.35em;
@@ -18,29 +22,30 @@
     @include flex(row, center, flex-end);
 
     &.disabled > button {
-        --color: var(--c-text-primary-accent) !important;
+        color: var(--c-text-primary-accent);
         pointer-events: none;
         cursor: not-allowed;
+
+        &:hover {
+            color: var(--c-text-primary-accent);
+        }
     }
 
     > button {
-        @include font(800, 0.85em);
-        border: 2px solid var(--color);
+        @include size(18px);
+        @include flex(row, center);
         text-transform: uppercase;
-        padding: 0.4em 0.75em;
         transition: all 0.3s;
-        color: var(--color);
-        border-radius: 3px;
+        color: var(--c-text-primary);
         position: relative;
         overflow: hidden;
 
         &:hover {
-            background: var(--color-accent);
-            box-shadow: 0 0 0.15em var(--color-accent);
+            color: var(--color);
         }
 
         &:not(:last-child) {
-            margin-right: 0.5em;
+            margin-right: 0.75em;
         }
 
         &.shareBtn {
@@ -49,11 +54,6 @@
 
         &.removeBtn {
             --color: var(--c-red);
-        }
-
-        &:hover {
-            background: var(--color);
-            color: var(--c-text-secondary-accent);
         }
     }
 }

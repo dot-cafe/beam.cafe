@@ -5,6 +5,7 @@ import {files, uploads}  from '../../../state';
 import {ListedFile}      from '../../../state/models/Files';
 import {copyToClipboard} from '../../../utils/copyToClipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
+import Icon              from '../../components/Icon';
 import {Toast}           from '../../overlays/Toast';
 import styles            from './FileItem.module.scss';
 import {FileStatus}      from './FileStatus';
@@ -76,12 +77,12 @@ export class FileItem extends Component<Props, State> {
                 })}>
                     <button className={styles.shareBtn}
                             onClick={this.copyLink}>
-                        Share
+                        <Icon name="copy"/>
                     </button>
 
                     <button className={styles.removeBtn}
                             onClick={this.removeFile}>
-                        Remove
+                        <Icon name="trash"/>
                     </button>
                 </div>
             </div>
