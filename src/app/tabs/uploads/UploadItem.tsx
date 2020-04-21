@@ -1,11 +1,13 @@
-import {observer}         from 'mobx-react';
-import {Component, h}     from 'preact';
-import prettyBytes        from 'pretty-bytes';
-import {Upload}           from '../../../state/models/Uploads';
-import {bind}             from '../../../utils/preact-utils';
-import Icon               from '../../components/Icon';
-import {getStatusIconFor} from './statusIcon';
-import styles             from './UploadItem.module.scss';
+import {observer}           from 'mobx-react';
+import {Component, h}       from 'preact';
+import prettyBytes          from 'pretty-bytes';
+import {uploads}            from '../../../state';
+import {SelectType, Upload} from '../../../state/models/Uploads';
+import {bind, cn}           from '../../../utils/preact-utils';
+import {Checkbox}           from '../../components/Checkbox';
+import Icon                 from '../../components/Icon';
+import {getStatusIconFor}   from './statusIcon';
+import styles               from './UploadItem.module.scss';
 
 type Props = {
     upload: Upload;
@@ -24,6 +26,11 @@ export class UploadItem extends Component<Props, State> {
     @bind
     cancel(): void {
         this.props.upload.xhUpload.abort();
+    }
+
+    @bind
+    toggleSelect(): void {
+        uploads.select(this.props.upload.id, SelectType.Toggle);
     }
 
     render() {
@@ -75,6 +82,9 @@ export class UploadItem extends Component<Props, State> {
             <div className={styles.upload}
                  data-state={state}>
 
+                <Checkbox checked={uploads.isSelected(upload)}
+                          onChange={this.toggleSelect}/>
+
                 <div className={styles.progressBar}
                      style={progressBarStyle}>
                     <p><span>{text}</span></p>
@@ -82,12 +92,12 @@ export class UploadItem extends Component<Props, State> {
                 </div>
 
                 <button onClick={this.togglePause}
-                        className={styles.pauseBtn}>
+                        className={cn(styles.btn, styles.pauseBtn)}>
                     {getStatusIconFor(state)}
                 </button>
 
                 <button onClick={this.cancel}
-                        className={styles.abortBtn}>
+                        className={cn(styles.btn, styles.abortBtn)}>
                     <Icon name="cross"/>
                 </button>
             </div>

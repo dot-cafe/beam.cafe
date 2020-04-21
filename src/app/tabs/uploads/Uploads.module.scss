@@ -2,13 +2,13 @@
     @include flex(column);
     overflow: auto;
     max-height: 100%;
-    padding: 1em;
 }
 
 .listItem {
     @include flex(column);
     border-radius: 0.5em;
     border: 2px solid var(--c-background-secondary);
+    margin: 1em;
 
     .header {
         @include flex(row, center, space-between);

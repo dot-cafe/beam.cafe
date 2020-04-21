@@ -1,5 +1,6 @@
-import {action, computed, observable}           from 'mobx';
+import {action, observable}                     from 'mobx';
 import {socket}                                 from '../../socket';
+import {removeItem}                             from '../../utils/array';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from './Files';
 
@@ -14,6 +15,11 @@ export const FINAL_STATES: Array<UploadState> = [
 
 export type UploadState = XHUploadState | 'peer-cancelled' | 'removed';
 
+export enum SelectType {
+    Select = 'Select',
+    Unselect = 'Unselect',
+    Toggle = 'Toggle'
+}
 
 export type Upload = {
     id: string;
@@ -25,11 +31,21 @@ export type Upload = {
 
 /* eslint-disable no-console */
 export class Uploads {
-    @observable private readonly internalUploads: Array<Upload> = [];
+    @observable public readonly listedUploads: Array<Upload> = [];
+    @observable public readonly selectedUploads: Array<Upload> = [];
 
-    @computed
-    public get listedUploads() {
-        return this.internalUploads;
+    public isSelected(upload: string | Upload) {
+        if (typeof upload === 'string') {
+            const resolved = this.listedUploads.find(value => value.id === upload);
+
+            if (!resolved) {
+                throw new Error('Cannot check non-existent upload.');
+            }
+
+            upload = resolved;
+        }
+
+        return this.selectedUploads.includes(upload);
     }
 
     @action
@@ -38,7 +54,7 @@ export class Uploads {
             this.updateUploadState(id, (s as XHUploadEvent).state);
         });
 
-        this.internalUploads.push({
+        this.listedUploads.push({
             xhUpload,
             state: xhUpload.state,
             progress: 0,
@@ -49,7 +65,7 @@ export class Uploads {
 
     @action
     public updateUploadState(id: string, newState: UploadState): void {
-        const index = this.internalUploads.findIndex(v => {
+        const index = this.listedUploads.findIndex(v => {
             return v.id === id;
         });
 
@@ -58,7 +74,7 @@ export class Uploads {
         }
 
         // TODO: Clean up event-mess
-        const upload = this.internalUploads[index];
+        const upload = this.listedUploads[index];
         switch (newState) {
             case 'removed':
             case 'peer-cancelled': {
@@ -84,18 +100,49 @@ export class Uploads {
         upload.state = newState;
     }
 
+    // TODO: Cleanup is not done properly...
     @action
     public removeByFileName(fileName: string): void {
-        for (let i = 0; i < this.internalUploads.length; i++) {
-            const upload = this.internalUploads[i];
+        for (let i = 0; i < this.listedUploads.length; i++) {
+            const upload = this.listedUploads[i];
 
             if (upload.listedFile.file.name === fileName) {
                 if (!FINAL_STATES.includes(upload.state)) {
                     throw new Error('Cannot remove file since it\'s not in a final state');
                 }
 
-                this.internalUploads.splice(i, 1);
+                this.listedUploads.splice(i, 1);
                 i--;
+            }
+        }
+    }
+
+    @action
+    public select(id: string | Upload, mode = SelectType.Select): void {
+        const upload = typeof id === 'string' ?
+            this.listedUploads.find(value => value.id === id) : id;
+
+        if (!upload) {
+            throw new Error('Cannot select upload. Invalid ID or payload.');
+        }
+
+        switch (mode) {
+            case SelectType.Select: {
+                if (!this.selectedUploads.includes(upload)) {
+                    this.selectedUploads.push(upload);
+                }
+                break;
+            }
+            case SelectType.Unselect: {
+                removeItem(this.selectedUploads, upload);
+                break;
+            }
+            case SelectType.Toggle: {
+                if (!this.selectedUploads.includes(upload)) {
+                    this.selectedUploads.push(upload);
+                } else {
+                    removeItem(this.selectedUploads, upload);
+                }
             }
         }
     }

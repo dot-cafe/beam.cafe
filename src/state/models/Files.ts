@@ -29,16 +29,12 @@ const remainingWaitingTime = (ts: number): number => {
 
 /* eslint-disable no-console */
 export class Files {
-    @observable private readonly internalFiles: Array<ListedFile> = [];
+    @observable public readonly listedFiles: Array<ListedFile> = [];
 
-    @computed
-    public get listedFiles() {
-        return this.internalFiles;
-    }
 
     @computed
     public get isEmpty() {
-        return this.internalFiles.length === 0;
+        return this.listedFiles.length === 0;
     }
 
     @action
@@ -49,11 +45,11 @@ export class Files {
         for (const file of files) {
 
             // Skip duplicates
-            if (this.internalFiles.find(ef => ef.file.name === file.name)) {
+            if (this.listedFiles.find(ef => ef.file.name === file.name)) {
                 continue;
             }
 
-            this.internalFiles.push({
+            this.listedFiles.push({
                 updated: performance.now(),
                 status: 'loading',
                 id: null,
@@ -75,12 +71,12 @@ export class Files {
 
     @action
     public removeFile(id: string) {
-        const fileIndex = this.internalFiles.findIndex(
+        const fileIndex = this.listedFiles.findIndex(
             value => value.id === id
         );
 
         if (~fileIndex) {
-            const file = this.internalFiles[fileIndex];
+            const file = this.listedFiles[fileIndex];
             file.updated = performance.now();
             file.status = 'removing';
 
@@ -90,8 +86,8 @@ export class Files {
             }));
 
             setTimeout(() => {
-                const currentIndex = this.internalFiles.findIndex(value => value.id === id);
-                this.internalFiles.splice(currentIndex, 1);
+                const currentIndex = this.listedFiles.findIndex(value => value.id === id);
+                this.listedFiles.splice(currentIndex, 1);
             }, remainingWaitingTime(file.updated));
         } else {
             console.warn('File not registered yet.');
@@ -101,7 +97,7 @@ export class Files {
     @action
     public enableFiles(idPairs: Keys) {
         for (const {name, id} of idPairs) {
-            const target = this.internalFiles.find(
+            const target = this.listedFiles.find(
                 value => value.file.name === name
             );
 

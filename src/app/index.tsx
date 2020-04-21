@@ -1,5 +1,5 @@
-import {h, render} from 'preact';
 import '../styles/_global.scss';
+import {h, render} from 'preact';
 import {App}       from './App';
 
 render(

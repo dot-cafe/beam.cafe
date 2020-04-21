@@ -1,0 +1,33 @@
+.checkbox {
+    @include size(1.5em);
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+    border: 2px solid var(--c-blue);
+    border-radius: 50em;
+    transition: all 0.3s;
+
+    > svg {
+        @include size(70%);
+        @include position(0, 0, 0, 0);
+        margin: auto;
+        position: absolute;
+        fill: transparent;
+        stroke: transparent;
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-dasharray: 54;
+        stroke-dashoffset: 54;
+        transition: all 0.3s;
+    }
+}
+
+.checked {
+    border-color: var(--c-blue-accent);
+    background: var(--c-blue-accent);
+
+    > svg {
+        stroke: white;
+        stroke-dashoffset: 0;
+    }
+}

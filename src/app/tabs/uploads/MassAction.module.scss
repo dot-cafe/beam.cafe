@@ -1,0 +1,53 @@
+.massAction {
+    @include flex(row, center);
+    margin-bottom: 1em;
+    border-bottom: 2px solid var(--c-background-secondary);
+    transition: all 0.3s;
+    margin-top: -4em;
+    padding: 1em;
+    height: 3em;
+
+    &.visible {
+        margin-top: 0;
+    }
+}
+
+.controls {
+    flex-shrink: 0;
+    margin-left: auto;
+
+    > button {
+        @include font(800, 0.75em);
+        padding: 0.5em 0.75em;
+        transition: all 0.3s;
+        color: var(--c-text-secondary-accent);
+        border-radius: 0.25em;
+
+        $colors: (
+                (var(--c-blue), var(--c-blue-accent)),
+                (var(--c-yellow), var(--c-yellow-accent)),
+                (var(--c-red), var(--c-red-accent))
+        );
+
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                background: nth(nth($colors, $i), 1);
+
+                &:hover {
+                    background: nth(nth($colors, $i), 2);
+                }
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            background: var(--c-background-secondary);
+            color: var(--c-text-secondary);
+            cursor: not-allowed;
+        }
+
+        &:not(:last-child) {
+            margin-right: 0.5em;
+        }
+    }
+}

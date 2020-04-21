@@ -4,6 +4,7 @@ import {uploads}              from '../../../state';
 import {FINAL_STATES, Upload} from '../../../state/models/Uploads';
 import {bind}                 from '../../../utils/preact-utils';
 import Icon                   from '../../components/Icon';
+import {MassAction}           from './MassAction';
 import {UploadItem}           from './UploadItem';
 import styles                 from './Uploads.module.scss';
 
@@ -94,6 +95,7 @@ export class Uploads extends Component {
 
         return (
             <div className={styles.uploads}>
+                <MassAction/>
                 {items}
             </div>
         );
