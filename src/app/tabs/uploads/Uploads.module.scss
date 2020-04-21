@@ -35,7 +35,7 @@
     flex-shrink: 0;
 
     > button {
-        @include font(600, 0.75em);
+        @include font(800, 0.75em);
         padding: 0.5em 0.75em;
         transition: all 0.3s;
         color: var(--c-text-secondary-accent);

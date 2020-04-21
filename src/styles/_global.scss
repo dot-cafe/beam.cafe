@@ -81,11 +81,11 @@ body {
 }
 
 h2 {
-    @include font(400, 18px);
+    @include font(300, 18px);
 }
 
 h3 {
-    @include font(500, 14px);
+    @include font(600, 14px);
 }
 
 #app {

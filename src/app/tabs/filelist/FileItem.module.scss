@@ -24,7 +24,7 @@
     }
 
     > button {
-        @include font(600, 0.85em);
+        @include font(800, 0.85em);
         border: 2px solid var(--color);
         text-transform: uppercase;
         padding: 0.4em 0.75em;
