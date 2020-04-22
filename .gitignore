@@ -68,3 +68,6 @@ typings/
 
 # Build files
 /dist
+
+# Misc
+/.psd

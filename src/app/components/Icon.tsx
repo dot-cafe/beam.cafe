@@ -5,11 +5,11 @@ import styles from './Icon.module.scss';
 
 // Load icons dynamically
 const icons = new Map();
-const svgContext = require.context('../../assets/icons', false, /\.svg$/);
+const svgContext = require.context('./icons', false, /\.svg$/);
 for (const path of svgContext.keys()) {
     const nameWithExt = path.slice(2);
     const name = nameWithExt.slice(0, -4);
-    icons.set(name, require(`../../assets/icons/${nameWithExt}`));
+    icons.set(name, require(`./icons/${nameWithExt}`));
 }
 
 type Props = {
