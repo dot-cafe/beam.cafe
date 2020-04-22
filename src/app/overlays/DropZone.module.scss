@@ -18,12 +18,21 @@
         position: relative;
         z-index: 5;
 
-        &::before {
+        &::before,
+        &::after {
             @include position(-2px, -2px, auto, auto);
             @include pseudo();
             @include size(0);
-            border: 0.5em solid transparent;
-            border-color: var(--c-background-primary) var(--c-background-primary) var(--color) var(--color);
+            border: 0.5em solid var(--color);
+        }
+
+        &::before {
+            clip-path: polygon(0 0, 0% 100%, 100% 100%);
+        }
+
+        &::after {
+            border-color: var(--c-background-primary);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
         }
 
         > div {
@@ -57,16 +66,18 @@
     }
 
     > button {
-        margin-top: 1em;
+        margin-top: 1.5em;
         border-radius: 0.25em;
         padding: 0.5em 0.75em;
         background: var(--c-primary);
         color: var(--c-text-secondary-accent);
         pointer-events: all;
         transition: all 0.3s;
+        box-shadow: 0 0.075em 0.35em var(--c-primary);
 
         &:hover {
             background: var(--c-primary-accent);
+            box-shadow: 0 0.1em 0.45em var(--c-primary-accent);
         }
     }
 }

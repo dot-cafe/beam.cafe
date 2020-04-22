@@ -52,6 +52,7 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.s[ac]ss$/,
                 use: [
+                    'postcss-loader',
                     {
                         loader: 'sass-loader',
                         options: {
@@ -65,7 +66,6 @@ module.exports = {
                 test: /\.module\.(scss|sass|css)$/,
                 include: app,
                 use: [
-                    'css-hot-loader',
                     'style-loader',
                     {
                         loader: 'css-loader',
@@ -83,7 +83,6 @@ module.exports = {
                 test: /\.(scss|sass|css)$/,
                 exclude: app,
                 use: [
-                    'css-hot-loader',
                     'style-loader',
                     {
                         loader: 'css-loader',

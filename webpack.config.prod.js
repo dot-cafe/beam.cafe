@@ -43,6 +43,7 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.s[ac]ss$/,
                 use: [
+                    'postcss-loader',
                     {
                         loader: 'sass-loader',
                         options: {
