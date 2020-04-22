@@ -56,27 +56,28 @@
                 }
             }
 
-            $roundness: 11px;
-            $smoothness: 2%;
+            $size: 10px;
+            $smoothness: 0.5px;
+            $bg-size: $size * 2;
 
             &::before,
             &::after {
                 @include pseudo();
-                @include size($roundness);
-                background: radial-gradient(transparent 50% - $smoothness, currentColor 50% + $smoothness);
-                background-size: ($roundness * 3) ($roundness * 3);
+                @include fixed-size($size);
+                background: radial-gradient(transparent $bg-size / 2 - $smoothness, currentColor $bg-size / 2 + $smoothness);
+                background-size: $bg-size $bg-size;
                 visibility: hidden;
                 bottom: 0;
             }
 
             &::after {
-                left: -$roundness;
-                background-position: ($roundness * 1.45) ($roundness * 1.44);
+                left: -$size;
+                background-position: ($bg-size / 2) ($bg-size / 2);
             }
 
             &::before {
-                right: -$roundness;
-                background-position: ($roundness * 8.55) ($roundness * 1.44);
+                right: -$size;
+                background-position: -($bg-size) ($bg-size / 2);
             }
         }
     }
