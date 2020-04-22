@@ -1,9 +1,8 @@
-import {Component, h}  from 'preact';
-import styles          from './App.module.scss';
-import {DropZone}     from './overlays/DropZone';
+import {Component, h} from 'preact';
 import {UpdateScreen} from './overlays/UpdateScreen';
 import {Toast}        from './overlays/Toast';
-import {Tabs}          from './tabs/Tabs';
+import {Tabs}         from './tabs/Tabs';
+import styles         from './App.module.scss';
 
 export class App extends Component {
     render() {
@@ -12,7 +11,6 @@ export class App extends Component {
                 {Toast.getElement()}
                 <UpdateScreen/>
                 <Tabs/>
-                <DropZone/>
             </div>
         );
     }

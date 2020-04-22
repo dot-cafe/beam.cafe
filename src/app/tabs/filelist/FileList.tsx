@@ -1,6 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {files}        from '../../../state';
+import {DropZone}     from './DropZone';
 import {FileItem}     from './FileItem';
 import styles         from './FileList.module.scss';
 
@@ -12,6 +13,8 @@ export class FileList extends Component {
 
         return (
             <div className={styles.fileList}>
+                <DropZone/>
+
                 <div className={styles.header}>
                     <p>#</p>
                     <p>Filename</p>
