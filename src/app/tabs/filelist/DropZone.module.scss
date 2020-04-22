@@ -8,13 +8,10 @@
     z-index: 10;
     opacity: 0;
 
-    // Chrome has problems animating currentColor
-    --color: transparent;
-
     > div {
         @include size(1em, 3.5em);
         transition: all 0.3s;
-        border: 2px solid var(--color);
+        border: 2px solid var(--c-text-primary);
         position: relative;
         z-index: 5;
 
@@ -23,7 +20,7 @@
             @include position(-2px, -2px, auto, auto);
             @include pseudo();
             @include size(0);
-            border: 0.5em solid var(--color);
+            border: 0.5em solid var(--c-text-primary);
         }
 
         &::before {
@@ -47,7 +44,7 @@
             &::after {
                 @include pseudo();
                 @include size(2px, 100%);
-                background: var(--color);
+                background: var(--c-text-primary);
                 top: 50%;
             }
 
@@ -57,25 +54,31 @@
         }
     }
 
-    > p {
-        @include font(300, 2em);
+    > h1 {
         transform: translateY(10%);
         transition: all 0.3s;
-        color: var(--color);
-        margin-top: 1em;
     }
 
     > button {
-        margin-top: 1.5em;
-        border-radius: 0.25em;
-        padding: 0.5em 0.75em;
-        background: var(--c-primary);
-        color: var(--c-text-secondary-accent);
+        @include button_large;
+        margin-top: 0.75em;
         pointer-events: all;
         transition: all 0.3s;
 
         &:hover {
             background: var(--c-primary-accent);
+        }
+    }
+
+    @include breakpoint-mobile {
+        font-size: 0.75em;
+
+        > p {
+            display: none;
+        }
+
+        > button {
+            font-size: 1.5em;
         }
     }
 }

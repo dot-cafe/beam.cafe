@@ -1,0 +1,11 @@
+@mixin breakpoint-desktop {
+    @media screen and (max-width: 1200px), (max-height: 675px)  {
+        @content;
+    }
+}
+
+@mixin breakpoint-mobile {
+    @media screen and (max-width: 725px) {
+        @content;
+    }
+}

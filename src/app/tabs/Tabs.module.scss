@@ -23,8 +23,7 @@
             z-index: 0;
 
             > span {
-                @include font(600, 0.9em);
-                color: var(--c-text-primary-accent);
+                @include text_decent;
             }
 
             &:not(.activeButton):hover {

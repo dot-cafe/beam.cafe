@@ -1,7 +1,10 @@
 @import '~normalize.css';
 @import '~sassyfication';
+@import './breakpoints';
+@import './standards';
 @import './variables';
 @import './functions';
+@import './mixins';
 @import './theme';
 
 ::-webkit-scrollbar {
@@ -33,33 +36,6 @@
     box-sizing: border-box;
 }
 
-body,
-html {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-input,
-button {
-    outline: none;
-    background: inherit;
-    border: none;
-}
-
-button {
-    cursor: pointer;
-}
-
-code {
-    background: var(--c-background-primary);
-    font-family: monospace;
-    font-weight: inherit;
-    padding: 0.15em 0.45em;
-    border-radius: 0.15em;
-    margin: 0 0.25em;
-}
-
 body {
     background: var(--c-background-secondary);
     user-select: none;
@@ -79,14 +55,6 @@ body {
         transition: all 0.3s !important;
         transition-delay: 0s !important;
     }
-}
-
-h2 {
-    @include font(300, 18px);
-}
-
-h3 {
-    @include font(600, 14px);
 }
 
 #app {
@@ -113,19 +81,17 @@ h3 {
             opacity: 1;
         }
     }
+
+    @include breakpoint-desktop {
+        min-width: 100%;
+        min-height: 100%;
+        border-radius: 0;
+    }
 }
 
 // Prevent flashing during js-execution
 @media screen and (prefers-color-scheme: dark) {
     body {
         @include dark_theme;
-    }
-}
-
-@media screen and (max-width: 1200px), (max-height: 675px) {
-    #app {
-        min-width: 100vw;
-        min-height: 100vh;
-        border-radius: 0;
     }
 }

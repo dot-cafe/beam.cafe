@@ -1,0 +1,27 @@
+@mixin text_decent {
+    @include font(600, 14px);
+    color: var(--c-text-primary-accent);
+}
+
+@mixin button_small {
+    @include font(800, 0.75em);
+    color: var(--c-text-secondary-accent);
+    padding: 0.5em 0.75em;
+    transition: all 0.3s;
+    border-radius: 0.25em;
+}
+
+@mixin button_large {
+    @include font(600, 0.75em);
+    border-radius: 0.35em;
+    padding: 0.5em 0.75em;
+    background: var(--c-primary);
+    color: var(--c-text-secondary-accent);
+}
+
+@mixin button_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background: var(--c-background-secondary);
+    color: var(--c-text-secondary);
+}

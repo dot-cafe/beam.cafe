@@ -18,11 +18,7 @@
     margin-left: auto;
 
     > button {
-        @include font(800, 0.75em);
-        padding: 0.5em 0.75em;
-        transition: all 0.3s;
-        color: var(--c-text-secondary-accent);
-        border-radius: 0.25em;
+        @include button_small;
 
         $colors: (
                 (var(--c-primary), var(--c-primary-accent)),
@@ -41,10 +37,7 @@
         }
 
         &[disabled] {
-            pointer-events: none;
-            background: var(--c-background-secondary);
-            color: var(--c-text-secondary);
-            cursor: not-allowed;
+            @include button_disabled;
         }
 
         &:not(:last-child) {

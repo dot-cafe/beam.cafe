@@ -4,6 +4,7 @@ import {files}                     from '../../../state';
 import {chooseFiles}               from '../../../utils/choose-files';
 import {EventBindingArgs, off, on} from '../../../utils/events';
 import {bind, cn}                  from '../../../utils/preact-utils';
+import Icon                        from '../../components/Icon';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};
@@ -94,11 +95,11 @@ export class DropZone extends Component<Props, State> {
                     <div/>
                 </div>
 
-                <p>{
+                <h1>{
                     files.isEmpty ?
                         'Drop files  to get started!' :
                         'Release files to upload them!'
-                }</p>
+                }</h1>
 
                 <button onClick={this.chooseFiles}>Choose Files</button>
             </div>

@@ -81,7 +81,7 @@ export class Uploads extends Component {
                         items
                     ] : <div className={styles.placeholder}>
                         <Icon name="link" className={styles.icon}/>
-                        <p>Share a file to get started!</p>
+                        <h1>Share a file to get started!</h1>
                     </div>
                 }
             </div>

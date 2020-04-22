@@ -13,12 +13,15 @@
     max-height: 100%;
 
     .icon {
-        height: 15vh;
+        height: 12vh;
     }
 
-    p {
-        @include font(600, 1.5em);
-        margin-top: 15%;
+    @include breakpoint-mobile {
+        font-size: 0.75em;
+
+        .icon {
+            height: 10vh;
+        }
     }
 }
 
@@ -67,11 +70,7 @@
     flex-shrink: 0;
 
     > button {
-        @include font(800, 0.75em);
-        padding: 0.5em 0.75em;
-        transition: all 0.3s;
-        color: var(--c-text-secondary-accent);
-        border-radius: 0.25em;
+        @include button_small;
 
         $colors: (
                 (var(--c-primary), var(--c-primary-accent)),
@@ -90,10 +89,7 @@
         }
 
         &[disabled] {
-            pointer-events: none;
-            background: var(--c-background-secondary);
-            color: var(--c-text-secondary);
-            cursor: not-allowed;
+            @include button_disabled;
         }
 
         &:not(:last-child) {
