@@ -6,7 +6,11 @@
     z-index: 100;
 
     @include animate('1s 3s ease forwards') {
-        to {
+        99.99% {
+            visibility: visible;
+        }
+        100% {
+            visibility: hidden;
             opacity: 0;
         }
     }
