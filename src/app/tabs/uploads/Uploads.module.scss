@@ -13,7 +13,7 @@
     max-height: 100%;
 
     .icon {
-        height: 15%;
+        height: 15vh;
     }
 
     p {
@@ -74,7 +74,7 @@
         border-radius: 0.25em;
 
         $colors: (
-                (var(--c-blue), var(--c-blue-accent)),
+                (var(--c-primary), var(--c-primary-accent)),
                 (var(--c-yellow), var(--c-yellow-accent)),
                 (var(--c-red), var(--c-red-accent))
         );

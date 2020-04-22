@@ -3,7 +3,7 @@
     flex-shrink: 0;
     position: relative;
     overflow: visible;
-    border: 2px solid var(--c-blue);
+    border: 2px solid var(--c-primary);
     border-radius: 50em;
     transition: all 0.3s;
 
@@ -23,8 +23,8 @@
 }
 
 .checked {
-    border-color: var(--c-blue-accent);
-    background: var(--c-blue-accent);
+    border-color: var(--c-primary-accent);
+    background: var(--c-primary-accent);
 
     > svg {
         stroke: white;

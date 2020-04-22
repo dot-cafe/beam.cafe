@@ -7,7 +7,7 @@
     --color: var(--c-primary);
 
     span {
-        @include font(600, 0.9em);
+        @include font(800, 0.9em);
         line-height: 1.4em;
         color: var(--color);
         transition: all 0.3s;
