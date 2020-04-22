@@ -73,11 +73,9 @@
         color: var(--c-text-secondary-accent);
         pointer-events: all;
         transition: all 0.3s;
-        box-shadow: 0 0.075em 0.35em var(--c-primary);
 
         &:hover {
             background: var(--c-primary-accent);
-            box-shadow: 0 0.1em 0.45em var(--c-primary-accent);
         }
     }
 }
