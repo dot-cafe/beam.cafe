@@ -22,18 +22,27 @@ export class FileItem extends Component<Props, State> {
 
     @bind
     copyLink() {
-        const {id} = this.props.item;
+        const {id, file} = this.props.item;
 
         const toast = Toast.getInstance();
-        copyToClipboard(
-            `${env.API_ENDPOINT}/file/${id}`
-        ).then(() => toast.set({
-            text: 'Link copied to clipboard!',
-            type: 'success'
-        })).catch(() => toast.set({
-            text: 'Failed to copy link :(',
-            type: 'error'
-        }));
+        const link = `${env.API_ENDPOINT}/file/${id}`;
+
+        // navigator.share
+        if (navigator.share) {
+            navigator.share({
+                title: file.name,
+                text: `Download ${file.name}`,
+                url: link
+            }).then(() => null).then(() => null);
+        } else {
+            copyToClipboard(link).then(() => toast.set({
+                text: 'Link copied to clipboard!',
+                type: 'success'
+            })).catch(() => toast.set({
+                text: 'Failed to copy link :(',
+                type: 'error'
+            }));
+        }
     }
 
     @bind
@@ -67,7 +76,7 @@ export class FileItem extends Component<Props, State> {
                 })}>
                     <button className={styles.shareBtn}
                             onClick={this.copyLink}>
-                        <Icon name="copy"/>
+                        <Icon name={navigator.share ? 'share' : 'copy'}/>
                     </button>
 
                     <button className={styles.removeBtn}
