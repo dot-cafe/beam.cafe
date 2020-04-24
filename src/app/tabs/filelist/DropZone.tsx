@@ -74,8 +74,7 @@ export class DropZone extends Component<Props, State> {
 
     @bind
     chooseFiles(): void {
-        chooseFiles().then(this.accept)
-            .catch(() => null);
+        files.openDialog();
     }
 
     componentWillUnmount(): void {

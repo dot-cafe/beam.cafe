@@ -11,10 +11,18 @@
     border-radius: 0.25em;
 }
 
+@mixin button_middle {
+    @include font(600, 1em);
+    border-radius: 0.25em;
+    padding: 0.5em 0.85em;
+    background: var(--c-primary);
+    color: var(--c-text-secondary-accent);
+}
+
 @mixin button_large {
     @include font(600, 1.15em);
-    border-radius: 0.35em;
-    padding: 0.5em 0.75em;
+    border-radius: 0.25em;
+    padding: 0.5em 0.9em;
     background: var(--c-primary);
     color: var(--c-text-secondary-accent);
 }

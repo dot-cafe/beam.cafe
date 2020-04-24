@@ -2,6 +2,23 @@
     @include flex(column, stretch, flex-start);
     overflow: hidden;
     max-height: 100%;
+
+    > button {
+        @include button_middle;
+        @include flex(row, center);
+        height: 2em;
+        background: var(--c-primary);
+        margin: 0.75em auto;
+
+        > div {
+            @include size(0.9em);
+        }
+
+        > span {
+            font-size: 0.9em;
+            margin-left: 0.5em;
+        }
+    }
 }
 
 .header {

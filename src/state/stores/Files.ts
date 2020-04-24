@@ -1,5 +1,6 @@
 import {action, computed, observable} from 'mobx';
 import {socket}                       from '../../socket';
+import {chooseFiles}                  from '../../utils/choose-files';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
 
@@ -26,6 +27,12 @@ class Files {
 
     public byId(id: string): ListedFile | null {
         return this.listedFiles.find(value => value.id === id) || null;
+    }
+
+    public openDialog(): Promise<boolean> {
+        return chooseFiles().then(list => this.add(...Array.from(list)))
+            .then(() => true)
+            .catch(() => false);
     }
 
     @action

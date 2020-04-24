@@ -73,12 +73,13 @@
     @include breakpoint-mobile {
         font-size: 0.75em;
 
-        > p {
+        > h1 {
             display: none;
         }
 
         > button {
             font-size: 1.5em;
+            margin-top: 1em;
         }
     }
 }

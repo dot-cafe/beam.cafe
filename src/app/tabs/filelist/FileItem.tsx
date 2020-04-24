@@ -63,7 +63,7 @@ export class FileItem extends Component<Props, State> {
                     <FileStatus status={item.status} text={label}/>
                 </div>
 
-                <p className={styles.itemText}>
+                <p className={cn(styles.itemText, styles.fileName)}>
                     {item.file.name}
                 </p>
 

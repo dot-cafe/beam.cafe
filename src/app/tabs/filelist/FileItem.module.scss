@@ -62,6 +62,10 @@
     justify-items: center;
 }
 
+.fileName {
+    @include white-space-overflow();
+}
+
 .itemText {
     @include font(600, 14px);
     color: var(--c-text-primary);
