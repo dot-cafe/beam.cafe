@@ -98,7 +98,7 @@ export class UploadItem extends Component<Props, State> {
 
                 <button onClick={this.cancel}
                         className={cn(styles.btn, styles.abortBtn)}>
-                    <Icon name="cross"/>
+                    <Icon name="delete"/>
                 </button>
             </div>
         );

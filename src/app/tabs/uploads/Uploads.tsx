@@ -39,7 +39,7 @@ export class Uploads extends Component {
                                 {
                                     massActions.includes('remove') ?
                                         <button onClick={this.massAction(ups, 'remove')}>
-                                            <Icon name="cross"/>
+                                            <Icon name="delete"/>
                                         </button> : ''
                                 }
                                 <h3>{fileName}</h3>
