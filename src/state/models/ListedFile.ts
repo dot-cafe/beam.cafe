@@ -1,5 +1,5 @@
 import {action, observable} from 'mobx';
-import {socket}             from '../../socket';
+import {socket}             from '../';
 
 export type ListedFileStatus = 'loading' | 'ready' | 'removing';
 
@@ -19,10 +19,7 @@ export class ListedFile {
         this.status = 'removing';
 
         // Cancel download-request
-        socket.send(JSON.stringify({
-            type: 'remove-file',
-            payload: this.id
-        }));
+        socket.sendMessage('remove-file', this.id);
     }
 
     @action

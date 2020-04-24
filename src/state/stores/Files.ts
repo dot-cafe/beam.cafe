@@ -1,8 +1,8 @@
 import {action, computed, observable} from 'mobx';
-import {socket}                       from '../../socket';
 import {chooseFiles}                  from '../../utils/choose-files';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
+import {socket}                       from '../';
 
 export type Keys = Array<{
     id: string;
@@ -55,10 +55,7 @@ class Files {
         }
 
         // Request first set of download-keys
-        socket.send(JSON.stringify({
-            type: 'download-keys',
-            payload: keysToRequest
-        }));
+        socket.sendMessage('download-keys', keysToRequest);
     }
 
     @action

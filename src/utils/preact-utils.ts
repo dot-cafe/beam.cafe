@@ -1,4 +1,3 @@
-
 /**
  * Utility to create a single class-name based on an object or array.
  * @param values

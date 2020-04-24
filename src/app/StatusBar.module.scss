@@ -1,0 +1,25 @@
+.statusBar {
+    @include size(100%, 1.25em);
+    @include flex(row, center, center);
+    color: var(--c-text-primary);
+    transition: all 0.3s, margin-top 0.3s 2s;
+
+    > div {
+        @include size(0.8em);
+    }
+
+    > span {
+        @include font(800, 0.75em);
+        margin-left: 0.5em;
+    }
+
+    &[data-state='connected'] {
+        background: var(--c-primary);
+        margin-top: -1.25em;
+    }
+
+    &[data-state='disconnected'] {
+        background: var(--c-red);
+        margin-top: 0;
+    }
+}

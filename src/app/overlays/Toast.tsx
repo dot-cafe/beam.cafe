@@ -17,13 +17,11 @@ type State = {
 export class Toast extends Component<Props, State> {
     private static instance: Toast;
     private static element: JSXInternal.Element;
-    private hideTimeout: number | null = null;
-
     readonly state = {
         visible: false,
         item: {text: '', type: 'success'} as ToastItem
     };
-
+    private hideTimeout: number | null = null;
     // It symbolizes a singleton
     private locked = false;
 

@@ -1,4 +1,5 @@
 .app {
     @include size(100%);
+    @include flex(column);
     overflow: visible;
 }

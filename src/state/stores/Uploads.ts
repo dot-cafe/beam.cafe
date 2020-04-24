@@ -1,8 +1,8 @@
 import {action, observable}                     from 'mobx';
-import {socket}                                 from '../../socket';
 import {removeItem}                             from '../../utils/array';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from '../models/ListedFile';
+import {socket}                                 from '../';
 
 export const FINAL_STATES: Array<UploadState> = [
     'peer-cancelled',
@@ -132,11 +132,7 @@ class Uploads {
                 break;
             }
             case 'cancelled': {
-                socket.send(JSON.stringify({
-                    'type': 'cancel-request',
-                    'payload': upload.id
-                }));
-
+                socket.sendMessage('cancel-request', upload.id);
                 upload.progress = 1;
                 break;
             }
