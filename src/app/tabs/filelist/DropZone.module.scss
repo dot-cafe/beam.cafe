@@ -8,62 +8,22 @@
     z-index: 10;
     opacity: 0;
 
-    > div {
-        @include size(3.5em, 1em);
-        transition: all 0.3s;
-        border: 2px solid var(--c-text-primary);
-        position: relative;
-        z-index: 5;
-
-        &::before,
-        &::after {
-            @include position(-2px, -2px, auto, auto);
-            @include pseudo();
-            @include size(0);
-            border: 0.5em solid var(--c-text-primary);
-        }
-
-        &::before {
-            clip-path: polygon(0 0, 0% 100%, 100% 100%);
-        }
-
-        &::after {
-            border-color: var(--c-background-primary);
-            clip-path: polygon(0 0, 100% 0, 100% 100%);
-        }
-
-        > div {
-            @include size(1.5em);
-            @include position(0, 0, 0, 0);
-            transition: all 0.3s;
-            transform: scale(0);
-            position: absolute;
-            margin: auto;
-
-            &::before,
-            &::after {
-                @include pseudo();
-                @include size(100%, 2px);
-                background: var(--c-text-primary);
-                top: 50%;
-            }
-
-            &::after {
-                transform: rotate(90deg);
-            }
-        }
-    }
-
     > h1 {
         transform: translateY(10%);
         transition: all 0.3s;
     }
 
     > button {
+        @include flex(row, center);
         @include button_large;
         margin-top: 0.75em;
         pointer-events: all;
         transition: all 0.3s;
+
+        > div {
+            @include size(1em);
+            margin-right: 0.5em;
+        }
 
         &:hover {
             background: var(--c-primary-accent);

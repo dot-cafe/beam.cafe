@@ -1,7 +1,6 @@
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
 import {files}                     from '../../../state';
-import {chooseFiles}               from '../../../utils/choose-files';
 import {EventBindingArgs, off, on} from '../../../utils/events';
 import {bind, cn}                  from '../../../utils/preact-utils';
 import Icon                        from '../../components/Icon';
@@ -90,9 +89,6 @@ export class DropZone extends Component<Props, State> {
             <div className={cn(styles.dropZone, {
                 [styles.dragOver]: files.isEmpty || dragover
             })}>
-                <div>
-                    <div/>
-                </div>
 
                 <h1>{
                     files.isEmpty ?
@@ -100,7 +96,10 @@ export class DropZone extends Component<Props, State> {
                         'Release files to upload them!'
                 }</h1>
 
-                <button onClick={this.chooseFiles}>Choose Files</button>
+                <button onClick={this.chooseFiles}>
+                    <Icon name="file"/>
+                    <span>Choose Files</span>
+                </button>
             </div>
         );
     }
