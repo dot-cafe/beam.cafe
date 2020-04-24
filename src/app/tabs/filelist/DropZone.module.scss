@@ -9,7 +9,7 @@
     opacity: 0;
 
     > div {
-        @include size(1em, 3.5em);
+        @include size(3.5em, 1em);
         transition: all 0.3s;
         border: 2px solid var(--c-text-primary);
         position: relative;
@@ -43,7 +43,7 @@
             &::before,
             &::after {
                 @include pseudo();
-                @include size(2px, 100%);
+                @include size(100%, 2px);
                 background: var(--c-text-primary);
                 top: 50%;
             }
