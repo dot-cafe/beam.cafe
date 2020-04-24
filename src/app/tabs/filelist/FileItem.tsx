@@ -25,7 +25,7 @@ export class FileItem extends Component<Props, State> {
         const {id, file} = this.props.item;
 
         const toast = Toast.getInstance();
-        const link = `${env.API_ENDPOINT}/file/${id}`;
+        const link = `${env.API_ENDPOINT}/d/${id}`;
 
         // navigator.share
         if (navigator.share) {

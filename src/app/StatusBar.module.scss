@@ -1,8 +1,8 @@
 .statusBar {
     @include size(100%, 1.25em);
     @include flex(row, center, center);
-    color: var(--c-text-primary);
     transition: all 0.3s, margin-top 0.3s 2s;
+    color: var(--c-text-secondary-accent);
 
     > div {
         @include size(0.8em);
