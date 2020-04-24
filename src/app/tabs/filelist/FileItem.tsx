@@ -5,6 +5,7 @@ import {files}           from '../../../state';
 import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copyToClipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
+import {isMobile}        from '../../browserenv';
 import Icon              from '../../components/Icon';
 import {Toast}           from '../../overlays/Toast';
 import styles            from './FileItem.module.scss';
@@ -27,8 +28,13 @@ export class FileItem extends Component<Props, State> {
         const toast = Toast.getInstance();
         const link = `${env.API_ENDPOINT}/d/${id}`;
 
-        // navigator.share
-        if (navigator.share) {
+        /**
+         * Check if share-api is available, only for mobile devices - it sucks on
+         * desktop browsers (just looking at safari) which doesn't even give you the ability
+         * to copy s*** to the god damn clipboard making this "feature" completely useless
+         * and unusable.
+         */
+        if (navigator.share && isMobile) {
             navigator.share({
                 title: file.name,
                 text: `Download ${file.name}`,
@@ -76,7 +82,7 @@ export class FileItem extends Component<Props, State> {
                 })}>
                     <button className={styles.shareBtn}
                             onClick={this.copyLink}>
-                        <Icon name={navigator.share ? 'share' : 'copy'}/>
+                        <Icon name={navigator.share && isMobile ? 'share' : 'copy'}/>
                     </button>
 
                     <button className={styles.removeBtn}
