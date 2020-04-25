@@ -1,6 +1,6 @@
 .status {
     display: inline-block;
-    padding: 0.1em 0.5em;
+    padding: 0.2em 0.5em 0.1em;
     position: relative;
     overflow: visible;
     margin: auto;
@@ -9,21 +9,21 @@
     span {
         @include font(800, 0.9em);
         display: inline-block;
-        line-height: 1.4em;
         color: var(--color);
         transition: all 0.3s;
-        margin-top: 1px;
+        line-height: 0.9em;
     }
 
     svg {
         @include position(0, 0, 0, 0);
         @include size(100%);
+        margin: auto;
         position: absolute;
         overflow: visible;
 
         rect {
             fill: none;
-            stroke-width: 2;
+            stroke-width: 1.5;
             stroke-linejoin: round;
             stroke-linecap: round;
             stroke: var(--c-primary);
@@ -31,12 +31,12 @@
 
             &.outline {
                 transition: all 0.3s;
-                stroke-dasharray: 20 var(--path-length);
+                stroke-dasharray: 20 80;
                 stroke: var(--color);
 
                 @include animate('1s infinite linear') {
                     from {
-                        stroke-dashoffset: var(--path-length);
+                        stroke-dashoffset: 80;
                     }
                     to {
                         stroke-dashoffset: -20;
@@ -44,6 +44,12 @@
                 }
 
                 animation-play-state: paused;
+            }
+        }
+
+        @media screen and (-webkit-device-pixel-ratio: 1) {
+            rect {
+                stroke-width: 2;
             }
         }
     }

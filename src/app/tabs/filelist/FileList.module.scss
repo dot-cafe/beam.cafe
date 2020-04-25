@@ -6,6 +6,7 @@
     > button {
         @include button_middle;
         @include flex(row, center);
+        transition: all 0.3s;
         height: 2em;
         background: var(--c-primary);
         margin: 0.75em auto;
@@ -17,6 +18,10 @@
         > span {
             font-size: 0.9em;
             margin-left: 0.5em;
+        }
+
+        &:hover {
+            background: var(--c-primary-accent);
         }
     }
 }

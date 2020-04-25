@@ -7,29 +7,26 @@ type Props = {
     text: string;
 };
 
-type State = {
-    pathLength: number;
-};
+type State = {};
 
 export class FileStatus extends Component<Props, State> {
-    readonly state = {
-        pathLength: 0
-    };
+    private readonly svgEl = createRef<SVGSVGElement>();
 
-    private readonly rectEl = createRef<SVGRectElement>();
+    componentDidUpdate(): void {
+        const svgElement = this.svgEl.current;
 
-    componentDidMount(): void {
-        const el = this.rectEl.current;
+        if (svgElement) {
+            const {style} = svgElement;
+            style.width = '100%';
+            style.height = '100%';
 
-        if (el) {
-            this.setState({
-                pathLength: el.getTotalLength()
-            });
+            const rect = svgElement.getBoundingClientRect();
+            style.width = `${Math.ceil(rect.width / 2) * 2}px`;
+            style.height = `${Math.ceil(rect.height / 2) * 2}px`;
         }
     }
 
     render() {
-        const {pathLength} = this.state;
         const {text, status} = this.props;
 
         return (
@@ -37,16 +34,22 @@ export class FileStatus extends Component<Props, State> {
                  data-status={status}>
                 <span>{text}</span>
 
-                <svg xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="0" width="100%" height="100%" rx="2"/>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     ref={this.svgEl}>
+                    <rect x="0"
+                          y="0"
+                          width="100%"
+                          height="100%"
+                          rx="2"
+                          pathLength="100"/>
+
                     <rect className={styles.outline}
-                          style={`--path-length: ${pathLength - 20};`}
-                          ref={this.rectEl}
                           x="0"
                           y="0"
                           width="100%"
                           height="100%"
-                          rx="2"/>
+                          rx="2"
+                          pathLength="100"/>
                 </svg>
             </div>
         );
