@@ -23,11 +23,7 @@ export class ListedFile {
     }
 
     @action
-    public activate(id: string): void {
-        if (this.id !== null) {
-            throw new Error('File already active.');
-        }
-
+    public setId(id: string): void {
         this.updated = performance.now();
         this.status = 'ready';
         this.id = id;

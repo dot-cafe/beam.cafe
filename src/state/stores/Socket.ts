@@ -10,19 +10,28 @@ export type ConnectionState = 'connected' | 'disconnected';
 class Socket {
     @observable public connectionState: ConnectionState;
     private readonly ws: GracefulWebSocket;
+    private sessionKey: string | null;
 
     constructor() {
         this.ws = new GracefulWebSocket(env.WS_ENDPOINT);
         this.connectionState = 'disconnected';
+        this.sessionKey = null;
 
         this.ws.addEventListener('connected', () => {
-            console.log('[WS] Connected!');
             this.updateState('connected');
+            console.log('[WS] Connected!');
+
+            // Try to re-establish connection or create a new session
+            if (this.sessionKey !== null) {
+                this.sendMessage('restore-session', this.sessionKey);
+            } else {
+                this.sendMessage('create-session');
+            }
         });
 
         this.ws.addEventListener('disconnected', () => {
-            console.log('[WS] Disconnected!');
             this.updateState('disconnected');
+            console.log('[WS] Disconnected!');
         });
 
         this.ws.addEventListener('message', e => {
@@ -30,12 +39,12 @@ class Socket {
                 const {type, payload} = JSON.parse((e as MessageEvent).data);
                 this.onMessage(type, payload);
             } catch (e) {
-
+                console.error(e);
             }
         });
     }
 
-    public sendMessage(type: string, payload: unknown): void {
+    public sendMessage(type: string, payload: unknown = null): void {
         this.ws.send(JSON.stringify({type, payload}));
     }
 
@@ -47,6 +56,15 @@ class Socket {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     private onMessage(type: string, payload: any): void {
         switch (type) {
+            case 'restore-session': {
+                files.enableFiles(payload.files);
+                this.sessionKey = payload.key;
+                break;
+            }
+            case 'new-session': {
+                this.sessionKey = payload;
+                break;
+            }
             case 'file-registrations': {
                 files.enableFiles(payload as Keys);
                 break;

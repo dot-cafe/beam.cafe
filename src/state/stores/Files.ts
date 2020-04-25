@@ -92,7 +92,7 @@ class Files {
 
             if (target) {
                 setTimeout(
-                    () => target.activate(id),
+                    () => target.setId(id),
                     remainingWaitingTime(target.updated)
                 );
             } else {
