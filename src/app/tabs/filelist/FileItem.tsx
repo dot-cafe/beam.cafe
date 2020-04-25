@@ -64,7 +64,9 @@ export class FileItem extends Component<Props, State> {
         const {item, label} = this.props;
 
         return (
-            <div className={styles.fileItem}>
+            <div className={styles.fileItem}
+                 data-state={item.status}
+                 onClick={this.copyLink}>
                 <div className={styles.status}>
                     <FileStatus status={item.status} text={label}/>
                 </div>
@@ -77,9 +79,7 @@ export class FileItem extends Component<Props, State> {
                     {prettyBytes(item.file.size)}
                 </p>
 
-                <div className={cn(styles.actionsBox, {
-                    [styles.disabled]: item.status !== 'ready'
-                })}>
+                <div className={styles.actionsBox}>
                     <button className={styles.shareBtn}
                             onClick={this.copyLink}>
                         <Icon name={navigator.share && isMobile ? 'share' : 'copy'}/>
@@ -90,6 +90,10 @@ export class FileItem extends Component<Props, State> {
                         <Icon name="trash"/>
                     </button>
                 </div>
+
+                <p className={styles.copyLinkOverlay}>
+                    <span>Copy Link</span>
+                </p>
             </div>
         );
     }

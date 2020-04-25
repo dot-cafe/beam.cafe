@@ -4,32 +4,51 @@
     grid-gap: 1em;
     grid-template: 1fr / 2.5em 1fr 5em 5em;
     align-items: center;
-    padding: 0 1em;
+    padding: 0.6em 1em;
     width: 100%;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px solid var(--c-background-secondary);
 
-    &:first-child {
-        margin-top: 0.2em;
+    &:hover .copyLinkOverlay {
+        visibility: visible;
     }
 
-    &:not(:last-child) {
-        margin-bottom: 0.35em;
-        padding-bottom: 0.35em;
-        border-bottom: 1px solid var(--c-background-secondary);
+    .copyLinkOverlay {
+        @include position(0, 0, 0, 0);
+        @include flex(row, center, center);
+        position: absolute;
+        background: rgba(black, 0.075);
+        visibility: hidden;
+        z-index: 1;
+
+        span {
+            @include button_small;
+            @include font(600, 0.95em);
+            color: var(--c-text-primary);
+        }
+    }
+
+    &:not([data-state='ready']) {
+        &:hover .copyLinkOverlay {
+            visibility: hidden;
+        }
+
+        .actionsBox > button {
+            color: var(--c-text-primary-accent);
+            pointer-events: none;
+            cursor: not-allowed;
+
+            &:hover {
+                color: var(--c-text-primary-accent);
+            }
+        }
     }
 }
 
 .actionsBox {
     @include flex(row, center, flex-end);
-
-    &.disabled > button {
-        color: var(--c-text-primary-accent);
-        pointer-events: none;
-        cursor: not-allowed;
-
-        &:hover {
-            color: var(--c-text-primary-accent);
-        }
-    }
+    z-index: 2;
 
     > button {
         @include size(18px);

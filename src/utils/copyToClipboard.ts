@@ -30,5 +30,4 @@ export const copyToClipboard = (text: string): Promise<void> => {
             reject(err);
         }
     });
-
 };
