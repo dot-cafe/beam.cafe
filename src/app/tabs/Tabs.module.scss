@@ -5,7 +5,7 @@
 }
 
 .header {
-    @include flex(row, center, space-between);
+    @include flex(row, center);
     border-bottom: 3px solid var(--c-primary);
     padding: 0 0.75em 0;
     overflow: visible;
@@ -13,6 +13,7 @@
     .tabButtons {
         @include flex(row, stretch, flex-start);
         padding: 0.75em 0 0;
+        margin-right: auto;
 
         > button {
             position: relative;
@@ -80,6 +81,12 @@
             }
         }
     }
+}
+
+.updateBtn {
+    @include size(1.5em);
+    color: var(--c-primary);
+    margin-right: 1.25em;
 }
 
 .wrapper {

@@ -5,6 +5,7 @@ import {files, uploads} from '../../state';
 import {rotateValues}   from '../../utils/array';
 import {on}             from '../../utils/events';
 import {bind, cn}       from '../../utils/preact-utils';
+import Icon             from '../components/Icon';
 import {FileList}       from './filelist/FileList';
 import styles           from './Tabs.module.scss';
 import {ThemeSwitcher}  from './ThemeSwitcher';
@@ -13,6 +14,7 @@ import {Uploads}        from './uploads/Uploads';
 type Tab = 'file-list' | 'uploads';
 type Props = {};
 type State = {
+    updateAvailable: boolean;
     activeTab: Tab;
 };
 
@@ -21,10 +23,13 @@ export class Tabs extends Component<Props, State> {
     private static readonly tabs = ['file-list', 'uploads'];
 
     readonly state = {
+        updateAvailable: false,
         activeTab: 'file-list' as Tab
     };
 
     componentDidMount(): void {
+
+        // The tab-key can be used to switch between tabs
         on(window, 'keyup', (e: KeyboardEvent) => {
             if (e.key === 'Tab') {
                 this.setState({
@@ -32,6 +37,17 @@ export class Tabs extends Component<Props, State> {
                 });
             }
         });
+
+        // Check if update is available
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (const reg of regs) {
+                reg.addEventListener('updatefound', () => {
+                    this.setState({
+                        updateAvailable: true
+                    });
+                });
+            }
+        }).catch(() => null);
     }
 
     @bind
@@ -43,10 +59,15 @@ export class Tabs extends Component<Props, State> {
         };
     }
 
+    @bind
+    installUpdate(): void {
+        location.reload();
+    }
+
     render() {
         const {listedFiles} = files;
         const {listedUploads} = uploads;
-        const {activeTab} = this.state;
+        const {activeTab, updateAvailable} = this.state;
 
         /* eslint-disable react/jsx-key */
         const tabs: Array<[string, Tab, JSXInternal.Element]> = [
@@ -87,6 +108,14 @@ export class Tabs extends Component<Props, State> {
                     <div className={styles.tabButtons}>
                         {headerButtons}
                     </div>
+
+                    {updateAvailable ? (
+                        <button className={styles.updateBtn}
+                                onClick={this.installUpdate}>
+                            <Icon name="updates"/>
+                        </button>
+                    ) : ''}
+
                     <ThemeSwitcher/>
                 </div>
 
