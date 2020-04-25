@@ -1,4 +1,5 @@
 import {action, computed, observable} from 'mobx';
+import {clearArray}                   from '../../utils/array';
 import {chooseFiles}                  from '../../utils/choose-files';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
@@ -99,6 +100,11 @@ class Files {
                 console.warn(`[LF] File ${name} not longer available`);
             }
         }
+    }
+
+    @action
+    public clear() {
+        clearArray(this.listedFiles);
     }
 }
 

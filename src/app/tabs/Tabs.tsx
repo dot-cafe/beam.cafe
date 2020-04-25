@@ -2,7 +2,7 @@ import {observer}       from 'mobx-react';
 import {Component, h}   from 'preact';
 import {JSXInternal}    from 'preact/src/jsx';
 import {files, uploads} from '../../state';
-import {rotate}         from '../../utils/array';
+import {rotateValues}   from '../../utils/array';
 import {on}             from '../../utils/events';
 import {bind, cn}       from '../../utils/preact-utils';
 import {FileList}       from './filelist/FileList';
@@ -28,7 +28,7 @@ export class Tabs extends Component<Props, State> {
         on(window, 'keyup', (e: KeyboardEvent) => {
             if (e.key === 'Tab') {
                 this.setState({
-                    activeTab: rotate(Tabs.tabs, this.state.activeTab) as Tab
+                    activeTab: rotateValues(Tabs.tabs, this.state.activeTab) as Tab
                 });
             }
         });

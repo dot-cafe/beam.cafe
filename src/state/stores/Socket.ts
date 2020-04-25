@@ -63,6 +63,12 @@ class Socket {
             }
             case 'new-session': {
                 this.sessionKey = payload;
+
+                // Clear all stores
+                files.clear();
+                uploads.clear();
+
+                // TODO: Show popup with info why everything disappeared
                 break;
             }
             case 'file-registrations': {

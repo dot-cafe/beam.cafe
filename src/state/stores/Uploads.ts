@@ -1,5 +1,5 @@
 import {action, observable}                     from 'mobx';
-import {removeItem}                             from '../../utils/array';
+import {clearArray, removeItem}                 from '../../utils/array';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from '../models/ListedFile';
 import {socket}                                 from '../';
@@ -189,6 +189,11 @@ class Uploads {
                 }
             }
         }
+    }
+
+    @action
+    public clear() {
+        clearArray(this.listedUploads);
     }
 }
 

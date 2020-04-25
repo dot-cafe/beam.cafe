@@ -9,7 +9,7 @@ export const removeItem = <T>(arr: Array<T>, item: T): boolean => {
     return false;
 };
 
-export const rotate = <T>(arr: Array<T>, item: T): T => {
+export const rotateValues = <T>(arr: Array<T>, item: T): T => {
     const index = arr.indexOf(item);
 
     if (index === -1 || index === arr.length - 1) {
@@ -17,4 +17,8 @@ export const rotate = <T>(arr: Array<T>, item: T): T => {
     }
 
     return arr[index + 1];
+};
+
+export const clearArray = (arr: Array<unknown>): void => {
+    arr.splice(0, arr.length);
 };
