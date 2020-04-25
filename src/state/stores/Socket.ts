@@ -18,13 +18,14 @@ class Socket {
         this.sessionKey = null;
 
         this.ws.addEventListener('connected', () => {
-            this.updateState('connected');
             console.log('[WS] Connected!');
 
             // Try to re-establish connection or create a new session
             if (this.sessionKey !== null) {
+                console.log('[WS] Try to restore session.');
                 this.sendMessage('restore-session', this.sessionKey);
             } else {
+                console.log('[WS] Request new session.');
                 this.sendMessage('create-session');
             }
         });
@@ -57,11 +58,16 @@ class Socket {
     private onMessage(type: string, payload: any): void {
         switch (type) {
             case 'restore-session': {
+                console.log('[WS] Session restored.');
                 files.enableFiles(payload.files);
                 this.sessionKey = payload.key;
                 break;
             }
             case 'new-session': {
+                console.log('[WS] New session started.');
+
+                // We're now "officially" connected
+                this.updateState('connected');
                 this.sessionKey = payload;
 
                 // Clear all stores
