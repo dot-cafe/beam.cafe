@@ -52,7 +52,7 @@
         }
     }
 
-    @include breakpoint-mobile {
+    @include mq-phones {
         margin-bottom: 12.5vmin;
 
         .desktop {

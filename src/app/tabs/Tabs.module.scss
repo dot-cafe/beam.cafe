@@ -16,24 +16,23 @@
         margin-right: auto;
 
         > button {
+            --bg: var(--c-background-primary);
+            --color: var(--c-text-primary-accent);
             position: relative;
-            color: var(--c-background-primary);
-            background: currentColor;
+            background: var(--bg);
             border-radius: 0.5em 0.5em 0 0;
             padding: 0.55em 1em;
             z-index: 0;
 
             > span {
                 @include text_decent;
+                color: var(--color);
             }
 
-            &:not(.activeButton):hover {
-                color: var(--c-background-secondary);
+            &:not(.active):hover {
+                --bg: var(--c-background-secondary);
+                --color: var(--c-text-primary);
                 z-index: 4;
-
-                span {
-                    color: var(--c-text-primary);
-                }
 
                 &::before,
                 &::after {
@@ -41,8 +40,9 @@
                 }
             }
 
-            &.activeButton {
-                color: var(--c-primary);
+            &.active {
+                --bg: var(--c-primary);
+                --color: var(--c-text-secondary-accent);
                 z-index: 5;
 
                 &::before,
@@ -51,7 +51,6 @@
                 }
 
                 > span {
-                    color: var(--c-text-secondary-accent);
                     opacity: 1;
                 }
             }
@@ -64,7 +63,7 @@
             &::after {
                 @include pseudo();
                 @include fixed-size($size);
-                background: radial-gradient(transparent $bg-size / 2 - $smoothness, currentColor $bg-size / 2 + $smoothness);
+                background: radial-gradient(transparent $bg-size / 2 - $smoothness, var(--bg) $bg-size / 2 + $smoothness);
                 background-size: $bg-size $bg-size;
                 visibility: hidden;
                 bottom: 0;
@@ -103,7 +102,7 @@
         visibility: hidden;
         opacity: 0;
 
-        &.activeTab {
+        &.active {
             visibility: visible;
             opacity: 1;
             transform: none;

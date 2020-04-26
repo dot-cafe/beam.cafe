@@ -16,7 +16,7 @@
         height: 12vh;
     }
 
-    @include breakpoint-mobile {
+    @include mq-phones {
         font-size: 0.75em;
 
         .icon {

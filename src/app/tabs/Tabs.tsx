@@ -2,7 +2,6 @@ import {observer}       from 'mobx-react';
 import {Component, h}   from 'preact';
 import {JSXInternal}    from 'preact/src/jsx';
 import {files, uploads} from '../../state';
-import {rotateValues}   from '../../utils/array';
 import {on}             from '../../utils/events';
 import {bind, cn}       from '../../utils/preact-utils';
 import Icon             from '../components/Icon';
@@ -11,30 +10,37 @@ import styles           from './Tabs.module.scss';
 import {ThemeSwitcher}  from './ThemeSwitcher';
 import {Uploads}        from './uploads/Uploads';
 
-type Tab = 'file-list' | 'uploads';
+type TabList = Array<{
+    title: string;
+    component: JSXInternal.Element;
+}>;
+
 type Props = {};
 type State = {
     updateAvailable: boolean;
-    activeTab: Tab;
+    tabIndex: number;
 };
 
 @observer
 export class Tabs extends Component<Props, State> {
-    private static readonly tabs = ['file-list', 'uploads'];
 
     readonly state = {
         updateAvailable: false,
-        activeTab: 'file-list' as Tab
+        tabIndex: 0
     };
 
     componentDidMount(): void {
 
         // The tab-key can be used to switch between tabs
-        on(window, 'keyup', (e: KeyboardEvent) => {
-            if (e.key === 'Tab') {
+        on(window, 'keydown', (e: KeyboardEvent) => {
+            if (e.key === 'Tab' && e.shiftKey) {
+                const idx = this.state.tabIndex;
+
                 this.setState({
-                    activeTab: rotateValues(Tabs.tabs, this.state.activeTab) as Tab
+                    tabIndex: (idx + 1) === this.tabs.length ? 0 : idx + 1
                 });
+
+                e.preventDefault();
             }
         });
 
@@ -51,10 +57,10 @@ export class Tabs extends Component<Props, State> {
     }
 
     @bind
-    changeTab(tab: Tab) {
+    changeTab(index: number) {
         return () => {
             this.setState({
-                activeTab: tab
+                tabIndex: index
             });
         };
     }
@@ -64,43 +70,47 @@ export class Tabs extends Component<Props, State> {
         location.reload();
     }
 
-    render() {
+    get tabs(): TabList {
         const {listedFiles} = files;
         const {listedUploads} = uploads;
-        const {activeTab, updateAvailable} = this.state;
 
-        /* eslint-disable react/jsx-key */
-        const tabs: Array<[string, Tab, JSXInternal.Element]> = [
-            [
-                listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
-                'file-list',
-                <FileList/>
-            ],
-            [
-                listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
-                'uploads',
-                <Uploads/>
-            ]
+        return [
+            {
+                title: listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
+                component: <FileList/>
+            },
+            {
+                title: listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
+                component: <Uploads/>
+            }
         ];
+    }
 
-        const headerButtons = tabs.map(([name, id]) => (
-            <button key={id}
-                    onClick={this.changeTab(id)}
-                    className={cn({
-                        [styles.activeButton]: activeTab === id
-                    })}>
-                <span>{name}</span>
-            </button>
-        ));
+    render() {
+        const {tabIndex, updateAvailable} = this.state;
+        const headerButtons = [];
+        const tabContainers = [];
 
-        const tabContainers = tabs.map(([, id, tab]) => (
-            <div key={id}
-                 className={cn({
-                     [styles.activeTab]: id === activeTab
-                 })}>
-                {tab}
-            </div>
-        ));
+        for (let i = 0; i < this.tabs.length; i++) {
+            const {title, component} = this.tabs[i];
+            const activeClass = cn({
+                [styles.active]: i === tabIndex
+            });
+
+            headerButtons.push(
+                <button key={i}
+                        onClick={this.changeTab(i)}
+                        className={activeClass}>
+                    <span>{title}</span>
+                </button>
+            );
+
+            tabContainers.push(
+                <div key={i} className={activeClass}>
+                    {component}
+                </div>
+            );
+        }
 
         return (
             <div className={styles.tabs}>

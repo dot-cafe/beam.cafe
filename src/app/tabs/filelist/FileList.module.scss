@@ -13,7 +13,7 @@
         height: 2em;
 
         > div {
-            @include size(0.9em);
+            @include size(15px);
         }
 
         > span {
@@ -26,7 +26,7 @@
             background: var(--c-primary-accent);
         }
 
-        @include breakpoint-mobile {
+        @include mq-phones {
             @include fixed-height(12.5vmin);
             margin: auto 0 0 0;
             border-radius: 0;

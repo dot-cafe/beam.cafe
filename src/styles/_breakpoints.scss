@@ -1,10 +1,12 @@
-@mixin breakpoint-desktop {
+// Custom media queries based on these by sassyfication
+
+@mixin mq-desktop {
     @media screen and (max-width: 1200px), (max-height: 675px) {
         @content;
     }
 }
 
-@mixin breakpoint-mobile {
+@mixin mq-phones {
     @media screen and (max-width: 725px) {
         @content;
     }
