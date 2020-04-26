@@ -90,16 +90,23 @@ export class DropZone extends Component<Props, State> {
                 [styles.dragOver]: files.isEmpty || dragover
             })}>
 
-                <h1>{
-                    files.isEmpty ?
-                        'Drop files  to get started!' :
-                        'Release files to upload them!'
-                }</h1>
+                <div className={styles.desktop}>
+                    <h1>{
+                        files.isEmpty ?
+                            'Drop files  to get started!' :
+                            'Release files to upload them!'
+                    }</h1>
 
-                <button onClick={this.chooseFiles}>
-                    <Icon name="file"/>
-                    <span>Choose Files</span>
-                </button>
+                    <button onClick={this.chooseFiles}>
+                        <Icon name="file"/>
+                        <span>Choose Files</span>
+                    </button>
+                </div>
+
+                <div className={styles.mobile}>
+                    <Icon name="rocket"/>
+                    <h1>Click <b>Add Files</b> To Get Started</h1>
+                </div>
             </div>
         );
     }

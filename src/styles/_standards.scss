@@ -26,6 +26,10 @@ code {
     margin: 0 0.25em;
 }
 
+b {
+    font-weight: 600;
+}
+
 @for $i from 1 through 6 {
     #{'h' + $i} {
         color: var(--c-text-primary);

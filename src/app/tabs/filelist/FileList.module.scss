@@ -2,14 +2,15 @@
     @include flex(column, stretch, flex-start);
     overflow: hidden;
     max-height: 100%;
+    min-height: 100%;
 
     > button {
         @include button_middle;
         @include flex(row, center);
-        transition: all 0.3s;
-        height: 2em;
         background: var(--c-primary);
         margin: 0.75em auto;
+        transition: all 0.3s;
+        height: 2em;
 
         > div {
             @include size(0.9em);
@@ -20,8 +21,16 @@
             margin-left: 0.5em;
         }
 
-        &:hover {
+        &:hover,
+        &:active {
             background: var(--c-primary-accent);
+        }
+
+        @include breakpoint-mobile {
+            @include fixed-height(12.5vmin);
+            margin: auto 0 0 0;
+            border-radius: 0;
+            justify-content: center;
         }
     }
 }

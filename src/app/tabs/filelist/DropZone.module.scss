@@ -8,38 +8,59 @@
     z-index: 10;
     opacity: 0;
 
-    > h1 {
-        transform: translateY(10%);
-        transition: all 0.3s;
+    .mobile,
+    .desktop {
+        @include flex(column, center, center);
     }
 
-    > button {
-        @include flex(row, center);
-        @include button_large;
-        margin-top: 0.75em;
-        pointer-events: all;
-        transition: all 0.3s;
-
-        > div {
-            @include size(1em);
-            margin-right: 0.5em;
+    .desktop {
+        > h1 {
+            transform: translateY(10%);
+            transition: all 0.3s;
         }
 
-        &:hover {
-            background: var(--c-primary-accent);
+        > button {
+            @include flex(row, center);
+            @include button_large;
+            margin-top: 0.75em;
+            pointer-events: all;
+            transition: all 0.3s;
+
+            > div {
+                @include size(1em);
+                margin-right: 0.5em;
+            }
+
+            &:hover,
+            &:active {
+                background: var(--c-primary-accent);
+            }
+        }
+    }
+
+    .mobile {
+        visibility: hidden;
+        color: var(--c-text-primary);
+
+        > h1 {
+            @include font(300, 1.2em);
+            text-align: center;
+        }
+
+        > div {
+            height: 6vh;
         }
     }
 
     @include breakpoint-mobile {
-        font-size: 0.75em;
+        margin-bottom: 12.5vmin;
 
-        > h1 {
-            display: none;
+        .desktop {
+            visibility: hidden;
         }
 
-        > button {
-            font-size: 1.5em;
-            margin-top: 1em;
+        .mobile {
+            visibility: visible;
         }
     }
 }
