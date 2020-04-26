@@ -3,7 +3,6 @@ import {bind, cn}     from '../../utils/preact-utils';
 import Icon           from '../components/Icon';
 import styles         from './ThemeSwitcher.module.scss';
 
-
 type Theme = 'dark' | 'light';
 type Props = {};
 type State = {

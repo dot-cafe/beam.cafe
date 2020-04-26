@@ -1,0 +1,78 @@
+.tabHeader {
+    @include flex(row, center);
+    border-bottom: 3px solid var(--c-primary);
+    overflow: visible;
+    padding: 0 0.75em;
+    width: 100%;
+}
+
+.tabButtons {
+    @include flex(row, stretch, flex-start);
+    padding: 0.75em 0 0;
+    margin-right: auto;
+
+    > button {
+        --bg: var(--c-background-primary);
+        --color: var(--c-text-primary-accent);
+        position: relative;
+        background: var(--bg);
+        border-radius: 0.5em 0.5em 0 0;
+        padding: 0.55em 1em;
+        z-index: 0;
+
+        > span {
+            @include text_decent;
+            color: var(--color);
+        }
+
+        &:not(.active):hover {
+            --bg: var(--c-background-secondary);
+            --color: var(--c-text-primary);
+            z-index: 4;
+
+            &::before,
+            &::after {
+                visibility: visible;
+            }
+        }
+
+        &.active {
+            --bg: var(--c-primary);
+            --color: var(--c-text-secondary-accent);
+            z-index: 5;
+
+            &::before,
+            &::after {
+                visibility: visible;
+            }
+
+            > span {
+                opacity: 1;
+            }
+        }
+
+        $size: 10px;
+        $smoothness: 0.5px;
+        $bg-size: $size * 2;
+
+        &::before,
+        &::after {
+            @include pseudo();
+            @include fixed-size($size);
+            background: radial-gradient(transparent $bg-size / 2 - $smoothness, var(--bg) $bg-size / 2 + $smoothness);
+            background-size: $bg-size $bg-size;
+            visibility: hidden;
+            bottom: 0;
+        }
+
+        &::after {
+            left: -$size;
+            background-position: ($bg-size / 2) ($bg-size / 2);
+        }
+
+        &::before {
+            right: -$size;
+            background-position: -($bg-size) ($bg-size / 2);
+        }
+    }
+}
