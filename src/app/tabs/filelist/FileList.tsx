@@ -1,11 +1,11 @@
-import {observer}     from 'mobx-react';
-import {Component, h} from 'preact';
-import {files}        from '../../../state';
-import {bind}         from '../../../utils/preact-utils';
-import Icon           from '../../components/Icon';
-import {DropZone}     from './DropZone';
-import {FileItem}     from './FileItem';
-import styles         from './FileList.module.scss';
+import {observer}        from 'mobx-react';
+import {Component, h}    from 'preact';
+import {files, SortKeys} from '../../../state';
+import {bind}            from '../../../utils/preact-utils';
+import Icon              from '../../components/Icon';
+import {DropZone}        from './DropZone';
+import {FileItem}        from './FileItem';
+import styles            from './FileList.module.scss';
 
 @observer
 export class FileList extends Component {
@@ -13,6 +13,11 @@ export class FileList extends Component {
     @bind
     chooseFiles(): void {
         files.openDialog();
+    }
+
+    @bind
+    sortBy(key: SortKeys) {
+        return () => files.sortElements(key);
     }
 
     render() {
@@ -24,17 +29,17 @@ export class FileList extends Component {
                 <DropZone/>
 
                 <div className={styles.header}>
-                    <p>#</p>
-                    <p>Filename</p>
-                    <p className={styles.alignRight}>File size</p>
+                    <p onClick={this.sortBy('index')}>#</p>
+                    <p onClick={this.sortBy('name')}>Filename</p>
+                    <p onClick={this.sortBy('size')} className={styles.alignRight}>File size</p>
                     <p className={styles.alignRight}>Action</p>
                 </div>
 
                 <div className={styles.list}>
-                    {listedFiles.map((value, i) =>
-                        <FileItem key={i}
+                    {listedFiles.map((value) =>
+                        <FileItem key={value.index}
                                   item={value}
-                                  label={String(i + 1).padStart(indexPadding, '0')}/>
+                                  label={String(value.index + 1).padStart(indexPadding, '0')}/>
                     )}
                 </div>
 

@@ -7,10 +7,13 @@ export class ListedFile {
     @observable public status: ListedFileStatus = 'loading';
     @observable public updated: number = performance.now();
     @observable public id: null | string = null;
-    @observable public file: File;
+    public readonly index: number;
+    public readonly file: File;
+    private static counter = 0;
 
     constructor(file: File) {
         this.file = file;
+        this.index = ListedFile.counter++;
     }
 
     @action

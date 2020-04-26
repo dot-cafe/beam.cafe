@@ -43,6 +43,17 @@
     border-bottom: 2px solid var(--c-background-secondary);
     margin: 1.25em 0 0;
     padding: 0 1em 0.75em;
+
+    > p:not(:last-child) {
+        color: var(--c-text-primary-accent);
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--c-text-primary);
+            text-decoration: underline;
+        }
+    }
 }
 
 .alignRight {
