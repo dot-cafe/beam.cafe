@@ -27,6 +27,10 @@
             @include font(600, 0.95em);
             color: var(--c-text-primary);
         }
+
+        @include mq-phones {
+            display: none;
+        }
     }
 
     &:not([data-state='ready']) {
@@ -47,7 +51,8 @@
 }
 
 .actionsBox {
-    @include flex(row, center, flex-end);
+    @include flex(row, center, space-evenly);
+    pointer-events: all;
     z-index: 2;
 
     > button {
@@ -58,6 +63,7 @@
         color: var(--c-text-primary);
         position: relative;
         overflow: hidden;
+        pointer-events: all;
 
         &:hover {
             color: var(--color);
@@ -73,6 +79,12 @@
 
         &.removeBtn {
             --color: var(--c-red);
+        }
+    }
+
+    @include mq-phones {
+        > button {
+            @include size(20px);
         }
     }
 }

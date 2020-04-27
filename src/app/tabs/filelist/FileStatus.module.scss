@@ -1,17 +1,17 @@
 .status {
     display: inline-block;
-    padding: 0.2em 0.5em 0.1em;
     position: relative;
+    padding: 3px 6px 2px;
     overflow: visible;
     margin: auto;
     --color: var(--c-primary);
 
     span {
-        @include font(800, 0.9em);
+        @include font(800, 13px);
         display: inline-block;
         color: var(--color);
         transition: all 0.3s;
-        line-height: 0.9em;
+        line-height: 1em;
     }
 
     svg {

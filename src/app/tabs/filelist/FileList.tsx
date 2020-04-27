@@ -2,9 +2,9 @@ import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import {files, SortKeys} from '../../../state';
 import {bind}            from '../../../utils/preact-utils';
-import Icon              from '../../components/Icon';
 import {DropZone}        from './DropZone';
 import {FileItem}        from './FileItem';
+import Icon              from '../../components/Icon';
 import styles            from './FileList.module.scss';
 
 @observer
@@ -31,8 +31,8 @@ export class FileList extends Component {
                 <div className={styles.header}>
                     <p onClick={this.sortBy('index')}>#</p>
                     <p onClick={this.sortBy('name')}>Filename</p>
-                    <p onClick={this.sortBy('size')} className={styles.alignRight}>File size</p>
-                    <p className={styles.alignRight}>Action</p>
+                    <p onClick={this.sortBy('size')} className={styles.alignRight}>File Size</p>
+                    <p className={styles.alignCenter}>Action</p>
                 </div>
 
                 <div className={styles.list}>

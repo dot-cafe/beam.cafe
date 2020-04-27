@@ -1,15 +1,15 @@
 import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
-import prettyBytes       from 'pretty-bytes';
 import {files}           from '../../../state';
 import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copyToClipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
 import {isMobile}        from '../../browserenv';
-import Icon              from '../../components/Icon';
 import {Toast}           from '../../overlays/Toast';
-import styles            from './FileItem.module.scss';
 import {FileStatus}      from './FileStatus';
+import Icon              from '../../components/Icon';
+import styles            from './FileItem.module.scss';
+import prettyBytes       from 'pretty-bytes';
 
 type Props = {
     item: ListedFile;
@@ -24,7 +24,6 @@ export class FileItem extends Component<Props, State> {
     @bind
     copyLink() {
         const {id, file} = this.props.item;
-
         const toast = Toast.getInstance();
         const link = `${env.API_ENDPOINT}/d/${id}`;
 
@@ -52,12 +51,15 @@ export class FileItem extends Component<Props, State> {
     }
 
     @bind
-    removeFile() {
+    removeFile(e: MouseEvent) {
         const {id} = this.props.item;
 
         if (id) {
             files.removeFile(id);
         }
+
+        e.stopPropagation();
+        e.stopImmediatePropagation();
     }
 
     render() {
