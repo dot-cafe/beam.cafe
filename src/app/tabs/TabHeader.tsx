@@ -17,6 +17,10 @@ type State = {
 
 export class TabHeader extends Component<Props, State> {
 
+    readonly state = {
+        updateAvailable: false
+    };
+
     componentDidMount(): void {
 
         // The tab-key can be used to switch between tabs
@@ -27,16 +31,16 @@ export class TabHeader extends Component<Props, State> {
                 e.preventDefault();
             }
         });
-            // Check if update is available
-            navigator.serviceWorker.getRegistrations().then(regs => {
-                for (const reg of regs) {
-                    reg.addEventListener('updatefound', () => {
-                        this.setState({
-                            updateAvailable: true
-                        });
+        // Check if update is available
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (const reg of regs) {
+                reg.addEventListener('updatefound', () => {
+                    this.setState({
+                        updateAvailable: true
                     });
-                }
-            }).catch(() => null);
+                });
+            }
+        }).catch(() => null);
     }
 
     changeTab(index: number) {

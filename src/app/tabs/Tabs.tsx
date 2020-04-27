@@ -20,7 +20,6 @@ export class Tabs extends Component<Props, State> {
     private readonly views = [<FileList/>, <Uploads/>];
 
     readonly state = {
-        updateAvailable: false,
         tabIndex: 0
     };
 

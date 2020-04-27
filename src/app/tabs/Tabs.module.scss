@@ -3,10 +3,3 @@
     @include size(100%);
     overflow: visible;
 }
-
-.updateBtn {
-    @include size(1.5em);
-    color: var(--c-primary);
-    margin-right: 1.25em;
-}
-

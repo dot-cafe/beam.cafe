@@ -3,6 +3,7 @@
     border-bottom: 3px solid var(--c-primary);
     overflow: visible;
     padding: 0 0.75em;
+    flex-shrink: 0;
     width: 100%;
 }
 
@@ -75,4 +76,10 @@
             background-position: -($bg-size) ($bg-size / 2);
         }
     }
+}
+
+.updateBtn {
+    @include size(1.5em);
+    color: var(--c-primary);
+    margin-right: 1.25em;
 }
