@@ -29,7 +29,8 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.scss'],
         alias: {
             'react': 'preact/compat',
-            'react-dom': 'preact/compat'
+            'react-dom': 'preact/compat',
+            'mobx': path.join(__dirname, '/node_modules/mobx/lib/mobx.es6.js')
         }
     },
 
