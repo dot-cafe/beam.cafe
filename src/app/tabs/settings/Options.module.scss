@@ -1,0 +1,36 @@
+$grid-margin: 1em;
+
+.options {
+    @include flex(column);
+    @include width(50%, auto, 40em);
+    grid-gap: $grid-margin;
+    padding: $grid-margin;
+    height: 100%;
+    margin: 0 auto;
+    overflow: auto;
+    will-change: transform;
+
+    @include mq-phones {
+        width: 100%;
+    }
+
+    > section {
+        border: 2px solid var(--c-background-secondary);
+        border-radius: 0.25em;
+
+        header {
+            @include flex(row, center, space-between);
+            border-bottom: 2px solid var(--c-background-secondary);
+            padding: $grid-margin * 0.75;
+
+            h3 {
+                @include font(600, 1em);
+            }
+        }
+
+        article  {
+            padding: $grid-margin * 0.75;
+            line-height: 1.35em;
+        }
+    }
+}

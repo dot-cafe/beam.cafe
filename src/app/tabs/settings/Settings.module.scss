@@ -1,9 +1,5 @@
 .settings {
-    @include flex(column);
+    @include flex(column, flex-start, flex-start);
     color: var(--c-text-primary);
     height: 100%;
-
-    > span {
-        padding: 1em;
-    }
 }

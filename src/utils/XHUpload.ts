@@ -1,4 +1,5 @@
-import {on} from './events';
+import {settings} from '../state';
+import {on}       from './events';
 
 export type XHUploadState = 'idle' |
     'paused' |
@@ -21,12 +22,14 @@ export class XHUpload extends EventTarget {
     public static readonly SPEED_BUFFER_SIZE = 10;
 
     public readonly size: number;
-    public state: XHUploadState = 'idle';
+    public state: XHUploadState = 'paused';
     public transferred = 0;
+
     // Amount of bytes transferred and current upload speed
     private speedBufferIndex = 0;
     private speedBufferFull = false;
     private speedBuffer = new Uint32Array(XHUpload.SPEED_BUFFER_SIZE);
+
     // File and url
     private readonly file: File;
     private readonly url: string;
@@ -39,7 +42,7 @@ export class XHUpload extends EventTarget {
         this.file = file;
         this.url = url;
         this.size = file.size;
-        this.xhr = this.start();
+        this.xhr = new XMLHttpRequest();
     }
 
     get currentSpeed(): number {

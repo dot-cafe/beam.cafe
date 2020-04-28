@@ -2,7 +2,7 @@ import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import {files}           from '../../../state';
 import {ListedFile}      from '../../../state/models/ListedFile';
-import {copyToClipboard} from '../../../utils/copyToClipboard';
+import {copyToClipboard} from '../../../utils/copy-to-clipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
 import {isMobile}        from '../../browserenv';
 import {Toast}           from '../../overlays/Toast';

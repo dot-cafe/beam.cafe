@@ -3,6 +3,7 @@ import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
 import {XHUpload}           from '../../utils/XHUpload';
 import {files, Keys}        from './Files';
+import {settings}           from './Settings';
 import {uploads}            from './Uploads';
 
 export type ConnectionState = 'connected' | 'disconnected';
@@ -93,10 +94,14 @@ class Socket {
                     break;
                 }
 
-                uploads.registerUpload(
-                    downloadId, item,
-                    new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file)
-                );
+                const upload = new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file);
+                uploads.registerUpload(downloadId, item, upload);
+
+                if (settings.get('autoPause')) {
+                    upload.pause();
+                } else {
+                    upload.resume();
+                }
 
                 break;
             }

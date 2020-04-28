@@ -1,0 +1,36 @@
+$width: 44px;
+$height: 20px;
+
+.switch {
+    @include flex(row, flex-start, flex-end);
+    @include size($width, $height);
+    transition: all 0.3s;
+    justify-self: flex-end;
+    border-radius: $height;
+    background: var(--c-background-secondary);
+    cursor: pointer;
+    position: relative;
+
+    &::before {
+        @include pseudo();
+        @include size($height);
+        background: var(--c-text-secondary-accent);
+        border-radius: 100%;
+        transition: all 0.3s;
+        box-shadow: 0 1px 3px rgba(black, 0.1);
+        left: 0;
+        top: 0;
+    }
+
+    &[data-state='on'] {
+        background: var(--c-primary);
+
+        &::before {
+            transform: translateX($width - $height);
+        }
+    }
+
+    &[data-state='intermediate'] {
+        background: var(--c-yellow);
+    }
+}
