@@ -13,11 +13,11 @@ $height: 20px;
 
     &::before {
         @include pseudo();
-        @include size($height);
-        background: var(--c-text-secondary-accent);
+        @include size(14px);
+        background: var(--c-text-secondary);
         border-radius: 100%;
         transition: all 0.3s;
-        box-shadow: 0 1px 3px rgba(black, 0.1);
+        margin: 3px;
         left: 0;
         top: 0;
     }
@@ -32,5 +32,13 @@ $height: 20px;
 
     &[data-state='intermediate'] {
         background: var(--c-yellow);
+    }
+
+
+    &[data-state='on'],
+    &[data-state='intermediate'] {
+        &::before {
+            background: var(--c-text-secondary-accent);
+        }
     }
 }

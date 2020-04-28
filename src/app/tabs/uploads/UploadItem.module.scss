@@ -13,7 +13,7 @@
         border-radius: 100%;
         border: 2px solid currentColor;
 
-        svg {
+        > div {
             @include size(14px);
             fill: currentColor;
         }

@@ -24,6 +24,7 @@ export default ({name, className = ''}: Props) => {
         throw new Error(`Icon not found: ${name}`);
     }
 
+    // TODO: Use unique tag or whatever to style it more easily from the outside
     return (
         <div dangerouslySetInnerHTML={{__html: svg}}
              className={cn(className, styles.icon)}/>
