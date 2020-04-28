@@ -10,7 +10,7 @@ export class Options extends Component<{}, {}> {
 
     @bind
     toggleAutoPause(newValue: boolean): void {
-        settings.updateConfig('autoPause', newValue);
+        settings.set('autoPause', newValue);
     }
 
     render() {

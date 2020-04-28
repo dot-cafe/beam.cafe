@@ -1,52 +1,43 @@
+import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
+import {settings}     from '../../state';
 import {bind, cn}     from '../../utils/preact-utils';
 import Icon           from '../components/Icon';
 import styles         from './ThemeSwitcher.module.scss';
 
-type Theme = 'dark' | 'light';
-type Props = {};
-type State = {
-    theme: Theme;
-};
-
-export class ThemeSwitcher extends Component<Props, State> {
-
-    readonly state = {
-        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' as Theme
-    };
+@observer
+export class ThemeSwitcher extends Component<{}, {}> {
 
     constructor() {
         super();
+        this.setTheme(settings.get('theme'));
+    }
 
-        const savedTheme = localStorage.getItem('color-theme');
-        if (savedTheme && savedTheme !== this.state.theme) {
-            document.body.classList.remove(this.state.theme);
-            document.body.classList.add(savedTheme);
-            this.state.theme = savedTheme as Theme;
-        }
+    setTheme(theme: 'light' | 'dark') {
+        const oldTheme = settings.get('theme');
+        const {classList} = document.body;
+
+        classList.remove(oldTheme);
+        classList.add(theme, 'theme-transition');
+
+        // Wait until theme-transition duration is finish
+        setTimeout(() => {
+            classList.remove('theme-transition');
+        }, 300);
+
+        // Update settings
+        settings.set('theme', theme);
     }
 
     @bind
     toggleTheme() {
-        const {theme} = this.state;
-        const {classList} = document.body;
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-
-        classList.remove(theme);
-        classList.add(newTheme, 'theme-refreshing');
-
-        // Wait until theme-transition duration is finish
-        setTimeout(() => {
-            classList.remove('theme-refreshing');
-        }, 300);
-
-        this.setState({theme: newTheme});
-
-        // Keep preferred theme in mind
-        localStorage.setItem('color-theme', newTheme);
+        const theme = settings.get('theme');
+        this.setTheme(theme === 'light' ? 'dark' : 'light');
     }
 
-    render(_: Props, {theme}: State) {
+    render() {
+        const theme = settings.get('theme');
+
         return (
             <div onClick={this.toggleTheme}
                  className={cn(styles.themeSwitcher, {

@@ -51,9 +51,9 @@ body {
         @include dark_theme;
     }
 
-    &.theme-refreshing * {
-        transition: all 0.3s !important;
-        transition-delay: 0s !important;
+    // TODO: Transition doesn't work for color in chrome?!!
+    &.theme-transition * {
+        transition-duration: 0.3s !important;
     }
 }
 

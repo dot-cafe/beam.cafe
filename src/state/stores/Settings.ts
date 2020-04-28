@@ -3,11 +3,13 @@ import {localStorageUtils}  from '../../utils/local-storage-utils';
 
 type InternalSettings = {
     autoPause: boolean;
+    theme: 'light' | 'dark';
 };
 
 class Settings {
     @observable private readonly settings: InternalSettings = {
-        autoPause: false
+        autoPause: false,
+        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     };
 
     constructor() {
@@ -23,7 +25,7 @@ class Settings {
     }
 
     @action
-    public updateConfig<K extends keyof InternalSettings>(key: K, value: InternalSettings[K]): void {
+    public set<K extends keyof InternalSettings>(key: K, value: InternalSettings[K]): void {
         this.settings[key] = value;
         this.syncLocal();
     }
