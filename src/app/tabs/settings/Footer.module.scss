@@ -1,0 +1,26 @@
+.footer {
+    @include flex(column, center, center);
+    border-top: 2px solid var(--c-background-secondary);
+    margin-top: auto;
+    color: var(--c-text-primary);
+    padding: 0.5em;
+
+    article {
+        @include margin-between-v(0.25em);
+        @include flex(row, center);
+        @include font(600, 0.75em);
+
+        > div {
+            @include size(12px);
+            color: var(--c-red);
+        }
+
+        > span {
+            @include margin-between-h(0.25em);
+        }
+
+        b {
+            font-weight: 800;
+        }
+    }
+}

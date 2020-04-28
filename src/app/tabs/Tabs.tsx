@@ -3,6 +3,7 @@ import {Component, h}   from 'preact';
 import {files, uploads} from '../../state';
 import {bind}           from '../../utils/preact-utils';
 import {FileList}       from './filelist/FileList';
+import {Settings}       from './settings/Settings';
 import {TabHeader}      from './TabHeader';
 import {Uploads}        from './uploads/Uploads';
 import {TabViews}       from './TabViews';
@@ -17,7 +18,7 @@ type State = {
 export class Tabs extends Component<Props, State> {
 
     /* eslint-disable react/jsx-key */
-    private readonly views = [<FileList/>, <Uploads/>];
+    private readonly views = [<FileList/>, <Uploads/>, <Settings/>];
 
     readonly state = {
         tabIndex: 0
@@ -37,7 +38,8 @@ export class Tabs extends Component<Props, State> {
 
         const titles = [
             listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
-            listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads'
+            listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
+            'Settings'
         ];
 
         return (
