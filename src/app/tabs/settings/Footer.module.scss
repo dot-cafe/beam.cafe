@@ -3,12 +3,14 @@
     border-top: 2px solid var(--c-background-secondary);
     margin-top: auto;
     color: var(--c-text-primary);
+    width: 100%;
     padding: 0.5em;
 
     article {
         @include margin-between-v(0.25em);
         @include flex(row, center);
         @include font(600, 0.75em);
+        height: 100%;
 
         > div {
             @include size(12px);
@@ -17,10 +19,21 @@
 
         > span {
             @include margin-between-h(0.25em);
+
+            &:empty {
+                @include size(2px, 100%);
+                background: var(--c-background-secondary);
+                flex-shrink: 0;
+            }
         }
 
         b {
             font-weight: 800;
+        }
+
+        @include mq-phones {
+            justify-content: center;
+            text-align: center;
         }
     }
 }

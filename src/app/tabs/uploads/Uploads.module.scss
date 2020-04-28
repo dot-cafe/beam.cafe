@@ -15,14 +15,14 @@
     max-height: 100%;
 
     .icon {
-        height: 12vh;
+        @include size(9vmin);
     }
 
     @include mq-phones {
         font-size: 0.75em;
 
         .icon {
-            height: 10vh;
+            @include size(9vh);
         }
     }
 }
