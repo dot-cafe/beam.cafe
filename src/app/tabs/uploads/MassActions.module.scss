@@ -18,6 +18,7 @@
     margin-left: auto;
 
     > button {
+        @include margin-between-h(0.25em);
         @include button_small;
 
         $colors: (
@@ -38,10 +39,6 @@
 
         &[disabled] {
             @include button_disabled;
-        }
-
-        &:not(:last-child) {
-            margin-right: 0.5em;
         }
     }
 }

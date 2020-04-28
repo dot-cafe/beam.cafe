@@ -69,10 +69,6 @@
             color: var(--color);
         }
 
-        &:not(:last-child) {
-            margin-right: 0.75em;
-        }
-
         &.shareBtn {
             --color: var(--c-primary);
         }
