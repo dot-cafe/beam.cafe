@@ -57,7 +57,7 @@ class Settings {
             this.settings[maybeServerSide] = 'intermediate';
 
             socket.request('settings', {
-                key, value
+                [key]: value
             }).then(() => {
                 this.settings[key] = value;
             }).catch(() => {
@@ -67,6 +67,14 @@ class Settings {
             this.settings[key] = value;
             this.syncLocal();
         }
+    }
+
+    @action
+    public reset(): void {
+        Object.assign(this.settings, {...Settings.DEFAULT_SETTINGS});
+
+        // TODO: Recover client-side settings separately
+        localStorageUtils.setJSON('settings', this.settings);
     }
 
     public get<K extends keyof AllSettings>(key: K): AllSettings[K] {

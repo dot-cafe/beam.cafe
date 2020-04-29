@@ -97,6 +97,7 @@ class Socket {
             case 'restore-session': {
                 console.log('[WS] Session restored.');
                 files.enableFiles(payload.files);
+                this.updateState('connected');
                 this.sessionKey = payload.key;
                 break;
             }
@@ -110,6 +111,7 @@ class Socket {
                 // Clear all stores
                 files.clear();
                 uploads.clear();
+                settings.reset();
 
                 // TODO: Show popup with info why everything disappeared
                 break;
