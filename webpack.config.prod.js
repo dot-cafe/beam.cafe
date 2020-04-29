@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkerPlugin = require('worker-plugin');
 const webpack = require('webpack');
 const pkg = require('./package');
 const path = require('path');
@@ -132,10 +131,6 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/[name].[hash:6].css',
             chunkFilename: 'css/[name].[hash:6].css'
-        }),
-
-        new WorkerPlugin({
-            globalObject: 'self'
         }),
 
         new WorkboxPlugin.GenerateSW({

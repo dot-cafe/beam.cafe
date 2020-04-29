@@ -1,7 +1,6 @@
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkerPlugin = require('worker-plugin');
 const webpack = require('webpack');
 const pkg = require('./package');
 const path = require('path');
@@ -128,10 +127,6 @@ module.exports = {
             context: 'src',
             from: 'assets'
         }]),
-
-        new WorkerPlugin({
-            globalObject: 'self'
-        }),
 
         new ProgressBarPlugin()
     ]
