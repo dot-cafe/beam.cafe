@@ -8,14 +8,21 @@ import {uploads}            from './Uploads';
 
 export type ConnectionState = 'connected' | 'disconnected';
 
+type RequestResolver = [
+    (resolve: unknown) => void,
+    (reason: unknown) => void
+];
+
 class Socket {
     @observable public connectionState: ConnectionState;
+    private readonly requests: Map<string, RequestResolver>;
     private readonly ws: GracefulWebSocket;
     private sessionKey: string | null;
 
     constructor() {
         this.ws = new GracefulWebSocket(env.WS_ENDPOINT);
         this.connectionState = 'disconnected';
+        this.requests = new Map<string, Promise<unknown>['then']>();
         this.sessionKey = null;
 
         this.ws.addEventListener('connected', () => {
@@ -50,6 +57,18 @@ class Socket {
         this.ws.send(JSON.stringify({type, payload}));
     }
 
+    public request(type: string, data: unknown = null): Promise<unknown> {
+        return new Promise<unknown>((resolve, reject) => {
+            const id = Date.now().toString(36) + Math.round(Math.random() * 1e15).toString(36);
+
+            this.sendMessage('request', {
+                id, type, data
+            });
+
+            this.requests.set(id, [resolve, reject]);
+        });
+    }
+
     @action
     private updateState(newState: ConnectionState) {
         this.connectionState = newState;
@@ -58,6 +77,23 @@ class Socket {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     private onMessage(type: string, payload: any): void {
         switch (type) {
+            case 'response': {
+                const {id, ok, data} = payload;
+                const resolvers = this.requests.get(id);
+
+                if (!resolvers) {
+                    console.warn(`[WS] Unknown response for id ${id}`);
+                    break;
+                }
+
+                if (ok) {
+                    resolvers[0](data);
+                } else {
+                    resolvers[1](data);
+                }
+
+                break;
+            }
             case 'restore-session': {
                 console.log('[WS] Session restored.');
                 files.enableFiles(payload.files);

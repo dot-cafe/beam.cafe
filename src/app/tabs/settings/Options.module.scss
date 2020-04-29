@@ -15,6 +15,7 @@ $grid-margin: 1em;
     }
 
     > section {
+        @include margin-between-v(0.5em);
         border: 2px solid var(--c-background-secondary);
         border-radius: 0.25em;
 
@@ -30,7 +31,7 @@ $grid-margin: 1em;
 
         article  {
             padding: $grid-margin * 0.75;
-            line-height: 1.35em;
+            line-height: 1.45em;
         }
     }
 }

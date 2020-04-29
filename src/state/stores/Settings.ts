@@ -3,12 +3,16 @@ import {localStorageUtils}  from '../../utils/local-storage-utils';
 
 type InternalSettings = {
     autoPause: boolean;
+    strictSession: boolean | null;
     theme: 'light' | 'dark';
 };
 
 class Settings {
+
+    // TODO: Add reset-switch
     @observable private readonly settings: InternalSettings = {
         autoPause: false,
+        strictSession: false,
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     };
 
