@@ -91,7 +91,7 @@
             }
         }
 
-        &[disabled] {
+        @include disabled {
             @include button_disabled;
         }
     }

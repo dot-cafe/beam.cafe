@@ -32,3 +32,11 @@
     background: var(--c-background-secondary);
     color: var(--c-text-secondary);
 }
+
+@mixin disabled {
+    &[disabled],
+    &[disabled]:active,
+    &[disabled]:hover {
+        @content;
+    }
+}
