@@ -22,7 +22,7 @@ class Socket {
     constructor() {
         this.ws = new GracefulWebSocket(env.WS_ENDPOINT);
         this.connectionState = 'disconnected';
-        this.requests = new Map<string, Promise<unknown>['then']>();
+        this.requests = new Map();
         this.sessionKey = null;
 
         this.ws.addEventListener('connected', () => {

@@ -15,14 +15,7 @@ export class Options extends Component<{}, {}> {
 
     @bind
     toggleStrictSession(newValue: boolean): void {
-        settings.set('strictSession', null);
-
-        // TODO: Improve settings processing
-        socket.request('strict-session', newValue).then(() => {
-            settings.set('strictSession', newValue);
-        }).catch(() => {
-            settings.set('strictSession', false);
-        });
+        settings.set('strictSession', newValue);
     }
 
     render() {

@@ -1,5 +1,5 @@
 import {Component, h} from 'preact';
-import {bind, cn}     from '../../utils/preact-utils';
+import {bind}         from '../../utils/preact-utils';
 import styles         from './Switch.module.scss';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 type State = {};
 
-export type SwitchState = boolean | 'on' | 'off' | 'intermediate';
+export type SwitchState = boolean | 'intermediate';
 
 export class Switch extends Component<Props, State> {
 
