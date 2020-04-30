@@ -12,7 +12,7 @@ type ServerSide = {
     strictSession: SwitchState;
 };
 
-type AllSettings = ClientSide & ServerSide;
+export type AllSettings = ClientSide & ServerSide;
 
 class Settings {
 

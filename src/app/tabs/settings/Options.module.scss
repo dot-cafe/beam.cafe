@@ -14,22 +14,47 @@ $grid-margin: 1em;
         width: 100%;
     }
 
+    > header {
+        @include flex(row, center);
+        background: var(--c-background-secondary);
+        margin: 0;
+        padding: 0.5em 0.75em;
+        border-radius: 0.25em;
+
+        > div {
+            @include size(0.9em);
+            margin-right: 0.5em;
+        }
+
+        > h1 {
+            @include font(600, 1em);
+            margin: 0;
+        }
+
+        > span {
+            @include font(600, 0.85em);
+            white-space: pre-wrap;
+            color: var(--c-text-primary-accent);
+        }
+    }
+
     > section {
         @include margin-between-v(0.5em);
         border: 2px solid var(--c-background-secondary);
         border-radius: 0.25em;
 
         header {
-            @include flex(row, center, space-between);
+            @include flex(row, center);
             border-bottom: 2px solid var(--c-background-secondary);
             padding: $grid-margin * 0.75;
 
-            h3 {
+            > h3 {
                 @include font(600, 1em);
+                margin: auto auto auto 0.5em;
             }
         }
 
-        article  {
+        article {
             padding: $grid-margin * 0.75;
             line-height: 1.45em;
         }

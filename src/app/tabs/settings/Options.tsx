@@ -1,31 +1,36 @@
-import {observer}         from 'mobx-react';
-import {Component, h}     from 'preact';
-import {settings, socket} from '../../../state';
-import {bind}             from '../../../utils/preact-utils';
-import {Switch}           from '../../components/Switch';
-import styles             from './Options.module.scss';
+import {observer}                      from 'mobx-react';
+import {Component, h}                  from 'preact';
+import {AllSettings, settings, socket} from '../../../state';
+import {bind}                          from '../../../utils/preact-utils';
+import Icon                            from '../../components/Icon';
+import {Switch}                        from '../../components/Switch';
+import styles                          from './Options.module.scss';
 
 @observer
 export class Options extends Component<{}, {}> {
 
-    @bind
-    toggleAutoPause(newValue: boolean): void {
-        settings.set('autoPause', newValue);
-    }
-
-    @bind
-    toggleStrictSession(newValue: boolean): void {
-        settings.set('strictSession', newValue);
+    option(key: keyof AllSettings) {
+        return (newValue: boolean) => {
+            settings.set(key, newValue);
+        };
     }
 
     render() {
         return (
             <div className={styles.options}>
+
+                <header>
+                    <Icon name="shield"/>
+                    <h1>Security</h1>
+                    <span> - Everything about privacy and more</span>
+                </header>
+
                 <section>
                     <header>
+                        <Icon name="resume"/>
                         <h3>Auto Pause</h3>
                         <Switch selected={settings.get('autoPause')}
-                                onChange={this.toggleAutoPause}/>
+                                onChange={this.option('autoPause')}/>
                     </header>
 
                     <article>
@@ -39,9 +44,10 @@ export class Options extends Component<{}, {}> {
 
                 <section>
                     <header>
+                        <Icon name="ninja"/>
                         <h3>Strict Session</h3>
                         <Switch selected={settings.get('strictSession')}
-                                onChange={this.toggleStrictSession}/>
+                                onChange={this.option('strictSession')}/>
                     </header>
 
                     <article>
