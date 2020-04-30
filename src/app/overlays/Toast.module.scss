@@ -1,8 +1,8 @@
 .toast {
-    @include position(0, 0, auto, 0);
+    @include position(2vh, 0, auto, 0);
     @include flex(row, center, center);
-    transform: translateY(-105%);
-    transition: all 0.25s;
+    transform: translateY(calc(-100% - 2vh));
+    transition: all 0.3s;
     pointer-events: none;
     position: fixed;
     margin: 0 auto;
@@ -10,24 +10,21 @@
 
     p {
         @include font(600, 0.9em);
-        padding: 0.65em 2em;
-        border-radius: 0 0 0.5em 0.5em;
+        padding: 0.75em 2em;
+        border-radius: 50em;
         color: var(--c-text-secondary-accent);
-        border: 2px solid transparent;
     }
 
     $states: (
-            ('success', --c-primary),
-            ('warning', --c-yellow),
-            ('error', --c-red),
+            ('success', --c-primary-accent),
+            ('warning', --c-yellow-accent),
+            ('error', --c-red-accent),
     );
 
     @each $state in $states {
         $color: nth($state, 2);
         &[data-state=#{nth($state, 1)}] p {
             background: var(#{$color});
-            border-color: var(#{$color + '-accent'});
-            border-top-color: transparent;
         }
     }
 }
