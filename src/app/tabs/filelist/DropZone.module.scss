@@ -22,18 +22,13 @@
         > button {
             @include flex(row, center);
             @include button_large;
+            @include hover_effect(--c-primary);
             margin-top: 0.75em;
             pointer-events: all;
-            transition: all 0.3s;
 
             > div {
                 @include size(1em);
                 margin-right: 0.5em;
-            }
-
-            &:hover,
-            &:active {
-                background: var(--c-primary-accent);
             }
         }
     }

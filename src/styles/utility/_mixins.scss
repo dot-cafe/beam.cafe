@@ -7,12 +7,12 @@
     @include font(800, 0.75em);
     color: var(--c-text-secondary-accent);
     padding: 0.5em 0.75em;
-    border-radius: 0.25em;
+    border-radius: 0.2em;
 }
 
 @mixin button_middle {
     @include font(600, 1em);
-    border-radius: 0.25em;
+    border-radius: 0.2em;
     padding: 0.5em 0.85em;
     background: var(--c-primary);
     color: var(--c-text-secondary-accent);
@@ -31,6 +31,25 @@
     cursor: not-allowed;
     background: var(--c-background-secondary);
     color: var(--c-text-secondary);
+}
+
+@mixin hover_effect($color, $props...) {
+    @if length($props) == 0 {
+        $props: (background-color)
+    }
+
+    transition-duration: 0.3s;
+    transition-property: $props;
+    @for $i from 1 through length($props) {
+        #{nth($props, $i)}: var($color);
+    }
+
+    &:hover {
+        $accent-color: var($color + '-accent');
+        @for $i from 1 through length($props) {
+            #{nth($props, $i)}: $accent-color;
+        }
+    }
 }
 
 @mixin disabled {

@@ -6,10 +6,10 @@ $padding: ($height - $size) / 2;
 .switch {
     @include flex(row, flex-start, flex-end);
     @include size($width, $height);
+    @include hover_effect(--c-background-secondary);
     transition: all 0.3s;
     justify-self: flex-end;
     border-radius: $height;
-    background: var(--c-background-secondary);
     cursor: pointer;
     position: relative;
 
@@ -24,7 +24,7 @@ $padding: ($height - $size) / 2;
     }
 
     &[data-state='on'] {
-        background: var(--c-primary);
+        @include hover_effect(--c-primary);
 
         &::before {
             transform: translateX($width - $height);
@@ -32,9 +32,13 @@ $padding: ($height - $size) / 2;
     }
 
     &[data-state='intermediate'] {
+        @include disabled;
         background: var(--c-yellow);
-    }
 
+        &::before {
+            transform: translateX(($width - $height) / 2);
+        }
+    }
 
     &[data-state='on'],
     &[data-state='intermediate'] {

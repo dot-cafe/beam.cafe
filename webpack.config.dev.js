@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const pkg = require('./package');
 const path = require('path');
 
+const globalSCSS = path.resolve(__dirname, 'src/styles/_global.scss');
 const dist = path.resolve(__dirname, 'dist');
 const src = path.resolve(__dirname, 'src');
 const app = path.resolve(src, 'app');
@@ -57,7 +58,10 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true,
-                            prependData: '@import "src/styles/_global.scss";'
+                            prependData: '@import "src/styles/_variables.scss";',
+                            sassOptions: {
+                                includePaths: [globalSCSS]
+                            }
                         }
                     }
                 ]

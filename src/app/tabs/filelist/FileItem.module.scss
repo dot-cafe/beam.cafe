@@ -10,12 +10,16 @@
     position: relative;
     border-bottom: 1px solid var(--c-background-secondary);
 
-    &:hover .copyLinkOverlay {
-        visibility: visible;
+    &:hover {
+        border-bottom-color: transparent;
+
+        .copyLinkOverlay {
+            visibility: visible;
+        }
     }
 
     .copyLinkOverlay {
-        @include position(0, 0, 0, 0);
+        @include position(0, 0, -1px, 0);
         @include flex(row, center, center);
         position: absolute;
         background: rgba(black, 0.075);

@@ -1,3 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+@import '~sassyfication';
+@import 'utility/breakpoints';
+@import 'utility/functions';
+@import 'utility/mixins';
 
 $font-family: 'Nunito', 'Open Sans', Arial, Helvetica, sans-serif;

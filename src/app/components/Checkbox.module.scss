@@ -1,5 +1,6 @@
 .checkbox {
     @include size(1.5em);
+    @include hover_effect(--c-primary, border-color);
     flex-shrink: 0;
     position: relative;
     overflow: visible;
@@ -23,8 +24,7 @@
 }
 
 .checked {
-    border-color: var(--c-primary-accent);
-    background: var(--c-primary-accent);
+    @include hover_effect(--c-primary, background, border-color);
 
     > svg {
         stroke: white;

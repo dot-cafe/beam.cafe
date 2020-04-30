@@ -43,7 +43,7 @@ export class Security extends Component<{}, {}> {
             <CollapsibleList header={[
                 <Icon name="shield"/>,
                 <h1>Security</h1>,
-                <span>Everything around privacy and more</span>
+                <span> - Everything around privacy and more</span>
             ]} sections={[
                 <section>
                     <header>

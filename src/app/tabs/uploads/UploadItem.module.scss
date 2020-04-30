@@ -19,17 +19,17 @@
         }
 
         &.pauseBtn {
-            color: var(--c-status-primary);
+            @include hover_effect(--c-primary, color);
         }
 
         &.abortBtn {
-            color: var(--c-red);
+            @include hover_effect(--c-red, color);
         }
     }
 
-    @mixin disabledButtons {
+    @mixin disabled_buttons {
         .btn {
-            color: var(--c-text-primary-accent) !important;
+            @include hover_effect(--c-text-primary, color);
             pointer-events: none;
             cursor: not-allowed;
         }
@@ -43,7 +43,7 @@
 
     &[data-state='finished'],
     &[data-state='removed'] {
-        @include disabledButtons;
+        @include disabled_buttons;
     }
 
     &[data-state='cancelled'],
@@ -52,7 +52,7 @@
     &[data-state='peer-cancelled'], {
         --c-status-primary: var(--c-red);
         --c-status-secondary: var(--c-red-accent);
-        @include disabledButtons;
+        @include disabled_buttons;
     }
 }
 

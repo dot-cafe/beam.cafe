@@ -74,20 +74,11 @@
     > button {
         @include margin-between-h(0.25em);
         @include button_small;
-
-        $colors: (
-                (var(--c-primary), var(--c-primary-accent)),
-                (var(--c-yellow), var(--c-yellow-accent)),
-                (var(--c-red), var(--c-red-accent))
-        );
+        $colors: (--c-primary, --c-yellow, --c-red);
 
         @for $i from 1 through 3 {
             &:nth-child(#{$i}) {
-                background: nth(nth($colors, $i), 1);
-
-                &:hover {
-                    background: nth(nth($colors, $i), 2);
-                }
+                @include hover_effect(nth($colors, $i));
             }
         }
 

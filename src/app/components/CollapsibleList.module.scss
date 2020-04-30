@@ -3,7 +3,7 @@ $grid-margin: 1em;
 .collapsibleList {
     > header {
         @include flex(row, center);
-        background: var(--c-background-secondary);
+        @include hover_effect(--c-background-secondary);
         padding: 0.5em 0.75em;
         border-radius: 0.25em;
         margin: 0 0 0.5em 0;

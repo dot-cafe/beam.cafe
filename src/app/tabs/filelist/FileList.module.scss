@@ -46,14 +46,9 @@
     padding: 0 1em 0.75em;
 
     > p:not(:last-child) {
-        color: var(--c-text-primary-accent);
+        @include hover_effect(--c-text-primary, color);
         position: relative;
         cursor: pointer;
-
-        &:hover {
-            color: var(--c-text-primary);
-            text-decoration: underline;
-        }
     }
 }
 
