@@ -1,5 +1,7 @@
-$width: 44px;
-$height: 20px;
+$width: 48px;
+$height: 22px;
+$size: 12px;
+$padding: ($height - $size) / 2;
 
 .switch {
     @include flex(row, flex-start, flex-end);
@@ -13,13 +15,12 @@ $height: 20px;
 
     &::before {
         @include pseudo();
-        @include size(14px);
+        @include size($size);
         background: var(--c-text-secondary);
         border-radius: 100%;
         transition: all 0.3s;
-        margin: 3px;
-        left: 0;
-        top: 0;
+        top: $padding;
+        left: $padding;
     }
 
     &[data-state='on'] {
