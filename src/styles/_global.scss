@@ -51,9 +51,10 @@ body {
         @include dark_theme;
     }
 
-    // TODO: Transition doesn't work for color in chrome?!!
+    // TODO: Transitioning does not work in chrome:
+    // see https://stackoverflow.com/questions/61483591/strange-color-transition-behavior-in-chrome
     &.theme-transition * {
-        transition-duration: 0.3s !important;
+        transition: all 0.3s !important;
     }
 }
 

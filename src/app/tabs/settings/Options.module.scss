@@ -46,7 +46,18 @@ $grid-margin: 1em;
         header {
             @include flex(row, center);
             border-bottom: 2px solid var(--c-background-secondary);
-            padding: $grid-margin * 0.75;
+            padding: 0 $grid-margin * 0.75;
+            height: 3em;
+
+            > button {
+                @include button_small;
+                background: var(--c-primary);
+                transition: all 0.3s;
+
+                &:hover{
+                    background: var(--c-primary-accent);
+                }
+            }
 
             > h3 {
                 @include font(600, 1em);

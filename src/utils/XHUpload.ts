@@ -67,11 +67,11 @@ export class XHUpload extends EventTarget {
 
         if (readyState !== 0 && readyState !== 4) {
             this.xhr.abort();
-        }
+            this.state = 'cancelled';
 
-        this.state = 'cancelled';
-        if (!silent) {
-            this.emitEvent();
+            if (!silent) {
+                this.emitEvent();
+            }
         }
     }
 

@@ -192,7 +192,15 @@ class Uploads {
     }
 
     @action
+    public cancelAll() {
+        for (const upload of this.listedUploads) {
+            upload.xhUpload.abort();
+        }
+    }
+
+    @action
     public clear() {
+        this.cancelAll();
         clearArray(this.listedUploads);
     }
 }

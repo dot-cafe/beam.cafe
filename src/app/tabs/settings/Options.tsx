@@ -1,10 +1,11 @@
-import {observer}                      from 'mobx-react';
-import {Component, h}                  from 'preact';
-import {AllSettings, settings, socket} from '../../../state';
-import {bind}                          from '../../../utils/preact-utils';
-import Icon                            from '../../components/Icon';
-import {Switch}                        from '../../components/Switch';
-import styles                          from './Options.module.scss';
+import {observer}                               from 'mobx-react';
+import {Component, h}                           from 'preact';
+import {AllSettings, settings, socket, uploads} from '../../../state';
+import {bind}                                   from '../../../utils/preact-utils';
+import Icon                                     from '../../components/Icon';
+import {Switch}                                 from '../../components/Switch';
+import {Toast}                                  from '../../overlays/Toast';
+import styles                                   from './Options.module.scss';
 
 @observer
 export class Options extends Component<{}, {}> {
@@ -13,6 +14,26 @@ export class Options extends Component<{}, {}> {
         return (newValue: boolean) => {
             settings.set(key, newValue);
         };
+    }
+
+    @bind
+    resetKeys() {
+
+        // Cancel downloads
+        uploads.cancelAll();
+
+        // Request a new key-set
+        socket.request('reset-keys').then(() => {
+            Toast.getInstance().set({
+                text: 'Keys refreshed!',
+                type: 'success'
+            });
+        }).catch(() => {
+            Toast.getInstance().set({
+                text: 'Failed to reset keys.',
+                type: 'error'
+            });
+        });
     }
 
     render() {
@@ -39,7 +60,6 @@ export class Options extends Component<{}, {}> {
                         This increases security by preventing others downloading your
                         file while you&apos;re AFK or without knowing.
                     </article>
-
                 </section>
 
                 <section>
@@ -56,7 +76,20 @@ export class Options extends Component<{}, {}> {
                         Activate this if your ethernet-connection is stable and you want your session
                         destroyed if you close this application.
                     </article>
+                </section>
 
+                <section>
+                    <header>
+                        <Icon name="refresh-shield"/>
+                        <h3>Restore Keys</h3>
+                        <button onClick={this.resetKeys}>Restore</button>
+                    </header>
+
+                    <article>
+                        In case you discover anomalies such as suspicious downloads you can
+                        generate new keys for all your files. All active downloads will be cancelled
+                        and your previous download-links will be invalidated.
+                    </article>
                 </section>
             </div>
         );
