@@ -9,6 +9,11 @@
 
 ::-webkit-scrollbar {
     width: 14px;
+
+    @include mq-phones {
+        display: none;
+        width: 10px;
+    }
 }
 
 ::-webkit-scrollbar-thumb,

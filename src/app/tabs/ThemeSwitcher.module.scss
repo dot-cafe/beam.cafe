@@ -10,7 +10,7 @@ $margin: 6px;
     background: var(--c-background-secondary);
     cursor: pointer;
 
-    > div {
+    > button {
         @include size($height + $margin);
         background: var(--c-text-primary);
         transform: translateX(#{$margin / 2});
@@ -35,7 +35,7 @@ $margin: 6px;
     }
 
     &.toggled {
-        > div {
+        > button {
             transform: translateX(-$width + $height + $margin / 2);
         }
     }

@@ -43,7 +43,7 @@ export class ThemeSwitcher extends Component<{}, {}> {
                  className={cn(styles.themeSwitcher, {
                      [styles.toggled]: theme === 'dark'
                  })}>
-                <div>
+                <button>
                     <Icon name="sun"
                           className={cn({
                               [styles.visible]: theme === 'light'
@@ -53,7 +53,7 @@ export class ThemeSwitcher extends Component<{}, {}> {
                           className={cn({
                               [styles.visible]: theme === 'dark'
                           })}/>
-                </div>
+                </button>
             </div>
         );
     }

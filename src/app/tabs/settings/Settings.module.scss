@@ -1,5 +1,23 @@
+@import '../../components/CollapsibleList.module';
+
 .settings {
     @include flex(column, flex-start, flex-start);
     color: var(--c-text-primary);
     height: 100%;
+}
+
+.options {
+    @include flex(column);
+    @include width(50%, auto, 40em);
+    grid-gap: $grid-margin;
+    padding: $grid-margin;
+    height: 100%;
+    margin: 0 auto;
+    overflow: auto;
+    will-change: transform;
+
+    @include mq-phones {
+        padding: $grid-margin / 4;
+        width: 100%;
+    }
 }

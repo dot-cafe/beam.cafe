@@ -1,14 +1,14 @@
 import {observer}                               from 'mobx-react';
 import {Component, h}                           from 'preact';
-import {AllSettings, settings, socket, uploads} from '../../../state';
-import {bind}                                   from '../../../utils/preact-utils';
-import Icon                                     from '../../components/Icon';
-import {Switch}                                 from '../../components/Switch';
-import {Toast}                                  from '../../overlays/Toast';
-import styles                                   from './Options.module.scss';
+import {AllSettings, settings, socket, uploads} from '../../../../state';
+import {bind}                                   from '../../../../utils/preact-utils';
+import Icon              from '../../../components/Icon';
+import {CollapsibleList} from '../../../components/CollapsibleList';
+import {Switch}          from '../../../components/Switch';
+import {Toast}                                  from '../../../overlays/Toast';
 
 @observer
-export class Options extends Component<{}, {}> {
+export class Security extends Component<{}, {}> {
 
     option(key: keyof AllSettings) {
         return (newValue: boolean) => {
@@ -37,15 +37,14 @@ export class Options extends Component<{}, {}> {
     }
 
     render() {
+
+        /* eslint-disable react/jsx-key */
         return (
-            <div className={styles.options}>
-
-                <header>
-                    <Icon name="shield"/>
-                    <h1>Security</h1>
-                    <span> - Everything about privacy and more</span>
-                </header>
-
+            <CollapsibleList header={[
+                <Icon name="shield"/>,
+                <h1>Security</h1>,
+                <span>Everything around privacy and more</span>
+            ]} sections={[
                 <section>
                     <header>
                         <Icon name="resume"/>
@@ -60,7 +59,7 @@ export class Options extends Component<{}, {}> {
                         This increases security by preventing others downloading your
                         file while you&apos;re AFK or without knowing.
                     </article>
-                </section>
+                </section>,
 
                 <section>
                     <header>
@@ -76,7 +75,7 @@ export class Options extends Component<{}, {}> {
                         Activate this if your ethernet-connection is stable and you want your session
                         destroyed if you close this application.
                     </article>
-                </section>
+                </section>,
 
                 <section>
                     <header>
@@ -91,7 +90,7 @@ export class Options extends Component<{}, {}> {
                         and your previous download-links will be invalidated.
                     </article>
                 </section>
-            </div>
+            ]}/>
         );
     }
 }
