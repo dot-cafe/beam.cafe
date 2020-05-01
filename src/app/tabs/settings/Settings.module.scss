@@ -2,22 +2,112 @@
 
 .settings {
     @include flex(column, flex-start, flex-start);
+    position: relative;
     color: var(--c-text-primary);
     height: 100%;
 }
 
 .options {
-    @include flex(column);
-    @include width(50%, auto, 40em);
+    @include flex(row, flex-start, center);
+    @include size(100%);
     grid-gap: $grid-margin;
-    padding: $grid-margin;
-    height: 100%;
     margin: 0 auto;
-    overflow: auto;
-    will-change: transform;
+
+    .tabs {
+        @include flex(column, flex-end);
+        margin: $grid-margin 1em 0 0;
+        width: 50%;
+
+        > button {
+            @include flex(row, center, flex-start);
+            @include margin-between-v(0.15em);
+            @include button_middle;
+            @include hover_effect(--c-background-secondary);
+            width: 7em;
+
+            &.active {
+                background: var(--c-background-secondary-accent);
+                cursor: default;
+            }
+
+            > span {
+                margin-left: 0.5em;
+            }
+        }
+    }
+
+    .content {
+        @include size(100%);
+        position: relative;
+        max-height: 100%;
+        will-change: transform;
+        flex-shrink: 1;
+        flex-grow: 0;
+        overflow: auto;
+
+        > div {
+            position: absolute;
+            padding: $grid-margin;
+            width: 100%;
+        }
+    }
+
+    > button {
+        @include flex(row, center, center);
+        @include button_large;
+        display: none;
+        background: var(--c-background-secondary);
+        padding: 0.65em;
+        border-radius: 0;
+        width: 100%;
+        margin: 0;
+
+        > span {
+            margin-left: 0.5em;
+        }
+    }
 
     @include mq-phones {
-        padding: $grid-margin / 4;
+        $grid-margin: $grid-margin / 2;
+        flex-direction: column;
         width: 100%;
+
+        > button {
+            display: flex;
+        }
+
+        .tabs,
+        .content {
+            transition: opacity 0.3s, visibility 0s 0.3s;
+            visibility: hidden;
+            opacity: 0;
+
+            &.visible {
+                transition: opacity 0.3s, visibility 0s 0s;
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        .content > div {
+            padding: $grid-margin;
+        }
+
+        .tabs {
+            @include position(0, 0, 0, 0);
+            padding: $grid-margin;
+            position: absolute;
+            align-items: center;
+            justify-content: stretch;
+            margin: 0;
+            background: var(--c-background-primary);
+            z-index: 1;
+            width: 100%;
+
+            > button {
+                width: 100%;
+                padding: 0.75em;
+            }
+        }
     }
 }

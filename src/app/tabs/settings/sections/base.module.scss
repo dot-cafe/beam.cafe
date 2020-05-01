@@ -1,0 +1,71 @@
+$grid-margin: 1em;
+
+.section {
+
+    > header,
+    > section {
+        @include width(65%, auto, 40em);
+
+        @include mq-phones {
+            min-width: 100%;
+        }
+    }
+
+    > header {
+        @include flex(row, center);
+        background: var(--c-background-secondary);
+        padding: 0.5em 0.75em;
+        border-radius: 0.25em;
+        margin: 0 0 0.5em 0;
+        z-index: 2;
+        cursor: pointer;
+
+        > div {
+            @include size(0.9em);
+            margin-right: 0.5em;
+        }
+
+        > h1 {
+            @include font(600, 1em);
+            margin: 0;
+        }
+
+        > span {
+            @include font(600, 0.85em);
+            white-space: pre-wrap;
+        }
+    }
+
+    > section {
+        @include margin-between-v(0.5em);
+        border: 2px solid var(--c-background-secondary);
+        border-radius: 0.25em;
+
+        header {
+            @include flex(row, center);
+            border-bottom: 2px solid var(--c-background-secondary);
+            padding: 0 $grid-margin * 0.75;
+            height: 3em;
+
+            > button {
+                @include button_small;
+                background: var(--c-primary);
+                transition: all 0.3s;
+
+                &:hover {
+                    background: var(--c-primary-accent);
+                }
+            }
+
+            > h3 {
+                @include font(600, 1em);
+                margin: auto auto auto 0.5em;
+            }
+        }
+
+        article {
+            padding: $grid-margin * 0.75;
+            line-height: 1.45em;
+        }
+    }
+}

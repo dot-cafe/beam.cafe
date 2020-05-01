@@ -1,10 +1,13 @@
+// TODO: Move footer to extra tab
 .footer {
     @include flex(column, center, center);
     border-top: 2px solid var(--c-background-secondary);
+    background: var(--c-background-primary);
     margin-top: auto;
     color: var(--c-text-primary);
     width: 100%;
     padding: 0.5em;
+    display: none;
 
     article {
         @include margin-between-v(0.25em);

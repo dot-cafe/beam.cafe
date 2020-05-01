@@ -2,10 +2,10 @@ import {observer}                               from 'mobx-react';
 import {Component, h}                           from 'preact';
 import {AllSettings, settings, socket, uploads} from '../../../../state';
 import {bind}                                   from '../../../../utils/preact-utils';
-import {CollapsibleList}                        from '../../../components/CollapsibleList';
 import Icon                                     from '../../../components/Icon';
 import {Switch}                                 from '../../../components/Switch';
-import {Toast}                                  from '../../../overlays/Toast';
+import {Toast} from '../../../overlays/Toast';
+import styles  from './base.module.scss';
 
 @observer
 export class Security extends Component<{}, {}> {
@@ -37,14 +37,14 @@ export class Security extends Component<{}, {}> {
     }
 
     render() {
-
-        /* eslint-disable react/jsx-key */
         return (
-            <CollapsibleList header={[
-                <Icon name="shield"/>,
-                <h1>Security</h1>,
-                <span> - Everything around privacy and more</span>
-            ]} sections={[
+            <div className={styles.section}>
+                <header>
+                    <Icon name="shield"/>
+                    <h1>Security</h1>
+                    <span> - Everything around privacy and more</span>
+                </header>
+
                 <section>
                     <header>
                         <Icon name="resume"/>
@@ -59,7 +59,7 @@ export class Security extends Component<{}, {}> {
                         This increases security by preventing others downloading your
                         file while you&apos;re AFK or without knowing.
                     </article>
-                </section>,
+                </section>
 
                 <section>
                     <header>
@@ -75,7 +75,7 @@ export class Security extends Component<{}, {}> {
                         Activate this if your ethernet-connection is stable and you want your session
                         destroyed if you close this application.
                     </article>
-                </section>,
+                </section>
 
                 <section>
                     <header>
@@ -89,7 +89,7 @@ export class Security extends Component<{}, {}> {
                         generate new keys for all your files. All active downloads will be cancelled
                         and your previous download-links will be invalidated.
                     </article>
-                </section>,
+                </section>
 
                 <section>
                     <header>
@@ -105,7 +105,7 @@ export class Security extends Component<{}, {}> {
                         receive a new download link.
                     </article>
                 </section>
-            ]}/>
+            </div>
         );
     }
 }
