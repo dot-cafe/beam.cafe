@@ -8,18 +8,16 @@ import styles                    from './Settings.module.scss';
 
 type Props = {};
 type State = {
-    tab: string;
+    tabIndex: number;
 };
 
 const tabs = [
     {
-        key: 'security',
         name: 'Security',
         icon: 'shield',
         com: <Security/>
     },
     {
-        key: 'about',
         name: 'About',
         icon: 'help',
         com: <About/>
@@ -31,33 +29,33 @@ export class Settings extends Component<Props, State> {
     private readonly mobileMenu = createRef<CollapsibleList>();
 
     readonly state = {
-        tab: 'about'
+        tabIndex: 0
     };
 
-    changeTab(newTab: string) {
+    changeTab(tabIndex: number) {
         return () => {
             this.mobileMenu.current?.toggleRetract();
             this.setState({
-                tab: newTab
+                tabIndex
             });
         };
     }
 
     render() {
-        const {tab} = this.state;
+        const {tabIndex} = this.state;
         let activeComponent = null;
         const tabButtons = [];
 
         for (let i = 0; i < tabs.length; i++) {
-            const {key, name, icon, com} = tabs[i];
-            const active = key === tab;
+            const {name, icon, com} = tabs[i];
+            const active = i === tabIndex;
 
             if (active) {
                 activeComponent = com;
             }
 
             tabButtons.push(
-                <button onClick={this.changeTab(key)}
+                <button onClick={this.changeTab(i)}
                         key={i}
                         className={cn(styles.tabButton, {
                             [styles.active]: active

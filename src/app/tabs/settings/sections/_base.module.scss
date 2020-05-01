@@ -1,10 +1,9 @@
 $grid-margin: 1em;
 
 .section {
-
     > header,
     > section {
-        @include width(65%, auto, 40em);
+        @include width(70%, auto, 40em);
 
         @include mq-phones {
             min-width: 100%;
@@ -18,7 +17,6 @@ $grid-margin: 1em;
         border-radius: 0.25em;
         margin: 0 0 0.5em 0;
         z-index: 2;
-        cursor: pointer;
 
         > div {
             @include size(0.9em);

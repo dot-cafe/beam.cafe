@@ -79,20 +79,6 @@ export class Security extends Component<{}, {}> {
 
                 <section>
                     <header>
-                        <Icon name="refresh-shield"/>
-                        <h3>Restore Keys</h3>
-                        <button onClick={this.resetKeys}>Restore</button>
-                    </header>
-
-                    <article>
-                        In case you discover anomalies such as suspicious downloads you can
-                        generate new keys for all your files. All active downloads will be cancelled
-                        and your previous download-links will be invalidated.
-                    </article>
-                </section>
-
-                <section>
-                    <header>
                         <Icon name="recycle"/>
                         <h3>Reusable download-links</h3>
                         <Switch selected={settings.get('reusableDownloadKeys')}
@@ -103,6 +89,20 @@ export class Security extends Component<{}, {}> {
                         Turn this option off to make all download links single use.
                         After a download-link has been used the file will refresh and a you&apos;ll
                         receive a new download link.
+                    </article>
+                </section>
+
+                <section>
+                    <header>
+                        <Icon name="refresh-shield"/>
+                        <h3>Restore Keys</h3>
+                        <button onClick={this.resetKeys}>Restore</button>
+                    </header>
+
+                    <article>
+                        In case you discover anomalies such as suspicious downloads you can
+                        generate new keys for all your files. All active downloads will be cancelled
+                        and your previous download-links will be invalidated.
                     </article>
                 </section>
             </div>

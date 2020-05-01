@@ -61,8 +61,8 @@ body {
 }
 
 #app {
-    @include width(75vw, 15em, 70em);
-    @include height(85vh, 30em, 45em);
+    @include width(75vw, 15em, 80em);
+    @include height(85vh, 30em, 55em);
     @include position(0, 0, 0, 0);
     @include flex(column);
     font-family: $font-family;

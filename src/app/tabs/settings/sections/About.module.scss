@@ -10,7 +10,7 @@
     }
 
     ul {
-        @include font(300, 0.95em);
+        font-size: 0.87em;
         list-style: none;
         line-height: 1.65em;
         width: 100%;
@@ -19,6 +19,10 @@
             @include flex(row, center, space-between);
             background: var(--c-background-secondary);
             flex-shrink: 0;
+        }
+
+        @include mq-phones {
+            font-size: 0.95em;
         }
     }
 

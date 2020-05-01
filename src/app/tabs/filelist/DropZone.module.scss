@@ -25,6 +25,7 @@
             @include hover_effect(--c-primary);
             margin-top: 0.75em;
             pointer-events: all;
+            border-radius: 5em;
 
             > div {
                 @include size(1em);
