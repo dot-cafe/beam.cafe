@@ -4,8 +4,8 @@ import {AllSettings, settings, socket, uploads} from '../../../../state';
 import {bind}                                   from '../../../../utils/preact-utils';
 import Icon                                     from '../../../components/Icon';
 import {Switch}                                 from '../../../components/Switch';
-import {Toast} from '../../../overlays/Toast';
-import styles  from './_base.module.scss';
+import {Toast}                                  from '../../../overlays/Toast';
+import styles                                   from './_base.module.scss';
 
 @observer
 export class Security extends Component<{}, {}> {

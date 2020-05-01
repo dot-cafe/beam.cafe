@@ -2,11 +2,11 @@ import {Component, createRef, h} from 'preact';
 import {JSXInternal}             from 'preact/src/jsx';
 import {bind, cn}                from '../../utils/preact-utils';
 import styles                    from './CollapsibleList.module.scss';
-import Icon                      from './Icon';
 
 type Props = {
-    header: Array<JSXInternal.Element>;
-    sections: Array<JSXInternal.Element>;
+    position?: 'top' | 'bottom';
+    header: (open: boolean) => JSXInternal.Element;
+    content: JSXInternal.Element;
 };
 
 type State = {
@@ -15,8 +15,13 @@ type State = {
 
 export class CollapsibleList extends Component<Props, State> {
     private readonly list = createRef<HTMLDivElement>();
+
+    public static defaultProps = {
+        position: 'top'
+    };
+
     readonly state = {
-        collapsed: false
+        collapsed: true
     };
 
     componentDidMount(): void {
@@ -47,24 +52,22 @@ export class CollapsibleList extends Component<Props, State> {
     }
 
     render() {
-        const {header, sections} = this.props;
+        const {header, content, position} = this.props;
         const {collapsed} = this.state;
+        const contentEl = <div className={styles.list}
+                               ref={this.list}>{content}</div>;
 
         return (
             <div className={cn(styles.collapsibleList, {
                 [styles.collapsed]: collapsed
             })}>
+                {position === 'top' ? contentEl : ''}
+
                 <header onClick={this.toggleRetract}>
-                    <div className={styles.customHeader}>{header}</div>
-                    <button>
-                        <Icon name="expand-arrow"/>
-                    </button>
+                    {header(!collapsed)}
                 </header>
 
-                <div className={styles.list}
-                     ref={this.list}>
-                    {sections}
-                </div>
+                {position === 'bottom' ? contentEl : ''}
             </div>
         );
     }

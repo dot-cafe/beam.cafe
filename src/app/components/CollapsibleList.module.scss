@@ -2,55 +2,12 @@ $grid-margin: 1em;
 
 .collapsibleList {
     > header {
-        @include flex(row, center);
-        @include hover_effect(--c-background-secondary);
-        padding: 0.5em 0.75em;
-        border-radius: 0.25em;
-        margin: 0 0 0.5em 0;
-        z-index: 2;
-        cursor: pointer;
-
-        .customHeader {
-            @include flex(row, center);
-            color: var(--c-text-primary);
-
-            > div {
-                @include size(0.9em);
-                margin-right: 0.5em;
-            }
-
-            > h1 {
-                @include font(600, 1em);
-                margin: 0;
-            }
-
-            > span {
-                @include font(600, 0.85em);
-                white-space: pre-wrap;
-            }
-        }
-
-        > button {
-            @include flex(row, center, center);
-            background: transparent;
-            transition: all 0.3s;
-            transform: rotate(180deg);
-            margin-left: auto;
-
-            > div {
-                color: var(--c-text-primary)
-            }
-        }
+        @include flex(row, center, center);
     }
 
     &.collapsed {
-
         .list {
             max-height: 0;
-        }
-
-        > header > button {
-            transform: none;
         }
     }
 
@@ -64,39 +21,6 @@ $grid-margin: 1em;
 .list {
     @include flex(column);
     max-height: var(--height, auto);
-    transition: all 0.3s;
+    transition: max-height 0.3s;
     overflow: hidden;
-
-    > section {
-        @include margin-between-v(0.5em);
-        border: 2px solid var(--c-background-secondary);
-        border-radius: 0.25em;
-
-        header {
-            @include flex(row, center);
-            border-bottom: 2px solid var(--c-background-secondary);
-            padding: 0 $grid-margin * 0.75;
-            height: 3em;
-
-            > button {
-                @include button_small;
-                background: var(--c-primary);
-                transition: all 0.3s;
-
-                &:hover {
-                    background: var(--c-primary-accent);
-                }
-            }
-
-            > h3 {
-                @include font(600, 1em);
-                margin: auto auto auto 0.5em;
-            }
-        }
-
-        article {
-            padding: $grid-margin * 0.75;
-            line-height: 1.45em;
-        }
-    }
 }

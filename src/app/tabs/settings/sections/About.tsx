@@ -14,7 +14,7 @@ export class About extends Component {
                 <header>
                     <Icon name="shield"/>
                     <h1>About</h1>
-                    <span> - About me and the project</span>
+                    <span> - About the Author and the project</span>
                 </header>
 
                 <section>

@@ -17,24 +17,24 @@
         @include flex(column, flex-end);
         margin: $grid-margin 1em 0 0;
         width: 50%;
+    }
 
-        > button {
-            @include flex(row, center, flex-start);
-            @include margin-between-v(0.15em);
-            @include button_middle;
-            @include hover_effect(--c-background-secondary);
-            color: var(--c-text-primary);
-            width: 7em;
+    .tabButton {
+        @include flex(row, center, flex-start);
+        @include margin-between-v(0.15em);
+        @include button_middle;
+        @include hover_effect(--c-background-secondary);
+        color: var(--c-text-primary);
+        width: 8em;
 
-            &.active {
-                background: var(--c-primary);
-                color: var(--c-text-secondary-accent);
-                cursor: default;
-            }
+        &.active {
+            background: var(--c-primary);
+            color: var(--c-text-secondary-accent);
+            cursor: default;
+        }
 
-            > span {
-                margin-left: 0.5em;
-            }
+        > span {
+            margin-left: 0.7em;
         }
     }
 
@@ -54,19 +54,66 @@
         }
     }
 
-    > button {
-        @include flex(row, center, center);
-        @include button_large;
+    .mobileMenu {
         display: none;
-        color: var(--c-text-primary);
-        background: var(--c-background-secondary);
-        padding: 0.65em;
-        border-radius: 0;
-        width: 100%;
-        margin: 0;
 
-        > span {
-            margin-left: 0.5em;
+        .toggleButton {
+            @include flex(row, center, center);
+            @include hover_effect(--c-background-secondary);
+            padding: 1em 0;
+            cursor: pointer;
+            z-index: 2;
+            width: 100%;
+
+            > div {
+                @include size(22px, 18px);
+                position: relative;
+                display: inline-block;
+
+                > div {
+                    @include size(100%, 2px);
+                    @include position(0, 0, 0, 0);
+                    background: var(--c-text-primary);
+                    transition: all 0.3s;
+                    position: absolute;
+                    margin: auto;
+
+                    &:first-child {
+                        top: auto;
+                    }
+
+                    &:last-child {
+                        bottom: auto;
+                    }
+                }
+            }
+
+            &.open > div > div {
+                &:first-child {
+                    transform: rotate(45deg);
+                    bottom: calc(50% - 1px);
+                }
+
+                &:nth-child(2) {
+                    opacity: 0;
+                }
+
+                &:last-child {
+                    transform: rotate(-45deg);
+                    top: calc(50% - 1px);
+                }
+            }
+        }
+
+        .mobileList {
+            @include flex(column);
+
+            .tabButton {
+                width: 100%;
+                border-radius: 0;
+                padding: 0.75em;
+                margin: 0;
+            }
         }
     }
 
@@ -79,38 +126,17 @@
             display: flex;
         }
 
-        .tabs,
-        .content {
-            transition: opacity 0.3s, visibility 0s 0.3s;
-            visibility: hidden;
-            opacity: 0;
-
-            &.visible {
-                transition: opacity 0.3s, visibility 0s 0s;
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-
         .content > div {
             padding: $grid-margin;
         }
 
         .tabs {
-            @include position(0, 0, 0, 0);
-            padding: $grid-margin;
-            position: absolute;
-            align-items: center;
-            justify-content: stretch;
-            margin: 0;
-            background: var(--c-background-primary);
-            z-index: 1;
-            width: 100%;
+            display: none;
+        }
 
-            > button {
-                width: 100%;
-                padding: 0.75em;
-            }
+        .mobileMenu {
+            display: block;
+            width: 100%;
         }
     }
 }
