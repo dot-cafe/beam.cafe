@@ -1,11 +1,11 @@
-import {observer}                               from 'mobx-react';
-import {Component, h}                           from 'preact';
-import {AllSettings, settings, socket, uploads} from '../../../../state';
-import {bind}                                   from '../../../../utils/preact-utils';
-import Icon                                     from '../../../components/Icon';
-import {Switch}                                 from '../../../components/Switch';
-import {Toast}                                  from '../../../overlays/Toast';
-import styles                                   from './_base.module.scss';
+import {observer}                                      from 'mobx-react';
+import {Component, h}                                  from 'preact';
+import {AllSettings, files, settings, socket, uploads} from '../../../../state';
+import {bind}                                          from '../../../../utils/preact-utils';
+import Icon                                            from '../../../components/Icon';
+import {Switch}                                        from '../../../components/Switch';
+import {Toast}                                         from '../../../overlays/Toast';
+import styles                                          from './_base.module.scss';
 
 @observer
 export class Security extends Component<{}, {}> {
@@ -86,7 +86,7 @@ export class Security extends Component<{}, {}> {
                     </header>
 
                     <article>
-                        Turn this option off to make all download links single use.
+                        Turn this option off to make all download links single-use.
                         After a download-link has been used the file will refresh and a you&apos;ll
                         receive a new download link.
                     </article>
@@ -96,7 +96,9 @@ export class Security extends Component<{}, {}> {
                     <header>
                         <Icon name="refresh-shield"/>
                         <h3>Restore Keys</h3>
-                        <button onClick={this.resetKeys}>Restore</button>
+                        <button onClick={this.resetKeys}
+                                disabled={files.isEmpty}>Restore
+                        </button>
                     </header>
 
                     <article>

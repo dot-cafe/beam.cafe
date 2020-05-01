@@ -53,6 +53,10 @@ $grid-margin: 1em;
                 &:hover {
                     background: var(--c-primary-accent);
                 }
+
+                @include disabled {
+                    @include button_disabled;
+                }
             }
 
             > h3 {
