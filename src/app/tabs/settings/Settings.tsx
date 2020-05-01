@@ -1,7 +1,7 @@
 import {Component, h} from 'preact';
 import {bind, cn}     from '../../../utils/preact-utils';
 import Icon           from '../../components/Icon';
-import Footer         from './Footer';
+import {About}        from './sections/About';
 import {Security}     from './sections/Security';
 import styles         from './Settings.module.scss';
 
@@ -11,18 +11,25 @@ type State = {
     menuOpen: boolean;
 };
 
+const tabs = [
+    {
+        key: 'security',
+        name: 'Security',
+        icon: 'shield',
+        com: <Security/>
+    },
+    {
+        key: 'about',
+        name: 'About',
+        icon: 'help',
+        com: <About/>
+    }
+];
+
 // TODO: This whole thing is overly complex, simplify it!
 export class Settings extends Component<Props, State> {
-    private static readonly TABS = [
-        {
-            key: 'security',
-            name: 'Security',
-            icon: 'shield'
-        }
-    ];
-
     readonly state = {
-        tab: 'security',
+        tab: 'about',
         menuOpen: true
     };
 
@@ -44,21 +51,28 @@ export class Settings extends Component<Props, State> {
 
     render() {
         const {tab, menuOpen} = this.state;
+        let activeComponent = null;
+        const tabButtons = [];
 
-        const tabButtons = Settings.TABS.map((data, index) => {
-            const {key, name, icon} = data;
+        for (let i = 0; i < tabs.length; i++) {
+            const {key, name, icon, com} = tabs[i];
+            const active = key === tab;
 
-            return (
+            if (active) {
+                activeComponent = com;
+            }
+
+            tabButtons.push(
                 <button onClick={this.changeTab(key)}
-                        key={index}
+                        key={i}
                         className={cn({
-                            [styles.active]: key === tab
+                            [styles.active]: active
                         })}>
                     <Icon name={icon}/>
                     <span>{name}</span>
                 </button>
             );
-        });
+        }
 
         return (
             <div className={styles.settings}>
@@ -72,7 +86,7 @@ export class Settings extends Component<Props, State> {
                     <div className={cn(styles.content, {
                         [styles.visible]: !menuOpen
                     })}>
-                        <div><Security/></div>
+                        <div>{activeComponent}</div>
                     </div>
 
                     <button onClick={this.showMenu}>
@@ -80,8 +94,6 @@ export class Settings extends Component<Props, State> {
                         <span>Back</span>
                     </button>
                 </div>
-
-                <Footer/>
             </div>
         );
     }

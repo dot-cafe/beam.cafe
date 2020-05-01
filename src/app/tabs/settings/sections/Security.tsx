@@ -5,7 +5,7 @@ import {bind}                                   from '../../../../utils/preact-u
 import Icon                                     from '../../../components/Icon';
 import {Switch}                                 from '../../../components/Switch';
 import {Toast} from '../../../overlays/Toast';
-import styles  from './base.module.scss';
+import styles  from './_base.module.scss';
 
 @observer
 export class Security extends Component<{}, {}> {

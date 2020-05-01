@@ -1,0 +1,28 @@
+.about {
+
+    a, b {
+        font-weight: 600;
+    }
+
+    section {
+        background: var(--c-background-secondary);
+        padding: 0.5em;
+    }
+
+    ul {
+        @include font(300, 0.95em);
+        list-style: none;
+        line-height: 1.65em;
+        width: 100%;
+
+        li {
+            @include flex(row, center, space-between);
+            background: var(--c-background-secondary);
+            flex-shrink: 0;
+        }
+    }
+
+    p {
+        text-align: center;
+    }
+}

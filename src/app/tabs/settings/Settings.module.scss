@@ -23,10 +23,12 @@
             @include margin-between-v(0.15em);
             @include button_middle;
             @include hover_effect(--c-background-secondary);
+            color: var(--c-text-primary);
             width: 7em;
 
             &.active {
-                background: var(--c-background-secondary-accent);
+                background: var(--c-primary);
+                color: var(--c-text-secondary-accent);
                 cursor: default;
             }
 
@@ -56,6 +58,7 @@
         @include flex(row, center, center);
         @include button_large;
         display: none;
+        color: var(--c-text-primary);
         background: var(--c-background-secondary);
         padding: 0.65em;
         border-radius: 0;

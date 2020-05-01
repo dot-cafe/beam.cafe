@@ -30,6 +30,11 @@ b {
     font-weight: 600;
 }
 
+a {
+    color: var(--c-primary);
+    text-decoration: none;
+}
+
 @for $i from 1 through 6 {
     #{'h' + $i} {
         color: var(--c-text-primary);
