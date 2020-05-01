@@ -9,6 +9,7 @@ type ClientSide = {
 };
 
 type ServerSide = {
+    reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
 };
 
@@ -17,10 +18,12 @@ export type AllSettings = ClientSide & ServerSide;
 class Settings {
 
     public static readonly SERVER_SIDE: Array<keyof ServerSide> = [
+        'reusableDownloadKeys',
         'strictSession'
     ];
 
     public static readonly DEFAULT_SETTINGS: AllSettings = {
+        reusableDownloadKeys: true,
         strictSession: false,
         autoPause: false,
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'

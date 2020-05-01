@@ -2,9 +2,9 @@ import {observer}                               from 'mobx-react';
 import {Component, h}                           from 'preact';
 import {AllSettings, settings, socket, uploads} from '../../../../state';
 import {bind}                                   from '../../../../utils/preact-utils';
-import Icon              from '../../../components/Icon';
-import {CollapsibleList} from '../../../components/CollapsibleList';
-import {Switch}          from '../../../components/Switch';
+import {CollapsibleList}                        from '../../../components/CollapsibleList';
+import Icon                                     from '../../../components/Icon';
+import {Switch}                                 from '../../../components/Switch';
 import {Toast}                                  from '../../../overlays/Toast';
 
 @observer
@@ -88,6 +88,21 @@ export class Security extends Component<{}, {}> {
                         In case you discover anomalies such as suspicious downloads you can
                         generate new keys for all your files. All active downloads will be cancelled
                         and your previous download-links will be invalidated.
+                    </article>
+                </section>,
+
+                <section>
+                    <header>
+                        <Icon name="recycle"/>
+                        <h3>Reusable download-links</h3>
+                        <Switch selected={settings.get('reusableDownloadKeys')}
+                                onChange={this.option('reusableDownloadKeys')}/>
+                    </header>
+
+                    <article>
+                        Turn this option off to make all download links single use.
+                        After a download-link has been used the file will refresh and a you&apos;ll
+                        receive a new download link.
                     </article>
                 </section>
             ]}/>
