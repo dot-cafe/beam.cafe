@@ -29,15 +29,13 @@ class Settings {
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     };
 
-    @observable private readonly settings: AllSettings;
+    @observable private settings: AllSettings;
 
     constructor() {
-        this.settings = {...Settings.DEFAULT_SETTINGS};
-        const saved = localStorageUtils.getJSON('settings');
-
-        if (saved !== null) {
-            Object.assign(this.settings, saved);
-        }
+        this.settings = {
+            ...Settings.DEFAULT_SETTINGS,
+            ...(localStorageUtils.getJSON('settings') as object || {})
+        };
     }
 
     private syncLocal(): void {
@@ -73,10 +71,12 @@ class Settings {
     }
 
     @action
-    public reset(): void {
-        Object.assign(this.settings, {...Settings.DEFAULT_SETTINGS});
+    public resetServerSideSettings(): void {
+        this.settings = {
+            ...Settings.DEFAULT_SETTINGS,
+            ...(localStorageUtils.getJSON('settings') as object || {})
+        };
 
-        // TODO: Recover client-side settings separately
         localStorageUtils.setJSON('settings', this.settings);
     }
 

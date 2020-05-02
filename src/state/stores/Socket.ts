@@ -111,7 +111,7 @@ class Socket {
                 // Clear all stores
                 files.clear();
                 uploads.clear();
-                settings.reset();
+                settings.resetServerSideSettings();
 
                 // TODO: Show popup with info why everything disappeared
                 break;
