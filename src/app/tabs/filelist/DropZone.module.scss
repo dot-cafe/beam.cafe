@@ -26,23 +26,23 @@
             margin-top: 0.75em;
             pointer-events: all;
             border-radius: 5em;
+            flex-shrink: 0;
 
-            > div {
-                @include size(1em);
+            bc-icon {
                 margin-right: 0.5em;
             }
         }
     }
 
     .mobile {
-        visibility: hidden;
         color: var(--c-text-primary);
+        visibility: hidden;
 
         > h1 {
             text-align: center;
         }
 
-        > div {
+        bc-icon {
             @include size(7.5vh);
         }
     }

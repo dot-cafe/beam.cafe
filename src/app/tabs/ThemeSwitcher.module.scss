@@ -19,7 +19,7 @@ $margin: 6px;
         transition: all 0.3s;
         position: relative;
 
-        > div {
+        > bc-icon {
             @include size(70%);
             @include position(0, 0, 0, 0);
             margin: auto;

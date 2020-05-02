@@ -21,4 +21,5 @@ if (env.NODE_ENV === 'development') {
     });
 }
 
-require('./app/index');
+require('./app/web-components');
+require('./app');

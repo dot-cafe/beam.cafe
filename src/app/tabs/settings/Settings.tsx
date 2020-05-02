@@ -1,7 +1,6 @@
 import {Component, createRef, h} from 'preact';
 import {cn}                      from '../../../utils/preact-utils';
 import {CollapsibleList}         from '../../components/CollapsibleList';
-import Icon                      from '../../components/Icon';
 import {About}                   from './sections/About';
 import {Security}                from './sections/Security';
 import styles                    from './Settings.module.scss';
@@ -60,7 +59,7 @@ export class Settings extends Component<Props, State> {
                         className={cn(styles.tabButton, {
                             [styles.active]: active
                         })}>
-                    <Icon name={icon}/>
+                    <bc-icon name={icon}/>
                     <span>{name}</span>
                 </button>
             );

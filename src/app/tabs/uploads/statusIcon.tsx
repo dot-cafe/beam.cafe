@@ -1,24 +1,23 @@
 import {h}           from 'preact';
 import {JSXInternal} from 'preact/src/jsx';
 import {UploadState} from '../../../state/stores/Uploads';
-import Icon          from '../../components/Icon';
 
 export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {
     switch (status) {
         case 'idle':
         case 'paused':
-            return <Icon name="play"/>;
+            return <bc-icon name="play"/>;
         case 'running':
-            return <Icon name="pause"/>;
+            return <bc-icon name="pause"/>;
         case 'removed':
         case 'cancelled':
         case 'errored':
         case 'timeout':
-            return <Icon name="exclamation-mark"/>;
+            return <bc-icon name="exclamation-mark"/>;
         case 'finished':
-            return <Icon name="ok"/>;
+            return <bc-icon name="ok"/>;
         case 'peer-cancelled': {
-            return <Icon name="question-mark"/>;
+            return <bc-icon name="question-mark"/>;
         }
     }
 };

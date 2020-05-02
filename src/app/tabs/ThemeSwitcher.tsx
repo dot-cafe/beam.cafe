@@ -2,7 +2,6 @@ import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {settings}     from '../../state';
 import {bind, cn}     from '../../utils/preact-utils';
-import Icon           from '../components/Icon';
 import styles         from './ThemeSwitcher.module.scss';
 
 @observer
@@ -44,15 +43,15 @@ export class ThemeSwitcher extends Component<{}, {}> {
                      [styles.toggled]: theme === 'dark'
                  })}>
                 <button>
-                    <Icon name="sun"
-                          className={cn({
-                              [styles.visible]: theme === 'light'
-                          })}/>
+                    <bc-icon name="sun"
+                             className={cn({
+                                 [styles.visible]: theme === 'light'
+                             })}/>
 
-                    <Icon name="moon"
-                          className={cn({
-                              [styles.visible]: theme === 'dark'
-                          })}/>
+                    <bc-icon name="moon"
+                             className={cn({
+                                 [styles.visible]: theme === 'dark'
+                             })}/>
                 </button>
             </div>
         );

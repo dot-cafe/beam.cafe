@@ -3,7 +3,6 @@ import {Component, h}        from 'preact';
 import {MassAction, uploads} from '../../../state';
 import {Upload}              from '../../../state';
 import {bind}                from '../../../utils/preact-utils';
-import Icon                  from '../../components/Icon';
 import {MassActions}         from './MassActions';
 import {UploadItem}          from './UploadItem';
 import styles                from './Uploads.module.scss';
@@ -39,7 +38,7 @@ export class Uploads extends Component {
                                 {
                                     massActions.includes('remove') ?
                                         <button onClick={this.massAction(ups, 'remove')}>
-                                            <Icon name="delete"/>
+                                            <bc-icon name="delete"/>
                                         </button> : ''
                                 }
                                 <h3>{fileName}</h3>
@@ -80,7 +79,7 @@ export class Uploads extends Component {
                         <MassActions/>,
                         items
                     ] : <div className={styles.placeholder}>
-                        <Icon name="link" className={styles.icon}/>
+                        <bc-icon name="link"/>
                         <h1>Share a file to get started!</h1>
                     </div>
                 }

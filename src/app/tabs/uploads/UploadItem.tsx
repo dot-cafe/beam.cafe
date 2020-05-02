@@ -5,7 +5,6 @@ import {uploads}            from '../../../state';
 import {SelectType, Upload} from '../../../state';
 import {bind, cn}           from '../../../utils/preact-utils';
 import {Checkbox}           from '../../components/Checkbox';
-import Icon                 from '../../components/Icon';
 import {getStatusIconFor}   from './statusIcon';
 import styles               from './UploadItem.module.scss';
 
@@ -98,7 +97,7 @@ export class UploadItem extends Component<Props, State> {
 
                 <button onClick={this.cancel}
                         className={cn(styles.btn, styles.abortBtn)}>
-                    <Icon name="delete"/>
+                    <bc-icon name="delete"/>
                 </button>
             </div>
         );

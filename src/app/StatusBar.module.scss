@@ -4,7 +4,7 @@
     transition: all 0.3s, margin-top 0.3s 2s;
     color: var(--c-text-secondary-accent);
 
-    > div {
+    bc-icon {
         @include size(0.8em);
     }
 

@@ -7,7 +7,6 @@ import {bind, cn}        from '../../../utils/preact-utils';
 import {isMobile}        from '../../browserenv';
 import {Toast}           from '../../overlays/Toast';
 import {FileStatus}      from './FileStatus';
-import Icon              from '../../components/Icon';
 import styles            from './FileItem.module.scss';
 import prettyBytes       from 'pretty-bytes';
 
@@ -84,12 +83,12 @@ export class FileItem extends Component<Props, State> {
                 <div className={styles.actionsBox}>
                     <button className={styles.shareBtn}
                             onClick={this.copyLink}>
-                        <Icon name={navigator.share && isMobile ? 'share' : 'copy'}/>
+                        <bc-icon name={navigator.share && isMobile ? 'share' : 'copy'}/>
                     </button>
 
                     <button className={styles.removeBtn}
                             onClick={this.removeFile}>
-                        <Icon name="trash"/>
+                        <bc-icon name="trash"/>
                     </button>
                 </div>
 

@@ -14,14 +14,14 @@
     flex-grow: 1;
     max-height: 100%;
 
-    .icon {
+    bc-icon {
         @include size(9vmin);
     }
 
     @include mq-phones {
         font-size: 0.75em;
 
-        .icon {
+        bc-icon {
             @include size(9vh);
         }
     }
@@ -51,7 +51,7 @@
             margin: 0 0.75em 0 0.25em;
             color: currentColor;
 
-            > div {
+            bc-icon {
                 @include size(16px);
             }
         }

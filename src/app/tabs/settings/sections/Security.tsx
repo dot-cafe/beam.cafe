@@ -2,7 +2,6 @@ import {observer}                                      from 'mobx-react';
 import {Component, h}                                  from 'preact';
 import {AllSettings, files, settings, socket, uploads} from '../../../../state';
 import {bind}                                          from '../../../../utils/preact-utils';
-import Icon                                            from '../../../components/Icon';
 import {Switch}                                        from '../../../components/Switch';
 import {Toast}                                         from '../../../overlays/Toast';
 import styles                                          from './_base.module.scss';
@@ -40,14 +39,14 @@ export class Security extends Component<{}, {}> {
         return (
             <div className={styles.section}>
                 <header>
-                    <Icon name="shield"/>
+                    <bc-icon name="shield"/>
                     <h1>Security</h1>
                     <span> - Everything around privacy and more</span>
                 </header>
 
                 <section>
                     <header>
-                        <Icon name="resume"/>
+                        <bc-icon name="resume"/>
                         <h3>Auto Pause</h3>
                         <Switch selected={settings.get('autoPause')}
                                 onChange={this.option('autoPause')}/>
@@ -63,7 +62,7 @@ export class Security extends Component<{}, {}> {
 
                 <section>
                     <header>
-                        <Icon name="ninja"/>
+                        <bc-icon name="ninja"/>
                         <h3>Strict Session</h3>
                         <Switch selected={settings.get('strictSession')}
                                 onChange={this.option('strictSession')}/>
@@ -79,7 +78,7 @@ export class Security extends Component<{}, {}> {
 
                 <section>
                     <header>
-                        <Icon name="recycle"/>
+                        <bc-icon name="recycle"/>
                         <h3>Reusable download-links</h3>
                         <Switch selected={settings.get('reusableDownloadKeys')}
                                 onChange={this.option('reusableDownloadKeys')}/>
@@ -94,7 +93,7 @@ export class Security extends Component<{}, {}> {
 
                 <section>
                     <header>
-                        <Icon name="refresh-shield"/>
+                        <bc-icon name="refresh-shield"/>
                         <h3>Restore Keys</h3>
                         <button onClick={this.resetKeys}
                                 disabled={files.isEmpty}>Restore

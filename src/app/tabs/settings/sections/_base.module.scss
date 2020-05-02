@@ -18,7 +18,7 @@ $grid-margin: 1em;
         margin: 0 0 0.5em 0;
         z-index: 2;
 
-        > div {
+        bc-icon {
             @include size(0.9em);
             margin-right: 0.5em;
         }

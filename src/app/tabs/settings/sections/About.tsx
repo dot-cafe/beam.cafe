@@ -1,6 +1,5 @@
 import {Component, h} from 'preact';
 import {cn}           from '../../../../utils/preact-utils';
-import Icon           from '../../../components/Icon';
 import base           from './_base.module.scss';
 import styles         from './About.module.scss';
 
@@ -12,7 +11,7 @@ export class About extends Component {
         return (
             <div className={cn(base.section, styles.about)}>
                 <header>
-                    <Icon name="shield"/>
+                    <bc-icon name="shield"/>
                     <h1>About</h1>
                     <span> - About the Author and the project</span>
                 </header>

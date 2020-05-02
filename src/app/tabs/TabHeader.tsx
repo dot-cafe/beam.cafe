@@ -1,7 +1,6 @@
 import {Component, h}  from 'preact';
 import {on}            from '../../utils/events';
 import {bind, cn}      from '../../utils/preact-utils';
-import Icon            from '../components/Icon';
 import {ThemeSwitcher} from './ThemeSwitcher';
 import styles          from './TabHeader.module.scss';
 
@@ -73,7 +72,7 @@ export class TabHeader extends Component<Props, State> {
                 {updateAvailable ? (
                     <button className={styles.updateBtn}
                             onClick={this.installUpdate}>
-                        <Icon name="updates"/>
+                        <bc-icon name="updates"/>
                     </button>
                 ) : ''}
 

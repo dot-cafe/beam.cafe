@@ -82,7 +82,7 @@
     color: var(--c-primary);
     margin-right: 1.25em;
 
-    > div {
+    bc-icon {
         @include size(1.5em);
         margin-top: 0.15em;
     }

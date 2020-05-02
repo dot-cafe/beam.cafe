@@ -2,7 +2,6 @@ import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {JSXInternal}  from 'preact/src/jsx';
 import {socket}       from '../state';
-import Icon           from './components/Icon';
 import styles         from './StatusBar.module.scss';
 
 type Props = {};
@@ -18,7 +17,7 @@ export class StatusBar extends Component<Props, State> {
         switch (connectionState) {
             case 'connected': {
                 content = [
-                    <Icon name="connected"/>,
+                    <bc-icon name="connected"/>,
                     <span>Connected!</span>
                 ];
 
@@ -26,7 +25,7 @@ export class StatusBar extends Component<Props, State> {
             }
             case 'disconnected': {
                 content = [
-                    <Icon name="disconnected"/>,
+                    <bc-icon name="disconnected"/>,
                     <span>Connecting...</span>
                 ];
 

@@ -4,7 +4,6 @@ import {files, SortKeys} from '../../../state';
 import {bind}            from '../../../utils/preact-utils';
 import {DropZone}        from './DropZone';
 import {FileItem}        from './FileItem';
-import Icon              from '../../components/Icon';
 import styles            from './FileList.module.scss';
 
 @observer
@@ -44,7 +43,7 @@ export class FileList extends Component {
                 </div>
 
                 <button onClick={this.chooseFiles}>
-                    <Icon name="plus"/>
+                    <bc-icon name="plus"/>
                     <span>Add Files</span>
                 </button>
             </div>

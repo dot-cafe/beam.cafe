@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
 @import '~normalize.css';
 @import './variables';
-@import './standards';
-@import './theme';
+@import 'globals/custom-elements';
+@import 'globals/standards';
+@import 'globals/theme';
 
 ::-webkit-scrollbar {
     width: 14px;

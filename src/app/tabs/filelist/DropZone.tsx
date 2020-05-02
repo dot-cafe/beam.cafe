@@ -3,7 +3,6 @@ import {Component, h}              from 'preact';
 import {files}                     from '../../../state';
 import {EventBindingArgs, off, on} from '../../../utils/events';
 import {bind, cn}                  from '../../../utils/preact-utils';
-import Icon                        from '../../components/Icon';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};
@@ -98,13 +97,13 @@ export class DropZone extends Component<Props, State> {
                     }</h1>
 
                     <button onClick={this.chooseFiles}>
-                        <Icon name="file"/>
+                        <bc-icon name="file"/>
                         <span>Choose Files</span>
                     </button>
                 </div>
 
                 <div className={styles.mobile}>
-                    <Icon name="rocket"/>
+                    <bc-icon name="rocket"/>
                     <h1>Click <b>Add Files</b> To Get Started</h1>
                 </div>
             </div>
