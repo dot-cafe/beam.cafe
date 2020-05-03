@@ -1,6 +1,6 @@
 import {Component, h}  from 'preact';
-import {on}            from '../../utils/events';
-import {bind, cn}      from '../../utils/preact-utils';
+import {on}            from '../../../utils/events';
+import {bind, cn}      from '../../../utils/preact-utils';
 import {ThemeSwitcher} from './ThemeSwitcher';
 import styles          from './TabHeader.module.scss';
 

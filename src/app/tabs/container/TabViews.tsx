@@ -1,7 +1,7 @@
 import {Component, h} from 'preact';
-import {JSXInternal}  from 'preact/src/jsx';
-import {cn}           from '../../utils/preact-utils';
-import styles         from './TabViews.module.scss';
+import {JSXInternal} from 'preact/src/jsx';
+import {cn}          from '../../../utils/preact-utils';
+import styles        from './TabViews.module.scss';
 
 type Props = {
     views: Array<JSXInternal.Element>;

@@ -1,11 +1,11 @@
 import {observer}       from 'mobx-react';
 import {Component, h}   from 'preact';
-import {files, uploads} from '../../state';
-import {bind}           from '../../utils/preact-utils';
-import {FileList}       from './filelist/FileList';
-import {Settings}       from './settings/Settings';
+import {files, uploads} from '../../../state';
+import {bind}           from '../../../utils/preact-utils';
+import {FileList}       from '../filelist/FileList';
+import {Settings}       from '../settings/Settings';
 import {TabHeader}      from './TabHeader';
-import {Uploads}        from './uploads/Uploads';
+import {Uploads}        from '../uploads/Uploads';
 import {TabViews}       from './TabViews';
 import styles           from './Tabs.module.scss';
 
