@@ -35,6 +35,7 @@
         }
     }
 
+    &[data-state='idle'],
     &[data-state='removed'],
     &[data-state='paused'] {
         --c-status-primary: var(--c-yellow);
@@ -49,10 +50,11 @@
     &[data-state='cancelled'],
     &[data-state='errored'],
     &[data-state='timeout'],
+    &[data-state='connection-lost'],
     &[data-state='peer-cancelled'], {
+        @include disabled_buttons;
         --c-status-primary: var(--c-red);
         --c-status-secondary: var(--c-red-accent);
-        @include disabled_buttons;
     }
 }
 

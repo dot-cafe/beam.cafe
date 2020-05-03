@@ -9,11 +9,11 @@ export class MassActions extends Component {
 
     @bind
     massAction(action: MassAction) {
-        return () => uploads.performMassActionFor(uploads.selectedUploads, action);
+        return () => uploads.performMassAction(uploads.selectedUploads, action);
     }
 
     render() {
-        const massAction = uploads.getAvailableMassActionsFor(uploads.selectedUploads);
+        const massAction = uploads.getAvailableMassActions(uploads.selectedUploads);
 
         return (
             <div className={cn(styles.massActions, {

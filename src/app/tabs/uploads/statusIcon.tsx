@@ -13,6 +13,7 @@ export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {
         case 'cancelled':
         case 'errored':
         case 'timeout':
+        case 'connection-lost':
             return <bc-icon name="exclamation-mark"/>;
         case 'finished':
             return <bc-icon name="ok"/>;

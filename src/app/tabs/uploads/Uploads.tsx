@@ -12,7 +12,7 @@ export class Uploads extends Component {
 
     @bind
     massAction(ups: Array<Upload>, action: MassAction) {
-        return () => uploads.performMassActionFor(ups, action);
+        return () => uploads.performMassAction(ups, action);
     }
 
     render() {
@@ -27,7 +27,7 @@ export class Uploads extends Component {
 
         const items = [...groupedDownloads.entries()].map(
             ([fileName, ups], index) => {
-                const massActions = uploads.getAvailableMassActionsFor(ups);
+                const massActions = uploads.getAvailableMassActions(ups);
 
                 return (
                     <div className={styles.listItem}

@@ -5,6 +5,7 @@ import {ListedFile}                             from '../models/ListedFile';
 import {socket}                                 from '../';
 
 export const FINAL_STATES: Array<UploadState> = [
+    'connection-lost',
     'peer-cancelled',
     'cancelled',
     'removed',
@@ -14,7 +15,12 @@ export const FINAL_STATES: Array<UploadState> = [
 ];
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
-export type UploadState = XHUploadState | 'peer-cancelled' | 'removed' | 'awaiting-approval';
+export type UploadState = XHUploadState |
+    'awaiting-approval' |
+    'peer-cancelled' |
+    'removed' |
+    'connection-lost';
+
 export type Upload = {
     id: string;
     listedFile: ListedFile;
@@ -48,7 +54,7 @@ class Uploads {
         return this.selectedUploads.includes(upload);
     }
 
-    public getAvailableMassActionsFor(uploads: Array<Upload>): Array<MassAction> {
+    public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
         const canPause = uploads.some(v => v.state === 'running');
         const canResume = uploads.some(v => v.state === 'paused');
         const canRemove = !canPause && !canResume && uploads.every(v => FINAL_STATES.includes(v.state));
@@ -64,7 +70,7 @@ class Uploads {
     }
 
     @action
-    public performMassActionFor(uploads: Array<Upload>, massAction: MassAction): void {
+    public performMassAction(uploads: Array<Upload>, massAction: MassAction): void {
         switch (massAction) {
             case 'remove': {
                 this.remove(...uploads.map(value => value.id));
@@ -99,6 +105,32 @@ class Uploads {
     }
 
     @action
+    public performMassStatusUpdate(uploads: Array<Upload>, newState: UploadState): void {
+        for (const upload of uploads) {
+            switch (newState) {
+                case 'removed':
+                case 'peer-cancelled':
+                case 'connection-lost': {
+                    upload.xhUpload.abort(true);
+                    upload.progress = 1;
+                    break;
+                }
+                case 'cancelled': {
+                    socket.sendMessage('cancel-request', upload.id);
+                    upload.progress = 1;
+                    break;
+                }
+                default: {
+                    const {size, transferred} = upload.xhUpload;
+                    upload.progress = transferred / size;
+                }
+            }
+
+            upload.state = newState;
+        }
+    }
+
+    @action
     public registerUpload(id: string, file: ListedFile, xhUpload: XHUpload): void {
         xhUpload.addEventListener('update', s => {
             this.updateUploadState(id, (s as XHUploadEvent).state);
@@ -114,35 +146,20 @@ class Uploads {
     }
 
     @action
-    public updateUploadState(id: string, newState: UploadState): void {
-        const index = this.listedUploads.findIndex(v => {
-            return v.id === id;
-        });
+    public updateUploadState(upload: string | Upload, newState: UploadState): void {
+        if (typeof upload === 'string') {
+            const index = this.listedUploads.findIndex(v => {
+                return v.id === upload;
+            });
 
-        if (index === -1) {
-            throw new Error('Failed to update upload status.');
+            if (index === -1) {
+                throw new Error('Failed to update upload status.');
+            }
+
+            upload = this.listedUploads[index];
         }
 
-        const upload = this.listedUploads[index];
-        switch (newState) {
-            case 'removed':
-            case 'peer-cancelled': {
-                upload.xhUpload.abort(true);
-                upload.progress = 1;
-                break;
-            }
-            case 'cancelled': {
-                socket.sendMessage('cancel-request', upload.id);
-                upload.progress = 1;
-                break;
-            }
-            default: {
-                const {size, transferred} = upload.xhUpload;
-                upload.progress = transferred / size;
-            }
-        }
-
-        upload.state = newState;
+        this.performMassStatusUpdate([upload], newState);
     }
 
     @action
@@ -193,7 +210,12 @@ class Uploads {
 
     @action
     public massAction(action: MassAction) {
-        this.performMassActionFor(this.listedUploads, action);
+        this.performMassAction(this.listedUploads, action);
+    }
+
+    @action
+    public massStatusUpdate(newState: UploadState) {
+        this.performMassStatusUpdate(this.listedUploads, newState);
     }
 
     @action

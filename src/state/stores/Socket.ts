@@ -144,8 +144,8 @@ class Socket {
 
                 // Refresh keys, cancel all uploads and sync settings with server
                 files.refreshAll();
-                uploads.massAction('cancel'); // TODO: New state for connection-lost?
                 settings.syncServer();
+                uploads.massStatusUpdate('connection-lost');
                 this.flushMessageQueue();
 
                 // TODO: Show popup with info why everything disappeared
