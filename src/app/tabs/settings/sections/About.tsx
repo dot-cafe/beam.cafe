@@ -19,7 +19,7 @@ export class About extends Component {
                 <section>
                     <ul>
                         <li>Creator: <b>Simon Reinisch</b></li>
-                        <li>Project: <a href="https://github.com/Simonwep/beam.cafe">Repository on GitHub</a></li>
+                        <li>Project: <a href="https://github.com/dot-cafe/beam.cafe">Repository on GitHub</a></li>
                         <li>License: <b>MIT</b></li>
                         <li>Version: <b>{version}</b></li>
                         <li>Build: <b>{build}</b></li>

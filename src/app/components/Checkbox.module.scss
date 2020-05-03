@@ -1,10 +1,10 @@
 .checkbox {
     @include size(1.5em);
-    @include hover_effect(--c-primary, border-color);
+    @include hover_effect(--c-text-primary, border-color);
     flex-shrink: 0;
     position: relative;
     overflow: visible;
-    border: 2px solid var(--c-primary);
+    border: 2px solid var(--c-text-primary);
     border-radius: 50em;
     transition: all 0.3s;
 
@@ -24,10 +24,10 @@
 }
 
 .checked {
-    @include hover_effect(--c-primary, background, border-color);
+    @include hover_effect(--c-text-primary, background, border-color);
 
     > svg {
-        stroke: white;
+        stroke: var(--c-background-primary);
         stroke-dashoffset: 0;
     }
 }

@@ -27,8 +27,6 @@ class Socket {
         this.requests = new Map();
         this.sessionKey = null;
 
-        this.ws.retryInterval = 2000;
-
         this.ws.addEventListener('connected', () => {
             console.log('[WS] Connected!');
 
