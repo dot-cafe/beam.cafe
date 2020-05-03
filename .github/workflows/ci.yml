@@ -18,5 +18,6 @@ jobs:
             -   name: Install dependencies and build
                 run: |
                     npm ci
-                    npm run lint
+                    npm run lint:types
+                    npm run lint:ts
                     npm run build
