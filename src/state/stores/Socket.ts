@@ -170,9 +170,10 @@ class Socket {
                 const upload = new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file);
                 uploads.registerUpload(downloadId, item, upload);
 
-                // TODO: Add additional state for awaiting the user to approve the download
                 if (!settings.get('autoPause')) {
                     upload.start();
+                } else {
+                    uploads.updateUploadState(downloadId, 'awaiting-approval');
                 }
 
                 break;

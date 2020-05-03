@@ -44,6 +44,7 @@ export class UploadItem extends Component<Props, State> {
             + `--text-clip-left: ${percentage}%;`
             + `--text-clip-right: ${100 - percentage}%;`;
 
+        // TODO: Move to separate module
         let text = `${percentage.toFixed(2)}%`;
         switch (state) {
             case 'idle':
@@ -74,6 +75,9 @@ export class UploadItem extends Component<Props, State> {
                 break;
             case 'peer-cancelled':
                 text = ' Cancelled by peer';
+                break;
+            case 'awaiting-approval':
+                text = 'Auto-pause is activated. Press start to initiate upload.'; // BRR BRR I'm the terminator
                 break;
         }
 

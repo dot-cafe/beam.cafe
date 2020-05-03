@@ -14,7 +14,7 @@ export const FINAL_STATES: Array<UploadState> = [
 ];
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
-export type UploadState = XHUploadState | 'peer-cancelled' | 'removed';
+export type UploadState = XHUploadState | 'peer-cancelled' | 'removed' | 'awaiting-approval';
 export type Upload = {
     id: string;
     listedFile: ListedFile;

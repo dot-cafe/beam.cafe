@@ -11,10 +11,6 @@ export type AvailableSettings = {
     autoPause: boolean;
 };
 
-function hasKey<K extends string>(k: K, o: {}): o is { [_ in K]: {} } {
-    return typeof o === 'object' && k in o;
-}
-
 class Settings {
 
     private static readonly SERVER_SIDE_SETTINGS: Partial<Array<keyof AvailableSettings>> = [

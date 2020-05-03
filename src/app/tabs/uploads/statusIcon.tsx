@@ -1,6 +1,6 @@
 import {h}           from 'preact';
 import {JSXInternal} from 'preact/src/jsx';
-import {UploadState} from '../../../state/stores/Uploads';
+import {UploadState} from '../../../state';
 
 export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {
     switch (status) {
@@ -16,8 +16,9 @@ export const getStatusIconFor = (status: UploadState): JSXInternal.Element => {
             return <bc-icon name="exclamation-mark"/>;
         case 'finished':
             return <bc-icon name="ok"/>;
-        case 'peer-cancelled': {
+        case 'peer-cancelled':
             return <bc-icon name="question-mark"/>;
-        }
+        case 'awaiting-approval':
+            return <bc-icon name="thumbs-up"/>;
     }
 };

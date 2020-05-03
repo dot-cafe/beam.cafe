@@ -6,7 +6,6 @@ type State = {
     updated: boolean;
 };
 
-// TODO: Add button in case of SW update
 export class UpdateScreen extends Component<Props, State> {
 
     readonly state = {
