@@ -192,15 +192,13 @@ class Uploads {
     }
 
     @action
-    public cancelAll() {
-        for (const upload of this.listedUploads) {
-            upload.xhUpload.abort();
-        }
+    public massAction(action: MassAction) {
+        this.performMassActionFor(this.listedUploads, action);
     }
 
     @action
     public clear() {
-        this.cancelAll();
+        this.massAction('cancel');
         clearArray(this.listedUploads);
     }
 }

@@ -88,7 +88,7 @@ class Files {
     }
 
     @action
-    public enableFiles(idPairs: Keys) {
+    public activate(idPairs: Keys) {
         for (const {name, id} of idPairs) {
             const target = this.listedFiles.find(
                 value => value.file.name === name
@@ -105,9 +105,22 @@ class Files {
         }
     }
 
+    public refreshAll() {
+        const files = this.listedFiles
+            .filter(v => v.status === 'loading')
+            .map(v => ({
+                name: v.file.name,
+                size: v.file.size
+            }));
+
+        socket.sendMessage('download-keys', files);
+    }
+
     @action
-    public clear() {
-        clearArray(this.listedFiles);
+    public resetFiles() {
+        for (const file of this.listedFiles) {
+            file.status = 'loading';
+        }
     }
 
     @action

@@ -17,11 +17,13 @@ class Socket {
     @observable public connectionState: ConnectionState;
     private readonly requests: Map<string, RequestResolver>;
     private readonly ws: GracefulWebSocket;
+    private messageQueue: Array<string>;
     private sessionKey: string | null;
 
     constructor() {
         this.ws = new GracefulWebSocket(env.WS_ENDPOINT);
         this.connectionState = 'disconnected';
+        this.messageQueue = [];
         this.requests = new Map();
         this.sessionKey = null;
 
@@ -41,6 +43,10 @@ class Socket {
         this.ws.addEventListener('disconnected', () => {
             this.updateState('disconnected');
             console.log('[WS] Disconnected!');
+
+            // Pause all uploads and mark all files as pending
+            uploads.massAction('pause');
+            files.resetFiles();
         });
 
         this.ws.addEventListener('message', e => {
@@ -54,7 +60,13 @@ class Socket {
     }
 
     public sendMessage(type: string, payload: unknown = null): void {
-        this.ws.send(JSON.stringify({type, payload}));
+        const message = JSON.stringify({type, payload});
+
+        if (this.ws.connected) {
+            this.ws.send(message);
+        } else {
+            this.messageQueue.push(message);
+        }
     }
 
     public request(type: string, data: unknown = null): Promise<unknown> {
@@ -67,6 +79,20 @@ class Socket {
 
             this.requests.set(id, [resolve, reject]);
         });
+    }
+
+    @action
+    private flushMessageQueue() {
+        if (!this.ws.connected) {
+            throw new Error('Cannot clear message queue if not connected.');
+        }
+
+        // TODO: Add bulk endpoint
+        for (const message of this.messageQueue) {
+            this.ws.send(message);
+        }
+
+        this.messageQueue = [];
     }
 
     @action
@@ -96,7 +122,15 @@ class Socket {
             }
             case 'restore-session': {
                 console.log('[WS] Session restored.');
-                files.enableFiles(payload.files);
+
+                // Restore settings and files
+                settings.apply(payload.settings);
+                files.activate(payload.files);
+
+                // Send pending messages
+                this.flushMessageQueue();
+
+                // Update state and session-key
                 this.updateState('connected');
                 this.sessionKey = payload.key;
                 break;
@@ -108,16 +142,17 @@ class Socket {
                 this.updateState('connected');
                 this.sessionKey = payload;
 
-                // Clear all stores
-                files.clear();
-                uploads.clear();
-                settings.resetServerSideSettings();
+                // Refresh keys, cancel all uploads and sync settings with server
+                files.refreshAll();
+                uploads.massAction('cancel'); // TODO: New state for connection-lost?
+                settings.syncServer();
+                this.flushMessageQueue();
 
                 // TODO: Show popup with info why everything disappeared
                 break;
             }
             case 'file-registrations': {
-                files.enableFiles(payload as Keys);
+                files.activate(payload as Keys);
                 break;
             }
             case 'file-request': {
@@ -135,10 +170,9 @@ class Socket {
                 const upload = new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file);
                 uploads.registerUpload(downloadId, item, upload);
 
-                if (settings.get('autoPause')) {
-                    upload.pause();
-                } else {
-                    upload.resume();
+                // TODO: Add additional state for awaiting the user to approve the download
+                if (!settings.get('autoPause')) {
+                    upload.start();
                 }
 
                 break;

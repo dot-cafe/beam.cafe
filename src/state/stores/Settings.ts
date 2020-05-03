@@ -1,35 +1,35 @@
 import {action, observable} from 'mobx';
 import {SwitchState}        from '../../app/components/Switch';
 import {localStorageUtils}  from '../../utils/local-storage-utils';
+import {pick}               from '../../utils/pick';
 import {socket}             from './Socket';
 
-type ClientSide = {
-    autoPause: boolean;
-    theme: 'light' | 'dark';
-};
-
-type ServerSide = {
+export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
+    theme: 'light' | 'dark';
+    autoPause: boolean;
 };
 
-export type AllSettings = ClientSide & ServerSide;
+function hasKey<K extends string>(k: K, o: {}): o is { [_ in K]: {} } {
+    return typeof o === 'object' && k in o;
+}
 
 class Settings {
 
-    public static readonly SERVER_SIDE: Array<keyof ServerSide> = [
+    private static readonly SERVER_SIDE_SETTINGS: Partial<Array<keyof AvailableSettings>> = [
         'reusableDownloadKeys',
         'strictSession'
     ];
 
-    public static readonly DEFAULT_SETTINGS: AllSettings = {
+    public static readonly DEFAULT_SETTINGS: AvailableSettings = {
+        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         reusableDownloadKeys: true,
         strictSession: false,
-        autoPause: false,
-        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        autoPause: false
     };
 
-    @observable private settings: AllSettings;
+    @observable private settings: AvailableSettings;
 
     constructor() {
         this.settings = {
@@ -38,24 +38,36 @@ class Settings {
         };
     }
 
-    private syncLocal(): void {
+    public syncLocal(): void {
         localStorageUtils.setJSON('settings', this.settings);
     }
 
+    public syncServer() {
+        const toSync = pick(this.settings, Settings.SERVER_SIDE_SETTINGS);
+
+        socket.request('settings', toSync).catch(() => {
+
+            // Fallback to default settings
+            const defaults = pick(Settings.DEFAULT_SETTINGS, Settings.SERVER_SIDE_SETTINGS);
+            Object.assign(this.settings, defaults);
+        });
+    }
+
     @action
-    public set<K extends keyof AllSettings>(key: K, value: AllSettings[K]): void {
+    public apply(settings: Partial<AvailableSettings>): void {
+        Object.assign(this.settings, settings);
+    }
 
-        /**
-         * TS is so god damn weird here, for god sake if I want to check
-         * if an array contains a string let me PLEASE ALSO CHECK OTHER VALUES
-         * for which .includes was made.
-         */
-        const maybeServerSide = key as unknown as keyof ServerSide;
+    @action
+    public set<K extends keyof AvailableSettings>(key: K, value: AvailableSettings[K]): void {
 
-        if (Settings.SERVER_SIDE.includes(maybeServerSide)) {
+        // Type-checking for "in" is somewhat broken or I'm just dumb
+        // see https://github.com/Microsoft/TypeScript/issues/10485
+        if (Settings.SERVER_SIDE_SETTINGS.includes(key)) {
 
             // TODO: Mixing booleans and string is definitely not best practice, change that later!
-            this.settings[maybeServerSide] = 'intermediate';
+            /* eslint-disable @typescript-eslint/no-explicit-any */
+            this.settings[key] = 'intermediate' as any;
 
             socket.request('settings', {
                 [key]: value
@@ -71,7 +83,7 @@ class Settings {
     }
 
     @action
-    public resetServerSideSettings(): void {
+    public resetServerSide(): void {
         this.settings = {
             ...Settings.DEFAULT_SETTINGS,
             ...(localStorageUtils.getJSON('settings') as object || {})
@@ -80,7 +92,7 @@ class Settings {
         localStorageUtils.setJSON('settings', this.settings);
     }
 
-    public get<K extends keyof AllSettings>(key: K): AllSettings[K] {
+    public get<K extends keyof AvailableSettings>(key: K): AvailableSettings[K] {
         return this.settings[key];
     }
 }

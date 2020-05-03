@@ -1,5 +1,4 @@
-import {settings} from '../state';
-import {on}       from './events';
+import {on} from './events';
 
 export type XHUploadState = 'idle' |
     'paused' |
@@ -22,7 +21,7 @@ export class XHUpload extends EventTarget {
     public static readonly SPEED_BUFFER_SIZE = 10;
 
     public readonly size: number;
-    public state: XHUploadState = 'paused';
+    public state: XHUploadState = 'idle';
     public transferred = 0;
 
     // Amount of bytes transferred and current upload speed
@@ -35,14 +34,14 @@ export class XHUpload extends EventTarget {
     private readonly url: string;
 
     // Current request instance, byte-offset and if paused
-    private xhr: XMLHttpRequest;
+    private xhr: XMLHttpRequest | null;
 
     constructor(url: string, file: File) {
         super();
         this.file = file;
         this.url = url;
         this.size = file.size;
-        this.xhr = new XMLHttpRequest();
+        this.xhr = null;
     }
 
     get currentSpeed(): number {
@@ -63,16 +62,23 @@ export class XHUpload extends EventTarget {
     }
 
     public abort(silent = false): void {
-        const {readyState} = this.xhr;
 
-        if (readyState !== 0 && readyState !== 4) {
-            this.xhr.abort();
-            this.state = 'cancelled';
+        if (this.xhr) {
+            const {readyState} = this.xhr;
 
-            if (!silent) {
-                this.emitEvent();
+            if (readyState !== 0 && readyState !== 4) {
+                this.xhr.abort();
+                this.state = 'cancelled';
+
+                if (!silent) {
+                    this.emitEvent();
+                }
+
+                return;
             }
-        } else if (this.state === 'paused') {
+        }
+
+        if (this.state === 'paused') {
             this.state = 'cancelled';
 
             if (!silent) {
@@ -83,6 +89,10 @@ export class XHUpload extends EventTarget {
 
     public toggleState(): void {
         switch (this.state) {
+            case 'idle': {
+                this.start();
+                break;
+            }
             case 'running': {
                 this.pause();
                 break;
@@ -97,12 +107,20 @@ export class XHUpload extends EventTarget {
         }
     }
 
+    public start(): void {
+        if (this.state !== 'idle') {
+            throw new Error('Upload is already in a progressed state.');
+        }
+
+        this._start();
+    }
+
     public pause(): void {
         if (this.state !== 'running') {
             throw new Error('Cannot pause upload if not started.');
         }
 
-        this.xhr.abort();
+        this.xhr?.abort();
     }
 
     public resume(): void {
@@ -110,7 +128,7 @@ export class XHUpload extends EventTarget {
             throw new Error('Upload not paused.');
         }
 
-        this.start();
+        this._start();
     }
 
     private emitEvent(): void {
@@ -119,7 +137,7 @@ export class XHUpload extends EventTarget {
         ));
     }
 
-    private start(): XMLHttpRequest {
+    private _start(): XMLHttpRequest {
         const {file, url} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 

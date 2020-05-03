@@ -1,7 +1,7 @@
 import {observer}                                      from 'mobx-react';
-import {Component, h}                                  from 'preact';
-import {AllSettings, files, settings, socket, uploads} from '../../../../state';
-import {bind}                                          from '../../../../utils/preact-utils';
+import {Component, h}                                        from 'preact';
+import {AvailableSettings, files, settings, socket, uploads} from '../../../../state';
+import {bind}                                                from '../../../../utils/preact-utils';
 import {Switch}                                        from '../../../components/Switch';
 import {Toast}                                         from '../../../overlays/Toast';
 import styles                                          from './_base.module.scss';
@@ -9,7 +9,7 @@ import styles                                          from './_base.module.scss
 @observer
 export class Security extends Component<{}, {}> {
 
-    option(key: keyof AllSettings) {
+    option(key: keyof AvailableSettings) {
         return (newValue: boolean) => {
             settings.set(key, newValue);
         };
@@ -19,7 +19,7 @@ export class Security extends Component<{}, {}> {
     resetKeys() {
 
         // Cancel downloads
-        uploads.cancelAll();
+        uploads.massAction();
 
         // Request a new key-set
         socket.request('reset-keys').then(() => {
