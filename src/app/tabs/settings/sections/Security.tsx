@@ -19,7 +19,7 @@ export class Security extends Component<{}, {}> {
     resetKeys() {
 
         // Cancel downloads
-        uploads.massAction();
+        uploads.massAction('cancel');
 
         // Request a new key-set
         socket.request('reset-keys').then(() => {

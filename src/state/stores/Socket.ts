@@ -17,7 +17,7 @@ class Socket {
     @observable public connectionState: ConnectionState;
     private readonly requests: Map<string, RequestResolver>;
     private readonly ws: GracefulWebSocket;
-    private messageQueue: Array<string>;
+    private messageQueue: Array<unknown>;
     private sessionKey: string | null;
 
     constructor() {
@@ -26,6 +26,8 @@ class Socket {
         this.messageQueue = [];
         this.requests = new Map();
         this.sessionKey = null;
+
+        this.ws.retryInterval = 2000;
 
         this.ws.addEventListener('connected', () => {
             console.log('[WS] Connected!');
@@ -60,10 +62,10 @@ class Socket {
     }
 
     public sendMessage(type: string, payload: unknown = null): void {
-        const message = JSON.stringify({type, payload});
+        const message = {type, payload};
 
         if (this.ws.connected) {
-            this.ws.send(message);
+            this.ws.send(JSON.stringify(message));
         } else {
             this.messageQueue.push(message);
         }
@@ -87,10 +89,10 @@ class Socket {
             throw new Error('Cannot clear message queue if not connected.');
         }
 
-        // TODO: Add bulk endpoint
-        for (const message of this.messageQueue) {
-            this.ws.send(message);
-        }
+        this.ws.send(JSON.stringify({
+            type: 'bulk',
+            payload: this.messageQueue
+        }));
 
         this.messageQueue = [];
     }
