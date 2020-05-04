@@ -2,9 +2,9 @@ import {Component, ComponentConstructor, createRef, h} from 'preact';
 import {JSXInternal}                                   from 'preact/src/jsx';
 
 export type SingletonComponent<T> = {
-    getInstance(): T;
-    getElement(): JSXInternal.Element;
-} & T;
+    instance: T;
+    element: JSXInternal.Element;
+};
 
 /**
  * Makes a component a singleton.
@@ -16,18 +16,23 @@ export function singleton<T extends Function>(
 ): SingletonComponent<T['prototype']> {
     const ref = createRef();
 
-
     // I have no Idea how this works.
     const Component = target as unknown as ComponentConstructor;
     const element = <Component ref={ref}/>;
 
-    Object.defineProperty(target, 'getInstance', {
-        value: () => ref.current
+    Object.defineProperty(target, 'instance', {
+        get: () => ref.current,
+        set: () => {
+            throw new Error('instance is a readonly property');
+        }
     });
 
-    Object.defineProperty(target, 'getElement', {
-        value: () => element
+    Object.defineProperty(target, 'element', {
+        get: () => element,
+        set: () => {
+            throw new Error('element is a readonly property');
+        }
     });
 
-    return target as SingletonComponent<T>;
+    return target as unknown as SingletonComponent<T>;
 }

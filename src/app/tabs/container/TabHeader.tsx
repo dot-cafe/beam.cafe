@@ -30,16 +30,20 @@ export class TabHeader extends Component<Props, State> {
                 e.preventDefault();
             }
         });
-        // Check if update is available
-        navigator.serviceWorker.getRegistrations().then(regs => {
-            for (const reg of regs) {
-                reg.addEventListener('updatefound', () => {
-                    this.setState({
-                        updateAvailable: true
+
+        if (env.NODE_ENV === 'production') {
+
+            // Check if update is available
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                for (const reg of regs) {
+                    reg.addEventListener('updatefound', () => {
+                        this.setState({
+                            updateAvailable: true
+                        });
                     });
-                });
-            }
-        }).catch(() => null);
+                }
+            }).catch(() => null);
+        }
     }
 
     changeTab(index: number) {

@@ -1,0 +1,90 @@
+.dialogBox {
+    @include position(0, 0, 0, 0);
+    @include flex(row, center, center);
+    z-index: 15;
+    position: absolute;
+    transition: all 0.3s;
+    pointer-events: none;
+    opacity: 0;
+
+    &.open {
+        backdrop-filter: blur(2px);
+        pointer-events: all;
+        opacity: 1;
+    }
+}
+
+.dialog {
+    @include flex(column);
+    box-shadow: 0 0.15em 1.5em var(--c-background-primary-accent);
+    background: var(--c-background-primary);
+    color: var(--c-text-primary);
+    transform-origin: top center;
+    transform: scale(1);
+    transition: all 0.3s;
+    border-radius: 0.25em;
+    max-width: 22.5em;
+
+    &.closing {
+        transform: scale(0.95) translateY(-2.5vmin);
+        opacity: 0;
+    }
+
+    > header {
+        @include flex(row, center);
+        padding: 0.75em;
+        border-bottom: 2px solid var(--c-background-secondary);
+
+        > bc-icon {
+            @include size(16px);
+            color: var(--c-text-primary-accent);
+        }
+
+        > p {
+            @include font(600, 0.9em);
+            line-height: 1.15em;
+            margin-left: 0.75em;
+        }
+    }
+
+    > p {
+        @include font(600, 1em);
+        line-height: 1.25em;
+        padding: 1em;
+    }
+}
+
+.buttonBar {
+    @include flex(row, center, flex-end);
+    padding: 0 1em 1em;
+    width: 100%;
+
+    > button {
+        @include margin-between-h(0.5em);
+        @include flex(row, center);
+        @include hover_effect(--c-primary);
+        @include button_small;
+        padding: 0.7em 1.25em;
+        font-size: 0.9em;
+
+        $types: (
+                ('success', --c-primary),
+                ('warning', --c-yellow),
+                ('error', --c-red)
+        );
+
+        @each $type in $types {
+            &[data-severity="#{nth($type, 1)}"] {
+                @include hover_effect(nth($type, 2));
+            }
+        }
+
+        > bc-icon {
+            margin-right: 0.5em;
+        }
+
+        > span {
+            font-weight: 600;
+        }
+    }
+}

@@ -23,12 +23,12 @@ export class Security extends Component<{}, {}> {
 
         // Request a new key-set
         socket.request('reset-keys').then(() => {
-            Toast.getInstance().set({
+            Toast.instance.set({
                 text: 'Keys refreshed!',
                 type: 'success'
             });
         }).catch(() => {
-            Toast.getInstance().set({
+            Toast.instance.set({
                 text: 'Failed to reset keys.',
                 type: 'error'
             });

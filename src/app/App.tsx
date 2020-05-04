@@ -1,4 +1,5 @@
 import {Component, h} from 'preact';
+import {DialogBox}    from './overlays/DialogBox';
 import {UpdateScreen} from './overlays/UpdateScreen';
 import {Toast}        from './overlays/Toast';
 import {StatusBar}    from './StatusBar';
@@ -9,7 +10,8 @@ export class App extends Component {
     render() {
         return (
             <div className={styles.app}>
-                {Toast.getElement()}
+                {DialogBox.element}
+                {Toast.element}
                 <UpdateScreen/>
                 <StatusBar/>
                 <Tabs/>
