@@ -1,7 +1,7 @@
-import {Component, createRef, h} from 'preact';
-import {JSXInternal}             from 'preact/src/jsx';
-import {cn}                      from '../../utils/preact-utils';
-import styles                    from './Toast.module.scss';
+import {Component, h} from 'preact';
+import {singleton}    from '../../utils/preact-singleton';
+import {cn}           from '../../utils/preact-utils';
+import styles         from './Toast.module.scss';
 
 export type ToastItem = {
     type: 'success' | 'warning' | 'error';
@@ -14,10 +14,7 @@ type State = {
     item: ToastItem;
 };
 
-export class Toast extends Component<Props, State> {
-    private static instance: Toast;
-    private static element: JSXInternal.Element;
-
+export const Toast = singleton(class extends Component<Props, State> {
     readonly state = {
         visible: false,
         item: {text: '', type: 'success'} as ToastItem
@@ -27,37 +24,8 @@ export class Toast extends Component<Props, State> {
     private locked = false;
 
     /* eslint-disable no-useless-constructor */
-    private constructor() {
+    public constructor() {
         super();
-    }
-
-    public static getInstance() {
-        Toast.createInstance();
-        return Toast.instance;
-    }
-
-    public static getElement(): JSXInternal.Element {
-        Toast.createInstance();
-        return Toast.element;
-    }
-
-    private static createInstance(): void {
-
-        /**
-         * Yeah I know this is a really, really weird way of implementing
-         * a singleton in React. I'm aware of this being not the best solution
-         * but it works perfectly and I want to keep it as it is.
-         *
-         * Whoever reads this, have a wonderful day!
-         */
-        if (!Toast.instance) {
-            const ref = createRef();
-
-            Toast.element = <Toast ref={ref}/>;
-            requestAnimationFrame(() => {
-                Toast.instance = ref.current;
-            });
-        }
     }
 
     public set(item: ToastItem): void {
@@ -106,4 +74,4 @@ export class Toast extends Component<Props, State> {
             this.hide();
         }, 2000) as unknown as number;
     }
-}
+});

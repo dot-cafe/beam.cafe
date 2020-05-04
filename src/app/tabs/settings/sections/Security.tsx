@@ -1,10 +1,10 @@
-import {observer}                                      from 'mobx-react';
+import {observer}                                            from 'mobx-react';
 import {Component, h}                                        from 'preact';
 import {AvailableSettings, files, settings, socket, uploads} from '../../../../state';
 import {bind}                                                from '../../../../utils/preact-utils';
-import {Switch}                                        from '../../../components/Switch';
-import {Toast}                                         from '../../../overlays/Toast';
-import styles                                          from './_base.module.scss';
+import {Switch}                                              from '../../../components/Switch';
+import {Toast}                                               from '../../../overlays/Toast';
+import styles                                                from './_base.module.scss';
 
 @observer
 export class Security extends Component<{}, {}> {
