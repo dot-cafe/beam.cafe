@@ -147,8 +147,6 @@ class Socket {
                 settings.syncServer();
                 uploads.massStatusUpdate('connection-lost');
                 this.flushMessageQueue();
-
-                // TODO: Show popup with info why everything disappeared
                 break;
             }
             case 'file-registrations': {

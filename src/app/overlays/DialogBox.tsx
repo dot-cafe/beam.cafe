@@ -78,7 +78,6 @@ export const DialogBox = singleton(class extends Component<Props, State> {
         });
     }
 
-    // TODO: Use visibility / display for overlay!
     render() {
         const item = this.firstItem;
 

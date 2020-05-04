@@ -3,13 +3,14 @@
     @include flex(row, center, center);
     z-index: 15;
     position: absolute;
-    transition: all 0.3s;
-    pointer-events: none;
+    transition: all 0.3s, visibility 0s 0.3s;
+    visibility: hidden;
     opacity: 0;
 
     &.open {
+        transition: all 0.3s, visibility 0s 0s;
         backdrop-filter: blur(2px);
-        pointer-events: all;
+        visibility: visible;
         opacity: 1;
     }
 }
