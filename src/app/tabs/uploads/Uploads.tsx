@@ -2,8 +2,10 @@ import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
 import {MassAction, uploads} from '../../../state';
 import {Upload}              from '../../../state';
+import {ListedFile}          from '../../../state/models/ListedFile';
 import {bind}                from '../../../utils/preact-utils';
 import {MassActions}         from './MassActions';
+import {UploadBox}           from './UploadBox';
 import {UploadItem}          from './UploadItem';
 import styles                from './Uploads.module.scss';
 
@@ -17,71 +19,36 @@ export class Uploads extends Component {
 
     render() {
         const {listedUploads} = uploads;
-        const groupedDownloads = new Map<string, Array<Upload>>();
+        const groupedDownloads = new Map<ListedFile, Array<Upload>>();
 
         for (const upload of listedUploads) {
-            const fileName = upload.listedFile.file.name;
+            const fileName = upload.listedFile;
             const list = groupedDownloads.get(fileName) || [];
             groupedDownloads.set(fileName, [...list, upload]);
         }
 
         const items = [...groupedDownloads.entries()].map(
-            ([fileName, ups], index) => {
-                const massActions = uploads.getAvailableMassActions(ups);
-
-                return (
-                    <div className={styles.listItem}
-                         key={index}>
-
-                        <div className={styles.header}>
-                            <div className={styles.fileName}>
-                                {
-                                    massActions.includes('remove') ?
-                                        <button onClick={this.massAction(ups, 'remove')}>
-                                            <bc-icon name="delete"/>
-                                        </button> : ''
-                                }
-                                <h3>{fileName}</h3>
-                            </div>
-
-                            <div className={styles.controls}>
-                                <button disabled={!massActions.includes('resume')}
-                                        onClick={this.massAction(ups, 'resume')}>
-                                    Resume
-                                </button>
-
-                                <button disabled={!massActions.includes('pause')}
-                                        onClick={this.massAction(ups, 'pause')}>
-                                    Pause
-                                </button>
-
-                                <button disabled={!massActions.includes('cancel')}
-                                        onClick={this.massAction(ups, 'cancel')}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className={styles.uploadList}>
-                            {ups.map((value, i) =>
-                                <UploadItem key={i} upload={value}/>
-                            )}
-                        </div>
-                    </div>
-                );
-            }
+            ([listedFile, uploadItems], index) => (
+                <UploadBox listedFile={listedFile}
+                           uploadItems={uploadItems}
+                           key={index}/>
+            )
         );
 
         return (
             <div className={styles.uploads}>
                 { /* eslint-disable react/jsx-key */
                     items.length ? [
-                        <MassActions/>,
-                        items
-                    ] : <div className={styles.placeholder}>
-                        <bc-icon name="link"/>
-                        <h1>Share a file to get started!</h1>
-                    </div>
+                        <div className={styles.itemList}>
+                            {items}
+                        </div>,
+                        <MassActions/>
+                    ] : (
+                        <div className={styles.placeholder}>
+                            <bc-icon name="link"/>
+                            <h1>Share a file to get started!</h1>
+                        </div>
+                    )
                 }
             </div>
         );

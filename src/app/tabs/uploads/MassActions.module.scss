@@ -1,15 +1,14 @@
 .massActions {
     @include flex(row, center);
-    margin-bottom: 1em;
-    border-bottom: 2px solid var(--c-background-secondary);
+    border-top: 2px solid var(--c-background-secondary);
     transition: all 0.3s;
-    margin-top: -4em;
+    margin: auto 0 -4em 0;
     padding: 1em;
     height: 3em;
     color: var(--c-text-primary);
 
     &.visible {
-        margin-top: 0;
+        margin-bottom: 0;
     }
 }
 
