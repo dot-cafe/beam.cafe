@@ -5,7 +5,7 @@
 
 @mixin button_small {
     @include font(800, 0.75em);
-    color: var(--c-text-secondary-accent);
+    color: var(--c-text-secondary);
     padding: 0.5em 0.75em;
     border-radius: 0.2em;
 }
@@ -15,7 +15,7 @@
     border-radius: 0.2em;
     padding: 0.5em 0.85em;
     background: var(--c-primary);
-    color: var(--c-text-secondary-accent);
+    color: var(--c-text-secondary);
 }
 
 @mixin button_large {
@@ -23,14 +23,14 @@
     border-radius: 0.15em;
     padding: 0.5em 0.9em;
     background: var(--c-primary);
-    color: var(--c-text-secondary-accent);
+    color: var(--c-text-secondary);
 }
 
 @mixin button_disabled {
     pointer-events: none;
     cursor: not-allowed;
     background: var(--c-background-secondary);
-    color: var(--c-text-secondary);
+    color: var(--c-text-disabled);
 }
 
 @mixin hover_effect($color, $props...) {
