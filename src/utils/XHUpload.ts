@@ -78,7 +78,8 @@ export class XHUpload extends EventTarget {
             }
         }
 
-        if (this.state === 'paused') {
+        if (this.state === 'paused' ||
+            this.state === 'idle') {
             this.state = 'cancelled';
 
             if (!silent) {
