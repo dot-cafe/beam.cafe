@@ -1,10 +1,17 @@
 import {action, observable}                     from 'mobx';
+import {socket}                                 from '../';
 import {clearArray, removeItem}                 from '../../utils/array';
 import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
 import {ListedFile}                             from '../models/ListedFile';
-import {socket}                                 from '../';
 
-export const FINAL_STATES: Array<UploadState> = [
+export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
+export type UploadState = XHUploadState |
+    'awaiting-approval' |
+    'peer-cancelled' |
+    'removed' |
+    'connection-lost';
+
+const UPLOAD_FINAL_STATES: Array<UploadState> = [
     'connection-lost',
     'peer-cancelled',
     'cancelled',
@@ -14,24 +21,18 @@ export const FINAL_STATES: Array<UploadState> = [
     'finished'
 ];
 
-export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
-export type UploadState = XHUploadState |
-    'awaiting-approval' |
-    'peer-cancelled' |
-    'removed' |
-    'connection-lost';
-
 export type Upload = {
     id: string;
     listedFile: ListedFile;
+    xhUpload: XHUpload;
     state: UploadState;
     progress: number;
-    xhUpload: XHUpload;
+    done: boolean;
 };
 
 export enum SelectType {
-    Select = 'Select',
     Unselect = 'Unselect',
+    Select = 'Select',
     Toggle = 'Toggle'
 }
 
@@ -57,7 +58,7 @@ class Uploads {
     public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
         const canPause = uploads.some(v => v.state === 'running');
         const canResume = uploads.some(v => v.state === 'paused');
-        const canRemove = !canPause && !canResume && uploads.every(v => FINAL_STATES.includes(v.state));
+        const canRemove = !canPause && !canResume && uploads.every(v => v.done);
         const canCancel = canPause || canResume;
 
         const actions: Array<MassAction> = [];
@@ -126,6 +127,10 @@ class Uploads {
                 }
             }
 
+            if (UPLOAD_FINAL_STATES.includes(newState)) {
+                upload.done = true;
+            }
+
             upload.state = newState;
         }
     }
@@ -140,6 +145,7 @@ class Uploads {
             xhUpload,
             state: xhUpload.state,
             progress: 0,
+            done: false,
             listedFile: file,
             id
         });
@@ -168,8 +174,8 @@ class Uploads {
             const upload = this.listedUploads[i];
 
             if (ids.includes(upload.id)) {
-                if (!FINAL_STATES.includes(upload.state)) {
-                    throw new Error('Cannot remove file since it\'s not in a final state');
+                if (!upload.done) {
+                    throw new Error('Cannot remove upload as it\'s not finished.');
                 }
 
                 this.listedUploads.splice(i, 1);

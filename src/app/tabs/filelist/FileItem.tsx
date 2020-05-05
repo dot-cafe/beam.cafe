@@ -1,5 +1,6 @@
 import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
+import prettyBytes       from 'pretty-bytes';
 import {files, uploads}  from '../../../state';
 import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copy-to-clipboard';
@@ -7,9 +8,8 @@ import {bind, cn}        from '../../../utils/preact-utils';
 import {isMobile}        from '../../browserenv';
 import {DialogBox}       from '../../overlays/DialogBox';
 import {Toast}           from '../../overlays/Toast';
-import {FileStatus}      from './FileStatus';
 import styles            from './FileItem.module.scss';
-import prettyBytes       from 'pretty-bytes';
+import {FileStatus}      from './FileStatus';
 
 type Props = {
     item: ListedFile;
@@ -55,7 +55,7 @@ export class FileItem extends Component<Props, State> {
         const {id} = this.props.item;
 
         if (id) {
-            const relatedUploads = uploads.listedUploads.filter(v => v.listedFile.id === id).length;
+            const relatedUploads = uploads.listedUploads.filter(v => v.listedFile.id === id && !v.done).length;
 
             // Tell the user that uploads are about to get cancelled
             if (relatedUploads > 0) {
@@ -63,7 +63,7 @@ export class FileItem extends Component<Props, State> {
                     icon: 'exclamation-mark',
                     title: 'Uh Oh! Are you sure about that?',
                     description: relatedUploads > 1 ?
-                        `There are currently ${relatedUploads} uploads for this file. Continue?` :
+                        `There are currently ${relatedUploads} uploads of this file. Continue?` :
                         'This file is currently being uploaded. Continue?',
                     buttons: [
                         {
