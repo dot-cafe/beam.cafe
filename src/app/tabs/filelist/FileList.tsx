@@ -1,12 +1,12 @@
-import {observer}         from 'mobx-react';
-import {Component, h}     from 'preact';
-import {files, SortKeys}  from '../../../state';
-import {bind}             from '../../../utils/preact-utils';
-import {stringSimilarity} from '../../../utils/string-similarity';
-import {SearchBar}        from '../../components/SearchBar';
-import {DropZone}         from './DropZone';
-import {FileItem}         from './FileItem';
-import styles             from './FileList.module.scss';
+import {observer}              from 'mobx-react';
+import {Component, h}          from 'preact';
+import {files, SortKeys}       from '../../../state';
+import {bind}                  from '../../../utils/preact-utils';
+import {fuzzyStringSimilarity} from '../../../utils/fuzzy-string-similarity';
+import {SearchBar}             from '../../components/SearchBar';
+import {DropZone}              from './DropZone';
+import {FileItem}              from './FileItem';
+import styles                  from './FileList.module.scss';
 
 type Props = {};
 type State = {
@@ -37,15 +37,15 @@ export class FileList extends Component<Props, State> {
     }
 
     render() {
-        const {searchTerm} = this.state;
+        const {searchTerm} = this.state as State;
         const {listedFiles} = files;
         const indexPadding = Math.max(String(listedFiles.length).length, 2);
         const sourceList = [...listedFiles];
 
         if (searchTerm) {
             sourceList.sort((a, b) => {
-                const sa = stringSimilarity(a.file.name, searchTerm, true);
-                const sb = stringSimilarity(b.file.name, searchTerm, true);
+                const sa = fuzzyStringSimilarity(a.file.name, searchTerm);
+                const sb = fuzzyStringSimilarity(b.file.name, searchTerm);
                 return sb - sa;
             });
         }
