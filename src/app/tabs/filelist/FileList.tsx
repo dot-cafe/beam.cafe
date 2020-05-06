@@ -43,9 +43,25 @@ export class FileList extends Component<Props, State> {
         const sourceList = [...listedFiles];
 
         if (searchTerm) {
+
+            // Sort files and cache similarities
+            const matches: Map<string, number> = new Map();
             sourceList.sort((a, b) => {
-                const sa = fuzzyStringSimilarity(a.file.name, searchTerm);
-                const sb = fuzzyStringSimilarity(b.file.name, searchTerm);
+                const an = a.file.name;
+                const bn = b.file.name;
+
+                let sa = matches.get(an);
+                if (sa === undefined) {
+                    sa = fuzzyStringSimilarity(an, searchTerm);
+                    matches.set(an, sa);
+                }
+
+                let sb = matches.get(bn);
+                if (sb === undefined) {
+                    sb = fuzzyStringSimilarity(bn, searchTerm);
+                    matches.set(bn, sb);
+                }
+
                 return sb - sa;
             });
         }
