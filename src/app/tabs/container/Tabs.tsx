@@ -48,7 +48,9 @@ export class Tabs extends Component<Props, State> {
                            activeTab={tabIndex}
                            onChange={this.changeTab}/>
 
-                <TabViews views={this.views} activeView={tabIndex}/>
+                <TabViews views={this.views}
+                          changeView={this.changeTab}
+                          activeView={tabIndex}/>
             </div>
         );
     }

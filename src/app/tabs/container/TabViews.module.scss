@@ -8,7 +8,7 @@
         @include size(100%);
     }
 
-    @include mq-not-phones {
+    @include mq-desktop {
         > div .view {
             @include size(100%);
             transition: all 0.3s;
@@ -30,19 +30,12 @@
         $tabs: 3;
 
         > div {
-            transition: all 0.3s;
             display: flex;
 
             .view {
                 @include fixed-size(100%);
                 transition: all linear 0.3s;
                 position: relative;
-            }
-        }
-
-        @for $i from 0 through 3 {
-            &[data-tab-index="#{$i}"] > div {
-                transform: translateX(-100% * $i);
             }
         }
     }

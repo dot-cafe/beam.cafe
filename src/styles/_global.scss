@@ -86,7 +86,7 @@ body {
         }
     }
 
-    @include mq-desktop {
+    @include mq-tablet {
         min-width: 100%;
         min-height: 100%;
         border-radius: 0;

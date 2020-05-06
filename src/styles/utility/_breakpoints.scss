@@ -1,13 +1,13 @@
 // Custom media queries based on these by sassyfication
 
 @mixin mq-desktop {
-    @media screen and (max-width: 1200px), (max-height: 675px) {
+    @media screen and (min-width: 725px) {
         @content;
     }
 }
 
-@mixin mq-not-phones {
-    @media screen and (min-width: 725px) {
+@mixin mq-tablet {
+    @media screen and (max-width: 1200px), (max-height: 675px) {
         @content;
     }
 }
