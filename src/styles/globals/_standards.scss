@@ -10,6 +10,11 @@ button {
     outline: none;
     background: inherit;
     border: none;
+
+    &:focus,
+    &:active {
+        outline: none;
+    }
 }
 
 button {

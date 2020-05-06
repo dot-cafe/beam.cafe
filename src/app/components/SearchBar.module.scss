@@ -1,0 +1,40 @@
+.searchBar {
+    @include flex(row, center);
+    background: var(--c-primary);
+    padding: 0.5em 1em;
+
+    > bc-icon {
+        color: var(--c-text-secondary);
+        stroke: currentColor;
+        stroke-width: 2;
+    }
+
+    > input {
+        @include font(600, 0.875em);
+        color: var(--c-text-secondary);
+        width: 100%;
+        padding-left: 1em;
+        margin-top: 2px;
+
+        &::placeholder {
+            color: var(--c-text-secondary);
+            opacity: 0.75;
+        }
+    }
+
+    > button {
+        color: var(--c-text-secondary);
+        transition: all 0.3s;
+
+        > bc-icon {
+            @include size(12px);
+        }
+    }
+
+    &.empty {
+        > button {
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+}

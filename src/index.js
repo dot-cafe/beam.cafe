@@ -8,6 +8,9 @@ if (env.NODE_ENV === 'development') {
     if (module.hot) {
         module.hot.accept();
     }
+
+    // See https://github.com/facebook/react/issues/16604#issuecomment-528663101
+    window.$RefreshReg$ = () => {};
 } else if (env.NODE_ENV === 'production') {
 
     // Print user warning and cool message

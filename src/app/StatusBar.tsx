@@ -4,11 +4,8 @@ import {JSXInternal}  from 'preact/src/jsx';
 import {socket}       from '../state';
 import styles         from './StatusBar.module.scss';
 
-type Props = {};
-type State = {};
-
 @observer
-export class StatusBar extends Component<Props, State> {
+export class StatusBar extends Component {
     render() {
         const {connectionState} = socket;
         let content: Array<JSXInternal.Element> = [];
