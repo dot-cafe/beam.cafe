@@ -2,20 +2,48 @@
     position: relative;
     overflow: hidden;
     flex-grow: 1;
+    height: 0;
 
-    .view {
-        @include position(0, 0, 0, 0);
-        transition: all 0.3s;
-        transform: scale(0.98);
-        position: absolute;
-        overflow: hidden;
-        visibility: hidden;
-        opacity: 0;
+    > div {
+        @include size(100%);
+    }
 
-        &.active {
-            visibility: visible;
-            opacity: 1;
-            transform: none;
+    @include mq-not-phones {
+        > div .view {
+            @include size(100%);
+            transition: all 0.3s;
+            transform: scale(0.98);
+            position: absolute;
+            overflow: hidden;
+            visibility: hidden;
+            opacity: 0;
+
+            &.active {
+                visibility: visible;
+                opacity: 1;
+                transform: none;
+            }
+        }
+    }
+
+    @include mq-phones {
+        $tabs: 3;
+
+        > div {
+            transition: all 0.3s;
+            display: flex;
+
+            .view {
+                @include fixed-size(100%);
+                transition: all linear 0.3s;
+                position: relative;
+            }
+        }
+
+        @for $i from 0 through 3 {
+            &[data-tab-index="#{$i}"] > div {
+                transform: translateX(-100% * $i);
+            }
         }
     }
 }

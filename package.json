@@ -39,7 +39,7 @@
         "progress-bar-webpack-plugin": "^2.1.0",
         "react-refresh": "^0.8.2",
         "sass-loader": "^8.0.2",
-        "sassyfication": "1.0.0",
+        "sassyfication": "^1.0.1",
         "style-loader": "^1.2.1",
         "svg-inline-loader": "^0.8.2",
         "terser-webpack-plugin": "^2.3.6",

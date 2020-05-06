@@ -3,6 +3,7 @@
     @include flex(row, center, center);
     transition: all 0.3s, margin-top 0.3s 2s;
     color: var(--c-text-secondary);
+    flex-shrink: 0;
 
     bc-icon {
         @include size(0.8em);

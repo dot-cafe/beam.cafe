@@ -6,6 +6,12 @@
     }
 }
 
+@mixin mq-not-phones {
+    @media screen and (min-width: 725px) {
+        @content;
+    }
+}
+
 @mixin mq-phones {
     @media screen and (max-width: 725px) {
         @content;
