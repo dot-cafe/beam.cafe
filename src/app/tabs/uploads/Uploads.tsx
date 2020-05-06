@@ -6,7 +6,6 @@ import {ListedFile}          from '../../../state/models/ListedFile';
 import {bind}                from '../../../utils/preact-utils';
 import {MassActions}         from './MassActions';
 import {UploadBox}           from './UploadBox';
-import {UploadItem}          from './UploadItem';
 import styles                from './Uploads.module.scss';
 
 @observer

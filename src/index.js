@@ -9,8 +9,26 @@ if (env.NODE_ENV === 'development') {
         module.hot.accept();
     }
 } else if (env.NODE_ENV === 'production') {
-    console.log(`[APP] Launching v${env.VERSION}`);
-    console.log(`[APP] Build at ${new Date(env.BUILD_DATE).toUTCString()}`);
+
+    // Print user warning and cool message
+    console.log('%c!!! Pasting something in here can give attackers access to your files !!!', `
+        background: #ff252f;
+        padding: 0.3em 0.5em;
+        border-radius: 0.25em;
+        color: #fff;
+    `);
+
+    console.log(`%c😎 Checkout the project on GitHub: https://github.com/dot-cafe/beam.cafe`, `
+        background: #3d7cf9;
+        padding: 0.3em 0.5em;
+        border-radius: 0.25em;
+        color: #fff;
+    `);
+
+    // Boring application logs and the service worker registration
+    console.groupCollapsed(`[APP] Launching v${env.VERSION}`);
+    console.log(`Build at ${new Date(env.BUILD_DATE).toUTCString()}`);
+    console.groupEnd();
 
     navigator.serviceWorker.register(
         '/sw.js'

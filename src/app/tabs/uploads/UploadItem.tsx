@@ -1,6 +1,5 @@
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
-import prettyBytes           from 'pretty-bytes';
 import {uploads}             from '../../../state';
 import {SelectType, Upload}  from '../../../state';
 import {bind, cn}            from '../../../utils/preact-utils';
