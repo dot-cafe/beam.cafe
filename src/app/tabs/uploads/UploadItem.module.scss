@@ -6,6 +6,8 @@
     padding: 0.5em;
     --c-status: var(--c-primary);
     --c-status-accent: var(--c-primary-accent);
+    --checkbox-color: var(--c-status);
+    --checkbox-color-accent: var(--c-status-accent);
 
     .btn {
         @include size(26px);
