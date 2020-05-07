@@ -17,7 +17,6 @@ const UPLOAD_FINAL_STATES: Array<UploadState> = [
     'cancelled',
     'removed',
     'errored',
-    'timeout',
     'finished'
 ];
 

@@ -5,7 +5,6 @@ export type XHUploadState = 'idle' |
     'running' |
     'cancelled' |
     'errored' |
-    'timeout' |
     'finished';
 
 export class XHUploadEvent extends Event {
@@ -142,6 +141,10 @@ export class XHUpload extends EventTarget {
         const {file, url} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 
+        // Disable timeouts entirely
+        // See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/timeout
+        xhr.timeout = 0;
+
         // Speed buffer
         this.speedBufferFull = false;
         this.speedBufferIndex = 0;
@@ -154,8 +157,7 @@ export class XHUpload extends EventTarget {
             'progress',
             'abort',
             'error',
-            'load',
-            'timeout'
+            'load'
         ], (e: ProgressEvent) => {
             switch (e.type) {
                 case 'progress': {
@@ -174,10 +176,6 @@ export class XHUpload extends EventTarget {
                         this.speedBufferIndex = 0;
                     }
 
-                    break;
-                }
-                case 'timeout': {
-                    this.state = 'timeout';
                     break;
                 }
                 case 'error': {

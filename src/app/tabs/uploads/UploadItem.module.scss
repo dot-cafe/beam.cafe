@@ -61,7 +61,6 @@
 
     &[data-state='cancelled'],
     &[data-state='errored'],
-    &[data-state='timeout'],
     &[data-state='connection-lost'],
     &[data-state='peer-cancelled'], {
         @include disabled_buttons;

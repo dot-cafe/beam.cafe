@@ -27,8 +27,6 @@ export const getStatusMessageFor = (upload: Upload): string => {
             return ' Cancelled by peer';
         case 'errored':
             return 'Errored';
-        case 'timeout':
-            return 'Upload timeout';
         case 'finished':
             return 'Done';
         case 'awaiting-approval':
