@@ -1,4 +1,5 @@
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,7 +39,10 @@ module.exports = {
         rules: [
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader'
+                loader: [
+                    'svg-inline-loader',
+                    'svgo-loader'
+                ]
             },
             {
                 enforce: 'pre',
@@ -114,11 +118,10 @@ module.exports = {
                 'VERSION': JSON.stringify(pkg.version),
                 'BUILD_DATE': JSON.stringify(Date.now()),
                 'WS_ENDPOINT': JSON.stringify('wss://beam.cafe/ws'),
-                'API_ENDPOINT': JSON.stringify('https://beam.cafe'),
+                'API_ENDPOINT': JSON.stringify('https://beam.cafe')
             }
         }),
 
-        // new BundleAnalyzerPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'public/index.html',
@@ -149,6 +152,7 @@ module.exports = {
             from: 'assets'
         }]),
 
+        // new BundleAnalyzerPlugin(),
         new CleanWebpackPlugin(),
         new ProgressBarPlugin()
     ]
