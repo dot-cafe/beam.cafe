@@ -96,9 +96,8 @@ export class FileItem extends Component<Props, State> {
             <div className={styles.fileItem}
                  data-state={item.status}
                  onClick={this.copyLink}>
-                <div className={styles.status}>
-                    <FileStatus status={item.status} text={label}/>
-                </div>
+
+                <FileStatus status={item.status} text={label}/>
 
                 <p className={cn(styles.itemText, styles.fileName)}>
                     {item.file.name}

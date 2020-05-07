@@ -3,7 +3,7 @@
     position: relative;
     padding: 3px 6px 2px;
     overflow: visible;
-    margin: auto;
+    justify-self: flex-start;
     --color: var(--c-primary);
 
     span {

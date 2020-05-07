@@ -1,3 +1,4 @@
+import {observer}                    from 'mobx-react';
 import {Component, h}                from 'preact';
 import {MassAction, Upload, uploads} from '../../../state';
 import {ListedFile}                  from '../../../state/models/ListedFile';
@@ -12,6 +13,7 @@ type Props = {
 
 type State = {};
 
+@observer
 export class UploadBox extends Component<Props, State> {
 
     @bind
