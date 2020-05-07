@@ -48,7 +48,7 @@ export class Security extends Component<{}, {}> {
                     <header>
                         <bc-icon name="resume"/>
                         <h3>Auto Pause</h3>
-                        <Switch selected={settings.get('autoPause')}
+                        <Switch state={settings.get('autoPause')}
                                 onChange={this.option('autoPause')}/>
                     </header>
 
@@ -64,7 +64,7 @@ export class Security extends Component<{}, {}> {
                     <header>
                         <bc-icon name="ninja"/>
                         <h3>Strict Session</h3>
-                        <Switch selected={settings.get('strictSession')}
+                        <Switch state={settings.get('strictSession')}
                                 onChange={this.option('strictSession')}/>
                     </header>
 
@@ -80,7 +80,7 @@ export class Security extends Component<{}, {}> {
                     <header>
                         <bc-icon name="recycle"/>
                         <h3>Reusable download-links</h3>
-                        <Switch selected={settings.get('reusableDownloadKeys')}
+                        <Switch state={settings.get('reusableDownloadKeys')}
                                 onChange={this.option('reusableDownloadKeys')}/>
                     </header>
 

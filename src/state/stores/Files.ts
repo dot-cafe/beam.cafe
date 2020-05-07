@@ -1,5 +1,4 @@
 import {action, computed, observable} from 'mobx';
-import {clearArray}                   from '../../utils/array';
 import {chooseFiles}                  from '../../utils/choose-files';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';

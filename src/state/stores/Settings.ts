@@ -7,8 +7,8 @@ import {socket}             from './Socket';
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
-    theme: 'light' | 'dark';
     autoPause: boolean;
+    theme: 'light' | 'dark';
 };
 
 class Settings {
@@ -61,7 +61,6 @@ class Settings {
         // see https://github.com/Microsoft/TypeScript/issues/10485
         if (Settings.SERVER_SIDE_SETTINGS.includes(key)) {
 
-            // TODO: Mixing booleans and string is definitely not best practice, change that later!
             /* eslint-disable @typescript-eslint/no-explicit-any */
             this.settings[key] = 'intermediate' as any;
 

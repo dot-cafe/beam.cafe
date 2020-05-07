@@ -1,31 +1,17 @@
-import {Component, h} from 'preact';
-import {bind}         from '../../utils/preact-utils';
-import styles         from './Switch.module.scss';
+import {Component, FunctionalComponent, h} from 'preact';
+import {bind}                              from '../../utils/preact-utils';
+import styles                              from './Switch.module.scss';
 
 type Props = {
     onChange: (newState: boolean) => void;
-    selected: SwitchState;
+    state: SwitchState;
 };
 
-type State = {};
-
 export type SwitchState = boolean | 'intermediate';
-
-export class Switch extends Component<Props, State> {
-
-    @bind
-    onChange() {
-        this.props.onChange(!this.props.selected);
-    }
-
-    render() {
-        const {selected} = this.props;
-
-        const state = typeof selected === 'boolean' ?
-            selected ? 'on' : 'off' : selected;
-
-        return <div className={styles.switch}
-                    data-state={state}
-                    onClick={this.onChange}/>;
-    }
-}
+export const Switch: FunctionalComponent<Props> = (
+    {state, onChange}
+) => (
+    <div className={styles.switch}
+         data-state={typeof state === 'boolean' ? state ? 'on' : 'off' : state}
+         onClick={() => onChange(!state)}/>
+);

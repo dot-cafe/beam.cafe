@@ -168,10 +168,10 @@ class Socket {
                 const upload = new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file);
                 uploads.registerUpload(downloadId, item, upload);
 
-                if (!settings.get('autoPause')) {
-                    upload.start();
-                } else {
+                if (settings.get('autoPause')) {
                     uploads.updateUploadState(downloadId, 'awaiting-approval');
+                } else {
+                    upload.start();
                 }
 
                 break;
