@@ -100,12 +100,15 @@ module.exports = {
         },
         minimizer: [
             new TerserPlugin({
-                cache: true,
+                extractComments:false,
                 parallel: true,
                 sourceMap: true,
                 terserOptions: {
-                    output: {comments: false},
-                    mangle: true
+                    toplevel: true,
+                    mangle: true,
+                    output: {
+                        comments: /^!/
+                    }
                 }
             })
         ]
@@ -153,7 +156,7 @@ module.exports = {
         }]),
 
         // new BundleAnalyzerPlugin(),
-        new CleanWebpackPlugin(),
-        new ProgressBarPlugin()
+        new ProgressBarPlugin(),
+        new CleanWebpackPlugin()
     ]
 };
