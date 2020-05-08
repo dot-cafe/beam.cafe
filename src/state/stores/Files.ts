@@ -72,7 +72,9 @@ class Files {
             const relatedUploads = uploads.listedUploads.filter(u => u.listedFile === file);
             for (const upload of relatedUploads) {
                 if (upload.state === 'paused' ||
-                    upload.state === 'running') {
+                    upload.state === 'running' ||
+                    upload.state === 'idle' ||
+                    upload.state === 'awaiting-approval') {
                     uploads.updateUploadState(upload.id, 'removed');
                 }
             }
