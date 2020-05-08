@@ -15,7 +15,8 @@
         @include flex(row, center);
         color: var(--c-text-primary);
         font-weight: 600;
-        flex-shrink: 1;
+        flex-grow: 1;
+        width: 0;
 
         > button {
             display: flex;
@@ -29,6 +30,7 @@
 
         > h3 {
             @include white-space-overflow();
+            min-width: 0;
             margin-right: 1em;
             margin-top: 1px;
         }
@@ -36,6 +38,7 @@
 
     > div {
         padding: 0.25em;
+        flex-shrink: 0;
     }
 }
 
@@ -45,6 +48,7 @@
     > button {
         @include margin-between-h(0.25em);
         @include button_small;
+        flex-shrink: 0;
         $colors: (--c-primary, --c-yellow, --c-red);
 
         @for $i from 1 through 3 {

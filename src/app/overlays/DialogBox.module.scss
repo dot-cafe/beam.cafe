@@ -9,9 +9,13 @@
 
     &.open {
         transition: all 0.3s, visibility 0s 0s;
-        backdrop-filter: blur(2px);
         visibility: visible;
         opacity: 1;
+
+        // Backdrop-filter is too difficult for most phones
+        @include mq-desktop {
+            backdrop-filter: blur(2px);
+        }
     }
 }
 
@@ -52,6 +56,10 @@
         @include font(600, 1em);
         line-height: 1.25em;
         padding: 1em;
+    }
+
+    @include mq-phones {
+        width: 90vw;
     }
 }
 

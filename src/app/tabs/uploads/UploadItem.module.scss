@@ -95,6 +95,11 @@
             clip-path: inset(0 var(--text-clip-right) 0 0);
             color: var(--c-text-secondary);
         }
+
+        > span {
+            @include white-space-overflow();
+            max-width: 85%;
+        }
     }
 
     &::before {
