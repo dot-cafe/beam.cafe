@@ -1,6 +1,5 @@
-import {Component, FunctionalComponent, h} from 'preact';
-import {bind}                              from '../../utils/preact-utils';
-import styles                              from './Switch.module.scss';
+import {FunctionalComponent, h} from 'preact';
+import styles                   from './Switch.module.scss';
 
 type Props = {
     onChange: (newState: boolean) => void;

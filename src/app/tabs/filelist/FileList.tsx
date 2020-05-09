@@ -1,8 +1,9 @@
 import {observer}              from 'mobx-react';
 import {Component, h}          from 'preact';
 import {files, SortKeys}       from '../../../state';
-import {bind}                  from '../../../utils/preact-utils';
 import {fuzzyStringSimilarity} from '../../../utils/fuzzy-string-similarity';
+import {bind}                  from '../../../utils/preact-utils';
+import {isMobile}              from '../../browserenv';
 import {SearchBar}             from '../../components/SearchBar';
 import {DropZone}              from './DropZone';
 import {FileItem}              from './FileItem';
@@ -76,7 +77,11 @@ export class FileList extends Component<Props, State> {
                     <p onClick={this.sortBy('index')}>#</p>
                     <p onClick={this.sortBy('name')}>Filename</p>
                     <p onClick={this.sortBy('size')} className={styles.alignRight}>File Size</p>
-                    <p className={styles.alignCenter}>Action</p>
+                    {isMobile ? (
+                        <p className={styles.alignCenter}/>
+                    ) : (
+                        <p className={styles.alignCenter}>Actions</p>
+                    )}
                 </div>
 
                 <div className={styles.list}>

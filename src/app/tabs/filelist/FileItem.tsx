@@ -6,6 +6,7 @@ import {ListedFile}      from '../../../state/models/ListedFile';
 import {copyToClipboard} from '../../../utils/copy-to-clipboard';
 import {bind, cn}        from '../../../utils/preact-utils';
 import {isMobile}        from '../../browserenv';
+import {ContextMenu}     from '../../components/ContextMenu';
 import {DialogBox}       from '../../overlays/DialogBox';
 import {Toast}           from '../../overlays/Toast';
 import styles            from './FileItem.module.scss';
@@ -22,7 +23,7 @@ type State = {};
 export class FileItem extends Component<Props, State> {
 
     @bind
-    copyLink() {
+    share() {
         const {id, file} = this.props.item;
         const toast = Toast.instance;
         const link = `${env.API_ENDPOINT}/d/${id}`;
@@ -51,7 +52,7 @@ export class FileItem extends Component<Props, State> {
     }
 
     @bind
-    removeFile(e: MouseEvent) {
+    removeFile() {
         const {id} = this.props.item;
 
         if (id) {
@@ -84,9 +85,16 @@ export class FileItem extends Component<Props, State> {
                 files.removeFile(id);
             }
         }
+    }
 
-        e.stopPropagation();
-        e.stopImmediatePropagation();
+    @bind
+    contextMenuOption(id: string) {
+        switch (id) {
+            case 'share':
+                return this.share();
+            case 'remove':
+                return this.removeFile();
+        }
     }
 
     render() {
@@ -94,8 +102,7 @@ export class FileItem extends Component<Props, State> {
 
         return (
             <div className={styles.fileItem}
-                 data-state={item.status}
-                 onClick={this.copyLink}>
+                 data-state={item.status}>
 
                 <FileStatus status={item.status} text={label}/>
 
@@ -107,17 +114,32 @@ export class FileItem extends Component<Props, State> {
                     {prettyBytes(item.file.size)}
                 </p>
 
-                <div className={styles.actionsBox}>
-                    <button className={styles.shareBtn}
-                            onClick={this.copyLink}>
-                        <bc-icon name={navigator.share && isMobile ? 'share' : 'copy'}/>
-                    </button>
+                {isMobile ? (
+                    <ContextMenu className={styles.menuButton}
+                                 onAction={this.contextMenuOption}
+                                 button={<bc-icon name="more" className={styles.menuButton}/>}
+                                 content={[{
+                                     id: 'share',
+                                     icon: navigator.share && isMobile ? 'share' : 'copy',
+                                     text: navigator.share && isMobile ? 'Share' : 'Copy Link'
+                                 }, {
+                                     id: 'remove',
+                                     icon: 'trash',
+                                     text: 'Remove'
+                                 }]}/>
+                ) : (
+                    <div className={styles.actionsBox}>
+                        <button className={styles.shareBtn}
+                                onClick={this.share}>
+                            <bc-icon name="copy"/>
+                        </button>
 
-                    <button className={styles.removeBtn}
-                            onClick={this.removeFile}>
-                        <bc-icon name="trash"/>
-                    </button>
-                </div>
+                        <button className={styles.removeBtn}
+                                onClick={this.removeFile}>
+                            <bc-icon name="trash"/>
+                        </button>
+                    </div>
+                )}
 
                 <p className={styles.copyLinkOverlay}>
                     <span>Copy Link</span>

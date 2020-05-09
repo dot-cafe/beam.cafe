@@ -1,0 +1,48 @@
+.contextMenu {
+
+    > div {
+        @include flex(column);
+        background: var(--c-background-primary);
+        box-shadow: 0 0.1em 0.5em var(--c-background-primary-accent);
+        border-radius: 0.25em;
+        position: fixed;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        padding: 0.25em 0;
+        opacity: 0;
+        z-index: 10;
+
+        > button {
+            @include flex(row, center);
+            @include hover_effect(--c-background-primary);
+            transition: all 0.3s;
+            color: var(--c-text-primary);
+            position: relative;
+            pointer-events: all;
+            padding: 0.85em 1.25em;
+
+            bc-icon {
+                @include size(16px);
+                margin-right: 0.85em;
+            }
+
+            > span {
+                white-space: nowrap;
+            }
+
+            &:not(:first-child) {
+                margin-top: 0.25em;
+            }
+        }
+    }
+
+    &.open {
+
+        > div {
+            pointer-events: all;
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}

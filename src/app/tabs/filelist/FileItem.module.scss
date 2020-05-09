@@ -1,8 +1,7 @@
+@import 'shared';
+
 .fileItem {
-    font-size: 14px;
-    display: grid;
-    grid-gap: 1em;
-    grid-template: 1fr / 2.5em 1fr 5em 5em;
+    @include table-layout;
     align-items: center;
     padding: 0.6em 1em;
     width: 100%;
@@ -10,7 +9,7 @@
     position: relative;
     border-bottom: 1px solid var(--c-background-secondary);
 
-    &:hover .copyLinkOverlay {
+    > p:hover ~ .copyLinkOverlay {
         visibility: visible;
     }
 
@@ -21,6 +20,10 @@
         background: rgba(black, 0.075);
         visibility: hidden;
         z-index: 1;
+
+        &:hover {
+            visibility: visible;
+        }
 
         span {
             @include button_small;
@@ -50,6 +53,10 @@
     }
 }
 
+.menuButton {
+    color: var(--c-text-primary);
+}
+
 .actionsBox {
     @include flex(row, center, space-evenly);
     pointer-events: all;
@@ -65,7 +72,7 @@
         overflow: hidden;
         pointer-events: all;
 
-        > div {
+        > bc-icon {
             @include size(100%);
         }
 
