@@ -2,4 +2,21 @@
     @include size(100%);
     @include flex(column);
     overflow: visible;
+
+    // TODO: Remove with first, stable release
+    > p {
+        @include position(auto, auto, 0, 0);
+        @include flex(row, center, center);
+        @include font(600, 0.75em);
+        position: absolute;
+        background: var(--c-primary);
+        color: var(--c-text-secondary);
+        padding: 0.5em 3em;
+        transform-origin: left center;
+        transform: translate3d(-1em, -3.5em, 0) rotate(45deg);
+
+        @include mq-phones {
+            display: none;
+        }
+    }
 }

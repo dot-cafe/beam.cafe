@@ -15,6 +15,9 @@ export class App extends Component {
                 <UpdateScreen/>
                 <StatusBar/>
                 <Tabs/>
+
+                {/* TODO: Remove with first, stable release */}
+                <p>WIP</p>
             </div>
         );
     }
