@@ -1,0 +1,25 @@
+.popper {
+
+    > button {
+        @include size(100%);
+    }
+
+    > div {
+        background: var(--c-background-primary);
+        box-shadow: 0 0.1em 0.5em var(--c-background-primary-accent);
+        border-radius: 0.25em;
+        position: fixed;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s, visibility 0.3s 0.3s;
+        opacity: 0;
+        z-index: 10;
+    }
+
+    &.open > div {
+        transition: opacity 0.3s;
+        pointer-events: all;
+        visibility: visible;
+        opacity: 1;
+    }
+}
