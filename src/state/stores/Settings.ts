@@ -49,6 +49,10 @@ class Settings {
         });
     }
 
+    public get<K extends keyof AvailableSettings>(key: K): AvailableSettings[K] {
+        return this.settings[key];
+    }
+
     @action
     public apply(settings: Partial<AvailableSettings>): void {
         Object.assign(this.settings, settings);
@@ -85,10 +89,6 @@ class Settings {
         };
 
         localStorageUtils.setJSON('settings', this.settings);
-    }
-
-    public get<K extends keyof AvailableSettings>(key: K): AvailableSettings[K] {
-        return this.settings[key];
     }
 }
 

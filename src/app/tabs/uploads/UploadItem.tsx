@@ -1,7 +1,7 @@
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
-import {uploads}             from '../../../state';
-import {SelectType, Upload}  from '../../../state';
+import {SelectType, uploads} from '../../../state';
+import {Upload}              from '../../../state/models/Upload';
 import {bind, cn}            from '../../../utils/preact-utils';
 import {Checkbox}            from '../../components/Checkbox';
 import {getStatusIconFor}    from './statusIcon';
@@ -19,12 +19,23 @@ export class UploadItem extends Component<Props, State> {
 
     @bind
     togglePause(): void {
-        this.props.upload.xhUpload.toggleState();
+        const {upload} = this.props;
+
+        if (upload.simpleState === 'pending') {
+            upload.update('running');
+        } else if (upload.simpleState === 'active') {
+            upload.update('paused');
+        }
     }
 
     @bind
     cancel(): void {
-        this.props.upload.xhUpload.abort();
+        const {upload} = this.props;
+
+        if (upload.simpleState === 'active' ||
+            upload.simpleState === 'pending') {
+            upload.update('cancelled');
+        }
     }
 
     @bind

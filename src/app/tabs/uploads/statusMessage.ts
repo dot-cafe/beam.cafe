@@ -1,5 +1,5 @@
 import prettyBytes from 'pretty-bytes';
-import {Upload}    from '../../../state';
+import {Upload}    from '../../../state/models/Upload';
 
 export const getStatusMessageFor = (upload: Upload): string => {
     const {state, progress} = upload;
@@ -14,7 +14,7 @@ export const getStatusMessageFor = (upload: Upload): string => {
         case 'paused':
             return `${text} - Paused`;
         case 'running': {
-            const speed = prettyBytes(upload.xhUpload.currentSpeed, {bits: true});
+            const speed = prettyBytes(upload.currentSpeed, {bits: true});
             return `${text} - ${speed}/s`;
         }
         case 'removed':

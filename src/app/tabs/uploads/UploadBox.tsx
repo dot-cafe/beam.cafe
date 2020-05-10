@@ -1,10 +1,11 @@
-import {observer}                    from 'mobx-react';
-import {Component, h}                from 'preact';
-import {MassAction, Upload, uploads} from '../../../state';
-import {ListedFile}                  from '../../../state/models/ListedFile';
-import {bind}                        from '../../../utils/preact-utils';
-import {UploadItem}                  from './UploadItem';
-import styles                        from './UploadBox.module.scss';
+import {observer}            from 'mobx-react';
+import {Component, h}        from 'preact';
+import {MassAction, uploads} from '../../../state';
+import {ListedFile}          from '../../../state/models/ListedFile';
+import {Upload}              from '../../../state/models/Upload';
+import {bind}                from '../../../utils/preact-utils';
+import {UploadItem}          from './UploadItem';
+import styles                from './UploadBox.module.scss';
 
 type Props = {
     uploadItems: Array<Upload>;

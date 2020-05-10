@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
-import {XHUpload}           from '../../utils/XHUpload';
+import {Upload}             from '../models/Upload';
 import {files, Keys}        from './Files';
 import {settings}           from './Settings';
 import {uploads}            from './Uploads';
@@ -165,14 +165,9 @@ class Socket {
                     break;
                 }
 
-                const upload = new XHUpload(`${env.API_ENDPOINT}/file/${downloadId}`, item.file);
-                uploads.registerUpload(downloadId, item, upload);
-
-                if (settings.get('autoPause')) {
-                    uploads.updateUploadState(downloadId, 'awaiting-approval');
-                } else {
-                    upload.start();
-                }
+                uploads.registerUpload(
+                    new Upload(item, downloadId, `${env.API_ENDPOINT}/file/${downloadId}`)
+                );
 
                 break;
             }

@@ -1,33 +1,8 @@
-import {action, observable}                     from 'mobx';
-import {socket}                                 from '../';
-import {clearArray, removeItem}                 from '../../utils/array';
-import {XHUpload, XHUploadEvent, XHUploadState} from '../../utils/XHUpload';
-import {ListedFile}                             from '../models/ListedFile';
+import {action, observable}     from 'mobx';
+import {clearArray, removeItem} from '../../utils/array';
+import {Upload, UploadState}    from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
-export type UploadState = XHUploadState |
-    'awaiting-approval' |
-    'peer-cancelled' |
-    'removed' |
-    'connection-lost';
-
-const UPLOAD_FINAL_STATES: Array<UploadState> = [
-    'connection-lost',
-    'peer-cancelled',
-    'cancelled',
-    'removed',
-    'errored',
-    'finished'
-];
-
-export type Upload = {
-    id: string;
-    listedFile: ListedFile;
-    xhUpload: XHUpload;
-    state: UploadState;
-    progress: number;
-    done: boolean;
-};
 
 export enum SelectType {
     Unselect = 'Unselect',
@@ -35,7 +10,6 @@ export enum SelectType {
     Toggle = 'Toggle'
 }
 
-/* eslint-disable no-console */
 class Uploads {
     @observable public readonly listedUploads: Array<Upload> = [];
     @observable public readonly selectedUploads: Array<Upload> = [];
@@ -57,7 +31,7 @@ class Uploads {
     public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
         const canPause = uploads.some(v => v.state === 'running');
         const canResume = uploads.some(v => v.state === 'paused');
-        const canRemove = !canPause && !canResume && uploads.every(v => v.done);
+        const canRemove = !canPause && !canResume && uploads.every(v => v.simpleState === 'done');
         const canCancel = canPause || canResume;
 
         const actions: Array<MassAction> = [];
@@ -77,26 +51,28 @@ class Uploads {
                 break;
             }
             case 'pause': {
-                for (const {xhUpload} of uploads) {
-                    if (xhUpload.state === 'running') {
-                        xhUpload.pause();
+
+                // TODO: What about confirmation?
+                for (const upload of uploads) {
+                    if (upload.state === 'running') {
+                        upload.update('paused');
                     }
                 }
 
                 break;
             }
             case 'resume': {
-                for (const {xhUpload} of uploads) {
-                    if (xhUpload.state === 'paused') {
-                        xhUpload.resume();
+                for (const upload of uploads) {
+                    if (upload.state === 'paused') {
+                        upload.update('running');
                     }
                 }
 
                 break;
             }
             case 'cancel': {
-                for (const {xhUpload} of uploads) {
-                    xhUpload.abort();
+                for (const upload of uploads) {
+                    upload.update('cancelled');
                 }
 
                 break;
@@ -107,47 +83,13 @@ class Uploads {
     @action
     public performMassStatusUpdate(uploads: Array<Upload>, newState: UploadState): void {
         for (const upload of uploads) {
-            switch (newState) {
-                case 'removed':
-                case 'peer-cancelled':
-                case 'connection-lost': {
-                    upload.xhUpload.abort(true);
-                    upload.progress = 1;
-                    break;
-                }
-                case 'cancelled': {
-                    socket.sendMessage('cancel-request', upload.id);
-                    upload.progress = 1;
-                    break;
-                }
-                default: {
-                    const {size, transferred} = upload.xhUpload;
-                    upload.progress = transferred / size;
-                }
-            }
-
-            if (UPLOAD_FINAL_STATES.includes(newState)) {
-                upload.done = true;
-            }
-
-            upload.state = newState;
+            upload.update(newState);
         }
     }
 
     @action
-    public registerUpload(id: string, file: ListedFile, xhUpload: XHUpload): void {
-        xhUpload.addEventListener('update', s => {
-            this.updateUploadState(id, (s as XHUploadEvent).state);
-        });
-
-        this.listedUploads.push({
-            xhUpload,
-            state: xhUpload.state,
-            progress: 0,
-            done: false,
-            listedFile: file,
-            id
-        });
+    public registerUpload(upload: Upload): void {
+        this.listedUploads.push(upload);
     }
 
     @action
@@ -173,7 +115,7 @@ class Uploads {
             const upload = this.listedUploads[i];
 
             if (ids.includes(upload.id)) {
-                if (!upload.done) {
+                if (upload.simpleState !== 'done') {
                     throw new Error('Cannot remove upload as it\'s not finished.');
                 }
 

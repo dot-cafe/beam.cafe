@@ -56,7 +56,9 @@ export class FileItem extends Component<Props, State> {
         const {id} = this.props.item;
 
         if (id) {
-            const relatedUploads = uploads.listedUploads.filter(v => v.listedFile.id === id && !v.done).length;
+            const relatedUploads = uploads.listedUploads.filter(
+                v => v.listedFile.id === id && v.simpleState !== 'done'
+            ).length;
 
             // Tell the user that uploads are about to get cancelled
             if (relatedUploads > 0) {
