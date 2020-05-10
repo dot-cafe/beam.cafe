@@ -5,7 +5,7 @@ import {bind, cn}     from '../../../utils/preact-utils';
 import styles         from './ThemeSwitcher.module.scss';
 
 @observer
-export class ThemeSwitcher extends Component<{}, {}> {
+export class ThemeSwitcher extends Component {
 
     constructor() {
         super();

@@ -21,9 +21,10 @@
 
     .tabButton {
         @include flex(row, center, flex-start);
-        @include margin-between-v(0.15em);
+        @include margin-between-v(0.25em);
         @include button_middle;
         @include hover_effect(--c-background-secondary);
+        @include button_icon;
         color: var(--c-text-primary);
         width: 8em;
 
@@ -35,7 +36,6 @@
 
         > span {
             font-size: 0.85em;
-            margin-left: 0.7em;
             line-height: 1em;
         }
     }

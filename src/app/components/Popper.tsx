@@ -18,7 +18,7 @@ type State = {
 };
 
 export class Popper extends Component<Props, State> {
-    private readonly reference = createRef<HTMLButtonElement>();
+    private readonly reference = createRef<HTMLDivElement>();
     private readonly container = createRef<HTMLDivElement>();
     private eventBindings: Array<EventBindingArgs> = [];
     private nanoPop: NanoPop | null = null;
@@ -87,12 +87,16 @@ export class Popper extends Component<Props, State> {
             <div className={cn(styles.popper, className, {
                 [styles.open]: this.state.open
             })} style={style}>
-                <button ref={this.reference}
-                        onClick={this.toggle}>
+                <div ref={this.reference}
+                     onClick={this.toggle}
+                     className={styles.btn}>
                     {button}
-                </button>
+                </div>
 
-                <div ref={this.container}>{content}</div>
+                <div ref={this.container}
+                     className={styles.container}>
+                    {content}
+                </div>
             </div>
         );
     }

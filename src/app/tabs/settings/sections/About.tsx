@@ -1,7 +1,7 @@
 import {Component, h} from 'preact';
 import {cn}           from '../../../../utils/preact-utils';
 import base           from './_base.module.scss';
-import styles         from './About.module.scss';
+import baseStyles     from './About.module.scss';
 
 export class About extends Component {
     render() {
@@ -9,7 +9,7 @@ export class About extends Component {
         const build = new Date(env.BUILD_DATE).toUTCString();
 
         return (
-            <div className={cn(base.section, styles.about)}>
+            <div className={cn(base.section, baseStyles.about)}>
                 <header>
                     <bc-icon name="shield"/>
                     <h1>About</h1>

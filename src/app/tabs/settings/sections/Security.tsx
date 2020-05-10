@@ -4,10 +4,10 @@ import {AvailableSettings, files, settings, socket, uploads} from '../../../../s
 import {bind}                                                from '../../../../utils/preact-utils';
 import {Switch}                                              from '../../../components/Switch';
 import {Toast}                                               from '../../../overlays/Toast';
-import styles                                                from './_base.module.scss';
+import baseStyles                                            from './_base.module.scss';
 
 @observer
-export class Security extends Component<{}, {}> {
+export class Security extends Component {
 
     option(key: keyof AvailableSettings) {
         return (newValue: boolean) => {
@@ -37,7 +37,7 @@ export class Security extends Component<{}, {}> {
 
     render() {
         return (
-            <div className={styles.section}>
+            <div className={baseStyles.section}>
                 <header>
                     <bc-icon name="shield"/>
                     <h1>Security</h1>

@@ -8,14 +8,14 @@
 
     > button {
         @include button_middle;
-        @include flex(row, center);
+        @include flex(row, center, space-between);
         @include position(auto, 0, 0, 0);
+        @include size(7em, 2em);
         background: var(--c-primary);
         border-radius: 100em;
         position: absolute;
         margin: 0.75em auto;
         transition: all 0.3s;
-        height: 2em;
 
         > div {
             @include size(15px);
@@ -23,7 +23,6 @@
 
         > span {
             font-size: 0.9em;
-            margin-left: 0.5em;
         }
 
         &:hover,

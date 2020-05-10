@@ -26,6 +26,14 @@
     color: var(--c-text-secondary);
 }
 
+@mixin button_icon {
+    @include flex(row, center, flex-start);
+
+    > bc-icon {
+        margin-right: 0.6em;
+    }
+}
+
 @mixin button_disabled {
     pointer-events: none;
     cursor: not-allowed;
