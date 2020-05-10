@@ -4,25 +4,37 @@ import {localStorageUtils}  from '../../utils/local-storage-utils';
 import {pick}               from '../../utils/pick';
 import {socket}             from './Socket';
 
+
+export type CustomizationSettings = {
+    colors: [string, string, string];
+    username: string;
+};
+
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
     autoPause: boolean;
     theme: 'light' | 'dark';
+    customization: CustomizationSettings;
 };
 
 class Settings {
 
     private static readonly SERVER_SIDE_SETTINGS: Partial<Array<keyof AvailableSettings>> = [
         'reusableDownloadKeys',
-        'strictSession'
+        'strictSession',
+        'customization'
     ];
 
     public static readonly DEFAULT_SETTINGS: AvailableSettings = {
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         reusableDownloadKeys: true,
         strictSession: false,
-        autoPause: false
+        autoPause: false,
+        customization: {
+            username: 'Anonymous',
+            colors: ['#3d7cf9', '#2f3136', '#fafafa']
+        }
     };
 
     @observable private settings: AvailableSettings;

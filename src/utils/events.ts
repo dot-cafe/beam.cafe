@@ -55,3 +55,13 @@ export const on = eventListener('addEventListener');
  * @return Array passed arguments
  */
 export const off = eventListener('removeEventListener');
+
+export const simplifyEvent = (evt: MouseEvent | TouchEvent) => {
+    const tap = ((evt as TouchEvent).touches && (evt as TouchEvent).touches[0] || evt);
+    return {
+        tap,
+        x: tap.clientX,
+        y: tap.clientY,
+        target: tap.target
+    };
+};

@@ -1,0 +1,77 @@
+.user {
+    @include flex(row);
+    padding-top: 0.5em;
+
+    > img {
+        @include size(7.5em);
+        object-fit: fill;
+        border-radius: 0.25em;
+        flex-shrink: 0;
+    }
+}
+
+.controls {
+    @include flex(column);
+    padding-left: 1em;
+    width: 100%;
+
+    > input {
+        background: var(--c-background-secondary);
+        border-radius: 0.25em;
+        padding: 0.5em 1em;
+        width: 100%;
+        color: var(--c-text-primary);
+    }
+
+    .colors {
+        @include flex(row, stretch, space-between);
+        margin-top: 1em;
+        flex-grow: 1;
+
+        > div {
+            position: relative;
+            border-radius: 0.25em;
+            width: 30%;
+
+            &::before {
+                @include pseudo();
+                @include position(0, 0, 0, 0);
+                border: 1px solid rgba(black, 0.15);
+                border-radius: 0.25em;
+                pointer-events: none;
+            }
+        }
+
+        .btn {
+            @include size(100%);
+            border-radius: 0.25em;
+            background: var(--color-picker-color);
+        }
+    }
+}
+
+.actions {
+    @include flex(row, center, flex-end);
+    transition: opacity 0.3s, visibility 0.3s 0.3s;
+    visibility: hidden;
+    opacity: 0;
+    padding-top: 0.5em;
+
+    &.visible {
+        visibility: visible;
+        transition: opacity 0.3s;
+        opacity: 1;
+    }
+
+    > button {
+        @include flex(row, center);
+        @include margin-between-h(0.5em);
+        @include button_middle;
+        @include button_icon;
+        font-size: 0.9em;
+
+        &.resetBtn {
+            @include hover_effect(--c-red);
+        }
+    }
+}
