@@ -82,13 +82,10 @@ class Settings {
     }
 
     @action
-    public resetServerSide(): void {
-        this.settings = {
-            ...Settings.DEFAULT_SETTINGS,
-            ...(localStorageUtils.getJSON('settings') as object || {})
-        };
-
-        localStorageUtils.setJSON('settings', this.settings);
+    public reset() {
+        this.settings = {...Settings.DEFAULT_SETTINGS};
+        this.syncServer();
+        this.syncLocal();
     }
 }
 

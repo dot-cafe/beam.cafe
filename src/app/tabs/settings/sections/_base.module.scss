@@ -25,12 +25,14 @@ $grid-margin: 1em;
 
         > h1 {
             @include font(600, 1em);
+            flex-shrink: 0;
             margin: 0;
         }
 
         > span {
+            @include white-space-overflow();
             @include font(600, 0.85em);
-            white-space: pre-wrap;
+            margin-left: 0.25em;
         }
     }
 
@@ -47,11 +49,11 @@ $grid-margin: 1em;
 
             > button {
                 @include button_small;
-                background: var(--c-primary);
+                @include hover_effect(--c-primary);
                 transition: all 0.3s;
 
-                &:hover {
-                    background: var(--c-primary-accent);
+                &.danger {
+                    @include hover_effect(--c-red);
                 }
 
                 @include disabled {

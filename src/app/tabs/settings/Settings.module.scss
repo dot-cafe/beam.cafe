@@ -15,18 +15,34 @@
 
     .tabs {
         @include flex(column, flex-end);
-        margin: $grid-margin 1em 0 0;
-        width: 50%;
+        margin: $grid-margin 1em 0 auto;
+        width: 8.5em;
+    }
+
+    .separator {
+        @include size(100%, 3px);
+        background: var(--c-background-secondary);
+        margin: ($grid-margin / 2) 0;
+        border-radius: 2px;
+        flex-shrink: 0;
     }
 
     .tabButton {
-        @include flex(row, center, flex-start);
+        @include flex(row, center);
         @include margin-between-v(0.25em);
         @include button_middle;
         @include hover_effect(--c-background-secondary);
         @include button_icon;
         color: var(--c-text-primary);
-        width: 8em;
+        width: 100%;
+
+        &[data-type='danger'] {
+            color: var(--c-red);
+
+            &.active {
+                background: var(--c-red);
+            }
+        }
 
         &.active {
             background: var(--c-primary);
@@ -41,7 +57,7 @@
     }
 
     .content {
-        @include size(100%);
+        @include size(60%, 100%);
         position: relative;
         max-height: 100%;
         will-change: transform;

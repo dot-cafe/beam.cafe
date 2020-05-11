@@ -1,7 +1,9 @@
 import {Component, createRef, h} from 'preact';
-import {cn}                      from '../../../utils/preact-utils';
-import {CollapsibleList}         from '../../components/CollapsibleList';
+import {JSXInternal}     from 'preact/src/jsx';
+import {bind, cn}        from '../../../utils/preact-utils';
+import {CollapsibleList} from '../../components/CollapsibleList';
 import {About}                   from './sections/About';
+import {DangerZone}              from './sections/DangerZone';
 import {Security}                from './sections/Security';
 import styles                    from './Settings.module.scss';
 
@@ -10,7 +12,15 @@ type State = {
     tabIndex: number;
 };
 
-const tabs = [
+type Tabs = Array<{
+    name: string;
+    icon: string;
+    com: JSXInternal.Element;
+    type?: 'normal' | 'warning' | 'danger';
+    separator?: boolean;
+}>;
+
+const tabs: Tabs = [
     {
         name: 'Security',
         icon: 'shield',
@@ -20,6 +30,13 @@ const tabs = [
         name: 'About',
         icon: 'help',
         com: <About/>
+    },
+    {
+        name: 'Danger Zone',
+        icon: 'electricity',
+        com: <DangerZone/>,
+        separator: true,
+        type: 'danger'
     }
 ];
 
@@ -46,16 +63,21 @@ export class Settings extends Component<Props, State> {
         const tabButtons = [];
 
         for (let i = 0; i < tabs.length; i++) {
-            const {name, icon, com} = tabs[i];
+            const {name, icon, com, type = 'normal', separator} = tabs[i];
             const active = i === tabIndex;
 
             if (active) {
                 activeComponent = com;
             }
 
+            if (separator) {
+                tabButtons.push(<div className={styles.separator}/>);
+            }
+
             tabButtons.push(
                 <button onClick={this.changeTab(i)}
                         key={i}
+                        data-type={type}
                         className={cn(styles.tabButton, {
                             [styles.active]: active
                         })}>
