@@ -46,8 +46,34 @@ export class CollapsibleList extends Component<Props, State> {
 
     @bind
     toggleRetract() {
+        const {collapsed} = this.state;
+        const list = this.list.current;
+
+        if (!list) {
+            return;
+        }
+
+        if (collapsed) {
+
+            // Make list invisible and get current height
+            list.style.visibility = 'hidden';
+            list.style.maxHeight = 'unset';
+            const height = `${list.offsetHeight}px`;
+
+            // Reset and make visible
+            list.style.maxHeight = '0px';
+            list.style.visibility = 'visible';
+
+            // Set actual height to animate it
+            requestAnimationFrame(() => {
+                list.style.maxHeight = height;
+            });
+        } else {
+            list.style.maxHeight = '0px';
+        }
+
         this.setState({
-            collapsed: !this.state.collapsed
+            collapsed: !collapsed
         });
     }
 
@@ -58,9 +84,7 @@ export class CollapsibleList extends Component<Props, State> {
                                ref={this.list}>{content}</div>;
 
         return (
-            <div className={cn(styles.collapsibleList, {
-                [styles.collapsed]: collapsed
-            })}>
+            <div className={styles.collapsibleList}>
                 {position === 'top' ? contentEl : ''}
 
                 <header onClick={this.toggleRetract}>

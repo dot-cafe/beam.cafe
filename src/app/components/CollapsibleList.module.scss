@@ -5,12 +5,6 @@ $grid-margin: 1em;
         @include flex(row, center, center);
     }
 
-    &.collapsed {
-        .list {
-            max-height: 0;
-        }
-    }
-
     @include mq-phones {
         .customHeader > span {
             display: none;
@@ -20,7 +14,7 @@ $grid-margin: 1em;
 
 .list {
     @include flex(column);
-    max-height: var(--height, auto);
+    max-height: 0;
     transition: max-height 0.3s;
     overflow: hidden;
 }
