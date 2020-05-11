@@ -17,10 +17,6 @@
         margin: 0.75em auto;
         transition: all 0.3s;
 
-        > div {
-            @include size(15px);
-        }
-
         > span {
             font-size: 0.9em;
         }
@@ -36,6 +32,10 @@
             border-radius: 0;
             justify-content: center;
             width: 100%;
+
+            > span {
+                margin-left: 0.5em;
+            }
         }
     }
 }

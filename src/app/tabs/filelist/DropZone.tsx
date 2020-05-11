@@ -12,20 +12,19 @@ type State = {
 
 @observer
 export class DropZone extends Component<Props, State> {
+    private readonly listeners: Array<EventBindingArgs>;
     readonly state = {
         dragover: false
     };
-    private readonly listeners: Array<EventBindingArgs>;
 
     constructor() {
         super();
 
         this.listeners = [
-            on(window, [
+            on(document, [
                 'dragenter',
                 'dragover',
                 'dragend',
-                'dragexit',
                 'dragleave',
                 'drop'
             ], (ev: DragEvent) => {
@@ -41,7 +40,6 @@ export class DropZone extends Component<Props, State> {
                         break;
                     }
                     case 'dragend':
-                    case 'dragexit':
                     case 'dragleave':
                     case 'drop': {
                         this.setState({
@@ -91,15 +89,15 @@ export class DropZone extends Component<Props, State> {
 
                 <div className={styles.desktop}>
                     <h1>{
-                        files.isEmpty ?
-                            'Drop files  to get started!' :
-                            'Release files to upload them!'
+                        files.isEmpty && !dragover ?
+                            'Drop Files To Get Started!' :
+                            'Release Files To Upload Them!'
                     }</h1>
 
-                    <button onClick={this.chooseFiles}>
+                    {files.isEmpty ? <button onClick={this.chooseFiles}>
                         <bc-icon name="file"/>
                         <span>Choose Files</span>
-                    </button>
+                    </button> : <bc-icon name="arrow-down"/>}
                 </div>
 
                 <div className={styles.mobile}>

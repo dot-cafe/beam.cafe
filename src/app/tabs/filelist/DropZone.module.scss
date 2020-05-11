@@ -14,29 +14,32 @@
     }
 
     .desktop {
-        > h1 {
-            transform: translateY(10%);
-            transition: all 0.3s;
-        }
-
         > button {
             @include flex(row, center);
             @include button_large;
             @include hover_effect(--c-primary);
-            margin-top: 0.75em;
+            margin-top: 0.35em;
             pointer-events: all;
             border-radius: 5em;
             flex-shrink: 0;
 
-            bc-icon {
+            > bc-icon {
                 margin-right: 0.5em;
             }
+        }
+
+        > bc-icon {
+            @include size(2em);
+            color: var(--c-text-primary);
+            transform: translateY(-1em);
+            transition: all 0.3s;
+            opacity: 0;
         }
     }
 
     .mobile {
         color: var(--c-text-primary);
-        visibility: hidden;
+        display: none;
 
         > h1 {
             text-align: center;
@@ -51,11 +54,11 @@
         margin-bottom: 12.5vmin;
 
         .desktop {
-            visibility: hidden;
+            display: none;
         }
 
         .mobile {
-            visibility: visible;
+            display: block;
         }
     }
 }
@@ -65,15 +68,8 @@
     transition: all 0.3s;
     opacity: 1;
 
-    > div {
-        height: 4.5em;
-
-        > div {
-            transform: none;
-        }
-    }
-
-    > p {
+    .desktop bc-icon {
         transform: none;
+        opacity: 1;
     }
 }

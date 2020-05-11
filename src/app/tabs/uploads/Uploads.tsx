@@ -45,7 +45,7 @@ export class Uploads extends Component {
                     ] : (
                         <div className={styles.placeholder}>
                             <bc-icon name="link"/>
-                            <h1>Share a file to get started!</h1>
+                            <h1>Share A File To Get Started!</h1>
                         </div>
                     )
                 }
