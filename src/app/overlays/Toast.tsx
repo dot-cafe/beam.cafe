@@ -23,11 +23,6 @@ export const Toast = singleton(class extends Component<Props, State> {
     private hideTimeout: number | null = null;
     private locked = false;
 
-    /* eslint-disable no-useless-constructor */
-    public constructor() {
-        super();
-    }
-
     public set(item: ToastItem): void {
         if (this.hideTimeout !== null) {
             clearTimeout(this.hideTimeout);

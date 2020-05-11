@@ -1,8 +1,8 @@
-import {Component, h} from 'preact';
-import {settings}     from '../../../../state';
-import {bind, cn}     from '../../../../utils/preact-utils';
-import {Toast}        from '../../../overlays/Toast';
-import baseStyles     from './_base.module.scss';
+import {Component, h}                     from 'preact';
+import {files, settings, socket, uploads} from '../../../../state';
+import {bind, cn}                         from '../../../../utils/preact-utils';
+import {Toast}                            from '../../../overlays/Toast';
+import baseStyles                         from './_base.module.scss';
 
 export class DangerZone extends Component {
 
@@ -15,6 +15,26 @@ export class DangerZone extends Component {
         });
     }
 
+    @bind
+    resetKeys() {
+
+        // Cancel downloads
+        uploads.massAction('cancel');
+
+        // Request a new key-set
+        socket.request('reset-keys').then(() => {
+            Toast.instance.set({
+                text: 'Keys refreshed!',
+                type: 'success'
+            });
+        }).catch(() => {
+            Toast.instance.set({
+                text: 'Failed to reset keys.',
+                type: 'error'
+            });
+        });
+    }
+
     render() {
         return (
             <div className={cn(baseStyles.section)}>
@@ -23,6 +43,23 @@ export class DangerZone extends Component {
                     <h1>Danger Zone</h1>
                     <span> - Usage of the following options with caution!</span>
                 </header>
+
+                <section>
+                    <header>
+                        <bc-icon name="refresh-shield"/>
+                        <h3>Refresh Keys</h3>
+                        <button onClick={this.resetKeys}
+                                className={baseStyles.danger}
+                                disabled={files.isEmpty}>Refresh
+                        </button>
+                    </header>
+
+                    <article>
+                        In case you discover anomalies such as suspicious downloads you can
+                        generate new keys for all your files. All active downloads will be cancelled
+                        and your previous download-links will be invalidated.
+                    </article>
+                </section>
 
                 <section>
                     <header>

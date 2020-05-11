@@ -18,7 +18,6 @@ export function singleton<T extends Function>(
 
     // I have no Idea how this works.
     const Component = target as unknown as ComponentConstructor;
-    const element = <Component ref={ref}/>;
 
     Object.defineProperty(target, 'instance', {
         get: () => ref.current,
@@ -27,8 +26,12 @@ export function singleton<T extends Function>(
         }
     });
 
+    /**
+     * This DOES re-create the component right? No, not really. I don't
+     * know why but it works. Even with hot-reload.
+     */
     Object.defineProperty(target, 'element', {
-        get: () => element,
+        get: () => <Component ref={ref}/>,
         set: () => {
             throw new Error('element is a readonly property');
         }
