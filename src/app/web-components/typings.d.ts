@@ -1,3 +1,7 @@
-declare interface CheckBoxElement extends HTMLElement {
-    checked: boolean;
+declare interface IconElement extends HTMLElement {
+    name: string;
+}
+
+declare interface TooltipElement extends HTMLElement {
+    text: string;
 }

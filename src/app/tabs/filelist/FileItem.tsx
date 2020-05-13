@@ -9,6 +9,7 @@ import {isMobile}        from '../../browserenv';
 import {ContextMenu}     from '../../components/ContextMenu';
 import {DialogBox}       from '../../overlays/DialogBox';
 import {Toast}           from '../../overlays/Toast';
+import {toolTip}         from '../../overlays/tooltip';
 import styles            from './FileItem.module.scss';
 import {FileStatus}      from './FileStatus';
 
@@ -133,17 +134,20 @@ export class FileItem extends Component<Props, State> {
                     <div className={styles.actionsBox}>
                         <button className={styles.shareBtn}
                                 onClick={this.share}>
+                            <bc-tooltip text={'Copy Link to Clipboard'}/>
                             <bc-icon name="copy"/>
                         </button>
 
                         <button className={styles.removeBtn}
-                                onClick={this.removeFile}>
+                                onClick={this.removeFile}
+                                onMouseEnter={toolTip('Remove File')}>
                             <bc-icon name="trash"/>
                         </button>
                     </div>
                 )}
 
-                <p className={styles.copyLinkOverlay}>
+                <p className={styles.copyLinkOverlay}
+                   onClick={this.share}>
                     <span>Copy Link</span>
                 </p>
             </div>

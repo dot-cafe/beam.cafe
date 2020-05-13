@@ -4,6 +4,7 @@ import {SelectType, uploads} from '../../../state';
 import {Upload}              from '../../../state/models/Upload';
 import {bind, cn}            from '../../../utils/preact-utils';
 import {Checkbox}            from '../../components/Checkbox';
+import {toolTip}             from '../../overlays/tooltip';
 import {getStatusIconFor}    from './statusIcon';
 import {getStatusMessageFor} from './statusMessage';
 import styles                from './UploadItem.module.scss';
@@ -53,8 +54,20 @@ export class UploadItem extends Component<Props, State> {
             + `--text-clip-left: ${percentage}%;`
             + `--text-clip-right: ${100 - percentage}%;`;
 
-        const icons = getStatusIconFor(state);
-        const message = getStatusMessageFor(upload);
+        const statusIcon = getStatusIconFor(state);
+        const statusMessage = getStatusMessageFor(upload);
+        const toolTipNote = (() => {
+            switch (upload.state) {
+                case 'awaiting-approval':
+                    return 'Approve';
+                case 'paused':
+                    return 'Continue';
+                case 'running':
+                    return 'Pause';
+            }
+
+            return '';
+        })();
 
         return (
             <div className={styles.upload}
@@ -65,19 +78,21 @@ export class UploadItem extends Component<Props, State> {
 
                 <div className={styles.progressBar}
                      style={progressBarStyle}>
-                    <p><span>{message}</span></p>
-                    <p><span>{message}</span></p>
+                    <p><span>{statusMessage}</span></p>
+                    <p><span>{statusMessage}</span></p>
                 </div>
 
                 <button onClick={this.togglePause}
                         className={cn(styles.btn, styles.pauseBtn)}>
-                    {icons}
+                    <bc-tooltip text={toolTipNote}/>
+                    {statusIcon}
                 </button>
 
-                <button onClick={this.cancel}
-                        className={cn(styles.btn, styles.abortBtn)}>
+                {upload.simpleState !== 'done' && <button onClick={this.cancel}
+                                                          className={cn(styles.btn, styles.abortBtn)}
+                                                          onMouseEnter={toolTip('Cancel Upload')}>
                     <bc-icon name="delete"/>
-                </button>
+                </button>}
             </div>
         );
     }

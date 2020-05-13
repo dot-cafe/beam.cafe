@@ -1,0 +1,79 @@
+$border-radius: 0.15em;
+.tooltip {
+    @include font(600, 0.8em);
+    position: fixed;
+    color: var(--c-text-secondary);
+    padding: 0.35em 0.85em;
+    filter: drop-shadow(0 0.05em 0.25em var(--c-background-primary-accent));
+    background: black;
+    border-radius: $border-radius;
+    font-family: $font-family;
+    transition: opacity 0.3s, visibility 0.3s 0.3s;
+    opacity: 0;
+
+    &.visible {
+        transition: opacity 0.3s;
+        opacity: 1;
+    }
+
+    &.removing {
+        opacity: 0;
+    }
+
+    $arrow-size: 10px;
+    $arrow-color: black;
+
+    &::before {
+        @include pseudo();
+        @include size(0);
+        border: $arrow-size / 2 solid transparent;
+        bottom: -$arrow-size;
+    }
+
+    $position-keys: ('t', 'r', 'b', 'l');
+    $variant-keys: ('s', 'm', 'e');
+
+    $borders: (
+        't': $arrow-color transparent transparent transparent,
+        'r': transparent $arrow-color transparent transparent,
+        'b': transparent transparent $arrow-color transparent,
+        'l': transparent transparent transparent $arrow-color,
+    );
+
+    $positions: (
+        't': (bottom, -$arrow-size),
+        'r': (left, -$arrow-size),
+        'b': (top, -$arrow-size),
+        'l': (right, -$arrow-size)
+    );
+
+    $variants: (
+        's': $border-radius * 2,
+        'm': calc(50% - #{$arrow-size} / 2),
+        'e': calc(100% - #{$arrow-size} - #{$border-radius *2})
+    );
+
+    @each $p in $position-keys {
+        &[data-pos=#{$p}] {
+
+            &::before {
+                border-color: map_get($borders, $p);
+
+                $pos: map_get($positions, $p);
+                #{nth($pos, 1)}: #{nth($pos, 2)};
+            }
+
+            @each $v in $variant-keys {
+                &[data-var=#{$v}]::before {
+                    $v-value: map_get($variants, $v);
+
+                    @if $p == 't' or $p == 'b' {
+                        left: $v-value;
+                    } @else {
+                        top: $v-value;
+                    }
+                }
+            }
+        }
+    }
+}
