@@ -7,7 +7,7 @@
 }
 
 @mixin mq-tablet {
-    @media screen and (max-width: 1200px), (max-height: 675px) {
+    @media screen and (max-width: 1200px), (max-height: 750px) {
         @content;
     }
 }

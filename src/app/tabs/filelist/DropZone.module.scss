@@ -58,13 +58,14 @@
         }
 
         .mobile {
-            display: block;
+            display: flex;
         }
     }
 }
 
 .dragOver {
     --color: var(--c-text-primary);
+    pointer-events: all;
     transition: all 0.3s;
     opacity: 1;
 
