@@ -25,6 +25,10 @@
         margin: ($grid-margin / 2) 0;
         border-radius: 2px;
         flex-shrink: 0;
+
+        @include mq-phones {
+            display: none;
+        }
     }
 
     .tabButton {
@@ -68,6 +72,10 @@
         > div {
             position: absolute;
             padding: $grid-margin;
+            width: 100%;
+        }
+
+        @include mq-phones {
             width: 100%;
         }
     }
