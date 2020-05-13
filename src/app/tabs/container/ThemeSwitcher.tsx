@@ -2,7 +2,6 @@ import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
 import {settings}     from '../../../state';
 import {bind, cn}     from '../../../utils/preact-utils';
-import {toolTip}      from '../../overlays/tooltip';
 import styles         from './ThemeSwitcher.module.scss';
 
 @observer
@@ -44,7 +43,7 @@ export class ThemeSwitcher extends Component {
                      [styles.toggled]: theme === 'dark'
                  })}>
 
-                <bc-tooltip text={`Change theme to ${theme}`}/>
+                <bc-tooltip content={`Change theme to ${theme}`}/>
 
                 <button>
                     <bc-icon name="sun"

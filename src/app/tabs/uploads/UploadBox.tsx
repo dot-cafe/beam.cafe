@@ -4,7 +4,6 @@ import {MassAction, uploads} from '../../../state';
 import {ListedFile}          from '../../../state/models/ListedFile';
 import {Upload}              from '../../../state/models/Upload';
 import {bind}                from '../../../utils/preact-utils';
-import {toolTip}             from '../../overlays/tooltip';
 import {UploadItem}          from './UploadItem';
 import styles                from './UploadBox.module.scss';
 
@@ -35,7 +34,7 @@ export class UploadBox extends Component<Props, State> {
                         {
                             massActions.includes('remove') ?
                                 <button onClick={this.massAction(uploadItems, 'remove')}>
-                                    <bc-tooltip text={'Clear'}/>
+                                    <bc-tooltip content={'Clear'}/>
                                     <bc-icon name="delete"/>
                                 </button> : ''
                         }

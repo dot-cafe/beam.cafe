@@ -5,7 +5,6 @@ import {fuzzyStringSimilarity} from '../../../utils/fuzzy-string-similarity';
 import {bind}                  from '../../../utils/preact-utils';
 import {isMobile}              from '../../browserenv';
 import {SearchBar}             from '../../components/SearchBar';
-import {toolTip}               from '../../overlays/tooltip';
 import {DropZone}              from './DropZone';
 import {FileItem}              from './FileItem';
 import styles                  from './FileList.module.scss';
@@ -76,16 +75,16 @@ export class FileList extends Component<Props, State> {
 
                 <div className={styles.header}>
                     <p onClick={this.sortBy('index')}>
-                        <span><bc-tooltip text={'Sort By Index'}/>#</span>
+                        <span><bc-tooltip content={'Sort By Index'}/>#</span>
                     </p>
 
                     <p onClick={this.sortBy('name')}>
-                        <span><bc-tooltip text={'Sort By Filename'}/>Filename</span>
+                        <span><bc-tooltip content={'Sort By Filename'}/>Filename</span>
                     </p>
 
                     <p onClick={this.sortBy('size')}
                        className={styles.alignRight}>
-                        <span><bc-tooltip text={'Sort By File Size'}/>File Size</span>
+                        <span><bc-tooltip content={'Sort By File Size'}/>File Size</span>
                     </p>
 
                     {isMobile ? (

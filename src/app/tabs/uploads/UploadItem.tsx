@@ -4,7 +4,6 @@ import {SelectType, uploads} from '../../../state';
 import {Upload}              from '../../../state/models/Upload';
 import {bind, cn}            from '../../../utils/preact-utils';
 import {Checkbox}            from '../../components/Checkbox';
-import {toolTip}             from '../../overlays/tooltip';
 import {getStatusIconFor}    from './statusIcon';
 import {getStatusMessageFor} from './statusMessage';
 import styles                from './UploadItem.module.scss';
@@ -84,13 +83,13 @@ export class UploadItem extends Component<Props, State> {
 
                 <button onClick={this.togglePause}
                         className={cn(styles.btn, styles.pauseBtn)}>
-                    <bc-tooltip text={toolTipNote}/>
+                    <bc-tooltip content={toolTipNote}/>
                     {statusIcon}
                 </button>
 
                 {upload.simpleState !== 'done' && <button onClick={this.cancel}
-                                                          className={cn(styles.btn, styles.abortBtn)}
-                                                          onMouseEnter={toolTip('Cancel Upload')}>
+                                                          className={cn(styles.btn, styles.abortBtn)}>
+                    <bc-tooltip content="Cancel Upload"/>
                     <bc-icon name="delete"/>
                 </button>}
             </div>

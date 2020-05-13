@@ -1,9 +1,9 @@
-import {NanoPop}                   from 'nanopop';
+import {NanoPop, NanoPopPosition}  from 'nanopop';
 import {EventBindingArgs, off, on} from '../../../utils/events';
 import styles                      from './tooltip.module.scss';
 
 // TODO: Add position?
-const REFLECTED_ATTRIBUTES = ['name'];
+const REFLECTED_ATTRIBUTES = ['content', 'pos'];
 
 class BeamCafeTooltip extends HTMLElement {
     private static readonly PADDING = 8;
@@ -26,13 +26,13 @@ class BeamCafeTooltip extends HTMLElement {
     }
 
     private updateText() {
-        const text = this.getAttribute('text');
+        this._toolTip.innerHTML = this.getAttribute('content') as string;
+    }
 
-        if (!text) {
-            throw new Error('Text attribute cannot be null or empty');
-        }
-
-        this._toolTip.innerHTML = text;
+    private updatePosition() {
+        this._nanopop.update({
+            position: (this.getAttribute('pos') || 'bottom-middle') as NanoPopPosition
+        });
     }
 
     private hide() {
@@ -46,7 +46,7 @@ class BeamCafeTooltip extends HTMLElement {
             // Remove after transition is done
             setTimeout(() => {
                 tt.classList.remove(styles.removing);
-                document.body.removeChild(tt);
+                // document.body.removeChild(tt);
                 this._visible = false;
             }, 300);
 
@@ -69,7 +69,7 @@ class BeamCafeTooltip extends HTMLElement {
         this.updateText();
 
         const pos = this._nanopop.update({
-            position: 'bottom-middle',
+            position: (this.getAttribute('pos') || 'bottom-middle') as NanoPopPosition,
             reference: ref,
             popper: tt
         });
@@ -127,7 +127,12 @@ class BeamCafeTooltip extends HTMLElement {
 
     attributeChangedCallback(name: string): void {
         if (REFLECTED_ATTRIBUTES.includes(name)) {
-            this.updateText();
+            switch (name) {
+                case 'content':
+                    return this.updateText();
+                case 'pos':
+                    return this.updatePosition();
+            }
         }
     }
 }
