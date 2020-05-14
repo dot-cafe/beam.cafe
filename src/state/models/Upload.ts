@@ -1,7 +1,7 @@
-import {action, computed, observable} from 'mobx';
-import {settings, socket}             from '..';
-import {on}                           from '../../utils/events';
-import {ListedFile}                   from './ListedFile';
+import {action, computed, observable}            from 'mobx';
+import {Notify, notifications, settings, socket} from '..';
+import {on}                                      from '../../utils/events';
+import {ListedFile}                              from './ListedFile';
 
 export type SimpleUploadState = 'pending' | 'active' | 'done';
 export type UploadState = 'idle' |
@@ -41,7 +41,31 @@ export class Upload {
         this.id = id;
         this.url = url;
         this.xhr = null;
-        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
+
+        const status = settings.get('autoPause') ? 'awaiting-approval' : 'running';
+        this.update(status);
+
+        // Show notification if enabled
+        if (settings.get('notifications') === true) {
+            switch (status) {
+                case 'awaiting-approval': {
+                    settings.get('notifyOnRequest') && Notify.showNotification({
+                        title: 'Someone requested a file!',
+                        body: `Click to approve the request of "${listedFile.file.name}"`
+                    }).then(({event}) => {
+                        this.update(event === 'click' ? 'running' : 'cancelled');
+                    });
+
+                    break;
+                }
+                case 'running': {
+                    settings.get('notifyOnUpload') && Notify.pushNotification({
+                        title: 'You started uploading a file!',
+                        body: `Upload of "${listedFile.file.name}" has started!`
+                    });
+                }
+            }
+        }
     }
 
     @computed

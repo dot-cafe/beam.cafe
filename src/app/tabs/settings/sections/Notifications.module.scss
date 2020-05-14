@@ -1,0 +1,48 @@
+.notifications {
+
+    &.enabled {
+        .optionsHeader,
+        .options {
+            transform: none;
+            opacity: 1;
+        }
+    }
+
+    .optionsHeader {
+        transition: all 0.3s;
+        position: relative;
+        margin: 1.5em 0 0.5em 0.25em;
+        transform: translateX(-1vmin);
+        opacity: 0;
+    }
+
+    .options {
+        transition: all 0.3s;
+        transform: translateY(1vmin);
+        opacity: 0;
+
+        > div {
+            @include flex(row, center, space-between);
+            border: 2px solid var(--c-background-secondary);
+            padding: 0.5em 0.75em;
+
+            > h3 {
+                font-size: 0.9em;
+            }
+
+            &:not(:first-child) {
+                border-top: none;
+            }
+
+            &:first-child {
+                border-top-left-radius: 0.25em;
+                border-top-right-radius: 0.25em;
+            }
+
+            &:last-child {
+                border-bottom-left-radius: 0.25em;
+                border-bottom-right-radius: 0.25em;
+            }
+        }
+    }
+}

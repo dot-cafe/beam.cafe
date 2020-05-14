@@ -7,8 +7,13 @@ import {socket}             from './Socket';
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
-    autoPause: boolean;
     theme: 'light' | 'dark';
+    autoPause: boolean;
+
+    notifications: SwitchState;
+    notifyOnRequest: boolean;
+    notifyOnUpload: boolean;
+    notifyOnPeer: boolean;
 };
 
 class Settings {
@@ -22,7 +27,11 @@ class Settings {
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         reusableDownloadKeys: true,
         strictSession: false,
-        autoPause: false
+        autoPause: false,
+
+        notifications: false,
+        notifyOnRequest: true,
+        notifyOnUpload: false
     };
 
     @observable private settings: AvailableSettings;

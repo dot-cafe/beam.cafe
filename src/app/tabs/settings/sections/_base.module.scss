@@ -1,8 +1,8 @@
 $grid-margin: 1em;
 
 .section {
-    > header,
-    > section {
+
+    > * {
         @include width(70%, auto, 40em);
 
         @include mq-phones {
@@ -40,6 +40,14 @@ $grid-margin: 1em;
         @include margin-between-v(0.5em);
         border: 2px solid var(--c-background-secondary);
         border-radius: 0.25em;
+
+        &.borderless {
+            border: none;
+        }
+
+        &.standalone header {
+            border-bottom: none;
+        }
 
         header {
             @include flex(row, center);

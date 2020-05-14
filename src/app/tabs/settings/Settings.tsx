@@ -1,9 +1,10 @@
 import {Component, createRef, h} from 'preact';
-import {JSXInternal}     from 'preact/src/jsx';
-import {bind, cn}        from '../../../utils/preact-utils';
-import {CollapsibleList} from '../../components/CollapsibleList';
+import {JSXInternal}             from 'preact/src/jsx';
+import {bind, cn}                from '../../../utils/preact-utils';
+import {CollapsibleList}         from '../../components/CollapsibleList';
 import {About}                   from './sections/About';
 import {DangerZone}              from './sections/DangerZone';
+import {Notifications}           from './sections/Notifications';
 import {Security}                from './sections/Security';
 import styles                    from './Settings.module.scss';
 
@@ -39,6 +40,15 @@ const tabs: Tabs = [
         type: 'danger'
     }
 ];
+
+// Push notifications settings if available
+if (!!window.Notification) {
+    tabs.splice(0, 0, {
+        name: 'Notifications',
+        icon: 'alarm',
+        com: <Notifications/>
+    });
+}
 
 // TODO: Clean up, still messy.
 export class Settings extends Component<Props, State> {
