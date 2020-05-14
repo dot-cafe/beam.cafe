@@ -4,8 +4,9 @@ import {cn}           from '../../utils/preact-utils';
 import styles         from './Toast.module.scss';
 
 export type ToastItem = {
-    type: 'success' | 'warning' | 'error';
     text: string;
+    type?: 'success' | 'warning' | 'error';
+    body?: string;
 };
 
 type Props = {};
@@ -23,9 +24,13 @@ export const Toast = singleton(class extends Component<Props, State> {
     private hideTimeout: number | null = null;
     private locked = false;
 
-    public set(item: ToastItem): void {
+    public show(item: ToastItem | string): void {
         if (this.hideTimeout !== null) {
             clearTimeout(this.hideTimeout);
+        }
+
+        if (typeof item === 'string') {
+            item = {text: item};
         }
 
         if (!this.state.item) {
@@ -35,22 +40,10 @@ export const Toast = singleton(class extends Component<Props, State> {
 
             this.hide();
             setTimeout(() => {
-                this.setItem(item);
+                this.setItem(item as ToastItem);
                 this.locked = false;
             }, 300);
         }
-    }
-
-    render() {
-        const {item, visible} = this.state;
-
-        return (
-            <div className={cn(styles.toast, {
-                [styles.show]: visible
-            })} data-state={item.type}>
-                <p>{item.text}</p>
-            </div>
-        );
     }
 
     private hide(): void {
@@ -68,5 +61,20 @@ export const Toast = singleton(class extends Component<Props, State> {
         this.hideTimeout = setTimeout(() => {
             this.hide();
         }, 2000) as unknown as number;
+    }
+
+    render() {
+        const {item, visible} = this.state;
+
+        return (
+            <div className={cn(styles.toast, {
+                [styles.show]: visible
+            })}>
+                <div data-state={item.type || 'success'}>
+                    <h3>{item.text}</h3>
+                    {item.body ? <p>{item.body}</p> : ''}
+                </div>
+            </div>
+        );
     }
 });

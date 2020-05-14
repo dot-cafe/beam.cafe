@@ -9,10 +9,7 @@ export class DangerZone extends Component {
     @bind
     resetSettings() {
         settings.reset();
-        Toast.instance.set({
-            type: 'success',
-            text: 'Settings restored!'
-        });
+        Toast.instance.show('Settings restored!');
     }
 
     @bind
@@ -23,12 +20,9 @@ export class DangerZone extends Component {
 
         // Request a new key-set
         socket.request('reset-keys').then(() => {
-            Toast.instance.set({
-                text: 'Keys refreshed!',
-                type: 'success'
-            });
+            Toast.instance.show('Keys refreshed!');
         }).catch(() => {
-            Toast.instance.set({
+            Toast.instance.show({
                 text: 'Failed to reset keys.',
                 type: 'error'
             });

@@ -41,10 +41,9 @@ export class FileItem extends Component<Props, State> {
                 url: link
             }).then(() => null).then(() => null);
         } else {
-            copyToClipboard(link).then(() => toast.set({
-                text: 'Link copied to clipboard!',
-                type: 'success'
-            })).catch(() => toast.set({
+            copyToClipboard(link).then(() => {
+                toast.show('Link copied to clipboard!');
+            }).catch(() => toast.show({
                 text: 'Failed to copy link :(',
                 type: 'error'
             }));
