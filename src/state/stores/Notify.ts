@@ -4,7 +4,6 @@ export type NotificationPayload = {
     title: string;
     body?: string;
     image?: string;
-    interaction?: boolean;
 };
 
 export type ResolveNotification = 'click' | 'close' | string | null;
@@ -32,36 +31,53 @@ navigator.serviceWorker.ready.then(() => {
     });
 });
 
-/**
- * TODO: What about actions on chromium-based browsers?
- * Shows a notification and expects a response from the user
- * @param options
- */
-export const showNotification = async (options: NotificationPayload): Promise<ResolveNotification> => {
+// Internal notification-request function
+// TODO: What about actions on chromium-based browsers?
+const requestNotification = (options: NotificationPayload, interaction = false): string | null => {
 
     // Check if notifications are enabled
     if (settings.get('notifications') !== true) {
         return null;
     }
 
+    const {controller} = navigator.serviceWorker;
+
+    if (!controller) {
+        return null;
+    }
+
+    const tag = uid();
+    controller.postMessage({
+        type: 'notify',
+        data: {interaction, ...options},
+        tag
+    });
+
+    return tag;
+};
+
+/**
+ * Shows a notification and expects a response from the user
+ * @param options
+ */
+export const showNotification = async (options: NotificationPayload): Promise<ResolveNotification> => {
     return new Promise<ResolveNotification>(resolve => {
-        const {controller} = navigator.serviceWorker;
+        const tag = requestNotification(options, true);
 
-        if (!controller) {
-            return resolve(null);
-        }
-
-        const tag = uid();
-        controller.postMessage({
-            type: 'notify',
-            data: options,
-            tag
-        });
-
-        if (options.interaction) {
+        if (tag) {
             pendingRequests.set(tag, resolve);
         } else {
             resolve(null);
         }
     });
+};
+
+
+/**
+ * Shows a notification without reacting to any user-interaction, returns boolean
+ * whether the notification got displayed.
+ * @param options
+ */
+export const pushNotification = (options: NotificationPayload): boolean => {
+    return requestNotification(options, false) !== null;
 };

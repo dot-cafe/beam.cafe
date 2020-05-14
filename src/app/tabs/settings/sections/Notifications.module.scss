@@ -9,11 +9,18 @@
     }
 
     .optionsHeader {
+        @include flex(row, center, space-between);
         transition: all 0.3s;
         position: relative;
-        margin: 1.5em 0 0.5em 0.25em;
+        padding: 0.5em 0.25em 0;
         transform: translateX(-1vmin);
         opacity: 0;
+
+        > button {
+            @include button_small;
+            @include hover_effect(--c-primary);
+            padding: 0.3em 0.85em;
+        }
     }
 
     .options {

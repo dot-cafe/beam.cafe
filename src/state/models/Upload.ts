@@ -1,7 +1,7 @@
-import {action, computed, observable}       from 'mobx';
-import {settings, showNotification, socket} from '..';
-import {on}                                 from '../../utils/events';
-import {ListedFile}                         from './ListedFile';
+import {action, computed, observable}                         from 'mobx';
+import {pushNotification, showNotification, settings, socket} from '..';
+import {on}                                                   from '../../utils/events';
+import {ListedFile}                                           from './ListedFile';
 
 export type SimpleUploadState = 'pending' | 'active' | 'done';
 export type UploadState = 'idle' |
@@ -48,7 +48,6 @@ export class Upload {
         switch (status) {
             case 'awaiting-approval': {
                 settings.get('notifyOnRequest') && showNotification({
-                    interaction: true,
                     title: 'Someone requested a file!',
                     body: `Click to approve the request of "${listedFile.file.name}"`
                 }).then((data) => {
@@ -62,7 +61,7 @@ export class Upload {
                 break;
             }
             case 'running': {
-                settings.get('notifyOnUpload') && showNotification({
+                settings.get('notifyOnUpload') && pushNotification({
                     title: 'You started uploading a file!',
                     body: `Upload of "${listedFile.file.name}" has started!`
                 });

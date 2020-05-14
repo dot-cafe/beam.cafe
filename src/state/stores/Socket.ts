@@ -3,7 +3,7 @@ import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
 import {Upload}             from '../models/Upload';
 import {files, Keys}        from './Files';
-import {showNotification}   from './Notify';
+import {pushNotification}   from './Notify';
 import {settings}           from './Settings';
 import {uploads}            from './Uploads';
 
@@ -36,7 +36,7 @@ class Socket {
                 this.connectionLost = false;
 
                 // Show notification if enabled
-                showNotification({
+                pushNotification({
                     title: 'Connected again 😋',
                     body: 'Share something!'
                 });
@@ -59,7 +59,7 @@ class Socket {
 
             // Show notification if enabled
             if (settings.get('notifyOnConnectionChange')) {
-                showNotification({
+                pushNotification({
                     title: 'Connection lost... 😢',
                     body: 'Tell your friends to wait a second, we\'re working on it!'
                 });

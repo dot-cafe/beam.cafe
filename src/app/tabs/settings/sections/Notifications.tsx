@@ -1,10 +1,11 @@
-import {observer}                    from 'mobx-react';
-import {Component, h}                from 'preact';
-import {AvailableSettings, settings} from '../../../../state';
-import {bind, cn}                    from '../../../../utils/preact-utils';
-import {Switch}                      from '../../../components/Switch';
-import baseStyles                    from './_base.module.scss';
-import styles                        from './Notifications.module.scss';
+import {observer}                                      from 'mobx-react';
+import {Component, h}                                  from 'preact';
+import {AvailableSettings, pushNotification, settings} from '../../../../state';
+import {bind, cn}                                      from '../../../../utils/preact-utils';
+import {Switch}                                        from '../../../components/Switch';
+import {Toast}                                         from '../../../overlays/Toast';
+import baseStyles                                      from './_base.module.scss';
+import styles                                          from './Notifications.module.scss';
 
 @observer
 export class Notifications extends Component {
@@ -36,6 +37,21 @@ export class Notifications extends Component {
         }
     }
 
+    @bind
+    testNotifications() {
+        const success = pushNotification({
+            title: 'Hello World!',
+            body: 'Now go and share a file :)'
+        });
+
+        if (!success) {
+            Toast.instance.set({
+                text: 'Failed to show Notification',
+                type: 'error'
+            });
+        }
+    }
+
     render() {
         const notify = settings.get('notifications');
 
@@ -55,9 +71,11 @@ export class Notifications extends Component {
                     </header>
                 </section>
 
-                <h3 className={styles.optionsHeader}>
-                    Customize:
-                </h3>
+                <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
+                    <h3>Customize</h3>
+
+                    <button onClick={this.testNotifications}>Test</button>
+                </section>
 
                 <section className={cn(styles.options, baseStyles.borderless)}>
 
