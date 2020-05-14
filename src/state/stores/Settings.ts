@@ -13,7 +13,6 @@ export type AvailableSettings = {
     notifications: SwitchState;
     notifyOnRequest: boolean;
     notifyOnUpload: boolean;
-    notifyOnPeer: boolean;
 };
 
 class Settings {

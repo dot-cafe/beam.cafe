@@ -12,12 +12,27 @@ const app = path.resolve(src, 'app');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
     devtool: 'inline-source-map',
+
+    entry: {
+        'main': './src/index.js',
+        'push': './src/sw/push.ts'
+    },
 
     output: {
         path: dist,
-        filename: '[name].js'
+        filename: '[name].js',
+        globalObject: `(() => {
+            if (typeof self !== 'undefined') {
+                return self;
+            } else if (typeof window !== 'undefined') {
+                return window;
+            } else if (typeof global !== 'undefined') {
+                return global;
+            } else {
+                return Function('return this')();
+            }
+        })()`
     },
 
     devServer: {

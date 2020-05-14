@@ -10,7 +10,13 @@ if (env.NODE_ENV === 'development') {
     }
 
     // See https://github.com/facebook/react/issues/16604#issuecomment-528663101
-    window.$RefreshReg$ = () => {};
+    window.$RefreshReg$ = () => {
+    };
+
+    // Load only push-notification part
+    navigator.serviceWorker.register('/push.js', {
+        scope: '/'
+    }).then(() => console.log('[SW] Push SW installed!'));
 } else if (env.NODE_ENV === 'production') {
 
     // Print user warning and cool message

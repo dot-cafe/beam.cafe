@@ -1,59 +1,59 @@
-import {off, on} from '../../utils/events';
-
-export type NotificationPayload = NotificationOptions & {
+export type NotificationPayload = {
     title: string;
+    body?: string;
+    image?: string;
+    interaction?: boolean;
 };
 
-export type ResolveNotification = {
-    event: 'click' | 'close' | 'error';
+export type ResolveNotification = 'click' | 'close' | string | null;
+
+// Currently active notifications
+const pendingRequests = new Map<string, (s: ResolveNotification) => void>();
+
+// UID Generator
+const uid = () => `${Date.now().toString(36)}-${Math.floor(Math.random() * 1e14).toString(36)}`;
+
+// Wait until service worker is initialized
+navigator.serviceWorker.ready.then(() => {
+
+    // Listen to resolved notifications
+    navigator.serviceWorker.addEventListener('message', ev => {
+        const {type, tag, action} = ev.data;
+
+        if (type === 'notify-reply') {
+            const resolver = pendingRequests.get(tag);
+
+            if (resolver) {
+                resolver(action);
+            }
+        }
+    });
+});
+
+/**
+ * TODO: What about actions on chromium-based browsers?
+ * Shows a notification and expects a response from the user
+ * @param options
+ */
+export const showNotification = (options: NotificationPayload): Promise<ResolveNotification> => {
+    return new Promise<ResolveNotification>(resolve => {
+        const {controller} = navigator.serviceWorker;
+
+        if (!controller) {
+            return resolve(null);
+        }
+
+        const tag = uid();
+        controller.postMessage({
+            type: 'notify',
+            data: options,
+            tag
+        });
+
+        if (options.interaction) {
+            pendingRequests.set(tag, resolve);
+        } else {
+            resolve(null);
+        }
+    });
 };
-
-export class Notify {
-    public static readonly TIMEOUT = 4000;
-
-    /**
-     * Shows a notification and returns a promise with the users reaction
-     * @param options
-     */
-    public static showNotification(options: NotificationPayload): Promise<ResolveNotification> {
-        const {title, ...rest} = options;
-
-        const notification = new Notification(title, {
-            badge: '/favicon.ico',
-            icon: '/favicon.ico',
-            requireInteraction: true,
-            ...rest
-        });
-
-        return new Promise<ResolveNotification>(resolve => {
-            const args = on(notification, ['click', 'close', 'error', 'show'], (e: Event) => {
-                switch (e.type) {
-                    case 'click':
-                    case 'error':
-                    case 'close': {
-                        off(...args);
-                        resolve({event: e.type});
-                    }
-                }
-            });
-        });
-    }
-
-    /**
-     * Shows a notification and closes it after a few seconds
-     * @param options
-     * @param timeout
-     */
-    public static pushNotification(options: NotificationPayload, timeout = Notify.TIMEOUT): void {
-        const {title, ...rest} = options;
-
-        const notification = new Notification(title, {
-            badge: '/favicon.ico',
-            icon: '/favicon.ico',
-            requireInteraction: false,
-            ...rest
-        });
-
-        setTimeout(() => notification.close(), timeout);
-    }
-}

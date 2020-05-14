@@ -3,7 +3,7 @@ const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const WorkBoxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
@@ -17,12 +17,16 @@ const app = path.resolve(src, 'app');
 
 module.exports = {
     mode: 'production',
-    entry: './src/index.js',
     devtool: 'source-map',
+
+    entry: {
+        'js/main-[contenthash:8]': './src/index.js',
+        'push': './src/sw/push.ts' // TODO: Invalidation?
+    },
 
     output: {
         path: dist,
-        filename: 'js/[contenthash:8].bundle.js',
+        filename: '[name].js',
         publicPath: '/'
     },
 
@@ -144,7 +148,8 @@ module.exports = {
             chunkFilename: 'css/[name].[hash:6].css'
         }),
 
-        new WorkboxPlugin.GenerateSW({
+        new WorkBoxPlugin.GenerateSW({
+            importScripts: ['/push.js'],
             swDest: 'sw.js',
             clientsClaim: true,
             skipWaiting: true

@@ -49,7 +49,7 @@ class Socket {
             files.resetFiles();
         });
 
-        this.ws.addEventListener('message', e => {
+        this.ws.addEventListener('message', (e: unknown) => {
             try {
                 const {type, payload} = JSON.parse((e as MessageEvent).data);
                 this.onMessage(type, payload);
