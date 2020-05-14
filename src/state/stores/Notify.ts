@@ -1,3 +1,5 @@
+import {settings} from './Settings';
+
 export type NotificationPayload = {
     title: string;
     body?: string;
@@ -35,7 +37,13 @@ navigator.serviceWorker.ready.then(() => {
  * Shows a notification and expects a response from the user
  * @param options
  */
-export const showNotification = (options: NotificationPayload): Promise<ResolveNotification> => {
+export const showNotification = async (options: NotificationPayload): Promise<ResolveNotification> => {
+
+    // Check if notifications are enabled
+    if (settings.get('notifications') !== true) {
+        return null;
+    }
+
     return new Promise<ResolveNotification>(resolve => {
         const {controller} = navigator.serviceWorker;
 

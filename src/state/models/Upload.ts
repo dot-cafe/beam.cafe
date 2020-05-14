@@ -45,26 +45,27 @@ export class Upload {
         const status = settings.get('autoPause') ? 'awaiting-approval' : 'running';
         this.update(status);
 
-        // Show notification if enabled
-        if (settings.get('notifications') === true) {
-            switch (status) {
-                case 'awaiting-approval': {
-                    settings.get('notifyOnRequest') && showNotification({
-                        interaction: true,
-                        title: 'Someone requested a file!',
-                        body: `Click to approve the request of "${listedFile.file.name}"`
-                    }).then((data) => {
-                        this.update(data === 'click' ? 'running' : 'cancelled');
-                    });
+        switch (status) {
+            case 'awaiting-approval': {
+                settings.get('notifyOnRequest') && showNotification({
+                    interaction: true,
+                    title: 'Someone requested a file!',
+                    body: `Click to approve the request of "${listedFile.file.name}"`
+                }).then((data) => {
+                    if (data === 'click') {
+                        this.update('running');
+                    } else if (data === 'close') {
+                        this.update('cancelled');
+                    }
+                });
 
-                    break;
-                }
-                case 'running': {
-                    settings.get('notifyOnUpload') && showNotification({
-                        title: 'You started uploading a file!',
-                        body: `Upload of "${listedFile.file.name}" has started!`
-                    });
-                }
+                break;
+            }
+            case 'running': {
+                settings.get('notifyOnUpload') && showNotification({
+                    title: 'You started uploading a file!',
+                    body: `Upload of "${listedFile.file.name}" has started!`
+                });
             }
         }
     }
