@@ -10,7 +10,7 @@ export const About = () => {
     return (
         <div className={cn(baseStyles.section, styles.about)}>
             <header>
-                <bc-icon name="shield"/>
+                <bc-icon name="help"/>
                 <h1>About</h1>
                 <span> - About the Author and the project</span>
             </header>
