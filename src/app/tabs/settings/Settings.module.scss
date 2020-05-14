@@ -16,7 +16,6 @@
     .tabs {
         @include flex(column, flex-end);
         margin: $grid-margin 1em 0 auto;
-        width: 8.5em;
     }
 
     .separator {
