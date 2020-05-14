@@ -73,6 +73,12 @@ export class Notifications extends Component {
                                 onChange={this.option('notifyOnUpload')}/>
                     </div>
 
+                    <div>
+                        <h3>Connection lost / re-established</h3>
+                        <Switch state={settings.get('notifyOnConnectionChange')}
+                                onChange={this.option('notifyOnConnectionChange')}/>
+                    </div>
+
                 </section>
             </div>
         );

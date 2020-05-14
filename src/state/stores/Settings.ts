@@ -13,6 +13,7 @@ export type AvailableSettings = {
     notifications: SwitchState;
     notifyOnRequest: boolean;
     notifyOnUpload: boolean;
+    notifyOnConnectionChange: boolean;
 };
 
 class Settings {
@@ -30,7 +31,8 @@ class Settings {
 
         notifications: false,
         notifyOnRequest: true,
-        notifyOnUpload: false
+        notifyOnUpload: false,
+        notifyOnConnectionChange: true
     };
 
     @observable private settings: AvailableSettings;

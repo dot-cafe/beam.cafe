@@ -3,6 +3,7 @@ import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
 import {Upload}             from '../models/Upload';
 import {files, Keys}        from './Files';
+import {showNotification}   from './Notify';
 import {settings}           from './Settings';
 import {uploads}            from './Uploads';
 
@@ -17,6 +18,7 @@ class Socket {
     @observable public connectionState: ConnectionState;
     private readonly requests: Map<string, RequestResolver>;
     private readonly ws: GracefulWebSocket;
+    private connectionLost = false;
     private messageQueue: Array<unknown>;
     private sessionKey: string | null;
 
@@ -30,6 +32,16 @@ class Socket {
         this.ws.addEventListener('connected', () => {
             console.log('[WS] Connected!');
 
+            if (settings.get('notifyOnConnectionChange') && this.connectionLost) {
+                this.connectionLost = false;
+
+                // Show notification if enabled
+                showNotification({
+                    title: 'Connected again 😋',
+                    body: 'Share something!'
+                });
+            }
+
             // Try to re-establish connection or create a new session
             if (this.sessionKey !== null) {
                 console.log('[WS] Try to restore session.');
@@ -42,7 +54,16 @@ class Socket {
 
         this.ws.addEventListener('disconnected', () => {
             this.updateState('disconnected');
+            this.connectionLost = true;
             console.log('[WS] Disconnected!');
+
+            // Show notification if enabled
+            if (settings.get('notifyOnConnectionChange')) {
+                showNotification({
+                    title: 'Connection lost... 😢',
+                    body: 'Tell your friends to wait a second, we\'re working on it!'
+                });
+            }
 
             // Pause all uploads and mark all files as pending
             uploads.massAction('pause');
