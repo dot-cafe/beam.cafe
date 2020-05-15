@@ -29,6 +29,7 @@ self.addEventListener('message', (ev) => {
             badge: '/favicon.ico',
             icon: '/favicon.ico',
             requireInteraction: !!interaction,
+            renotify: true,
             tag, body
         }));
     }

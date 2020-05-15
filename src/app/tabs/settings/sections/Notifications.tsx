@@ -51,10 +51,17 @@ export class Notifications extends Component {
         });
 
         if (!success) {
-            Toast.instance.set({
-                text: 'Failed to show Notification',
-                type: 'error'
-            });
+            if (this.setting('hideIfAppIsVisible')) {
+                Toast.instance.set({
+                    text: 'Notifications are hidden if app is visible!',
+                    type: 'warning'
+                });
+            } else {
+                Toast.instance.set({
+                    text: 'Failed to show Notification',
+                    type: 'error'
+                });
+            }
         }
     }
 
@@ -84,17 +91,21 @@ export class Notifications extends Component {
                 </section>
 
                 <section className={cn(styles.options, baseStyles.borderless)}>
+                    <div>
+                        <h3>Hide notifications if app is visible</h3>
+                        <Switch state={this.setting('hideIfAppIsVisible') as SwitchState}
+                                onChange={this.option('hideIfAppIsVisible')}/>
+                    </div>
 
                     <div>
                         <h3>Connection lost / re-established</h3>
                         <Switch state={this.setting('connectionChange') as SwitchState}
                                 onChange={this.option('connectionChange')}/>
                     </div>
-
                 </section>
 
                 <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
-                    <h3>When a upload ...</h3>
+                    <h3>Notify me when a upload ...</h3>
                 </section>
 
                 <section className={cn(styles.options, baseStyles.borderless)}>

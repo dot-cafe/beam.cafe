@@ -40,6 +40,12 @@ const requestNotification = (options: NotificationPayload, interaction = false):
         return null;
     }
 
+    // Check if document has to be visible
+    if (settings.get('notificationSettings').hideIfAppIsVisible ||
+        document.visibilityState !== 'visible') {
+        return null;
+    }
+
     const {controller} = navigator.serviceWorker;
 
     if (!controller) {

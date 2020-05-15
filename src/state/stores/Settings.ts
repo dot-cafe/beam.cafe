@@ -7,6 +7,7 @@ import {socket}             from './Socket';
 
 export type NotificationSettings = {
     connectionChange: boolean;
+    hideIfAppIsVisible: boolean;
     uploadStateChange: Array<UploadState>;
 };
 
@@ -36,6 +37,7 @@ class Settings {
         notifications: false,
         notificationSettings: {
             connectionChange: true,
+            hideIfAppIsVisible: true,
             uploadStateChange: [
                 'awaiting-approval',
                 'running'
