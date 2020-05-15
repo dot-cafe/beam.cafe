@@ -32,7 +32,7 @@ class Socket {
         this.ws.addEventListener('connected', () => {
             console.log('[WS] Connected!');
 
-            if (settings.get('notifyOnConnectionChange') && this.connectionLost) {
+            if (settings.get('notificationSettings').connectionChange && this.connectionLost) {
                 this.connectionLost = false;
 
                 // Show notification if enabled
@@ -58,7 +58,7 @@ class Socket {
             console.log('[WS] Disconnected!');
 
             // Show notification if enabled
-            if (settings.get('notifyOnConnectionChange')) {
+            if (settings.get('notificationSettings').connectionChange) {
                 pushNotification({
                     title: 'Connection lost... 😢',
                     body: 'Tell your friends to wait a second, we\'re working on it!'
