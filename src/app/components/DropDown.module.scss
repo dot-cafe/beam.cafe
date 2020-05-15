@@ -1,0 +1,53 @@
+.button {
+    @include hover_effect(--c-background-secondary);
+    @include flex(row, center);
+    @include font(600, 0.9em);
+    color: var(--c-text-primary);
+    padding: 0.35em 0.75em;
+    border-radius: 0.25em;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    width: 100%;
+
+    &.empty {
+        pointer-events: none;
+        cursor: default;
+
+        > bc-icon {
+            opacity: 0;
+        }
+    }
+
+    &.open {
+        border-color: var(--c-primary);
+
+        > bc-icon {
+            transform: rotate(180deg);
+        }
+    }
+
+    > span {
+        margin-right: auto;
+    }
+
+    > bc-icon {
+        font-size: 14px;
+        margin-left: 0.5em;
+        transition: all 0.3s;
+    }
+}
+
+.items {
+    @include flex(column);
+    border-radius: 0.25em;
+    padding: 0.25em 0;
+    overflow: hidden;
+
+    > button {
+        @include hover_effect(--c-background-primary);
+        color: var(--c-text-primary);
+        padding: 0.5em 1em;
+        cursor: pointer;
+        text-align: left;
+    }
+}

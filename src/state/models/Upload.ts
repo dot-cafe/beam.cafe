@@ -1,7 +1,8 @@
 import {action, computed, observable}                         from 'mobx';
 import {pushNotification, showNotification, settings, socket} from '..';
 import {on}                                                   from '../../utils/events';
-import {ListedFile}                                           from './ListedFile';
+import {ListedFile}       from './ListedFile';
+import {UploadExtensions} from './UploadExtensions';
 
 export type SimpleUploadState = 'pending' | 'active' | 'done';
 export type UploadState = 'idle' |
@@ -41,32 +42,7 @@ export class Upload {
         this.id = id;
         this.url = url;
         this.xhr = null;
-
-        const status = settings.get('autoPause') ? 'awaiting-approval' : 'running';
-        this.update(status);
-
-        switch (status) {
-            case 'awaiting-approval': {
-                settings.get('notifyOnRequest') && showNotification({
-                    title: 'Someone requested a file!',
-                    body: `Click to approve the request of "${listedFile.file.name}"`
-                }).then((data) => {
-                    if (data === 'click') {
-                        this.update('running');
-                    } else if (data === 'close') {
-                        this.update('cancelled');
-                    }
-                });
-
-                break;
-            }
-            case 'running': {
-                settings.get('notifyOnUpload') && pushNotification({
-                    title: 'You started uploading a file!',
-                    body: `Upload of "${listedFile.file.name}" has started!`
-                });
-            }
-        }
+        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
     }
 
     @computed
@@ -163,7 +139,15 @@ export class Upload {
             }
         }
 
+        // Update status
         this.state = status;
+
+        // Fire notification if set
+        if (settings.get('notifications') === true &&
+            settings.get('notificationSettings').uploadStateChange.includes(status)) {
+            UploadExtensions.notifyFor(this);
+        }
+
         return true;
     }
 

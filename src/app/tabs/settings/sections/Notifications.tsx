@@ -1,18 +1,24 @@
-import {observer}                                      from 'mobx-react';
-import {Component, h}                                  from 'preact';
-import {AvailableSettings, pushNotification, settings} from '../../../../state';
-import {bind, cn}                                      from '../../../../utils/preact-utils';
-import {Switch}                                        from '../../../components/Switch';
-import {Toast}                                         from '../../../overlays/Toast';
-import baseStyles                                      from './_base.module.scss';
-import styles                                          from './Notifications.module.scss';
+import {observer}                                         from 'mobx-react';
+import {Component, h}                                     from 'preact';
+import {NotificationSettings, pushNotification, settings} from '../../../../state';
+import {bind, cn}                                         from '../../../../utils/preact-utils';
+import {Switch, SwitchState}                              from '../../../components/Switch';
+import {Toast}                                            from '../../../overlays/Toast';
+import baseStyles                                         from './_base.module.scss';
+import styles                                             from './Notifications.module.scss';
+import {UploadStateNotification}                          from './UploadStateNotification';
 
 @observer
 export class Notifications extends Component {
 
-    option(key: keyof AvailableSettings) {
+    setting(key: keyof NotificationSettings) {
+        return settings.get('notificationSettings')[key];
+    }
+
+    option(key: keyof Omit<NotificationSettings, 'uploadStateChange'>) {
         return (newValue: boolean) => {
-            settings.set(key, newValue);
+            settings.get('notificationSettings')[key] = newValue;
+            settings.syncLocal();
         };
     }
 
@@ -80,23 +86,19 @@ export class Notifications extends Component {
                 <section className={cn(styles.options, baseStyles.borderless)}>
 
                     <div>
-                        <h3>When someone requests a file.</h3>
-                        <Switch state={settings.get('notifyOnRequest')}
-                                onChange={this.option('notifyOnRequest')}/>
-                    </div>
-
-                    <div>
-                        <h3>When a upload has begun.</h3>
-                        <Switch state={settings.get('notifyOnUpload')}
-                                onChange={this.option('notifyOnUpload')}/>
-                    </div>
-
-                    <div>
                         <h3>Connection lost / re-established</h3>
-                        <Switch state={settings.get('notifyOnConnectionChange')}
-                                onChange={this.option('notifyOnConnectionChange')}/>
+                        <Switch state={this.setting('connectionChange') as SwitchState}
+                                onChange={this.option('connectionChange')}/>
                     </div>
 
+                </section>
+
+                <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
+                    <h3>When a upload ...</h3>
+                </section>
+
+                <section className={cn(styles.options, baseStyles.borderless)}>
+                    <UploadStateNotification/>
                 </section>
             </div>
         );

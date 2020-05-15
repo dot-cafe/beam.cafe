@@ -2,7 +2,13 @@ import {action, observable} from 'mobx';
 import {SwitchState}        from '../../app/components/Switch';
 import {localStorageUtils}  from '../../utils/local-storage-utils';
 import {pick}               from '../../utils/pick';
+import {UploadState}        from '../models/Upload';
 import {socket}             from './Socket';
+
+export type NotificationSettings = {
+    connectionChange: boolean;
+    uploadStateChange: Array<UploadState>;
+};
 
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
@@ -11,9 +17,7 @@ export type AvailableSettings = {
     autoPause: boolean;
 
     notifications: SwitchState;
-    notifyOnRequest: boolean;
-    notifyOnUpload: boolean;
-    notifyOnConnectionChange: boolean;
+    notificationSettings: NotificationSettings;
 };
 
 class Settings {
@@ -30,9 +34,13 @@ class Settings {
         autoPause: false,
 
         notifications: false,
-        notifyOnRequest: true,
-        notifyOnUpload: false,
-        notifyOnConnectionChange: true
+        notificationSettings: {
+            connectionChange: true,
+            uploadStateChange: [
+                'awaiting-approval',
+                'running'
+            ]
+        }
     };
 
     @observable private settings: AvailableSettings;
