@@ -35,7 +35,7 @@ export class DangerZone extends Component {
                 <header>
                     <bc-icon name="electricity"/>
                     <h1>Danger Zone</h1>
-                    <span> - Usage of the following options with caution!</span>
+                    <span>Usage of the following options with caution!</span>
                 </header>
 
                 <section>

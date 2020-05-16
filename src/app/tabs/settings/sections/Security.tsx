@@ -19,7 +19,7 @@ export class Security extends Component {
                 <header>
                     <bc-icon name="shield"/>
                     <h1>Security</h1>
-                    <span> - Everything around privacy and more</span>
+                    <span>Everything around privacy and more</span>
                 </header>
 
                 <section>

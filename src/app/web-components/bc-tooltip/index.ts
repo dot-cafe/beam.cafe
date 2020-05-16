@@ -2,7 +2,6 @@ import {NanoPop, NanoPopPosition}  from 'nanopop';
 import {EventBindingArgs, off, on} from '../../../utils/events';
 import styles                      from './tooltip.module.scss';
 
-// TODO: Add position?
 const REFLECTED_ATTRIBUTES = ['content', 'pos'];
 
 class BeamCafeTooltip extends HTMLElement {
@@ -10,7 +9,7 @@ class BeamCafeTooltip extends HTMLElement {
     private _triggerEventListener: EventBindingArgs | null = null;
     private _hideEventListener: EventBindingArgs | null = null;
     private _toolTip: HTMLParagraphElement;
-    private _nanopop: NanoPop;
+    private _nanoPop: NanoPop;
     private _visible = false;
     private _connected = false;
 
@@ -18,7 +17,7 @@ class BeamCafeTooltip extends HTMLElement {
         super();
         this._toolTip = document.createElement('p');
         this._toolTip.classList.add(styles.tooltip);
-        this._nanopop = new NanoPop(document.body, this._toolTip);
+        this._nanoPop = new NanoPop(document.body, this._toolTip);
     }
 
     static get observedAttributes(): Array<string> {
@@ -30,7 +29,7 @@ class BeamCafeTooltip extends HTMLElement {
     }
 
     private updatePosition() {
-        this._nanopop.update({
+        this._nanoPop.update({
             position: (this.getAttribute('pos') || 'bottom-middle') as NanoPopPosition
         });
     }
@@ -68,7 +67,7 @@ class BeamCafeTooltip extends HTMLElement {
         document.body.appendChild(tt);
         this.updateText();
 
-        const pos = this._nanopop.update({
+        const pos = this._nanoPop.update({
             position: (this.getAttribute('pos') || 'bottom-middle') as NanoPopPosition,
             reference: ref,
             popper: tt

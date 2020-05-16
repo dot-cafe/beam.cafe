@@ -32,7 +32,11 @@ $grid-margin: 1em;
         > span {
             @include white-space-overflow();
             @include font(600, 0.85em);
-            margin-left: 0.25em;
+
+            &::before {
+                content: '-';
+                margin: 0 0.25em;
+            }
         }
     }
 
