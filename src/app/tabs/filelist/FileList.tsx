@@ -1,6 +1,6 @@
 import {observer}              from 'mobx-react';
 import {Component, h}          from 'preact';
-import {files, SortKeys}       from '../../../state';
+import {files}                 from '../../../state';
 import {fuzzyStringSimilarity} from '../../../utils/fuzzy-string-similarity';
 import {bind}                  from '../../../utils/preact-utils';
 import {isMobile}              from '../../browserenv';
@@ -9,15 +9,20 @@ import {DropZone}              from './DropZone';
 import {FileItem}              from './FileItem';
 import styles                  from './FileList.module.scss';
 
-type Props = {};
+export type SortKey = 'index' | 'name' | 'size';
+
 type State = {
     searchTerm: null | string;
+    sortKey: SortKey;
+    toggleSortKey: boolean;
 };
 
 @observer
-export class FileList extends Component<Props, State> {
+export class FileList extends Component<{}, State> {
     readonly state = {
-        searchTerm: null
+        searchTerm: null,
+        sortKey: 'index' as SortKey,
+        toggleSortKey: false
     };
 
     @bind
@@ -26,8 +31,15 @@ export class FileList extends Component<Props, State> {
     }
 
     @bind
-    sortBy(key: SortKeys) {
-        return () => files.sortElements(key);
+    sortBy(key: SortKey) {
+        return () => {
+            const {sortKey, toggleSortKey} = this.state;
+
+            this.setState({
+                toggleSortKey: sortKey === key ? !toggleSortKey : toggleSortKey,
+                sortKey: key
+            });
+        };
     }
 
     @bind
@@ -38,10 +50,24 @@ export class FileList extends Component<Props, State> {
     }
 
     render() {
-        const {searchTerm} = this.state as State;
+        const {searchTerm, sortKey, toggleSortKey} = this.state as State;
         const {listedFiles} = files;
         const indexPadding = Math.max(String(listedFiles.length).length, 2);
-        const sourceList = [...listedFiles];
+
+        const sourceList = [...listedFiles].sort((a, b) => {
+            if (toggleSortKey) {
+                [a, b] = [b, a];
+            }
+
+            switch (sortKey) {
+                case 'index':
+                    return a.index > b.index ? 1 : -1;
+                case 'name':
+                    return a.file.name.localeCompare(b.file.name);
+                case 'size':
+                    return a.file.size > b.file.size ? 1 : -1;
+            }
+        });
 
         if (searchTerm) {
 

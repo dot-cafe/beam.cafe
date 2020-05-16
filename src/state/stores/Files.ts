@@ -4,8 +4,6 @@ import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
 import {socket}                       from '../';
 
-export type SortKeys = 'index' | 'name' | 'size';
-
 export type Keys = Array<{
     id: string;
     name: string;
@@ -21,7 +19,6 @@ const remainingWaitingTime = (ts: number): number => {
 /* eslint-disable no-console */
 class Files {
     @observable public listedFiles: Array<ListedFile> = [];
-    private toggleSortKey = false;
 
     @computed
     public get isEmpty() {
@@ -122,25 +119,6 @@ class Files {
         for (const file of this.listedFiles) {
             file.status = 'loading';
         }
-    }
-
-    @action
-    public sortElements(key: SortKeys) {
-        this.toggleSortKey = !this.toggleSortKey;
-        this.listedFiles = this.listedFiles.slice().sort((a, b) => {
-            if (this.toggleSortKey) {
-                [a, b] = [b, a];
-            }
-
-            switch (key) {
-                case 'index':
-                    return a.index > b.index ? 1 : -1;
-                case 'name':
-                    return a.file.name.localeCompare(b.file.name);
-                case 'size':
-                    return a.file.size > b.file.size ? 1 : -1;
-            }
-        });
     }
 }
 
