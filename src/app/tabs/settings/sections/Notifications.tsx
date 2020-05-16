@@ -52,13 +52,15 @@ export class Notifications extends Component {
 
         if (!success) {
             if (this.setting('hideIfAppIsVisible')) {
-                Toast.instance.set({
+                Toast.instance.show({
                     text: 'Notifications are hidden if app is visible!',
+                    body: 'Disable the option to view a notification if the app is open.',
                     type: 'warning'
                 });
             } else {
-                Toast.instance.set({
+                Toast.instance.show({
                     text: 'Failed to show Notification',
+                    body: 'Try closing other beam.cafe tabs!',
                     type: 'error'
                 });
             }
