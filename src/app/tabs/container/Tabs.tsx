@@ -1,57 +1,47 @@
-import {observer}       from 'mobx-react';
-import {Component, h}   from 'preact';
-import {files, uploads} from '../../../state';
-import {bind}           from '../../../utils/preact-utils';
-import {FileList}       from '../filelist/FileList';
-import {Settings}       from '../settings/Settings';
-import {TabHeader}      from './TabHeader';
-import {Uploads}        from '../uploads/Uploads';
-import {TabViews}       from './TabViews';
-import styles           from './Tabs.module.scss';
+import {FunctionalComponent, h} from 'preact';
+import {useState}               from 'preact/hooks';
+import {files, uploads}         from '../../../state';
+import {FileList}               from '../filelist/FileList';
+import {Settings}               from '../settings/Settings';
+import {TabHeader}              from './TabHeader';
+import {Uploads}                from '../uploads/Uploads';
+import {TabViews}               from './TabViews';
+import styles                   from './Tabs.module.scss';
 
-type Props = {};
-type State = {
-    tabIndex: number;
-};
+/* eslint-disable react/jsx-key */
+const views = [<FileList/>, <Uploads/>, <Settings/>];
 
-@observer
-export class Tabs extends Component<Props, State> {
+export const Tabs: FunctionalComponent = () => {
+    const [tabIndex, setTab] = useState(
+        env.NODE_ENV === 'development' ? Number(localStorage.getItem('--dev-tab-index')) || 0 : 0
+    );
 
-    /* eslint-disable react/jsx-key */
-    private readonly views = [<FileList/>, <Uploads/>, <Settings/>];
+    const {listedUploads} = uploads;
+    const {listedFiles} = files;
 
-    readonly state = {
-        tabIndex: 0
+    const changeTab = (index: number) => {
+        setTab(index);
+
+        if (env.NODE_ENV === 'development') {
+            localStorage.setItem('--dev-tab-index', String(tabIndex));
+        }
     };
 
-    @bind
-    changeTab(index: number) {
-        this.setState({
-            tabIndex: index
-        });
-    }
+    const titles = [
+        listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
+        listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
+        'Settings'
+    ];
 
-    render() {
-        const {tabIndex} = this.state;
-        const {listedUploads} = uploads;
-        const {listedFiles} = files;
+    return (
+        <div className={styles.tabs}>
+            <TabHeader tabs={titles}
+                       activeTab={tabIndex}
+                       onChange={changeTab}/>
 
-        const titles = [
-            listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
-            listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
-            'Settings'
-        ];
-
-        return (
-            <div className={styles.tabs}>
-                <TabHeader tabs={titles}
-                           activeTab={tabIndex}
-                           onChange={this.changeTab}/>
-
-                <TabViews views={this.views}
-                          changeView={this.changeTab}
-                          activeView={tabIndex}/>
-            </div>
-        );
-    }
-}
+            <TabViews views={views}
+                      changeView={changeTab}
+                      activeView={tabIndex}/>
+        </div>
+    );
+};

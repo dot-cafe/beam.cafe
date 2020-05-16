@@ -1,17 +1,13 @@
-import {Component, createRef, h} from 'preact';
-import {JSXInternal}             from 'preact/src/jsx';
-import {bind, cn}                from '../../../utils/preact-utils';
-import {CollapsibleList}         from '../../components/CollapsibleList';
-import {About}                   from './sections/About';
-import {DangerZone}              from './sections/DangerZone';
-import {Notifications}           from './sections/Notifications';
-import {Security}                from './sections/Security';
-import styles                    from './Settings.module.scss';
-
-type Props = {};
-type State = {
-    tabIndex: number;
-};
+import {createRef, FunctionalComponent, h} from 'preact';
+import {useState}                          from 'preact/hooks';
+import {JSXInternal}                       from 'preact/src/jsx';
+import {cn}                                from '../../../utils/preact-utils';
+import {CollapsibleList}                   from '../../components/CollapsibleList';
+import {About}                             from './sections/About';
+import {DangerZone}                        from './sections/DangerZone';
+import {Notifications}                     from './sections/Notifications';
+import {Security}                          from './sections/Security';
+import styles                              from './Settings.module.scss';
 
 type Tabs = Array<{
     name: string;
@@ -50,79 +46,74 @@ if (!!window.Notification) {
     });
 }
 
-// TODO: Clean up, still messy.
-export class Settings extends Component<Props, State> {
-    private readonly mobileMenu = createRef<CollapsibleList>();
+export const Settings: FunctionalComponent = () => {
+    const mobileMenu = createRef<CollapsibleList>();
+    const [tabIndex, setTab] = useState(
+        env.NODE_ENV === 'development' ? Number(localStorage.getItem('--dev-settings-index')) || 0 : 0
+    );
 
-    readonly state = {
-        tabIndex: 0
+    const changeTab = (tabIndex: number) => {
+        mobileMenu.current?.toggleRetract();
+        setTab(tabIndex);
+
+        if (env.NODE_ENV === 'development') {
+            localStorage.setItem('--dev-settings-index', String(tabIndex));
+        }
     };
 
-    changeTab(tabIndex: number) {
-        return () => {
-            this.mobileMenu.current?.toggleRetract();
-            this.setState({
-                tabIndex
-            });
-        };
-    }
+    // Render tab-buttons
+    let activeComponent = null;
+    const tabButtons = [];
+    for (let i = 0; i < tabs.length; i++) {
+        const {name, icon, com, type = 'normal', separator} = tabs[i];
+        const active = i === tabIndex;
 
-    render() {
-        const {tabIndex} = this.state;
-        let activeComponent = null;
-        const tabButtons = [];
-
-        for (let i = 0; i < tabs.length; i++) {
-            const {name, icon, com, type = 'normal', separator} = tabs[i];
-            const active = i === tabIndex;
-
-            if (active) {
-                activeComponent = com;
-            }
-
-            if (separator) {
-                tabButtons.push(<div className={styles.separator}/>);
-            }
-
-            tabButtons.push(
-                <button onClick={this.changeTab(i)}
-                        key={i}
-                        data-type={type}
-                        className={cn(styles.tabButton, {
-                            [styles.active]: active
-                        })}>
-                    <bc-icon name={icon}/>
-                    <span>{name}</span>
-                </button>
-            );
+        if (active) {
+            activeComponent = com;
         }
 
-        return (
-            <div className={styles.settings}>
-                <div className={styles.options}>
-                    <div className={styles.tabs}>
-                        {tabButtons}
-                    </div>
+        if (separator) {
+            tabButtons.push(<div className={styles.separator}/>);
+        }
 
-                    <div className={styles.content}>
-                        <div>{activeComponent}</div>
-                    </div>
-
-                    <div className={styles.mobileMenu}>
-                        <CollapsibleList ref={this.mobileMenu} header={open =>
-                            <button className={cn(styles.toggleButton, {
-                                [styles.open]: open
-                            })}>
-                                <div>
-                                    <div/>
-                                    <div/>
-                                    <div/>
-                                </div>
-                            </button>
-                        } content={<div className={styles.mobileList}>{tabButtons}</div>}/>
-                    </div>
-                </div>
-            </div>
+        tabButtons.push(
+            <button onClick={() => changeTab(i)}
+                    key={i}
+                    data-type={type}
+                    className={cn(styles.tabButton, {
+                        [styles.active]: active
+                    })}>
+                <bc-icon name={icon}/>
+                <span>{name}</span>
+            </button>
         );
     }
-}
+
+    return (
+        <div className={styles.settings}>
+            <div className={styles.options}>
+                <div className={styles.tabs}>
+                    {tabButtons}
+                </div>
+
+                <div className={styles.content}>
+                    <div>{activeComponent}</div>
+                </div>
+
+                <div className={styles.mobileMenu}>
+                    <CollapsibleList ref={mobileMenu} header={open =>
+                        <button className={cn(styles.toggleButton, {
+                            [styles.open]: open
+                        })}>
+                            <div>
+                                <div/>
+                                <div/>
+                                <div/>
+                            </div>
+                        </button>
+                    } content={<div className={styles.mobileList}>{tabButtons}</div>}/>
+                </div>
+            </div>
+        </div>
+    );
+};

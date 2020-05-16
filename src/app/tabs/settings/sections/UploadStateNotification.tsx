@@ -1,11 +1,11 @@
-import {Component, h}      from 'preact';
-import {observer}          from 'mobx-react';
-import {settings}          from '../../../../state';
+import {Component, h}     from 'preact';
+import {observer}         from 'mobx-react';
+import {settings}         from '../../../../state';
 import {UploadState}      from '../../../../state/models/Upload';
 import {UploadExtensions} from '../../../../state/models/UploadExtensions';
 import {bind}             from '../../../../utils/preact-utils';
-import {DropDown}          from '../../../components/DropDown';
-import styles              from './UploadStateNotification.module.scss';
+import {DropDown}         from '../../../components/DropDown';
+import styles             from './UploadStateNotification.module.scss';
 
 @observer
 export class UploadStateNotification extends Component {

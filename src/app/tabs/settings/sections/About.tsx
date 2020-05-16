@@ -1,9 +1,9 @@
-import {h}        from 'preact';
-import {cn}       from '../../../../utils/preact-utils';
-import baseStyles from './_base.module.scss';
-import styles     from './About.module.scss';
+import {FunctionalComponent, h} from 'preact';
+import {cn}                     from '../../../../utils/preact-utils';
+import baseStyles               from './_base.module.scss';
+import styles                   from './About.module.scss';
 
-export const About = () => {
+export const About: FunctionalComponent = () => {
     const version = env.VERSION === '0.0.0' ? 'Unreleased' : env.VERSION;
     const build = new Date(env.BUILD_DATE).toUTCString();
 

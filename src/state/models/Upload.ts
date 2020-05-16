@@ -1,8 +1,8 @@
 import {action, computed, observable}                         from 'mobx';
 import {pushNotification, showNotification, settings, socket} from '..';
 import {on}                                                   from '../../utils/events';
-import {ListedFile}       from './ListedFile';
-import {UploadExtensions} from './UploadExtensions';
+import {ListedFile}                                           from './ListedFile';
+import {UploadExtensions}                                     from './UploadExtensions';
 
 export type SimpleUploadState = 'pending' | 'active' | 'done';
 export type UploadState = 'idle' |
