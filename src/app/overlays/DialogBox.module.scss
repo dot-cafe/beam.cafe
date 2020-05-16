@@ -21,7 +21,7 @@
 
 .dialog {
     @include flex(column);
-    box-shadow: 0 0.15em 1.5em var(--c-background-primary-accent);
+    box-shadow: 0 0.15em 1.5em var(--c-background-tertiary);
     background: var(--c-background-primary);
     color: var(--c-text-primary);
     transform-origin: top center;

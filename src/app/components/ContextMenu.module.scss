@@ -1,7 +1,7 @@
 .buttonList {
     @include flex(column);
     background: var(--c-background-primary);
-    box-shadow: 0 0.1em 0.5em var(--c-background-primary-accent);
+    box-shadow: 0 0.1em 0.5em var(--c-background-tertiary);
     border-radius: 0.25em;
     overflow: hidden;
 

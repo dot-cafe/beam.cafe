@@ -11,16 +11,17 @@
     --c-primary-accent: #3071ea;
 
     // Text colors
-    --c-text-primary: #2e3338;
+    --c-text-primary: #3e454d;
     --c-text-primary-accent: #4b515d;
-    --c-text-secondary: #fff;
+    --c-text-secondary: #fff; // Always white, used for fixed-colors
     --c-text-disabled: #747f8d;
 
     // Background colors
     --c-background-primary: #fff;
-    --c-background-primary-accent: #d8d9dc;
+    --c-background-primary-accent: #eeeff3;
     --c-background-secondary: #ecedef;
     --c-background-secondary-accent: #e6e7e8;
+    --c-background-tertiary: #ceced4; // Used for box-shadows
 }
 
 @mixin dark_theme() {
@@ -33,4 +34,5 @@
     --c-background-primary-accent: #1d1e20;
     --c-background-secondary: #202225;
     --c-background-secondary-accent: #1d1f21;
+    --c-background-tertiary: #1e1e1e;
 }

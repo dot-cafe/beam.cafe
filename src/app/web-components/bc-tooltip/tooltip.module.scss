@@ -4,7 +4,7 @@ $border-radius: 0.15em;
     position: fixed;
     color: var(--c-text-secondary);
     padding: 0.35em 0.85em;
-    filter: drop-shadow(0 0.05em 0.25em var(--c-background-primary-accent));
+    filter: drop-shadow(0 0.05em 0.25em var(--c-background-tertiary));
     background: black;
     border-radius: $border-radius;
     font-family: $font-family;

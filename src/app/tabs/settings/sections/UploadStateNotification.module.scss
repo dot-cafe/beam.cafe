@@ -7,7 +7,7 @@
 
     > button {
         @include flex(row, center, center);
-        color: var(--c-text-secondary);
+        color: var(--c-text-primary);
         transition: all 0.3s;
         padding: 0 0.25em 0 1em;
         border-radius: 0.25em;
