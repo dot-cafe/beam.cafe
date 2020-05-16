@@ -17,9 +17,7 @@
         opacity: 0;
 
         > button {
-            @include button_small;
-            @include hover_effect(--c-primary);
-            padding: 0.3em 0.85em;
+            font-size: 1.2em;
         }
     }
 

@@ -87,7 +87,9 @@ export class Notifications extends Component {
                 <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
                     <h3>Customize</h3>
 
-                    <button onClick={this.testNotifications}>Test</button>
+                    <button onClick={this.testNotifications}>
+                        <bc-icon name="notification-color"/>
+                    </button>
                 </section>
 
                 <section className={cn(styles.options, baseStyles.borderless)}>
