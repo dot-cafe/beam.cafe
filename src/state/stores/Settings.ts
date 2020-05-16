@@ -2,13 +2,23 @@ import {action, observable} from 'mobx';
 import {SwitchState}        from '../../app/components/Switch';
 import {localStorageUtils}  from '../../utils/local-storage-utils';
 import {pick}               from '../../utils/pick';
+import {UploadState}        from '../models/Upload';
 import {socket}             from './Socket';
+
+export type NotificationSettings = {
+    connectionChange: boolean;
+    hideIfAppIsVisible: boolean;
+    uploadStateChange: Array<UploadState>;
+};
 
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
-    autoPause: boolean;
     theme: 'light' | 'dark';
+    autoPause: boolean;
+
+    notifications: SwitchState;
+    notificationSettings: NotificationSettings;
 };
 
 class Settings {
@@ -22,7 +32,17 @@ class Settings {
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         reusableDownloadKeys: true,
         strictSession: false,
-        autoPause: false
+        autoPause: false,
+
+        notifications: false,
+        notificationSettings: {
+            connectionChange: true,
+            hideIfAppIsVisible: true,
+            uploadStateChange: [
+                'awaiting-approval',
+                'running'
+            ]
+        }
     };
 
     @observable private settings: AvailableSettings;

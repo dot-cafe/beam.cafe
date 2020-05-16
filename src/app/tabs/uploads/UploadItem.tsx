@@ -2,10 +2,9 @@ import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
 import {SelectType, uploads} from '../../../state';
 import {Upload}              from '../../../state/models/Upload';
+import {UploadExtensions}    from '../../../state/models/UploadExtensions';
 import {bind, cn}            from '../../../utils/preact-utils';
 import {Checkbox}            from '../../components/Checkbox';
-import {getStatusIconFor}    from './statusIcon';
-import {getStatusMessageFor} from './statusMessage';
 import styles                from './UploadItem.module.scss';
 
 type Props = {
@@ -53,8 +52,8 @@ export class UploadItem extends Component<Props, State> {
             + `--text-clip-left: ${percentage}%;`
             + `--text-clip-right: ${100 - percentage}%;`;
 
-        const statusIcon = getStatusIconFor(state);
-        const statusMessage = getStatusMessageFor(upload);
+        const statusIcon = UploadExtensions.getStatusIconFor(state);
+        const statusMessage = UploadExtensions.getStatusMessageFor(upload);
         const toolTipNote = (() => {
             switch (upload.state) {
                 case 'awaiting-approval':

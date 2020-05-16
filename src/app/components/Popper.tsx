@@ -10,7 +10,7 @@ type Props = {
     className?: string;
     style?: string;
     content: JSXInternal.Element;
-    button: JSXInternal.Element;
+    button: JSXInternal.Element | ((open: boolean) => JSXInternal.Element);
 };
 
 type State = {
@@ -82,15 +82,16 @@ export class Popper extends Component<Props, State> {
 
     render() {
         const {button, content, className = '', style} = this.props;
+        const {open} = this.state;
 
         return (
             <div className={cn(styles.popper, className, {
-                [styles.open]: this.state.open
+                [styles.open]: open
             })} style={style}>
                 <div ref={this.reference}
                      onClick={this.toggle}
                      className={styles.btn}>
-                    {button}
+                    {typeof button === 'function' ? button(open) : button}
                 </div>
 
                 <div ref={this.container}

@@ -1,0 +1,24 @@
+.container {
+    @include flex(row);
+
+    > div {
+        width: 100%;
+    }
+
+    > button {
+        @include flex(row, center, center);
+        color: var(--c-text-secondary);
+        transition: all 0.3s;
+        padding: 0 0.25em 0 1em;
+        border-radius: 0.25em;
+        align-self: stretch;
+
+        bc-icon {
+            font-size: 0.75em;
+        }
+
+        &:hover {
+            color: var(--c-red);
+        }
+    }
+}
