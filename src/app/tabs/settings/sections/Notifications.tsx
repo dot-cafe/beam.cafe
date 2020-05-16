@@ -71,7 +71,6 @@ export class Notifications extends Component {
         const notify = settings.get('notifications');
 
         // TODO: Clean up base-styles mess
-        // TODO: span::before -> separator!
         return (
             <div className={cn(baseStyles.section, styles.notifications, {
                 [styles.enabled]: notify === true
@@ -90,6 +89,7 @@ export class Notifications extends Component {
                     <h3>Customize</h3>
 
                     <button onClick={this.testNotifications}>
+                        <bc-tooltip content="Show test Notification"/>
                         <bc-icon name="notification-color"/>
                     </button>
                 </section>
@@ -105,6 +105,12 @@ export class Notifications extends Component {
                         <h3>Connection lost / re-established</h3>
                         <Switch state={this.setting('connectionChange') as SwitchState}
                                 onChange={this.option('connectionChange')}/>
+                    </div>
+
+                    <div>
+                        <h3>Update available</h3>
+                        <Switch state={this.setting('updateAvailable') as SwitchState}
+                                onChange={this.option('updateAvailable')}/>
                     </div>
                 </section>
 

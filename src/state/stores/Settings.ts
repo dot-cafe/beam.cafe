@@ -6,6 +6,7 @@ import {UploadState}        from '../models/Upload';
 import {socket}             from './Socket';
 
 export type NotificationSettings = {
+    updateAvailable: boolean;
     connectionChange: boolean;
     hideIfAppIsVisible: boolean;
     uploadStateChange: Array<UploadState>;
@@ -36,6 +37,7 @@ class Settings {
 
         notifications: false,
         notificationSettings: {
+            updateAvailable: false,
             connectionChange: true,
             hideIfAppIsVisible: true,
             uploadStateChange: [

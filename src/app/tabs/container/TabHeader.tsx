@@ -1,8 +1,9 @@
-import {Component, h}  from 'preact';
-import {on}            from '../../../utils/events';
-import {bind, cn}      from '../../../utils/preact-utils';
-import {ThemeSwitcher} from './ThemeSwitcher';
-import styles          from './TabHeader.module.scss';
+import {Component, h}               from 'preact';
+import {pushNotification, settings} from '../../../state';
+import {on}                         from '../../../utils/events';
+import {bind, cn}                   from '../../../utils/preact-utils';
+import {ThemeSwitcher}              from './ThemeSwitcher';
+import styles                       from './TabHeader.module.scss';
 
 type Props = {
     tabs: Array<string>;
@@ -37,12 +38,21 @@ export class TabHeader extends Component<Props, State> {
             navigator.serviceWorker.getRegistrations().then(regs => {
                 for (const reg of regs) {
                     reg.addEventListener('updatefound', () => {
-                        this.setState({
-                            updateAvailable: true
-                        });
+                        this.updateAvailable();
                     });
                 }
             }).catch(() => null);
+        }
+    }
+
+    updateAvailable() {
+        this.setState({updateAvailable: true});
+
+        // Show notification if set
+        if (settings.get('notificationSettings').updateAvailable) {
+            pushNotification({
+                title: 'A new version is available!'
+            });
         }
     }
 
