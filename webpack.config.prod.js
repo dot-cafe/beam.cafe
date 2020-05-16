@@ -20,7 +20,7 @@ module.exports = {
     devtool: 'source-map',
 
     entry: {
-        'js/main-[contenthash:8]': './src/index.js',
+        'js/bundle': './src/index.js',
         'push': './src/sw/push.ts' // TODO: Invalidation?
     },
 
