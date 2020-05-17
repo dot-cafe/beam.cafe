@@ -1,9 +1,9 @@
+import {eventPath}                 from '@utils/event-path';
+import {bind, cn}                  from '@utils/preact-utils';
 import {NanoPop}                   from 'nanopop';
 import {Component, createRef, h}   from 'preact';
 import {JSXInternal}               from 'preact/src/jsx';
-import {eventPath}                 from '../../utils/event-path';
-import {EventBindingArgs, off, on} from '../../utils/events';
-import {bind, cn}                  from '../../utils/preact-utils';
+import {EventBindingArgs, off, on} from '@utils/events';
 import styles                      from './Popper.module.scss';
 
 type Props = {

@@ -12,7 +12,15 @@
         "target": "ES2019",
         "jsx": "react",
         "jsxFactory": "h",
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "paths": {
+            "@state/*": ["./src/state/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@overlays/*": ["./src/app/overlays/*"],
+            "@components/*": ["./src/app/components/*"],
+            "/*": ["./node_modules/*"]
+        }
     },
     "include": [
         "src/**/*"

@@ -1,7 +1,7 @@
 import {Component, h}                     from 'preact';
-import {files, settings, socket, uploads} from '../../../../state';
-import {bind, cn}                         from '../../../../utils/preact-utils';
-import {Toast}                            from '../../../overlays/Toast';
+import {files, settings, socket, uploads} from '@state/index';
+import {bind, cn}                         from '@utils/preact-utils';
+import {Toast}                            from '@overlays/Toast';
 import baseStyles                         from './_base.module.scss';
 
 export class DangerZone extends Component {

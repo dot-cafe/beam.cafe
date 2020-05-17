@@ -1,14 +1,14 @@
 import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import prettyBytes       from 'pretty-bytes';
-import {files, uploads}  from '../../../state';
-import {ListedFile}      from '../../../state/models/ListedFile';
-import {copyToClipboard} from '../../../utils/copy-to-clipboard';
-import {bind, cn}        from '../../../utils/preact-utils';
+import {files, uploads}  from '@state/index';
+import {ListedFile}      from '@state/models/ListedFile';
+import {copyToClipboard} from '@utils/copy-to-clipboard';
+import {bind, cn}        from '@utils/preact-utils';
 import {isMobile}        from '../../browserenv';
-import {ContextMenu}     from '../../components/ContextMenu';
-import {DialogBox}       from '../../overlays/DialogBox';
-import {Toast}           from '../../overlays/Toast';
+import {ContextMenu}     from '@components/ContextMenu';
+import {DialogBox}       from '@overlays/DialogBox';
+import {Toast}           from '@overlays/Toast';
 import styles            from './FileItem.module.scss';
 import {FileStatus}      from './FileStatus';
 

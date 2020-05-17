@@ -1,7 +1,7 @@
 import {Component, h}               from 'preact';
-import {pushNotification, settings} from '../../../state';
-import {on}                         from '../../../utils/events';
-import {bind, cn}                   from '../../../utils/preact-utils';
+import {pushNotification, settings} from '@state/index';
+import {on}                         from '@utils/events';
+import {bind, cn}                   from '@utils/preact-utils';
 import {ThemeSwitcher}              from './ThemeSwitcher';
 import styles                       from './TabHeader.module.scss';
 

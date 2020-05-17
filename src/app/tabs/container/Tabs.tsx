@@ -1,6 +1,6 @@
 import {FunctionalComponent, h} from 'preact';
 import {useState}               from 'preact/hooks';
-import {files, uploads}         from '../../../state';
+import {files, uploads}         from '@state/index';
 import {FileList}               from '../filelist/FileList';
 import {Settings}               from '../settings/Settings';
 import {TabHeader}              from './TabHeader';

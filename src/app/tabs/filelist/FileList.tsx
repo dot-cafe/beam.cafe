@@ -1,10 +1,10 @@
 import {observer}              from 'mobx-react';
 import {Component, h}          from 'preact';
-import {files}                 from '../../../state';
-import {fuzzyStringSimilarity} from '../../../utils/fuzzy-string-similarity';
-import {bind}                  from '../../../utils/preact-utils';
+import {files}                 from '@state/index';
+import {fuzzyStringSimilarity} from '@utils/fuzzy-string-similarity';
+import {bind}                  from '@utils/preact-utils';
 import {isMobile}              from '../../browserenv';
-import {SearchBar}             from '../../components/SearchBar';
+import {SearchBar}             from '@components/SearchBar';
 import {DropZone}              from './DropZone';
 import {FileItem}              from './FileItem';
 import styles                  from './FileList.module.scss';

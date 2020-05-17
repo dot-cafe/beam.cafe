@@ -1,5 +1,5 @@
 import {FunctionalComponent, h} from 'preact';
-import {cn}                     from '../../../../utils/preact-utils';
+import {cn}                     from '@utils/preact-utils';
 import baseStyles               from './_base.module.scss';
 import styles                   from './About.module.scss';
 

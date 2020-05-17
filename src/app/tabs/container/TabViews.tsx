@@ -1,7 +1,7 @@
 import {Component, h}      from 'preact';
 import {JSXInternal}       from 'preact/src/jsx';
-import {cn}                from '../../../utils/preact-utils';
-import {Swipe, SwipeEvent} from '../../../utils/Swipe';
+import {cn}                from '@utils/preact-utils';
+import {Swipe, SwipeEvent} from '@utils/Swipe';
 import {isMobile}          from '../../browserenv';
 import styles              from './TabViews.module.scss';
 

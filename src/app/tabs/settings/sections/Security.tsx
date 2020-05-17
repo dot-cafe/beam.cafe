@@ -1,7 +1,7 @@
 import {observer}                    from 'mobx-react';
 import {Component, h}                from 'preact';
-import {AvailableSettings, settings} from '../../../../state';
-import {Switch}                      from '../../../components/Switch';
+import {AvailableSettings, settings} from '@state/index';
+import {Switch}                      from '@components/Switch';
 import baseStyles                    from './_base.module.scss';
 
 @observer

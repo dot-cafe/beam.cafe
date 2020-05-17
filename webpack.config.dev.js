@@ -54,7 +54,11 @@ module.exports = {
         alias: {
             'react': 'preact/compat',
             'react-dom': 'preact/compat',
-            'mobx': path.join(__dirname, '/node_modules/mobx/lib/mobx.es6.js')
+            'mobx': path.join(__dirname, '/node_modules/mobx/lib/mobx.es6.js'),
+            '@state': path.resolve('./src/state'),
+            '@utils': path.resolve('./src/utils'),
+            '@overlays': path.resolve('./src/app/overlays'),
+            '@components': path.resolve('./src/app/components')
         }
     },
 

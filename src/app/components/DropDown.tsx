@@ -1,5 +1,5 @@
 import {Component, createRef, h} from 'preact';
-import {bind, cn}                from '../../utils/preact-utils';
+import {bind, cn}                from '@utils/preact-utils';
 import {Popper}                  from './Popper';
 import styles                    from './DropDown.module.scss';
 

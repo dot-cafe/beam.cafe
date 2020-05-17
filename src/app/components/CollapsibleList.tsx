@@ -1,6 +1,6 @@
 import {Component, createRef, h} from 'preact';
 import {JSXInternal}             from 'preact/src/jsx';
-import {bind, cn}                from '../../utils/preact-utils';
+import {bind}                    from '@utils/preact-utils';
 import styles                    from './CollapsibleList.module.scss';
 
 type Props = {

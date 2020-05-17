@@ -1,7 +1,7 @@
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
-import {settings}     from '../../../state';
-import {bind, cn}     from '../../../utils/preact-utils';
+import {settings}     from '@state/index';
+import {bind, cn}     from '@utils/preact-utils';
 import styles         from './ThemeSwitcher.module.scss';
 
 @observer

@@ -1,6 +1,6 @@
 import {Component, h} from 'preact';
-import {singleton}    from '../../utils/preact-singleton';
-import {cn}           from '../../utils/preact-utils';
+import {singleton}    from '@utils/preact-singleton';
+import {cn}           from '@utils/preact-utils';
 import styles         from './DialogBox.module.scss';
 
 export type DialogButtonSeverity = 'success' | 'warning' | 'error';

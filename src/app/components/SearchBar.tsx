@@ -1,5 +1,5 @@
 import {FunctionalComponent, h} from 'preact';
-import {cn}                     from '../../utils/preact-utils';
+import {cn}                     from '@utils/preact-utils';
 import styles                   from './SearchBar.module.scss';
 
 type Props = {

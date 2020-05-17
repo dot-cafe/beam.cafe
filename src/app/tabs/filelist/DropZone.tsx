@@ -1,8 +1,8 @@
+import {files}                     from '@state/index';
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
-import {files}                     from '../../../state';
-import {EventBindingArgs, off, on} from '../../../utils/events';
-import {bind, cn}                  from '../../../utils/preact-utils';
+import {EventBindingArgs, off, on} from '@utils/events';
+import {bind, cn}                  from '@utils/preact-utils';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};

@@ -1,6 +1,6 @@
 import {FunctionalComponent, h} from 'preact';
 import {JSXInternal}            from 'preact/src/jsx';
-import {cn}                     from '../../utils/preact-utils';
+import {cn}                     from '@utils/preact-utils';
 import styles                   from './ContextMenu.module.scss';
 import {Popper}                 from './Popper';
 

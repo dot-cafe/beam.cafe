@@ -1,9 +1,9 @@
+import {Switch, SwitchState}                              from '@components/Switch';
 import {observer}                                         from 'mobx-react';
 import {Component, h}                                     from 'preact';
-import {NotificationSettings, pushNotification, settings} from '../../../../state';
-import {bind, cn}                                         from '../../../../utils/preact-utils';
-import {Switch, SwitchState}                              from '../../../components/Switch';
-import {Toast}                                            from '../../../overlays/Toast';
+import {NotificationSettings, pushNotification, settings} from '@state/index';
+import {bind, cn}                                         from '@utils/preact-utils';
+import {Toast}                                            from '@overlays/Toast';
 import baseStyles                                         from './_base.module.scss';
 import styles                                             from './Notifications.module.scss';
 import {UploadStateNotification}                          from './UploadStateNotification';

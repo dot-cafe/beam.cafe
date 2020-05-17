@@ -1,10 +1,10 @@
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
-import {SelectType, uploads} from '../../../state';
-import {Upload}              from '../../../state/models/Upload';
-import {UploadExtensions}    from '../../../state/models/UploadExtensions';
-import {bind, cn}            from '../../../utils/preact-utils';
-import {Checkbox}            from '../../components/Checkbox';
+import {SelectType, uploads} from '@state/index';
+import {Upload}              from '@state/models/Upload';
+import {UploadExtensions}    from '@state/models/UploadExtensions';
+import {bind, cn}            from '@utils/preact-utils';
+import {Checkbox}            from '@components/Checkbox';
 import styles                from './UploadItem.module.scss';
 
 type Props = {

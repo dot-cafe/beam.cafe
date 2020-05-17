@@ -1,8 +1,8 @@
 import {createRef, FunctionalComponent, h} from 'preact';
 import {useState}                          from 'preact/hooks';
 import {JSXInternal}                       from 'preact/src/jsx';
-import {cn}                                from '../../../utils/preact-utils';
-import {CollapsibleList}                   from '../../components/CollapsibleList';
+import {cn}                                from '@utils/preact-utils';
+import {CollapsibleList}                   from '@components/CollapsibleList';
 import {About}                             from './sections/About';
 import {DangerZone}                        from './sections/DangerZone';
 import {Notifications}                     from './sections/Notifications';
