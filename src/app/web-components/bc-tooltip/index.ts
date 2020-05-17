@@ -45,7 +45,7 @@ class BeamCafeTooltip extends HTMLElement {
             // Remove after transition is done
             setTimeout(() => {
                 tt.classList.remove(styles.removing);
-                // document.body.removeChild(tt);
+                document.body.removeChild(tt);
                 this._visible = false;
             }, 300);
 
