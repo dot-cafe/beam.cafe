@@ -156,6 +156,11 @@ class Uploads {
     }
 
     @action
+    public clearSelection() {
+        this.selectedUploads.splice(0, this.selectedUploads.length);
+    }
+
+    @action
     public massAction(action: MassAction) {
         this.performMassAction(this.listedUploads, action);
     }

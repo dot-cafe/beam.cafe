@@ -12,6 +12,11 @@ export class MassActions extends Component {
         return () => uploads.performMassAction(uploads.selectedUploads, action);
     }
 
+    @bind
+    clearSelection() {
+        uploads.clearSelection();
+    }
+
     render() {
         const massAction = uploads.getAvailableMassActions(uploads.selectedUploads);
 
@@ -23,18 +28,27 @@ export class MassActions extends Component {
 
                 <div className={styles.controls}>
                     <button disabled={!massAction.includes('resume')}
-                            onClick={this.massAction('resume')}>
+                            onClick={this.massAction('resume')}
+                            className={styles.actionBtn}>
                         Resume
                     </button>
 
                     <button disabled={!massAction.includes('pause')}
-                            onClick={this.massAction('pause')}>
+                            onClick={this.massAction('pause')}
+                            className={styles.actionBtn}>
                         Pause
                     </button>
 
                     <button disabled={!massAction.includes('cancel')}
-                            onClick={this.massAction('cancel')}>
+                            onClick={this.massAction('cancel')}
+                            className={styles.actionBtn}>
                         Cancel
+                    </button>
+
+                    <button onClick={this.clearSelection}
+                            className={styles.clearSelectionBtn}>
+                        <bc-tooltip content="Clear Selection" pos="top-middle"/>
+                        <bc-icon name="delete"/>
                     </button>
                 </div>
             </div>

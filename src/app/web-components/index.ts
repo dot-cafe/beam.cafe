@@ -8,8 +8,8 @@ declare module 'preact/src/jsx' {
         import HTMLAttributes = JSXInternal.HTMLAttributes;
 
         interface IntrinsicElements {
-            'bc-icon': HTMLAttributes<IconElement>;
-            'bc-tooltip': HTMLAttributes<TooltipElement>;
+            'bc-icon': HTMLAttributes<IconElement> | IconElement;
+            'bc-tooltip': HTMLAttributes<TooltipElement> | TooltipElement;
         }
     }
 }

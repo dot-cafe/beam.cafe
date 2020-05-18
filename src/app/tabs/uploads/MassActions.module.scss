@@ -13,12 +13,17 @@
 }
 
 .controls {
+    @include flex(row, center);
     flex-shrink: 0;
     margin-left: auto;
+    color: var(--c-background-primary);
 
     > button {
         @include margin-between-h(0.25em);
         @include button_small;
+    }
+
+    .actionBtn {
         $colors: (--c-primary, --c-yellow, --c-red);
 
         @for $i from 1 through 3 {
@@ -30,5 +35,13 @@
         @include disabled {
             @include button_disabled;
         }
+    }
+
+    .clearSelectionBtn {
+        @include flex(row, center, center);
+        @include hover_effect(--c-background-secondary);
+        color: var(--c-text-primary);
+        align-self: stretch;
+        margin-left: 1em !important;
     }
 }

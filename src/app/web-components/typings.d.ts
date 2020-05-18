@@ -1,4 +1,4 @@
-import {NanoPopPosition} from 'nanopop';
+import {NanoPopPositionCombination} from 'nanopop';
 
 declare interface IconElement extends HTMLElement {
     name: string;
@@ -6,5 +6,5 @@ declare interface IconElement extends HTMLElement {
 
 declare interface TooltipElement extends HTMLElement {
     content: string;
-    pos?: NanoPopPosition;
+    pos?: NanoPopPositionCombination;
 }
