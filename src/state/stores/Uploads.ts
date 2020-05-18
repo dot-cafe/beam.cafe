@@ -29,10 +29,10 @@ class Uploads {
     }
 
     public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
+        const canCancel = uploads.some(v => v.simpleState !== 'done');
         const canPause = uploads.some(v => v.state === 'running');
         const canResume = uploads.some(v => v.state === 'paused');
         const canRemove = !canPause && !canResume && uploads.every(v => v.simpleState === 'done');
-        const canCancel = canPause || canResume;
 
         const actions: Array<MassAction> = [];
         canPause && actions.push('pause');
