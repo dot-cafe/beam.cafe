@@ -1,3 +1,4 @@
+import {observer}               from 'mobx-react';
 import {FunctionalComponent, h} from 'preact';
 import {useState}               from 'preact/hooks';
 import {files, uploads}         from '@state/index';
@@ -11,7 +12,7 @@ import styles                   from './Tabs.module.scss';
 /* eslint-disable react/jsx-key */
 const views = [<FileList/>, <Uploads/>, <Settings/>];
 
-export const Tabs: FunctionalComponent = () => {
+export const Tabs: FunctionalComponent = observer(() => {
     const [tabIndex, setTab] = useState(
         env.NODE_ENV === 'development' ? Number(localStorage.getItem('--dev-tab-index')) || 0 : 0
     );
@@ -44,4 +45,4 @@ export const Tabs: FunctionalComponent = () => {
                       activeView={tabIndex}/>
         </div>
     );
-};
+});
