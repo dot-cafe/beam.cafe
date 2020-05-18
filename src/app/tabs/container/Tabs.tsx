@@ -24,7 +24,7 @@ export const Tabs: FunctionalComponent = observer(() => {
         setTab(index);
 
         if (env.NODE_ENV === 'development') {
-            localStorage.setItem('--dev-tab-index', String(tabIndex));
+            localStorage.setItem('--dev-tab-index', String(index));
         }
     };
 

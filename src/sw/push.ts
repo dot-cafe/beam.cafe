@@ -2,6 +2,11 @@
 declare let self: ServiceWorkerGlobalScope;
 export default null;
 
+// Hot reload does not work for service workers
+if (module.hot) {
+    module.hot.decline();
+}
+
 // See https://stackoverflow.com/questions/38168276/navigator-serviceworker-controller-is-null-until-page-refresh
 self.addEventListener('install', event => {
     event.waitUntil(self.skipWaiting()); // Activate worker immediately

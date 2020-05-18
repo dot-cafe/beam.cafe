@@ -1,3 +1,4 @@
+import {Toast}                        from '@overlays/Toast';
 import {action, computed, observable} from 'mobx';
 import {chooseFiles}                  from '../../utils/choose-files';
 import {uploads}                      from '../index';
@@ -39,11 +40,13 @@ class Files {
     public add(...files: Array<File>) {
 
         // Read and save files
+        let skipped = 0;
         const keysToRequest = [];
         for (const file of files) {
 
             // Skip duplicates
             if (this.listedFiles.find(ef => ef.file.name === file.name)) {
+                skipped++;
                 continue;
             }
 
@@ -56,6 +59,14 @@ class Files {
 
         // Request first set of download-keys
         socket.sendMessage('download-keys', keysToRequest);
+
+        // Show toast if files were skipped
+        if (skipped > 0) {
+            Toast.instance.show({
+                text: `Skipped ${skipped} file${skipped > 1 ? 's' : ''} which were already listed.`,
+                type: 'warning'
+            });
+        }
     }
 
     @action
