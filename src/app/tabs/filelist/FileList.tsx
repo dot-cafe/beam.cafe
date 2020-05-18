@@ -100,17 +100,22 @@ export class FileList extends Component<{}, State> {
                            value={searchTerm}/>
 
                 <div className={styles.header}>
-                    <p onClick={this.sortBy('index')}>
-                        <span><bc-tooltip content={'Sort By Index'}/>#</span>
+                    <p>
+                        <span onClick={this.sortBy('index')}>
+                            <bc-tooltip content={'Sort By Index'}/>#
+                        </span>
                     </p>
 
-                    <p onClick={this.sortBy('name')}>
-                        <span><bc-tooltip content={'Sort By Filename'}/>Filename</span>
+                    <p>
+                        <span onClick={this.sortBy('name')}>
+                            <bc-tooltip content={'Sort By Filename'}/>Filename
+                        </span>
                     </p>
 
-                    <p onClick={this.sortBy('size')}
-                       className={styles.alignRight}>
-                        <span><bc-tooltip content={'Sort By File Size'}/>File Size</span>
+                    <p className={styles.alignRight}>
+                        <span onClick={this.sortBy('size')}>
+                            <bc-tooltip content={'Sort By File Size'}/>File Size
+                        </span>
                     </p>
 
                     {isMobile ? (

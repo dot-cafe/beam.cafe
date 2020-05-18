@@ -1,11 +1,13 @@
-import {observer}            from 'mobx-react';
-import {Component, h}        from 'preact';
-import {MassAction, uploads} from '@state/index';
-import {bind, cn}            from '@utils/preact-utils';
-import styles                from './MassActions.module.scss';
+import {EventBindingArgs, off, on} from '@utils/events';
+import {observer}                  from 'mobx-react';
+import {Component, h}              from 'preact';
+import {MassAction, uploads}       from '@state/index';
+import {bind, cn}                  from '@utils/preact-utils';
+import styles                      from './MassActions.module.scss';
 
 @observer
 export class MassActions extends Component {
+    private escapeArgs: EventBindingArgs | null = null;
 
     @bind
     massAction(action: MassAction) {
@@ -15,6 +17,20 @@ export class MassActions extends Component {
     @bind
     clearSelection() {
         uploads.clearSelection();
+    }
+
+    componentDidMount() {
+        this.escapeArgs = on(window, 'keyup', (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                this.clearSelection();
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        if (this.escapeArgs) {
+            off(...this.escapeArgs);
+        }
     }
 
     render() {

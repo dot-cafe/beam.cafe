@@ -47,7 +47,7 @@
     margin: 1.25em 0 0;
     padding: 0 1em 0.75em;
 
-    > p:not(:last-child) {
+    > p:not(:last-child) > span {
         @include hover_effect(--c-text-primary, color);
         position: relative;
         cursor: pointer;
