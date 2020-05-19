@@ -73,10 +73,18 @@ export class Popper extends Component<Props, State> {
             open: !this.state.open
         });
 
+        const container = this.container.current as HTMLElement;
         if (!this.state.open) {
+            container.style.display = 'block';
+
             this.nanoPop?.update({
                 position: 'bottom-end'
             });
+
+        } else {
+            setTimeout(() => {
+                container.style.display = 'none';
+            }, 300);
         }
     }
 
