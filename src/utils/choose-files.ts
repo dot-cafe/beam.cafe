@@ -20,7 +20,7 @@ export const chooseFiles = (): Promise<FileList> => {
             if (files?.length) {
                 resolve(files);
             } else {
-                reject();
+                reject(new Error('Failed to open dialog, no files selected or dialog cancelled.'));
             }
         };
     });

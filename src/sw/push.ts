@@ -24,7 +24,7 @@ const postMessage = async (message: unknown) => {
     });
 };
 
-self.addEventListener('message', (ev) => {
+self.addEventListener('message', ev => {
     const {type, tag, data} = ev.data;
 
     if (type === 'notify') {

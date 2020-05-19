@@ -48,9 +48,9 @@ export class UploadItem extends Component<Props, State> {
 
         // Styling information
         const percentage = Math.round(progress * 10000) / 100;
-        const progressBarStyle = `--progress: ${percentage}%;`
-            + `--text-clip-left: ${percentage}%;`
-            + `--text-clip-right: ${100 - percentage}%;`;
+        const progressBarStyle = `--progress: ${percentage}%;` +
+            `--text-clip-left: ${percentage}%;` +
+            `--text-clip-right: ${100 - percentage}%;`;
 
         const statusIcon = UploadExtensions.getStatusIconFor(state);
         const statusMessage = UploadExtensions.getStatusMessageFor(upload);

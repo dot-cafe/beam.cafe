@@ -26,7 +26,7 @@ export const UploadExtensions = {
                 return showNotification({
                     title: 'Someone requested a file!',
                     body: `Click to approve the request of "${listedFile.file.name}"`
-                }).then((data) => {
+                }).then(data => {
                     if (data === 'click') {
                         upload.update('running');
                     } else if (data === 'close') {

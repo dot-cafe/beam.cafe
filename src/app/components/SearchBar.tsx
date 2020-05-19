@@ -14,7 +14,7 @@ export const SearchBar: FunctionalComponent<Props> = ({onUpdate, value}) => (
         <bc-icon name="search"/>
         <input type="text"
                placeholder="Search files..."
-               onChange={(e) => onUpdate((e.target as HTMLInputElement).value)} value={value || ''}/>
+               onChange={e => onUpdate((e.target as HTMLInputElement).value)} value={value || ''}/>
         <button onClick={onUpdate.bind(null, null)}>
             <bc-icon name="delete"/>
         </button>

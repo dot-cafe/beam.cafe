@@ -8,12 +8,20 @@ export type EventBindingArgs = [
 ];
 
 interface EventBinding {
-    (elements: EventTarget | Array<EventTarget>, events: string | Array<string>, fn: Function, options?: object): EventBindingArgs;
+    (
+        elements: EventTarget | Array<EventTarget>,
+        events: string | Array<string>,
+        fn: Function, options?: object
+    ): EventBindingArgs;
 }
 
 /* eslint-disable prefer-rest-params */
 function eventListener(method: Method): EventBinding {
-    return (items: EventTarget | Array<EventTarget>, events: string | Array<string>, fn: Function, options = {}): EventBindingArgs => {
+    return (
+        items: EventTarget | Array<EventTarget>,
+        events: string | Array<string>,
+        fn: Function, options = {}
+    ): EventBindingArgs => {
 
         // Normalize array
         if (items instanceof HTMLCollection || items instanceof NodeList) {

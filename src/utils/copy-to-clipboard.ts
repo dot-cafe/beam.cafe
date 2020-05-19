@@ -24,7 +24,7 @@ export const copyToClipboard = (text: string): Promise<void> => {
             }
 
             document.body.removeChild(input);
-            reject();
+            reject(new Error('Failed to execute copy command'));
         } catch (err) {
             document.body.removeChild(input);
             reject(err);

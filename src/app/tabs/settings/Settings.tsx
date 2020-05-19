@@ -38,7 +38,7 @@ const tabs: Tabs = [
 ];
 
 // Push notifications settings if available
-if (!!window.Notification) {
+if (window.Notification) {
     tabs.splice(0, 0, {
         name: 'Notifications',
         icon: 'alarm',

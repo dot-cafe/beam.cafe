@@ -126,7 +126,7 @@ export class FileList extends Component<{}, State> {
                 </div>
 
                 <div className={styles.list}>
-                    {sourceList.map((value) =>
+                    {sourceList.map(value =>
                         <FileItem key={value.index}
                                   item={value}
                                   label={String(value.index + 1).padStart(indexPadding, '0')}/>

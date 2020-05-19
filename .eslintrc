@@ -13,6 +13,7 @@
     },
     "env": {
         "browser": true,
+        "node": true,
         "es6": true
     },
     "plugins": [
@@ -23,6 +24,9 @@
         "ecmaFeatures": {
             "jsx": true
         }
+    },
+    "globals": {
+        "env": true
     },
     "rules": {
         "@typescript-eslint/unified-signatures": "error",
@@ -37,7 +41,9 @@
         "react/display-name": "off",
         "react/prop-types": "off",
         "react/jsx-indent": [2, 4, {"checkAttributes": true}],
+        "no-multi-spaces": ["error", {"exceptions": {"ImportDeclaration": true}}],
         "no-unused-vars": "off",
+        "func-call-spacing": "off",
         "no-console": "error",
         "indent": "off"
     }
