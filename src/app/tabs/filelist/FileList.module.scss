@@ -28,6 +28,8 @@
 
         @include mq-phones {
             @include fixed-height(12.5vmin);
+            position: static;
+            flex-shrink: 0;
             margin: auto 0 0 0;
             border-radius: 0;
             justify-content: center;
@@ -65,7 +67,10 @@
 .list {
     will-change: transform;
     overflow: auto;
-    padding-bottom: 3.5em;
     flex-grow: 1;
+
+    @include mq-desktop {
+        padding-bottom: 3.5em;
+    }
 }
 

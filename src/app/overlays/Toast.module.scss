@@ -12,6 +12,7 @@
         @include flex(column, center);
         padding: 0.75em 2em;
         border-radius: 50em;
+        text-align: center;
 
         p, h3 {
             color: var(--c-text-secondary);
@@ -20,6 +21,16 @@
         p {
             @include font(600, 0.75em);
             margin-top: 0.25em;
+        }
+
+        @include mq-phones {
+            h3 {
+                font-size: 0.8em;
+            }
+
+            p {
+                font-size: 0.65em;
+            }
         }
 
         $states: (
