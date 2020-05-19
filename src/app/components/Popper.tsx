@@ -23,6 +23,18 @@ export class Popper extends Component<Props, State> {
     private eventBindings: Array<EventBindingArgs> = [];
     private nanoPop: NanoPop | null = null;
 
+    private static resolveFirstScrollableParent(entry: HTMLElement): HTMLElement | null {
+        let el: HTMLElement | null = entry;
+
+        // This is slow as hell but that's the only way it worked.
+        // I failed myself, again.
+        while (el && !/scroll|auto/.exec(getComputedStyle(el).overflow)) {
+            el = el.parentElement;
+        }
+
+        return el;
+    }
+
     readonly state = {
         open: false
     };
@@ -33,12 +45,11 @@ export class Popper extends Component<Props, State> {
 
         if (ref && con) {
             this.nanoPop = new NanoPop(ref, con);
-            this.nanoPop.update();
 
             this.eventBindings = [
                 on(window, ['resize', 'scroll'], () => {
                     if (this.state.open) {
-                        this.nanoPop?.update();
+                        this.updatePopperPosition();
                     }
                 }),
 
@@ -63,8 +74,17 @@ export class Popper extends Component<Props, State> {
         }
     }
 
-    componentDidUpdate() {
-        this.nanoPop?.update();
+    updatePopperPosition() {
+        const {reference, nanoPop} = this;
+
+        if (nanoPop && reference.current) {
+            const nc = Popper.resolveFirstScrollableParent(reference.current) || document.documentElement;
+
+            nanoPop.update({
+                position: 'bottom-end',
+                container: nc.getBoundingClientRect()
+            });
+        }
     }
 
     @bind
@@ -76,11 +96,7 @@ export class Popper extends Component<Props, State> {
         const container = this.container.current as HTMLElement;
         if (!this.state.open) {
             container.style.display = 'block';
-
-            this.nanoPop?.update({
-                position: 'bottom-end'
-            });
-
+            this.updatePopperPosition();
         } else {
             setTimeout(() => {
                 container.style.display = 'none';
