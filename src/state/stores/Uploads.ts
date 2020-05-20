@@ -1,5 +1,5 @@
 import {action, observable}     from 'mobx';
-import {clearArray, removeItem} from '../../utils/array';
+import {clearArray, removeItem} from '@utils/array';
 import {Upload, UploadState}    from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
@@ -10,6 +10,7 @@ export enum SelectType {
     Toggle = 'Toggle'
 }
 
+// TODO: Implement Selectable
 class Uploads {
     @observable public readonly listedUploads: Array<Upload> = [];
     @observable public readonly selectedUploads: Array<Upload> = [];

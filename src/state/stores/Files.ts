@@ -1,4 +1,5 @@
 import {Toast}                        from '@overlays/Toast';
+import {Selectable}                   from '@state/wrapper/Selectable';
 import {action, computed, observable} from 'mobx';
 import {chooseFiles}                  from '@utils/choose-files';
 import {uploads}                      from '../index';
@@ -18,7 +19,7 @@ const remainingWaitingTime = (ts: number): number => {
 };
 
 /* eslint-disable no-console */
-class Files {
+class Files extends Selectable<ListedFile> {
     @observable public listedFiles: Array<ListedFile> = [];
 
     @computed
@@ -89,6 +90,7 @@ class Files {
 
             setTimeout(() => {
                 const index = this.listedFiles.findIndex(value => value.id === id);
+                this.unselect(file);
                 this.listedFiles.splice(index, 1);
             }, remainingWaitingTime(file.updated));
         } else {

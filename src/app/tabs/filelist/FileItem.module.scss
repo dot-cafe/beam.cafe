@@ -8,6 +8,11 @@
     cursor: pointer;
     position: relative;
     border-bottom: 1px solid var(--c-background-secondary);
+    --checkbox-border-radius: 2px;
+    --checkbox-border-width: 1.5px;
+    --checkbox-size: 1em;
+    --checkbox-color: var(--c-primary);
+    --checkbox-color-accent: var(--c-primary-accent);
 
     > p:hover ~ .copyLinkOverlay {
         visibility: visible;

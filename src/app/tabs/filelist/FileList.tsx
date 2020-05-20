@@ -1,6 +1,8 @@
+import {DialogBox}             from '@overlays/DialogBox';
+import {ListedFile}            from '@state/models/ListedFile';
 import {observer}              from 'mobx-react';
 import {Component, h}          from 'preact';
-import {files}                 from '@state/index';
+import {files, uploads}        from '@state/index';
 import {fuzzyStringSimilarity} from '@utils/fuzzy-string-similarity';
 import {bind}                  from '@utils/preact-utils';
 import {isMobile}              from '../../browserenv';
@@ -25,6 +27,52 @@ export class FileList extends Component<{}, State> {
         toggleSortKey: false
     };
 
+    get sortedElements() {
+        const {searchTerm, sortKey, toggleSortKey} = this.state as State;
+        const sortedList = [...files.listedFiles];
+
+        if (searchTerm) {
+
+            // Sort files and cache similarities
+            const matches: Map<string, number> = new Map();
+            sortedList.sort((a, b) => {
+                const an = a.file.name;
+                const bn = b.file.name;
+
+                let sa = matches.get(an);
+                if (sa === undefined) {
+                    sa = fuzzyStringSimilarity(an, searchTerm);
+                    matches.set(an, sa);
+                }
+
+                let sb = matches.get(bn);
+                if (sb === undefined) {
+                    sb = fuzzyStringSimilarity(bn, searchTerm);
+                    matches.set(bn, sb);
+                }
+
+                return sb - sa;
+            });
+        } else {
+            sortedList.sort((a, b) => {
+                if (toggleSortKey) {
+                    [a, b] = [b, a];
+                }
+
+                switch (sortKey) {
+                    case 'index':
+                        return a.index > b.index ? 1 : -1;
+                    case 'name':
+                        return a.file.name.localeCompare(b.file.name);
+                    case 'size':
+                        return a.file.size > b.file.size ? 1 : -1;
+                }
+            });
+        }
+
+        return sortedList;
+    }
+
     @bind
     chooseFiles(): void {
         files.openDialog();
@@ -47,51 +95,58 @@ export class FileList extends Component<{}, State> {
         this.setState({searchTerm});
     }
 
+    @bind
+    removeSelectedFiles() {
+        const {selectedItems} = files;
+
+        const relatedUploads = uploads.listedUploads.filter(
+            v => v.simpleState !== 'done' && selectedItems.includes(v.listedFile)
+        ).length;
+
+        const remove = () => {
+            for (const item of selectedItems) {
+                if (item.id) {
+                    files.removeFile(item.id);
+                }
+            }
+        };
+
+        // Tell the user that uploads are about to get cancelled
+        if (relatedUploads > 0) {
+            DialogBox.instance.open({
+                icon: 'exclamation-mark',
+                title: 'Uh Oh! Are you sure about that?',
+                description: relatedUploads > 1 ?
+                    `There are currently ${relatedUploads} uploads related to the selected files. Continue?` :
+                    'One of the files selected is currently being uploaded. Continue?',
+                buttons: [
+                    {
+                        type: 'success',
+                        text: 'Keep File'
+                    },
+                    {
+                        type: 'error',
+                        text: 'Remove'
+                    }
+                ]
+            }).then(value => value === 1 && remove());
+        } else {
+            remove();
+        }
+    }
+
+    selectItem(item: ListedFile) {
+
+        // TODO: Range selection?
+        files.toggleSelect(item);
+    }
+
     render() {
-        const {searchTerm, sortKey, toggleSortKey} = this.state as State;
-        const {listedFiles} = files;
+        const {searchTerm} = this.state as State;
+        const {listedFiles, selectedAmount} = files;
         const indexPadding = Math.max(String(listedFiles.length).length, 2);
 
-        const sourceList = [...listedFiles];
-
-        if (searchTerm) {
-
-            // Sort files and cache similarities
-            const matches: Map<string, number> = new Map();
-            sourceList.sort((a, b) => {
-                const an = a.file.name;
-                const bn = b.file.name;
-
-                let sa = matches.get(an);
-                if (sa === undefined) {
-                    sa = fuzzyStringSimilarity(an, searchTerm);
-                    matches.set(an, sa);
-                }
-
-                let sb = matches.get(bn);
-                if (sb === undefined) {
-                    sb = fuzzyStringSimilarity(bn, searchTerm);
-                    matches.set(bn, sb);
-                }
-
-                return sb - sa;
-            });
-        } else {
-            sourceList.sort((a, b) => {
-                if (toggleSortKey) {
-                    [a, b] = [b, a];
-                }
-
-                switch (sortKey) {
-                    case 'index':
-                        return a.index > b.index ? 1 : -1;
-                    case 'name':
-                        return a.file.name.localeCompare(b.file.name);
-                    case 'size':
-                        return a.file.size > b.file.size ? 1 : -1;
-                }
-            });
-        }
+        // TODO: Infinity scrolling? It gets really slow with ~200 items
 
         return (
             <div className={styles.fileList}>
@@ -100,6 +155,8 @@ export class FileList extends Component<{}, State> {
                            value={searchTerm}/>
 
                 <div className={styles.header}>
+                    {!isMobile && <p className={styles.checkboxPlaceholder}/>}
+
                     <p>
                         <span onClick={this.sortBy('index')}>
                             <bc-tooltip content={'Sort By Index'}/>#
@@ -126,17 +183,28 @@ export class FileList extends Component<{}, State> {
                 </div>
 
                 <div className={styles.list}>
-                    {sourceList.map(value =>
+                    {this.sortedElements.map(value =>
                         <FileItem key={value.index}
                                   item={value}
+                                  selected={files.isSelected(value)}
+                                  onSelect={this.selectItem}
                                   label={String(value.index + 1).padStart(indexPadding, '0')}/>
                     )}
                 </div>
 
-                <button onClick={this.chooseFiles}>
-                    <bc-icon name="plus"/>
-                    <span>Add Files</span>
-                </button>
+                <div className={styles.actionBar}>
+                    <button onClick={this.chooseFiles}>
+                        <bc-icon name="plus"/>
+                        <span>Add Files</span>
+                    </button>
+
+                    {!isMobile && selectedAmount ?
+                        <button onClick={this.removeSelectedFiles}>
+                            <bc-icon name="trash"/>
+                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'one file'}</span>
+                        </button> : ''
+                    }
+                </div>
             </div>
         );
     }

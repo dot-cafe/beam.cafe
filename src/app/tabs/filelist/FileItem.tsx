@@ -1,3 +1,4 @@
+import {Checkbox}        from '@components/Checkbox';
 import {observer}        from 'mobx-react';
 import {Component, h}    from 'preact';
 import prettyBytes       from 'pretty-bytes';
@@ -9,12 +10,14 @@ import {isMobile}        from '../../browserenv';
 import {ContextMenu}     from '@components/ContextMenu';
 import {DialogBox}       from '@overlays/DialogBox';
 import {Toast}           from '@overlays/Toast';
-import styles            from './FileItem.module.scss';
 import {FileStatus}      from './FileStatus';
+import styles            from './FileItem.module.scss';
 
 type Props = {
     item: ListedFile;
     label: string;
+    selected: boolean;
+    onSelect: (item: ListedFile) => void;
 };
 
 type State = {};
@@ -98,12 +101,22 @@ export class FileItem extends Component<Props, State> {
         }
     }
 
+    @bind
+    toggleSelect() {
+        const {onSelect, item} = this.props;
+        onSelect(item);
+    }
+
     render() {
-        const {item, label} = this.props;
+        const {item, label, selected} = this.props;
 
         return (
             <div className={styles.fileItem}
                  data-state={item.status}>
+
+                {!isMobile && <Checkbox checked={selected}
+                                        className={styles.checkBox}
+                                        onChange={this.toggleSelect}/>}
 
                 <FileStatus status={item.status} text={label}/>
 

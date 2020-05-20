@@ -52,7 +52,8 @@
         #{nth($props, $i)}: var($color);
     }
 
-    &:hover {
+    &:hover,
+    &:active {
         $accent-color: var($color + '-accent');
         @for $i from 1 through length($props) {
             #{nth($props, $i)}: $accent-color;
