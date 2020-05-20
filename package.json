@@ -31,6 +31,7 @@
         "css-loader": "^3.5.3",
         "eslint": "^7.0.0",
         "eslint-config-simon": "^2.0.0",
+        "eslint-plugin-align-import": "^1.0.0",
         "eslint-plugin-react": "^7.20.0",
         "html-webpack-plugin": "^4.3.0",
         "mini-css-extract-plugin": "^0.9.0",

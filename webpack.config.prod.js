@@ -108,7 +108,7 @@ module.exports = {
         },
         minimizer: [
             new TerserPlugin({
-                extractComments:false,
+                extractComments: false,
                 parallel: true,
                 sourceMap: true,
                 terserOptions: {
@@ -159,10 +159,11 @@ module.exports = {
             skipWaiting: true
         }),
 
-        new CopyPlugin([{
-            context: 'src',
-            from: 'assets'
-        }]),
+        new CopyPlugin({
+            patterns: [
+                {context: 'src', from: 'assets'}
+            ]
+        }),
 
         // new BundleAnalyzerPlugin(),
         new ProgressBarPlugin(),

@@ -17,7 +17,8 @@
         "es6": true
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "align-import"
     ],
     "parserOptions": {
         "project": "./tsconfig.json",
@@ -42,9 +43,9 @@
         "react/prop-types": "off",
         "react/jsx-indent": [2, 4, {"checkAttributes": true}],
         "no-multi-spaces": ["error", {"exceptions": {"ImportDeclaration": true}}],
+        "align-import/align-import": "error",
         "no-unused-vars": "off",
         "func-call-spacing": "off",
-        "no-console": "error",
         "indent": "off"
     }
 }

@@ -1,6 +1,6 @@
 import {Toast}                        from '@overlays/Toast';
 import {action, computed, observable} from 'mobx';
-import {chooseFiles}                  from '../../utils/choose-files';
+import {chooseFiles}                  from '@utils/choose-files';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
 import {socket}                       from '../';
