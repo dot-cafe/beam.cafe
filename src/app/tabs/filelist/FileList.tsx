@@ -43,10 +43,8 @@ export class FileList extends Component<{}, State> {
     }
 
     @bind
-    updateSearchTerm(e: string | null) {
-        this.setState({
-            searchTerm: e
-        });
+    updateSearchTerm(searchTerm: string | null) {
+        this.setState({searchTerm});
     }
 
     render() {
@@ -54,20 +52,7 @@ export class FileList extends Component<{}, State> {
         const {listedFiles} = files;
         const indexPadding = Math.max(String(listedFiles.length).length, 2);
 
-        const sourceList = [...listedFiles].sort((a, b) => {
-            if (toggleSortKey) {
-                [a, b] = [b, a];
-            }
-
-            switch (sortKey) {
-                case 'index':
-                    return a.index > b.index ? 1 : -1;
-                case 'name':
-                    return a.file.name.localeCompare(b.file.name);
-                case 'size':
-                    return a.file.size > b.file.size ? 1 : -1;
-            }
-        });
+        const sourceList = [...listedFiles];
 
         if (searchTerm) {
 
@@ -90,6 +75,21 @@ export class FileList extends Component<{}, State> {
                 }
 
                 return sb - sa;
+            });
+        } else {
+            sourceList.sort((a, b) => {
+                if (toggleSortKey) {
+                    [a, b] = [b, a];
+                }
+
+                switch (sortKey) {
+                    case 'index':
+                        return a.index > b.index ? 1 : -1;
+                    case 'name':
+                        return a.file.name.localeCompare(b.file.name);
+                    case 'size':
+                        return a.file.size > b.file.size ? 1 : -1;
+                }
             });
         }
 
