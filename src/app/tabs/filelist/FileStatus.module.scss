@@ -1,22 +1,21 @@
 .status {
-    display: inline-block;
+    @include flex(row, center, center);
     position: relative;
-    padding: 3px 6px 2px;
-    overflow: visible;
+    align-self: stretch;
     justify-self: flex-start;
+    padding: 0 0.5em;
+    overflow: visible;
     --color: var(--c-primary);
 
     span {
-        @include font(800, 13px);
-        display: inline-block;
+        @include font(800, 12px);
         color: var(--color);
         transition: all 0.3s;
-        line-height: 1em;
+        line-height: 0.5em;
     }
 
     svg {
         @include position(0, 0, 0, 0);
-        @include size(100%);
         margin: auto;
         position: absolute;
         overflow: visible;

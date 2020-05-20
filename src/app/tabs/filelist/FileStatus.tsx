@@ -12,7 +12,7 @@ type State = {};
 export class FileStatus extends Component<Props, State> {
     private readonly svgEl = createRef<SVGSVGElement>();
 
-    componentDidUpdate(): void {
+    updateSVGRect() {
         const svgElement = this.svgEl.current;
 
         if (svgElement) {
@@ -21,9 +21,17 @@ export class FileStatus extends Component<Props, State> {
             style.height = '100%';
 
             const rect = svgElement.getBoundingClientRect();
-            style.width = `${Math.ceil(rect.width / 2) * 2}px`;
-            style.height = `${Math.ceil(rect.height / 2) * 2}px`;
+            style.width = `${rect.width}px`;
+            style.height = `${rect.height}px`;
         }
+    }
+
+    componentDidUpdate(): void {
+        this.updateSVGRect();
+    }
+
+    componentDidMount() {
+        this.updateSVGRect();
     }
 
     render() {
