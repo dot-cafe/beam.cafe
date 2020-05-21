@@ -1,5 +1,5 @@
-import {clearArray}                   from '@utils/array';
-import {action, computed, observable} from 'mobx';
+import {clearArray, nearestElementIndex} from '@utils/array';
+import {action, computed, observable}    from 'mobx';
 
 export class Selectable<T> {
 
@@ -14,6 +14,42 @@ export class Selectable<T> {
     @computed
     get selectedAmount(): number {
         return this.selected.length;
+    }
+
+    @action
+    public selectViaMouseEvent(ev: MouseEvent, item: T, subset: Array<T>) {
+        const index = subset.indexOf(item);
+
+        // Range selection
+        if ((ev.ctrlKey || ev.metaKey)) {
+            if (ev.shiftKey) {
+
+                if (index === -1) {
+                    return;
+                }
+
+                // Resolve nearest element
+                const nextOffset = nearestElementIndex(subset, index, v => this.isSelected(v));
+
+                if (~nextOffset) {
+                    const [begin, end] = nextOffset > index ? [index, nextOffset] : [nextOffset, index];
+                    this.select(...subset.slice(begin, end + 1));
+                }
+            } else {
+                this.toggleSelect(item);
+            }
+        } else {
+            const {selected} = this;
+
+            // If there are more than one items selected and the clicked
+            // element is already part of the selection - unselect just the others.
+            if (selected.length === 1 && selected.includes(item)) {
+                this.clearSelection();
+            } else {
+                this.clearSelection();
+                this.select(item);
+            }
+        }
     }
 
     @action

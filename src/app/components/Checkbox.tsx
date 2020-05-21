@@ -5,11 +5,11 @@ import styles                   from './Checkbox.module.scss';
 type Props = {
     className?: string;
     checked: boolean;
-    onChange: (state: boolean) => void;
+    onChange: (state: boolean, ev: MouseEvent) => void;
 };
 
 export const Checkbox: FunctionalComponent<Props> = ({checked, onChange, className = ''}) => (
-    <button onClick={() => onChange(!checked)}
+    <button onClick={(ev: MouseEvent) => onChange(!checked, ev)}
             className={cn(styles.checkbox, className, {
                 [styles.checked]: checked
             })}>

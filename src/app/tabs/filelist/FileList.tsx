@@ -135,10 +135,9 @@ export class FileList extends Component<{}, State> {
         }
     }
 
-    selectItem(item: ListedFile) {
-
-        // TODO: Range selection?
-        files.toggleSelect(item);
+    @bind
+    selectItem(item: ListedFile, ev: MouseEvent) {
+        files.selectViaMouseEvent(ev, item, this.sortedElements);
     }
 
     render() {

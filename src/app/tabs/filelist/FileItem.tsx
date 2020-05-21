@@ -17,7 +17,7 @@ type Props = {
     item: ListedFile;
     label: string;
     selected: boolean;
-    onSelect: (item: ListedFile) => void;
+    onSelect: (item: ListedFile, ev: MouseEvent) => void;
 };
 
 type State = {};
@@ -102,9 +102,9 @@ export class FileItem extends Component<Props, State> {
     }
 
     @bind
-    toggleSelect() {
+    toggleSelect(_: boolean, ev: MouseEvent) {
         const {onSelect, item} = this.props;
-        onSelect(item);
+        onSelect(item, ev);
     }
 
     render() {
