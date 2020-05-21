@@ -1,14 +1,15 @@
-import {observer}            from 'mobx-react';
-import {Component, h}        from 'preact';
-import {SelectType, uploads} from '@state/index';
-import {Upload}              from '@state/models/Upload';
-import {UploadExtensions}    from '@state/models/UploadExtensions';
-import {bind, cn}            from '@utils/preact-utils';
-import {Checkbox}            from '@components/Checkbox';
-import styles                from './UploadItem.module.scss';
+import {observer}         from 'mobx-react';
+import {Component, h}     from 'preact';
+import {Upload}           from '@state/models/Upload';
+import {UploadExtensions} from '@state/models/UploadExtensions';
+import {bind, cn}         from '@utils/preact-utils';
+import {Checkbox}         from '@components/Checkbox';
+import styles             from './UploadItem.module.scss';
 
 type Props = {
-    upload: Upload;
+    item: Upload;
+    selected: boolean;
+    onSelect: (item: Upload, ev: MouseEvent) => void;
 };
 
 type State = {};
@@ -18,33 +19,34 @@ export class UploadItem extends Component<Props, State> {
 
     @bind
     togglePause(): void {
-        const {upload} = this.props;
+        const {item} = this.props;
 
-        if (upload.simpleState === 'pending') {
-            upload.update('running');
-        } else if (upload.simpleState === 'active') {
-            upload.update('paused');
+        if (item.simpleState === 'pending') {
+            item.update('running');
+        } else if (item.simpleState === 'active') {
+            item.update('paused');
         }
     }
 
     @bind
     cancel(): void {
-        const {upload} = this.props;
+        const {item} = this.props;
 
-        if (upload.simpleState === 'active' ||
-            upload.simpleState === 'pending') {
-            upload.update('cancelled');
+        if (item.simpleState === 'active' ||
+            item.simpleState === 'pending') {
+            item.update('cancelled');
         }
     }
 
     @bind
-    toggleSelect(): void {
-        uploads.select(this.props.upload.id, SelectType.Toggle);
+    toggleSelect(_: boolean, ev: MouseEvent) {
+        const {onSelect, item} = this.props;
+        onSelect(item, ev);
     }
 
     render() {
-        const {upload} = this.props;
-        const {state, progress} = upload;
+        const {item, selected} = this.props;
+        const {state, progress} = item;
 
         // Styling information
         const percentage = Math.round(progress * 10000) / 100;
@@ -53,9 +55,9 @@ export class UploadItem extends Component<Props, State> {
             `--text-clip-right: ${100 - percentage}%;`;
 
         const statusIcon = UploadExtensions.getStatusIconFor(state);
-        const statusMessage = UploadExtensions.getStatusMessageFor(upload);
+        const statusMessage = UploadExtensions.getStatusMessageFor(item);
         const toolTipNote = (() => {
-            switch (upload.state) {
+            switch (item.state) {
                 case 'awaiting-approval':
                     return 'Approve';
                 case 'paused':
@@ -71,7 +73,7 @@ export class UploadItem extends Component<Props, State> {
             <div className={styles.upload}
                  data-state={state}>
 
-                <Checkbox checked={uploads.isSelected(upload)}
+                <Checkbox checked={selected}
                           onChange={this.toggleSelect}/>
 
                 <div className={styles.progressBar}
@@ -86,8 +88,8 @@ export class UploadItem extends Component<Props, State> {
                     {statusIcon}
                 </button>
 
-                {upload.simpleState !== 'done' && <button onClick={this.cancel}
-                                                          className={cn(styles.btn, styles.abortBtn)}>
+                {item.simpleState !== 'done' && <button onClick={this.cancel}
+                                                        className={cn(styles.btn, styles.abortBtn)}>
                     <bc-tooltip content="Cancel Upload"/>
                     <bc-icon name="delete"/>
                 </button>}

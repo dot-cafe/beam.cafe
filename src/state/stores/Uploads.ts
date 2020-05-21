@@ -1,33 +1,12 @@
-import {action, observable}     from 'mobx';
-import {clearArray, removeItem} from '@utils/array';
-import {Upload, UploadState}    from '../models/Upload';
+import {Selectable}          from '@state/wrapper/Selectable';
+import {action, observable}  from 'mobx';
+import {clearArray}          from '@utils/array';
+import {Upload, UploadState} from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
 
-export enum SelectType {
-    Unselect = 'Unselect',
-    Select = 'Select',
-    Toggle = 'Toggle'
-}
-
-// TODO: Implement Selectable
-class Uploads {
+class Uploads extends Selectable<Upload> {
     @observable public readonly listedUploads: Array<Upload> = [];
-    @observable public readonly selectedUploads: Array<Upload> = [];
-
-    public isSelected(upload: string | Upload) {
-        if (typeof upload === 'string') {
-            const resolved = this.listedUploads.find(value => value.id === upload);
-
-            if (!resolved) {
-                throw new Error('Cannot check non-existent upload.');
-            }
-
-            upload = resolved;
-        }
-
-        return this.selectedUploads.includes(upload);
-    }
 
     public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
         const canCancel = uploads.some(v => v.simpleState !== 'done');
@@ -126,40 +105,6 @@ class Uploads {
         }
     }
 
-    @action
-    public select(id: string | Upload, mode = SelectType.Select): void {
-        const upload = typeof id === 'string' ?
-            this.listedUploads.find(value => value.id === id) : id;
-
-        if (!upload) {
-            throw new Error('Cannot select upload. Invalid ID or payload.');
-        }
-
-        switch (mode) {
-            case SelectType.Select: {
-                if (!this.selectedUploads.includes(upload)) {
-                    this.selectedUploads.push(upload);
-                }
-                break;
-            }
-            case SelectType.Unselect: {
-                removeItem(this.selectedUploads, upload);
-                break;
-            }
-            case SelectType.Toggle: {
-                if (!this.selectedUploads.includes(upload)) {
-                    this.selectedUploads.push(upload);
-                } else {
-                    removeItem(this.selectedUploads, upload);
-                }
-            }
-        }
-    }
-
-    @action
-    public clearSelection() {
-        this.selectedUploads.splice(0, this.selectedUploads.length);
-    }
 
     @action
     public massAction(action: MassAction) {

@@ -11,7 +11,7 @@ export class MassActions extends Component {
 
     @bind
     massAction(action: MassAction) {
-        return () => uploads.performMassAction(uploads.selectedUploads, action);
+        return () => uploads.performMassAction(uploads.selectedItems, action);
     }
 
     @bind
@@ -34,13 +34,13 @@ export class MassActions extends Component {
     }
 
     render() {
-        const massAction = uploads.getAvailableMassActions(uploads.selectedUploads);
+        const massAction = uploads.getAvailableMassActions(uploads.selectedItems);
 
         return (
             <div className={cn(styles.massActions, {
-                [styles.visible]: uploads.selectedUploads.length > 0
+                [styles.visible]: uploads.selectedItems.length > 0
             })}>
-                <h3>{uploads.selectedUploads.length} Uploads selected</h3>
+                <h3>{uploads.selectedItems.length} Uploads selected</h3>
 
                 <div className={styles.controls}>
                     <button disabled={!massAction.includes('resume')}

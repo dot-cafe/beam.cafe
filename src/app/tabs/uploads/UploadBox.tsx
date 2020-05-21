@@ -22,6 +22,11 @@ export class UploadBox extends Component<Props, State> {
         return () => uploads.performMassAction(ups, action);
     }
 
+    @bind
+    selectItem(item: Upload, ev: MouseEvent) {
+        uploads.selectViaMouseEvent(ev, item, this.props.uploadItems);
+    }
+
     render() {
         const {uploadItems, listedFile} = this.props;
         const massActions = uploads.getAvailableMassActions(uploadItems);
@@ -60,8 +65,11 @@ export class UploadBox extends Component<Props, State> {
                 </div>
 
                 <div className={styles.uploadList}>
-                    {uploadItems.map((value, i) =>
-                        <UploadItem key={i} upload={value}/>
+                    {uploadItems.map(item =>
+                        <UploadItem key={item.id}
+                                    item={item}
+                                    selected={uploads.isSelected(item)}
+                                    onSelect={this.selectItem}/>
                     )}
                 </div>
             </div>

@@ -182,12 +182,12 @@ export class FileList extends Component<{}, State> {
                 </div>
 
                 <div className={styles.list}>
-                    {this.sortedElements.map(value =>
-                        <FileItem key={value.index}
-                                  item={value}
-                                  selected={files.isSelected(value)}
+                    {this.sortedElements.map(item =>
+                        <FileItem key={item.index}
+                                  item={item}
+                                  selected={files.isSelected(item)}
                                   onSelect={this.selectItem}
-                                  label={String(value.index + 1).padStart(indexPadding, '0')}/>
+                                  label={String(item.index + 1).padStart(indexPadding, '0')}/>
                     )}
                 </div>
 
