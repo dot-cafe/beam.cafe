@@ -23,6 +23,10 @@
             border-radius: 5em;
             flex-shrink: 0;
 
+            > span {
+                font-size: 0.9em;
+            }
+
             > bc-icon {
                 margin-right: 0.5em;
             }

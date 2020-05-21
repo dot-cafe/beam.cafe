@@ -19,9 +19,9 @@
 }
 
 @mixin button_large {
-    @include font(600, 1.15em);
+    @include font(600, 1.05em);
     border-radius: 0.15em;
-    padding: 0.5em 0.9em;
+    padding: 0.5em 0.85em;
     background: var(--c-primary);
     color: var(--c-text-secondary);
 }
