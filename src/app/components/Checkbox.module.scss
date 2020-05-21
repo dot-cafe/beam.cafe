@@ -2,6 +2,7 @@
     --color: var(--checkbox-color, var(--c-text-primary));
     --color-accent: var(--checkbox-color-accent, var(--c-text-primary-accent));
     --stroke: var(--checkbox-stroke, var(--c-background-primary));
+    --stroke-width: var(--checkbox-stroke-width, 5);
     --border-radius: var(--checkbox-border-radius, 50em);
     --border-width: var(--checkbox-border-width, 2px);
     --size: var(--checkbox-size, 1em);
@@ -22,7 +23,7 @@
         position: absolute;
         fill: transparent;
         stroke: transparent;
-        stroke-width: 5;
+        stroke-width: var(--stroke-width);
         stroke-linecap: round;
         stroke-dasharray: 54;
         stroke-dashoffset: 54;
