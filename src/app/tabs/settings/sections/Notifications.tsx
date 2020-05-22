@@ -1,9 +1,9 @@
 import {Switch, SwitchState}                              from '@components/Switch';
-import {observer}                                         from 'mobx-react';
-import {Component, h}                                     from 'preact';
+import {Toast}                                            from '@overlays/Toast';
 import {NotificationSettings, pushNotification, settings} from '@state/index';
 import {bind, cn}                                         from '@utils/preact-utils';
-import {Toast}                                            from '@overlays/Toast';
+import {observer}                                         from 'mobx-react';
+import {Component, h}                                     from 'preact';
 import baseStyles                                         from './_base.module.scss';
 import styles                                             from './Notifications.module.scss';
 import {UploadStateNotification}                          from './UploadStateNotification';
@@ -30,20 +30,36 @@ export class Notifications extends Component {
         if (state === true) {
             settings.set('notifications', false);
         } else if (state === false) {
-            const granted = Notification.permission === 'granted';
-            settings.set('notifications', granted ? true : 'intermediate');
+            switch (Notification.permission) {
+                case 'default': {
+                    settings.set('notifications', 'intermediate');
 
-            if (!granted) {
+                    /**
+                     * Request permissions, safari again is really slow in
+                     * catching up with other browser so we have to provide an callback.
+                     */
+                    const resolve = (status: string) => settings.set('notifications', status === 'granted');
+                    const request = Notification.requestPermission(resolve);
 
-                /**
-                 * Request permissions, safari again is really slow in
-                 * catching up with other browser so we have to provide an callback.
-                 */
-                const resolve = (status: string) => settings.set('notifications', status === 'granted');
-                const request = Notification.requestPermission(resolve);
+                    if (request instanceof Promise) {
+                        request.then(resolve);
+                    }
 
-                if (request instanceof Promise) {
-                    request.then(resolve);
+                    break;
+                }
+                case 'denied': {
+                    settings.set('notifications', false);
+
+                    Toast.instance.show({
+                        text: 'Notifications are disabled by your browser!',
+                        body: 'Check the site settings of your browser to enable notifications for this site.',
+                        type: 'warning'
+                    });
+                    break;
+                }
+                case 'granted': {
+                    settings.set('notifications', true);
+                    break;
                 }
             }
         }
