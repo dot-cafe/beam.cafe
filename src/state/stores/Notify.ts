@@ -53,11 +53,37 @@ const requestNotification = (options: NotificationPayload, interaction = false):
     }
 
     const tag = uid();
-    controller.postMessage({
-        type: 'notify',
-        data: {interaction, ...options},
-        tag
-    });
+
+    // Safari "polyfill"...
+    if (window.safari) {
+        const {title, body} = options;
+
+        const notifications = new Notification(title, {
+            badge: '/favicon.ico',
+            icon: '/favicon.ico',
+            requireInteraction: interaction,
+            renotify: true,
+            body
+        });
+
+        const resolve = (type: ResolveNotification): void => {
+            const item = pendingRequests.get(tag);
+
+            if (item) {
+                item(type);
+            }
+        };
+
+        notifications.onerror = () => resolve('close');
+        notifications.onclose = () => resolve('close');
+        notifications.onclick = () => resolve('click');
+    } else {
+        controller.postMessage({
+            type: 'notify',
+            data: {interaction, ...options},
+            tag
+        });
+    }
 
     return tag;
 };

@@ -1,7 +1,7 @@
+import {SwitchState}        from '@components/Switch';
+import {localStorageUtils}  from '@utils/local-storage-utils';
+import {pick}               from '@utils/pick';
 import {action, observable} from 'mobx';
-import {SwitchState}        from '../../app/components/Switch';
-import {localStorageUtils}  from '../../utils/local-storage-utils';
-import {pick}               from '../../utils/pick';
 import {UploadState}        from '../models/Upload';
 import {socket}             from './Socket';
 

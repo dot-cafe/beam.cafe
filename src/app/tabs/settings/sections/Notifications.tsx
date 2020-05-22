@@ -35,10 +35,16 @@ export class Notifications extends Component {
 
             if (!granted) {
 
-                // Request permissions
-                Notification.requestPermission().then(status => {
-                    settings.set('notifications', status === 'granted');
-                });
+                /**
+                 * Request permissions, safari again is really slow in
+                 * catching up with other browser so we have to provide an callback.
+                 */
+                const resolve = (status: string) => settings.set('notifications', status === 'granted');
+                const request = Notification.requestPermission(resolve);
+
+                if (request instanceof Promise) {
+                    request.then(resolve);
+                }
             }
         }
     }

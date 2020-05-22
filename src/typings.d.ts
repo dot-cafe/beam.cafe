@@ -11,6 +11,11 @@ declare interface Navigator {
     }) => Promise<void>;
 }
 
+// We have to check if we're inside of safari...
+declare interface Window {
+    safari: unknown;
+}
+
 // Environment, ts somehow requires VERSION to be in the global scope too
 declare const VERSION: string;
 declare const env: {
