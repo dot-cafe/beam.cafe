@@ -13,6 +13,10 @@
     position: absolute;
     margin: 0.75em auto;
 
+    @include mq-phones {
+        margin-bottom: 0;
+    }
+
     > button {
         @include margin-between-h(0.5em);
         @include button_middle;
@@ -33,7 +37,7 @@
             @include hover_effect(--c-primary);
 
             @include mq-phones {
-                @include fixed-height(12.5vmin);
+                @include fixed-height(11.5vmin);
                 position: static;
                 flex-shrink: 0;
                 margin: auto 0 0 0;

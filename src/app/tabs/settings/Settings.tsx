@@ -89,6 +89,7 @@ export const Settings: FunctionalComponent = () => {
         );
     }
 
+    // TODO: Light theme looks shitty here
     return (
         <div className={styles.settings}>
             <div className={styles.options}>
