@@ -1,11 +1,11 @@
 import {ListedFile}          from '@state/models/ListedFile';
+import {Upload}              from '@state/models/Upload';
 import {MassAction, uploads} from '@state/stores/Uploads';
+import {bind}                from '@utils/preact-utils';
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
-import {bind}                from '@utils/preact-utils';
-import {Upload}              from '@state/models/Upload';
-import {UploadItem}          from './UploadItem';
 import styles                from './UploadBox.module.scss';
+import {UploadItem}          from './UploadItem';
 
 type Props = {
     uploadItems: Array<Upload>;
@@ -36,31 +36,33 @@ export class UploadBox extends Component<Props, State> {
 
                 <div className={styles.header}>
                     <div className={styles.fileName}>
-                        {
-                            massActions.includes('remove') ?
-                                <button onClick={this.massAction(uploadItems, 'remove')}>
-                                    <bc-tooltip content={'Clear'}/>
-                                    <bc-icon name="delete"/>
-                                </button> : ''
-                        }
                         <h3>{listedFile.file.name}</h3>
                     </div>
 
                     <div className={styles.controls}>
                         <button disabled={!massActions.includes('resume')}
                                 onClick={this.massAction(uploadItems, 'resume')}>
+                            <bc-tooltip content="Resume all"/>
                             Resume
                         </button>
 
                         <button disabled={!massActions.includes('pause')}
                                 onClick={this.massAction(uploadItems, 'pause')}>
+                            <bc-tooltip content="Pause all"/>
                             Pause
                         </button>
 
                         <button disabled={!massActions.includes('cancel')}
                                 onClick={this.massAction(uploadItems, 'cancel')}>
+                            <bc-tooltip content="Cancel all"/>
                             Cancel
                         </button>
+
+                        {massActions.includes('remove') ?
+                            <button onClick={this.massAction(uploadItems, 'remove')}>
+                                <bc-tooltip content="Clear all"/>
+                                Clear
+                            </button> : ''}
                     </div>
                 </div>
 

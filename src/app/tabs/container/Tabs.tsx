@@ -1,17 +1,18 @@
+import {files, uploads}         from '@state/index';
 import {observer}               from 'mobx-react';
 import {FunctionalComponent, h} from 'preact';
 import {useState}               from 'preact/hooks';
-import {files, uploads}         from '@state/index';
 import {FileList}               from '../filelist/FileList';
 import {Settings}               from '../settings/Settings';
-import {TabHeader}              from './TabHeader';
 import {Uploads}                from '../uploads/Uploads';
-import {TabViews}               from './TabViews';
+import {TabHeader}              from './TabHeader';
 import styles                   from './Tabs.module.scss';
+import {TabViews}               from './TabViews';
 
 /* eslint-disable react/jsx-key */
 const views = [<FileList/>, <Uploads/>, <Settings/>];
 
+// TODO: Shortcuts?
 export const Tabs: FunctionalComponent = observer(() => {
     const [tabIndex, setTab] = useState(
         env.NODE_ENV === 'development' ? Number(localStorage.getItem('--dev-tab-index')) || 0 : 0

@@ -54,7 +54,7 @@
     @include text_decent;
     border-bottom: 2px solid var(--c-background-secondary);
     margin: 1.25em 0 0;
-    padding: 0 1em 0.75em;
+    padding: 0 1em 0.25em;
 
     > p:not(:last-child) > span {
         @include hover_effect(--c-text-primary, color);

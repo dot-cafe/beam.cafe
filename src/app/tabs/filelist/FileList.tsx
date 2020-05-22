@@ -158,19 +158,19 @@ export class FileList extends Component<{}, State> {
 
                     <p>
                         <span onClick={this.sortBy('index')}>
-                            <bc-tooltip content={'Sort By Index'}/>#
+                            <bc-tooltip content="Sort by Index"/>#
                         </span>
                     </p>
 
                     <p>
                         <span onClick={this.sortBy('name')}>
-                            <bc-tooltip content={'Sort By Filename'}/>Filename
+                            <bc-tooltip content="Sort by Filename"/>Filename
                         </span>
                     </p>
 
                     <p className={styles.alignRight}>
                         <span onClick={this.sortBy('size')}>
-                            <bc-tooltip content={'Sort By File Size'}/>File Size
+                            <bc-tooltip content="Sort by File Size"/>File Size
                         </span>
                     </p>
 

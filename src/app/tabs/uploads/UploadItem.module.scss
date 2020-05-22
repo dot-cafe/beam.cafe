@@ -11,13 +11,13 @@
     --checkbox-color-accent: var(--c-status-accent);
 
     .btn {
-        @include size(26px);
+        @include size(1em);
         @include flex(row, center, center);
         border-radius: 100%;
         border: 2px solid currentColor;
 
         bc-icon {
-            @include size(14px);
+            @include size(12px);
             fill: currentColor;
         }
 
@@ -28,14 +28,18 @@
         &.abortBtn {
             @include hover_effect(--c-red, color);
         }
+
+        &.removeBtn {
+            @include hover_effect(--c-primary, color);
+        }
     }
 
     @mixin disabled_buttons {
-        grid-template: 1fr / min-content 1fr min-content;
-
         .btn {
-            pointer-events: none;
-            cursor: not-allowed;
+            &:not(.removeBtn) {
+                pointer-events: none;
+                cursor: not-allowed;
+            }
 
             &.abortBtn {
                 display: none;

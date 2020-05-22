@@ -1,9 +1,10 @@
-import {observer}         from 'mobx-react';
-import {Component, h}     from 'preact';
+import {Checkbox}         from '@components/Checkbox';
 import {Upload}           from '@state/models/Upload';
 import {UploadExtensions} from '@state/models/UploadExtensions';
+import {uploads}          from '@state/stores/Uploads';
 import {bind, cn}         from '@utils/preact-utils';
-import {Checkbox}         from '@components/Checkbox';
+import {observer}         from 'mobx-react';
+import {Component, h}     from 'preact';
 import styles             from './UploadItem.module.scss';
 
 type Props = {
@@ -25,6 +26,15 @@ export class UploadItem extends Component<Props, State> {
             item.update('running');
         } else if (item.simpleState === 'active') {
             item.update('paused');
+        }
+    }
+
+    @bind
+    remove(): void {
+        const {item} = this.props;
+
+        if (item.simpleState === 'done') {
+            uploads.remove(item.id);
         }
     }
 
@@ -88,11 +98,18 @@ export class UploadItem extends Component<Props, State> {
                     {statusIcon}
                 </button>
 
-                {item.simpleState !== 'done' && <button onClick={this.cancel}
-                                                        className={cn(styles.btn, styles.abortBtn)}>
-                    <bc-tooltip content="Cancel Upload"/>
-                    <bc-icon name="delete"/>
-                </button>}
+                {item.simpleState === 'done' ?
+                    <button onClick={this.remove}
+                            className={cn(styles.btn, styles.removeBtn)}>
+                        <bc-tooltip content="Remove"/>
+                        <bc-icon name="trash"/>
+                    </button> :
+                    <button onClick={this.cancel}
+                            className={cn(styles.btn, styles.abortBtn)}>
+                        <bc-tooltip content="Cancel Upload"/>
+                        <bc-icon name="delete"/>
+                    </button>
+                }
             </div>
         );
     }
