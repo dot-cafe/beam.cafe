@@ -12,10 +12,8 @@ type Props = {
     listedFile: ListedFile;
 };
 
-type State = {};
-
 @observer
-export class UploadBox extends Component<Props, State> {
+export class UploadBox extends Component<Props> {
 
     @bind
     massAction(ups: Array<Upload>, action: MassAction) {

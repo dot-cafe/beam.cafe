@@ -9,7 +9,7 @@ type Props = {
     onSelect: (index: number | string) => void;
 };
 
-export class DropDown extends Component<Props, {}> {
+export class DropDown extends Component<Props> {
     private readonly popper = createRef<Popper>();
 
     @bind

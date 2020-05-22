@@ -7,9 +7,7 @@ type Props = {
     text: string;
 };
 
-type State = {};
-
-export class FileStatus extends Component<Props, State> {
+export class FileStatus extends Component<Props> {
     private readonly svgEl = createRef<SVGSVGElement>();
 
     updateSVGRect() {

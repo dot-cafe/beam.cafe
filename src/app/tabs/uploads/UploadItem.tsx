@@ -13,10 +13,8 @@ type Props = {
     onSelect: (item: Upload, ev: MouseEvent) => void;
 };
 
-type State = {};
-
 @observer
-export class UploadItem extends Component<Props, State> {
+export class UploadItem extends Component<Props> {
 
     @bind
     togglePause(): void {

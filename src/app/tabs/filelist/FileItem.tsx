@@ -20,10 +20,8 @@ type Props = {
     onSelect: (item: ListedFile, ev: MouseEvent) => void;
 };
 
-type State = {};
-
 @observer
-export class FileItem extends Component<Props, State> {
+export class FileItem extends Component<Props> {
 
     @bind
     share() {
