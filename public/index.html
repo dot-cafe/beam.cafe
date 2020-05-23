@@ -49,6 +49,48 @@
 </head>
 <body>
 
+<!-- No script screen -->
+<noscript>
+    <style>
+        #app {
+            display: none;
+        }
+
+        html, body, noscript {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        noscript {
+            background: var(--c-background-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-text-primary);
+        }
+
+        noscript svg {
+            fill: currentColor;
+            width: 6.5em;
+            height: 6.5em;
+            margin-bottom: 1em;
+        }
+
+        noscript p {
+            font-family: 'Nunito', 'Open Sans', Arial, Helvetica, sans-serif;
+        }
+    </style>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+        <path
+            d="M 15 3 C 8.3844276 3 3 8.3844276 3 15 C 3 21.615572 8.3844276 27 15 27 C 21.615572 27 27 21.615572 27 15 C 27 8.3844276 21.615572 3 15 3 z M 15 5 C 20.534692 5 25 9.4653079 25 15 C 25 20.534692 20.534692 25 15 25 C 9.4653079 25 5 20.534692 5 15 C 5 9.4653079 9.4653079 5 15 5 z M 10.5 13 A 1.5 1.5 0 0 0 9 14.5 A 1.5 1.5 0 0 0 10.5 16 A 1.5 1.5 0 0 0 12 14.5 A 1.5 1.5 0 0 0 10.5 13 z M 19.5 13 A 1.5 1.5 0 0 0 18 14.5 A 1.5 1.5 0 0 0 19.5 16 A 1.5 1.5 0 0 0 21 14.5 A 1.5 1.5 0 0 0 19.5 13 z M 15 18 C 13.483333 18 12.278452 18.606368 11.474609 19.191406 A 1.0002946 1.0002946 0 0 0 12.652344 20.808594 C 13.222501 20.393632 14.016667 20 15 20 C 15.983333 20 16.777499 20.393632 17.347656 20.808594 A 1.0002946 1.0002946 0 1 0 18.525391 19.191406 C 17.721548 18.606368 16.516667 18 15 18 z"/>
+    </svg>
+
+    <p>Please enable JavaScript to beam up something.</p>
+</noscript>
+
 <!-- Application -->
 <div id="app"></div>
 

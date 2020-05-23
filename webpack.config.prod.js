@@ -138,6 +138,7 @@ module.exports = {
             template: 'public/index.html',
             inject: true,
             minify: {
+                minifyCSS: true,
                 collapseWhitespace: true,
                 removeComments: true,
                 removeRedundantAttributes: true,
