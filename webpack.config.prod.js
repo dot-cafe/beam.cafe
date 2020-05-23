@@ -153,7 +153,7 @@ module.exports = {
         }),
 
         new WorkBoxPlugin.GenerateSW({
-            importScripts: ['js/push.js'],
+            importScripts: ['push.js'],
             swDest: 'js/sw.js',
             clientsClaim: true,
             skipWaiting: true
