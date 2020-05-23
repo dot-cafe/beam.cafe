@@ -17,7 +17,6 @@ const app = path.resolve(src, 'app');
 
 module.exports = {
     mode: 'production',
-    devtool: 'source-map',
 
     entry: {
         'bundle': './src/index.js',
@@ -154,8 +153,8 @@ module.exports = {
         }),
 
         new WorkBoxPlugin.GenerateSW({
-            importScripts: ['/js/push.js'],
-            swDest: '/js/sw.js',
+            importScripts: ['js/push.js'],
+            swDest: 'js/sw.js',
             clientsClaim: true,
             skipWaiting: true
         }),
