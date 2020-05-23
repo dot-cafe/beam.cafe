@@ -1,8 +1,8 @@
 @mixin light_theme() {
 
     // Fix colors
-    --c-red: #ff252f;
-    --c-red-accent: #e51f1f;
+    --c-red: #ef3840;
+    --c-red-accent: #d43136;
 
     --c-yellow: #f6d400;
     --c-yellow-accent: #efbf10;
@@ -18,9 +18,9 @@
 
     // Background colors
     --c-background-primary: #fff;
-    --c-background-primary-accent: #eeeff3;
+    --c-background-primary-accent: #ebecf0;
     --c-background-secondary: #ecedef;
-    --c-background-secondary-accent: #e6e7e8;
+    --c-background-secondary-accent: #e1e2e3;
     --c-background-tertiary: #ceced4; // Used for box-shadows
 }
 

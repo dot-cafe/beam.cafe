@@ -45,6 +45,7 @@
 
     > button {
         @include hover_effect(--c-background-primary);
+        @include font(300, 0.9em);
         color: var(--c-text-primary);
         padding: 0.5em 1em;
         cursor: pointer;
