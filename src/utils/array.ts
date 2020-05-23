@@ -25,6 +25,7 @@ export const nearestElementIndex = <T>(
     for (let i = index; i >= 0; i--) {
         if (predicate(array[i])) {
             prev = i;
+            break;
         }
     }
 
@@ -32,6 +33,7 @@ export const nearestElementIndex = <T>(
     for (let i = index; i < arrayLength; i++) {
         if (predicate(array[i])) {
             next = i;
+            break;
         }
     }
 

@@ -1,7 +1,7 @@
 .toast {
     @include position(2vh, 0, auto, 0);
     @include flex(row, center, center);
-    transform: translateY(calc(-100% - 2vh));
+    transform: translateY(calc(-100% - 3vh));
     transition: all 0.3s;
     pointer-events: none;
     position: fixed;
