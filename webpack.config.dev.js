@@ -15,13 +15,13 @@ module.exports = {
     devtool: 'inline-source-map',
 
     entry: {
-        'main': './src/index.js',
+        'bundle': './src/index.js',
         'push': './src/sw/push.ts'
     },
 
     output: {
         path: dist,
-        filename: '[name].js',
+        filename: 'js/[name].js',
         globalObject: `(() => {
             if (typeof self !== 'undefined') {
                 return self;

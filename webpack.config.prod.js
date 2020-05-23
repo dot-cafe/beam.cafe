@@ -20,13 +20,13 @@ module.exports = {
     devtool: 'source-map',
 
     entry: {
-        'js/bundle': './src/index.js',
-        'push': './src/sw/push.ts' // TODO: Invalidation?
+        'bundle': './src/index.js',
+        'push': './src/sw/push.ts'
     },
 
     output: {
         path: dist,
-        filename: '[name].js',
+        filename: 'js/[name].js',
         publicPath: '/'
     },
 
@@ -136,7 +136,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'public/index.html',
-            inject: true,
+            inject: false,
             minify: {
                 minifyCSS: true,
                 collapseWhitespace: true,
@@ -149,13 +149,13 @@ module.exports = {
         }),
 
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash:6].css',
-            chunkFilename: 'css/[name].[hash:6].css'
+            chunkFilename: 'css/bundle.[hash:6].css',
+            filename: 'css/bundle.css'
         }),
 
         new WorkBoxPlugin.GenerateSW({
-            importScripts: ['/push.js'],
-            swDest: 'sw.js',
+            importScripts: ['/js/push.js'],
+            swDest: '/js/sw.js',
             clientsClaim: true,
             skipWaiting: true
         }),

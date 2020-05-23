@@ -14,7 +14,7 @@ if (env.NODE_ENV === 'development') {
     window.$RefreshSig$ = () => type => type;
 
     // Load only push-notification part
-    navigator.serviceWorker.register('/push.js', {
+    navigator.serviceWorker.register('/js/push.js', {
         scope: '/'
     }).then(() => console.log('[SW] Push SW installed!'));
 } else if (env.NODE_ENV === 'production') {
@@ -40,7 +40,7 @@ if (env.NODE_ENV === 'development') {
     console.groupEnd();
 
     navigator.serviceWorker.register(
-        '/sw.js'
+        '/js/sw.js'
     ).then(() => {
         console.log('[SW] Registration Successful!');
     }).catch(reason => {
