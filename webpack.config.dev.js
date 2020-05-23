@@ -21,7 +21,7 @@ module.exports = {
 
     output: {
         path: dist,
-        filename: 'js/[name].js',
+        filename: '[name].js',
         globalObject: `(() => {
             if (typeof self !== 'undefined') {
                 return self;

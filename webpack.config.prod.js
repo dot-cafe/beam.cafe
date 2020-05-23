@@ -133,9 +133,10 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
+            chunks: ['bundle'],
             filename: 'index.html',
             template: 'public/index.html',
-            inject: false,
+            inject: true,
             minify: {
                 minifyCSS: true,
                 collapseWhitespace: true,
@@ -148,13 +149,13 @@ module.exports = {
         }),
 
         new MiniCssExtractPlugin({
-            chunkFilename: 'css/bundle.[hash:6].css',
+            chunkFilename: 'css/bundle.css',
             filename: 'css/bundle.css'
         }),
 
         new WorkBoxPlugin.GenerateSW({
-            importScripts: ['push.js'],
-            swDest: 'js/sw.js',
+            importScripts: ['js/push.js'],
+            swDest: 'sw.js',
             clientsClaim: true,
             skipWaiting: true
         }),
