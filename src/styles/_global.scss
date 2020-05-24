@@ -55,6 +55,10 @@ body {
         @include dark_theme;
     }
 
+    &.high-contrast {
+        @include high_contrast_theme;
+    }
+
     // TODO: Transitioning does not work in chrome:
     // see https://stackoverflow.com/questions/61483591/strange-color-transition-behavior-in-chrome
     &.theme-transition * {

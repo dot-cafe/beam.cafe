@@ -4,6 +4,7 @@ import {JSXInternal}                       from 'preact/src/jsx';
 import {cn}                                from '@utils/preact-utils';
 import {CollapsibleList}                   from '@components/CollapsibleList';
 import {About}                             from './sections/About';
+import {Appearance}                        from './sections/Appearance';
 import {DangerZone}                        from './sections/DangerZone';
 import {Notifications}                     from './sections/Notifications';
 import {Security}                          from './sections/Security';
@@ -18,6 +19,11 @@ type Tabs = Array<{
 }>;
 
 const tabs: Tabs = [
+    {
+        name: 'Appearance',
+        icon: 'palette',
+        com: <Appearance/>
+    },
     {
         name: 'Security',
         icon: 'shield',
@@ -39,7 +45,7 @@ const tabs: Tabs = [
 
 // Push notifications settings if available
 if (window.Notification) {
-    tabs.splice(0, 0, {
+    tabs.splice(1, 0, {
         name: 'Notifications',
         icon: 'alarm',
         com: <Notifications/>

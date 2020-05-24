@@ -36,3 +36,25 @@
     --c-background-secondary-accent: #1d1f21;
     --c-background-tertiary: #1e1e1e;
 }
+
+@mixin high_contrast_theme() {
+    --c-red: #ff1b25;
+    --c-red-accent: #d00e17;
+
+    --c-yellow: #d2c800;
+    --c-yellow-accent: #a39c05;
+
+    --c-primary: #0655ec;
+    --c-primary-accent: #0d52d2;
+
+    --c-text-primary: #fff;
+    --c-text-primary-accent: #f2f2f2;
+    --c-text-secondary: #fff;
+    --c-text-disabled: #b6b9bf;
+
+    --c-background-primary: #373a40;
+    --c-background-primary-accent: #000;
+    --c-background-secondary: #16171a;
+    --c-background-secondary-accent: #000;
+    --c-background-tertiary: #000;
+}
