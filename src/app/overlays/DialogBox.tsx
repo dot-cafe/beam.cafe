@@ -86,8 +86,8 @@ export const DialogBox = singleton(class extends Component<Props, State> {
 
         if (item) {
             const {title, description, buttons} = item.dialog;
-            const describedby = uid();
-            const labelledby = uid();
+            const describedby = uid('aria');
+            const labelledby = uid('aria');
 
             dialog = <div role="dialog"
                           aria-labelledby={labelledby}

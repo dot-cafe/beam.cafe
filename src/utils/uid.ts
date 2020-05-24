@@ -1,5 +1,5 @@
-export const uid = (): string => {
-    let str = `uid-${Date.now().toString(36)}`;
+export const uid = (prefix = 'id'): string => {
+    let str = `${prefix}-${Date.now().toString(36)}`;
 
     while (str.length < 30) {
         const salt = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(36);
@@ -9,11 +9,11 @@ export const uid = (): string => {
     return str;
 };
 
-export const uIds = (amount: number): Array<string> => {
+export const uids = (amount: number, prefix?: string): Array<string> => {
     const ids = [];
 
     for (let i = 0; i < amount; i++) {
-        ids.push(uid());
+        ids.push(uid(prefix));
     }
 
     return ids;

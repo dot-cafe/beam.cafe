@@ -1,7 +1,7 @@
 import {Toast}                            from '@overlays/Toast';
 import {files, settings, socket, uploads} from '@state/index';
 import {bind, cn}                         from '@utils/preact-utils';
-import {uIds}                             from '@utils/uid';
+import {uids}                             from '@utils/uid';
 import {Component, h}                     from 'preact';
 import baseStyles                         from './_base.module.scss';
 
@@ -31,7 +31,7 @@ export class DangerZone extends Component {
     }
 
     render() {
-        const [label1, label2] = uIds(2);
+        const [label1, label2] = uids(2);
 
         return (
             <div className={cn(baseStyles.section)}>

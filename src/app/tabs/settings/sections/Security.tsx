@@ -1,6 +1,6 @@
 import {Switch}                      from '@components/Switch';
 import {AvailableSettings, settings} from '@state/index';
-import {uIds}                        from '@utils/uid';
+import {uids}                        from '@utils/uid';
 import {observer}                    from 'mobx-react';
 import {Component, h}                from 'preact';
 import baseStyles                    from './_base.module.scss';
@@ -15,7 +15,7 @@ export class Security extends Component {
     }
 
     render() {
-        const [label1, label2, label3] = uIds(3);
+        const [label1, label2, label3] = uids(3);
 
         return (
             <div className={baseStyles.section}>

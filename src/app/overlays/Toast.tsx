@@ -66,8 +66,8 @@ export const Toast = singleton(class extends Component<Props, State> {
 
     render() {
         const {item, visible} = this.state;
-        const describedby = uid();
-        const labelledby = uid();
+        const describedby = uid('aria');
+        const labelledby = uid('aria');
 
         return (
             <div role={visible ? 'alert' : undefined}

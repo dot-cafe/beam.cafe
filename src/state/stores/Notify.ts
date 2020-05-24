@@ -1,3 +1,4 @@
+import {uid}      from '@utils/uid';
 import {settings} from './Settings';
 
 export type NotificationPayload = {
@@ -10,9 +11,6 @@ export type ResolveNotification = 'click' | 'close' | string | null;
 
 // Currently active notifications
 const pendingRequests = new Map<string, (s: ResolveNotification) => void>();
-
-// UID Generator
-const uid = () => `${Date.now().toString(36)}-${Math.floor(Math.random() * 1e14).toString(36)}`;
 
 // Wait until service worker is initialized
 navigator.serviceWorker.ready.then(() => {
@@ -52,7 +50,7 @@ const requestNotification = (options: NotificationPayload, interaction = false):
         return null;
     }
 
-    const tag = uid();
+    const tag = uid('notify');
 
     // Safari "polyfill"...
     if (window.safari) {
