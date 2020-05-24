@@ -1,9 +1,9 @@
-import {observer}            from 'mobx-react';
-import {Component, h}        from 'preact';
-import {MassAction, uploads} from '../../../state';
 import {ListedFile}          from '@state/models/ListedFile';
 import {Upload}              from '@state/models/Upload';
 import {bind}                from '@utils/preact-utils';
+import {observer}            from 'mobx-react';
+import {Component, h}        from 'preact';
+import {MassAction, uploads} from '../../../state';
 import {MassActions}         from './MassActions';
 import {UploadBox}           from './UploadBox';
 import styles                from './Uploads.module.scss';
@@ -38,7 +38,9 @@ export class Uploads extends Component {
             <div className={styles.uploads}>
                 { /* eslint-disable react/jsx-key */
                     items.length ? [
-                        <div className={styles.itemList}>
+                        <div className={styles.itemList}
+                             role="list"
+                             aria-label="List of all uploads">
                             {items}
                         </div>,
                         <MassActions/>

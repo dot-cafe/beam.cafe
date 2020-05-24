@@ -31,7 +31,9 @@ export class UploadBox extends Component<Props> {
         const massActions = uploads.getAvailableMassActions(uploadItems);
 
         return (
-            <div className={styles.uploadBox}>
+            <div className={styles.uploadBox}
+                 role="listbox"
+                 aria-label={`Grouped uploads of ${name}`}>
 
                 <div className={styles.header}>
                     <div className={styles.fileName}>

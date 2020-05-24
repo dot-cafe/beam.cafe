@@ -64,46 +64,52 @@ export class UploadItem extends Component<Props> {
 
         const statusIcon = UploadExtensions.getStatusIconFor(state);
         const statusMessage = UploadExtensions.getStatusMessageFor(item);
-        const toolTipNote = (() => {
+        const [toolTipNote, ariaLabel] = ((): [string, string | null] => {
             switch (item.state) {
                 case 'awaiting-approval':
-                    return 'Approve';
+                    return ['Approve', 'Approve download'];
                 case 'paused':
-                    return 'Continue';
+                    return ['Continue', 'Continue upload'];
                 case 'running':
-                    return 'Pause';
+                    return ['Pause', 'Pause upload'];
             }
 
-            return '';
+            return ['', null];
         })();
 
         return (
             <div className={styles.upload}
-                 data-state={state}>
+                 data-state={state}
+                 role="listitem">
 
                 <Checkbox checked={selected}
-                          onChange={this.toggleSelect}/>
+                          onChange={this.toggleSelect}
+                          aria-label="Select upload"/>
 
                 <div className={styles.progressBar}
-                     style={progressBarStyle}>
+                     style={progressBarStyle}
+                     aria-label={statusMessage}>
                     <p><span>{statusMessage}</span></p>
                     <p><span>{statusMessage}</span></p>
                 </div>
 
                 <button onClick={this.togglePause}
-                        className={cn(styles.btn, styles.pauseBtn)}>
+                        className={cn(styles.btn, styles.pauseBtn)}
+                        aria-label={ariaLabel}>
                     <bc-tooltip content={toolTipNote}/>
                     {statusIcon}
                 </button>
 
                 {item.simpleState === 'done' ?
                     <button onClick={this.remove}
-                            className={cn(styles.btn, styles.removeBtn)}>
+                            className={cn(styles.btn, styles.removeBtn)}
+                            aria-label="Remove upload">
                         <bc-tooltip content="Remove"/>
                         <bc-icon name="trash"/>
                     </button> :
                     <button onClick={this.cancel}
-                            className={cn(styles.btn, styles.abortBtn)}>
+                            className={cn(styles.btn, styles.abortBtn)}
+                            aria-label="Cancel upload">
                         <bc-tooltip content="Cancel Upload"/>
                         <bc-icon name="delete"/>
                     </button>
