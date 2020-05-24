@@ -11,9 +11,8 @@ button {
     background: inherit;
     border: none;
 
-    &:focus,
-    &:active {
-        outline: none;
+    &:focus {
+        box-shadow: 0 0 0 2px var(--c-focus-border-primary);
     }
 }
 

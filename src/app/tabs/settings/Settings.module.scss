@@ -36,6 +36,7 @@
         @include button_middle;
         @include hover_effect(--c-background-secondary);
         @include button_icon;
+        transition: all 0.3s;
         color: var(--c-text-primary);
         width: 100%;
 
@@ -44,6 +45,10 @@
 
             &.active {
                 background: var(--c-red);
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--c-focus-border-red);
             }
         }
 

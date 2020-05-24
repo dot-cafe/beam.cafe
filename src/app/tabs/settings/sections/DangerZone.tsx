@@ -1,7 +1,7 @@
-import {Component, h}                     from 'preact';
+import {Toast}                            from '@overlays/Toast';
 import {files, settings, socket, uploads} from '@state/index';
 import {bind, cn}                         from '@utils/preact-utils';
-import {Toast}                            from '@overlays/Toast';
+import {Component, h}                     from 'preact';
 import baseStyles                         from './_base.module.scss';
 
 export class DangerZone extends Component {
@@ -43,7 +43,7 @@ export class DangerZone extends Component {
                         <bc-icon name="refresh-shield"/>
                         <h3>Refresh Keys</h3>
                         <button onClick={this.resetKeys}
-                                className={baseStyles.danger}
+                                className={cn(baseStyles.headerBtn, baseStyles.danger)}
                                 disabled={files.isEmpty}>Refresh
                         </button>
                     </header>
@@ -59,7 +59,7 @@ export class DangerZone extends Component {
                     <header>
                         <bc-icon name="settings"/>
                         <h3>Reset Settings</h3>
-                        <button className={baseStyles.danger}
+                        <button className={cn(baseStyles.headerBtn, baseStyles.danger)}
                                 onClick={this.resetSettings}>Reset
                         </button>
                     </header>

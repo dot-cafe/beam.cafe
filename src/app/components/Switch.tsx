@@ -10,7 +10,9 @@ export type SwitchState = boolean | 'intermediate';
 export const Switch: FunctionalComponent<Props> = (
     {state, onChange}
 ) => (
-    <div className={styles.switch}
-         data-state={typeof state === 'boolean' ? state ? 'on' : 'off' : state}
-         onClick={() => onChange(!state)}/>
+    <button className={styles.switch}
+            role="checkbox"
+            aria-checked={state ? 'checked' : ''}
+            data-state={typeof state === 'boolean' ? state ? 'on' : 'off' : state}
+            onClick={() => onChange(!state)}/>
 );

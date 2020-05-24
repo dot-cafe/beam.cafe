@@ -1,9 +1,9 @@
-import {Component, h}               from 'preact';
 import {pushNotification, settings} from '@state/index';
 import {on}                         from '@utils/events';
 import {bind, cn}                   from '@utils/preact-utils';
-import {ThemeSwitcher}              from './ThemeSwitcher';
+import {Component, h}               from 'preact';
 import styles                       from './TabHeader.module.scss';
+import {ThemeSwitcher}              from './ThemeSwitcher';
 
 type Props = {
     tabs: Array<string>;
@@ -74,6 +74,8 @@ export class TabHeader extends Component<Props, State> {
                 <div className={styles.tabButtons}>
                     {tabs.map((com, i) => (
                         <button key={i}
+                                tabIndex={i === activeTab ? '-1' : '0'}
+                                aria-label={`Change tab to ${com}`}
                                 onClick={this.changeTab(i)}
                                 className={cn({
                                     [styles.active]: i === activeTab
