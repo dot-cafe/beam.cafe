@@ -1,8 +1,8 @@
+import {CollapsibleList}                   from '@components/CollapsibleList';
+import {cn}                                from '@utils/preact-utils';
 import {createRef, FunctionalComponent, h} from 'preact';
 import {useState}                          from 'preact/hooks';
 import {JSXInternal}                       from 'preact/src/jsx';
-import {cn}                                from '@utils/preact-utils';
-import {CollapsibleList}                   from '@components/CollapsibleList';
 import {About}                             from './sections/About';
 import {Appearance}                        from './sections/Appearance';
 import {DangerZone}                        from './sections/DangerZone';
@@ -112,7 +112,7 @@ export const Settings: FunctionalComponent = () => {
                     <CollapsibleList ref={mobileMenu} header={open =>
                         <button className={cn(styles.toggleButton, {
                             [styles.open]: open
-                        })}>
+                        })} aria-label="Open settings">
                             <div>
                                 <div/>
                                 <div/>

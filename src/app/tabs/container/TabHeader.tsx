@@ -70,7 +70,8 @@ export class TabHeader extends Component<Props, State> {
         const {updateAvailable} = this.state;
 
         return (
-            <div className={styles.tabHeader}>
+            <div className={styles.tabHeader}
+                 role="navigation">
                 <div className={styles.tabButtons}>
                     {tabs.map((com, i) => (
                         <button key={i}
@@ -87,7 +88,8 @@ export class TabHeader extends Component<Props, State> {
 
                 {updateAvailable ? (
                     <button className={styles.updateBtn}
-                            onClick={this.installUpdate}>
+                            onClick={this.installUpdate}
+                            aria-label="Install update and restart application.">
                         <bc-icon name="updates"/>
                     </button>
                 ) : ''}

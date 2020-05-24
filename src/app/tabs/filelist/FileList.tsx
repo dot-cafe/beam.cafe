@@ -200,7 +200,7 @@ export class FileList extends Component<{}, State> {
                     {!isMobile && selectedAmount ?
                         <button onClick={this.removeSelectedFiles}>
                             <bc-icon name="trash"/>
-                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'one file'}</span>
+                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
                         </button> : ''
                     }
                 </div>

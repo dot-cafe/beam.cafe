@@ -92,6 +92,8 @@ class Socket {
 
     public request(type: string, data: unknown = null): Promise<unknown> {
         return new Promise<unknown>((resolve, reject) => {
+
+            // TODO: Use uid util (prefix?)
             const id = Date.now().toString(36) + Math.round(Math.random() * 1e15).toString(36);
 
             this.sendMessage('request', {

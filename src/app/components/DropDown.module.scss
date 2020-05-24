@@ -18,12 +18,8 @@
         }
     }
 
-    &.open {
-        border-color: var(--c-primary);
-
-        > bc-icon {
-            transform: rotate(180deg);
-        }
+    &.open > bc-icon {
+        transform: rotate(180deg);
     }
 
     > span {
@@ -41,7 +37,6 @@
     @include flex(column);
     border-radius: 0.25em;
     padding: 0.25em 0;
-    overflow: hidden;
 
     > button {
         @include hover_effect(--c-background-primary);
@@ -50,5 +45,10 @@
         padding: 0.5em 1em;
         cursor: pointer;
         text-align: left;
+
+        &:focus {
+            z-index: 1;
+            border-radius: 0.15em;
+        }
     }
 }

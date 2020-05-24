@@ -1,8 +1,8 @@
 import {files}                     from '@state/index';
-import {observer}                  from 'mobx-react';
-import {Component, h}              from 'preact';
 import {EventBindingArgs, off, on} from '@utils/events';
 import {bind, cn}                  from '@utils/preact-utils';
+import {observer}                  from 'mobx-react';
+import {Component, h}              from 'preact';
 import styles                      from './DropZone.module.scss';
 
 type Props = {};
@@ -86,7 +86,6 @@ export class DropZone extends Component<Props, State> {
             <div className={cn(styles.dropZone, {
                 [styles.dragOver]: files.isEmpty || dragover
             })}>
-
                 <div className={styles.desktop}>
                     <h1>{
                         files.isEmpty && !dragover ?
@@ -94,10 +93,14 @@ export class DropZone extends Component<Props, State> {
                             'Release Files To Upload Them!'
                     }</h1>
 
-                    {files.isEmpty ? <button onClick={this.chooseFiles}>
-                        <bc-icon name="file"/>
-                        <span>Choose Files</span>
-                    </button> : <bc-icon name="arrow-down"/>}
+                    {files.isEmpty ?
+                        <button onClick={this.chooseFiles}
+                                aria-label="Add files">
+                            <bc-icon name="file"/>
+                            <span>Choose Files</span>
+                        </button> :
+                        <bc-icon name="arrow-down"/>
+                    }
                 </div>
 
                 <div className={styles.mobile}>

@@ -47,6 +47,7 @@ export class ThemeSwitcher extends Component {
 
     render() {
         const theme = settings.get('theme');
+        const tooltip = `Change Theme to ${theme === 'light' ? 'dark' : 'light'}`;
 
         return (
             <div onClick={this.toggleTheme}
@@ -54,9 +55,9 @@ export class ThemeSwitcher extends Component {
                      [styles.toggled]: theme === 'dark'
                  })}>
 
-                <bc-tooltip content={`Change Theme to ${theme}`}/>
+                <bc-tooltip content={tooltip}/>
 
-                <button>
+                <button aria-label={tooltip}>
                     <bc-icon name="sun"
                              className={cn({
                                  [styles.visible]: theme === 'light'

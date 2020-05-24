@@ -1,5 +1,5 @@
-import {FunctionalComponent, h} from 'preact';
 import {cn}                     from '@utils/preact-utils';
+import {FunctionalComponent, h} from 'preact';
 import styles                   from './Checkbox.module.scss';
 
 type Props = {
@@ -9,7 +9,8 @@ type Props = {
 };
 
 export const Checkbox: FunctionalComponent<Props> = ({checked, onChange, className = ''}) => (
-    <button onClick={(ev: MouseEvent) => onChange(!checked, ev)}
+    <button role="checkbox"
+            onClick={(ev: MouseEvent) => onChange(!checked, ev)}
             className={cn(styles.checkbox, className, {
                 [styles.checked]: checked
             })}>
