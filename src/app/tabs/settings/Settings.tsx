@@ -86,7 +86,7 @@ export const Settings: FunctionalComponent = () => {
             <button onClick={() => changeTab(i)}
                     key={i}
                     data-type={type}
-                    tabIndex={active ? '-1' : '0'}
+                    tabIndex={active ? -1 : 0}
                     className={cn(styles.tabButton, {
                         [styles.active]: active
                     })}>

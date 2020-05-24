@@ -74,7 +74,7 @@ export class TabHeader extends Component<Props, State> {
                 <div className={styles.tabButtons}>
                     {tabs.map((com, i) => (
                         <button key={i}
-                                tabIndex={i === activeTab ? '-1' : '0'}
+                                tabIndex={i === activeTab ? -1 : 0}
                                 aria-label={`Change tab to ${com}`}
                                 onClick={this.changeTab(i)}
                                 className={cn({
