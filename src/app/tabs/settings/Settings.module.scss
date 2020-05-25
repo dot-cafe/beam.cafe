@@ -34,16 +34,25 @@
         @include flex(row, center);
         @include margin-between-v(0.25em);
         @include button_middle;
-        @include hover_effect(--c-background-secondary);
         @include button_icon;
+        background: var(--c-background-primary);
         color: var(--c-text-primary);
+        transition: all 0.15s;
         width: 100%;
+
+        &:hover {
+            background: var(--c-background-primary-accent);
+        }
 
         &[data-type='danger'] {
             color: var(--c-red);
 
             &.active {
                 background: var(--c-red);
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--c-focus-border-red);
             }
         }
 

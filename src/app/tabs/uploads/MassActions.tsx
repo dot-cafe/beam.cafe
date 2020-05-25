@@ -1,8 +1,8 @@
+import {MassAction, uploads}       from '@state/index';
 import {EventBindingArgs, off, on} from '@utils/events';
+import {bind, cn}                  from '@utils/preact-utils';
 import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
-import {MassAction, uploads}       from '@state/index';
-import {bind, cn}                  from '@utils/preact-utils';
 import styles                      from './MassActions.module.scss';
 
 @observer
@@ -59,6 +59,13 @@ export class MassActions extends Component {
                             onClick={this.massAction('cancel')}
                             className={styles.actionBtn}>
                         Cancel
+                    </button>
+
+                    <button disabled={!massAction.includes('remove')}
+                            onClick={this.massAction('remove')}
+                            className={styles.actionBtn}
+                            aria-label="Remove selected uploads">
+                        Remove
                     </button>
 
                     <button onClick={this.clearSelection}
