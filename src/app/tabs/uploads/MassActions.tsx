@@ -35,6 +35,10 @@ export class MassActions extends Component {
 
     render() {
         const massAction = uploads.getAvailableMassActions(uploads.selectedItems);
+        const getTextFor = (name: MassAction): string => {
+            const amount = massAction.get(name);
+            return amount && amount > 1 ? `(${amount})` : '';
+        };
 
         return (
             <div className={cn(styles.massActions, {
@@ -43,32 +47,32 @@ export class MassActions extends Component {
                 <h3>{uploads.selectedItems.length} Uploads selected</h3>
 
                 <div className={styles.controls}>
-                    <button disabled={!massAction.includes('resume')}
+                    <button disabled={!massAction.has('resume')}
                             onClick={this.massAction('resume')}
                             className={styles.actionBtn}
                             aria-label="Resume download for selected elements">
-                        Resume
+                        Resume {getTextFor('resume')}
                     </button>
 
-                    <button disabled={!massAction.includes('pause')}
+                    <button disabled={!massAction.has('pause')}
                             onClick={this.massAction('pause')}
                             className={styles.actionBtn}
                             aria-label="Pause download for selected elements">
-                        Pause
+                        Pause {getTextFor('pause')}
                     </button>
 
-                    <button disabled={!massAction.includes('cancel')}
+                    <button disabled={!massAction.has('cancel')}
                             onClick={this.massAction('cancel')}
                             className={styles.actionBtn}
                             aria-label="Cancel download for selected elements">
-                        Cancel
+                        Cancel {getTextFor('cancel')}
                     </button>
 
-                    <button disabled={!massAction.includes('remove')}
+                    <button disabled={!massAction.has('remove')}
                             onClick={this.massAction('remove')}
                             className={styles.actionBtn}
                             aria-label="Remove selected uploads">
-                        Remove
+                        Remove {getTextFor('remove')}
                     </button>
 
                     <button onClick={this.clearSelection}

@@ -1,6 +1,6 @@
 import {Selectable}          from '@state/wrapper/Selectable';
-import {action, observable}  from 'mobx';
 import {clearArray}          from '@utils/array';
+import {action, observable}  from 'mobx';
 import {Upload, UploadState} from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
@@ -8,26 +8,33 @@ export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
 class Uploads extends Selectable<Upload> {
     @observable public readonly listedUploads: Array<Upload> = [];
 
-    public getAvailableMassActions(uploads: Array<Upload>): Array<MassAction> {
-        const canCancel = uploads.some(v => v.simpleState !== 'done');
-        const canPause = uploads.some(v => v.state === 'running');
-        const canResume = uploads.some(v => v.state === 'paused');
-        const canRemove = !canPause && !canResume && uploads.every(v => v.simpleState === 'done');
+    public getAvailableMassActions(uploads: Array<Upload>): Map<MassAction, number> {
+        const massActionsMap = new Map();
+        const calcMassActions = (name: MassAction, predicate: (v: Upload) => boolean): void => {
+            const amount = uploads.filter(predicate).length;
 
-        const actions: Array<MassAction> = [];
-        canPause && actions.push('pause');
-        canResume && actions.push('resume');
-        canRemove && actions.push('remove');
-        canCancel && actions.push('cancel');
+            if (amount) {
+                massActionsMap.set(name, amount);
+            }
+        };
 
-        return actions;
+        calcMassActions('pause', v => v.state === 'running');
+        calcMassActions('resume', v => v.state === 'paused');
+        calcMassActions('cancel', v => v.simpleState !== 'done');
+        calcMassActions('remove', v => v.simpleState === 'done');
+        return massActionsMap;
     }
 
     @action
     public performMassAction(uploads: Array<Upload>, massAction: MassAction): void {
         switch (massAction) {
             case 'remove': {
-                this.remove(...uploads.map(value => value.id));
+
+                this.remove(
+                    ...uploads.filter(v => v.simpleState === 'done')
+                        .map(value => value.id)
+                );
+
                 break;
             }
             case 'pause': {
@@ -104,7 +111,6 @@ class Uploads extends Selectable<Upload> {
             }
         }
     }
-
 
     @action
     public massAction(action: MassAction) {
