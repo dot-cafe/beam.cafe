@@ -1,4 +1,5 @@
 .checkbox {
+    --focus: var(--checkbox-focus-color, var(--c-focus-border-primary));
     --color: var(--checkbox-color, var(--c-text-primary));
     --color-accent: var(--checkbox-color-accent, var(--c-text-primary-accent));
     --stroke: var(--checkbox-stroke, var(--c-background-primary));
@@ -9,6 +10,7 @@
 
     @include size(var(--size));
     @include hover_effect(--color, border-color);
+    @include focus_border(var(--focus));
     flex-shrink: 0;
     position: relative;
     overflow: visible;

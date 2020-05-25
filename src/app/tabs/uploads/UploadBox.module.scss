@@ -35,10 +35,6 @@
         }
     }
 
-    > div {
-        padding: 0.25em;
-        flex-shrink: 0;
-    }
 }
 
 .controls {
@@ -47,16 +43,17 @@
     > button {
         @include margin-between-h(0.25em);
         @include button_small;
+        transition: all 0.3s;
         flex-shrink: 0;
-        $colors: (--c-primary, --c-yellow, --c-red, --c-primary);
 
         > bc-icon {
             font-size: 0.7em;
         }
 
+        $colors: ('primary', 'yellow', 'red', 'primary');
         @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
-                @include hover_effect(nth($colors, $i));
+                @include button_color(nth($colors, $i));
             }
         }
 
@@ -68,5 +65,4 @@
 
 .uploadList {
     width: 100%;
-    padding: 0.5em;
 }

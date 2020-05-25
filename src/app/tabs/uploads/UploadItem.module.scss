@@ -3,16 +3,21 @@
     display: grid;
     grid-gap: 0.5em;
     grid-template: 1em / min-content 1fr min-content min-content;
+    border-bottom: 1px solid var(--c-background-secondary);
     align-items: center;
-    padding: 0.25em;
+    padding: 0.35em 0.25em;
     --c-status: var(--c-primary);
     --c-status-accent: var(--c-primary-accent);
+    --c-focus: var(--c-focus-border-primary);
+    --checkbox-focus-color: var(--c-focus);
     --checkbox-color: var(--c-status);
     --checkbox-color-accent: var(--c-status-accent);
 
     .btn {
         @include size(1em);
         @include flex(row, center, center);
+        @include hover_effect(--c-status, color);
+        @include focus_border(var(--c-focus));
         border-radius: 100%;
         border: 2px solid currentColor;
 
@@ -21,16 +26,14 @@
             fill: currentColor;
         }
 
-        &.pauseBtn {
-            @include hover_effect(--c-status, color);
-        }
-
         &.abortBtn {
             @include hover_effect(--c-red, color);
+            @include focus_border(var(--c-focus-border-red));
         }
 
         &.removeBtn {
             @include hover_effect(--c-primary, color);
+            @include focus_border(var(--c-focus-border-primary));
         }
     }
 
@@ -52,6 +55,7 @@
     &[data-state='paused'] {
         --c-status: var(--c-yellow);
         --c-status-accent: var(--c-yellow-accent);
+        --c-focus: var(--c-focus-border-yellow);
     }
 
     &[data-state='removed'] {
@@ -71,6 +75,7 @@
         @include disabled_buttons;
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
+        --c-focus: var(--c-focus-border-red);
     }
 }
 

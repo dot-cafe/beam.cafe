@@ -24,11 +24,12 @@
     }
 
     .actionBtn {
-        $colors: (--c-primary, --c-yellow, --c-red, --c-primary);
+        transition: all 0.3s;
 
+        $colors: ('primary', 'yellow', 'red', 'primary');
         @for $i from 1 through 4 {
             &:nth-child(#{$i}) {
-                @include hover_effect(nth($colors, $i));
+                @include button_color(nth($colors, $i));
             }
         }
 

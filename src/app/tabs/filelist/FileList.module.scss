@@ -31,11 +31,7 @@
         }
 
         &:last-child {
-            @include hover_effect(--c-red);
-
-            &:focus {
-                box-shadow: 0 0 0 2px var(--c-focus-border-red);
-            }
+            @include button_color('red');
         }
 
         &:first-child {
