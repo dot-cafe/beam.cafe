@@ -8,10 +8,11 @@ $padding: ($height - $size) / 2;
     @include size($width, $height);
     @include hover_effect(--c-background-secondary);
     box-shadow: inset 0 0 2px rgba(black, 0.04);
-    justify-self: flex-end;
     border-radius: $height;
+    justify-self: flex-end;
     cursor: pointer;
     position: relative;
+    transition: all 0.3s;
 
     &::before {
         @include pseudo();

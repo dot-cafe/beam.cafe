@@ -1,15 +1,25 @@
-import {FunctionalComponent, h} from 'preact';
 import {cn}                     from '@utils/preact-utils';
+import {FunctionalComponent, h} from 'preact';
 import styles                   from './Checkbox.module.scss';
 
 type Props = {
+    'aria-label'?: string;
     className?: string;
     checked: boolean;
     onChange: (state: boolean, ev: MouseEvent) => void;
 };
 
-export const Checkbox: FunctionalComponent<Props> = ({checked, onChange, className = ''}) => (
-    <button onClick={(ev: MouseEvent) => onChange(!checked, ev)}
+export const Checkbox: FunctionalComponent<Props> = (
+    {
+        checked,
+        onChange,
+        className = '',
+        ...props
+    }
+) => (
+    <button role="checkbox"
+            aria-label={props['aria-label']}
+            onClick={(ev: MouseEvent) => onChange(!checked, ev)}
             className={cn(styles.checkbox, className, {
                 [styles.checked]: checked
             })}>

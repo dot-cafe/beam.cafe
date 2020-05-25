@@ -1,9 +1,9 @@
-import {Component, h}               from 'preact';
 import {pushNotification, settings} from '@state/index';
 import {on}                         from '@utils/events';
 import {bind, cn}                   from '@utils/preact-utils';
-import {ThemeSwitcher}              from './ThemeSwitcher';
+import {Component, h}               from 'preact';
 import styles                       from './TabHeader.module.scss';
+import {ThemeSwitcher}              from './ThemeSwitcher';
 
 type Props = {
     tabs: Array<string>;
@@ -70,10 +70,13 @@ export class TabHeader extends Component<Props, State> {
         const {updateAvailable} = this.state;
 
         return (
-            <div className={styles.tabHeader}>
+            <div className={styles.tabHeader}
+                 role="navigation">
                 <div className={styles.tabButtons}>
                     {tabs.map((com, i) => (
                         <button key={i}
+                                tabIndex={i === activeTab ? -1 : 0}
+                                aria-label={`Change tab to ${com}`}
                                 onClick={this.changeTab(i)}
                                 className={cn({
                                     [styles.active]: i === activeTab
@@ -85,7 +88,8 @@ export class TabHeader extends Component<Props, State> {
 
                 {updateAvailable ? (
                     <button className={styles.updateBtn}
-                            onClick={this.installUpdate}>
+                            onClick={this.installUpdate}
+                            aria-label="Install update and restart application.">
                         <bc-icon name="updates"/>
                     </button>
                 ) : ''}

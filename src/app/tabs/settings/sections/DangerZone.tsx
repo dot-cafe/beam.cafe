@@ -1,7 +1,8 @@
-import {Component, h}                     from 'preact';
+import {Toast}                            from '@overlays/Toast';
 import {files, settings, socket, uploads} from '@state/index';
 import {bind, cn}                         from '@utils/preact-utils';
-import {Toast}                            from '@overlays/Toast';
+import {uids}                             from '@utils/uid';
+import {Component, h}                     from 'preact';
 import baseStyles                         from './_base.module.scss';
 
 export class DangerZone extends Component {
@@ -30,6 +31,8 @@ export class DangerZone extends Component {
     }
 
     render() {
+        const [label1, label2] = uids(2);
+
         return (
             <div className={cn(baseStyles.section)}>
                 <header>
@@ -43,12 +46,13 @@ export class DangerZone extends Component {
                         <bc-icon name="refresh-shield"/>
                         <h3>Refresh Keys</h3>
                         <button onClick={this.resetKeys}
-                                className={baseStyles.danger}
-                                disabled={files.isEmpty}>Refresh
+                                className={cn(baseStyles.headerBtn, baseStyles.danger)}
+                                disabled={files.isEmpty}
+                                aria-describedby={label1}>Refresh
                         </button>
                     </header>
 
-                    <article>
+                    <article id={label1}>
                         In case you discover anomalies such as suspicious downloads you can
                         generate new keys for all your files. All active downloads will be cancelled
                         and your previous download-links will be invalidated.
@@ -59,12 +63,13 @@ export class DangerZone extends Component {
                     <header>
                         <bc-icon name="settings"/>
                         <h3>Reset Settings</h3>
-                        <button className={baseStyles.danger}
-                                onClick={this.resetSettings}>Reset
+                        <button className={cn(baseStyles.headerBtn, baseStyles.danger)}
+                                onClick={this.resetSettings}
+                                aria-describedby={label2}>Reset
                         </button>
                     </header>
 
-                    <article>
+                    <article id={label2}>
                         This will restore the default-settings, overriding the current ones.
                     </article>
                 </section>

@@ -103,14 +103,16 @@ export class Notifications extends Component {
                         <bc-icon name="notification"/>
                         <h3>Turn on Notifications</h3>
                         <Switch state={notify}
-                                onChange={this.toggle}/>
+                                onChange={this.toggle}
+                                aria-describedby="Turn on notifications"/>
                     </header>
                 </section>
 
                 <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
-                    <h3>Customize</h3>
+                    <h3>Customize Notifications</h3>
 
-                    <button onClick={this.testNotifications}>
+                    <button onClick={this.testNotifications}
+                            aria-label="Show test Notification">
                         <bc-tooltip content="Show test Notification"/>
                         <bc-icon name="notification-color"/>
                     </button>
@@ -120,24 +122,27 @@ export class Notifications extends Component {
                     <div>
                         <h3>Hide notifications if app is visible</h3>
                         <Switch state={this.setting('hideIfAppIsVisible') as SwitchState}
-                                onChange={this.option('hideIfAppIsVisible')}/>
+                                onChange={this.option('hideIfAppIsVisible')}
+                                aria-label="Hide notifications if app is visible"/>
                     </div>
 
                     <div>
                         <h3>Connection lost / re-established</h3>
                         <Switch state={this.setting('connectionChange') as SwitchState}
-                                onChange={this.option('connectionChange')}/>
+                                onChange={this.option('connectionChange')}
+                                aria-label="Connection lost / re-established"/>
                     </div>
 
                     <div>
                         <h3>Update available</h3>
                         <Switch state={this.setting('updateAvailable') as SwitchState}
-                                onChange={this.option('updateAvailable')}/>
+                                onChange={this.option('updateAvailable')}
+                                aria-label="Update available"/>
                     </div>
                 </section>
 
-                <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
-                    <h3>Notify me when a upload ...</h3>
+                <section className={cn(styles.optionsHeader, baseStyles.borderless)} aria-rule="banner">
+                    <h3>Notify me when a upload...</h3>
                 </section>
 
                 <section className={cn(styles.options, baseStyles.borderless)}>

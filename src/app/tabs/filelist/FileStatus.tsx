@@ -1,5 +1,5 @@
-import {Component, createRef, h} from 'preact';
 import {ListedFileStatus}        from '@state/models/ListedFile';
+import {Component, createRef, h} from 'preact';
 import styles                    from './FileStatus.module.scss';
 
 type Props = {
@@ -37,7 +37,8 @@ export class FileStatus extends Component<Props> {
 
         return (
             <div className={styles.status}
-                 data-status={status}>
+                 data-status={status}
+                 aria-label={`File status: ${status}`}>
                 <span>{text}</span>
 
                 <svg xmlns="http://www.w3.org/2000/svg"

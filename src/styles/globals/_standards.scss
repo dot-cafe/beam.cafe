@@ -11,9 +11,9 @@ button {
     background: inherit;
     border: none;
 
-    &:focus,
-    &:active {
-        outline: none;
+    // TODO: Switch to :focus-visible if browser support is better?
+    &:focus {
+        box-shadow: 0 0 0 2px var(--c-focus-border-primary);
     }
 }
 

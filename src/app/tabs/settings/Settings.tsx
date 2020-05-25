@@ -1,9 +1,10 @@
+import {CollapsibleList}                   from '@components/CollapsibleList';
+import {cn}                                from '@utils/preact-utils';
 import {createRef, FunctionalComponent, h} from 'preact';
 import {useState}                          from 'preact/hooks';
 import {JSXInternal}                       from 'preact/src/jsx';
-import {cn}                                from '@utils/preact-utils';
-import {CollapsibleList}                   from '@components/CollapsibleList';
 import {About}                             from './sections/About';
+import {Appearance}                        from './sections/Appearance';
 import {DangerZone}                        from './sections/DangerZone';
 import {Notifications}                     from './sections/Notifications';
 import {Security}                          from './sections/Security';
@@ -18,6 +19,11 @@ type Tabs = Array<{
 }>;
 
 const tabs: Tabs = [
+    {
+        name: 'Appearance',
+        icon: 'palette',
+        com: <Appearance/>
+    },
     {
         name: 'Security',
         icon: 'shield',
@@ -39,7 +45,7 @@ const tabs: Tabs = [
 
 // Push notifications settings if available
 if (window.Notification) {
-    tabs.splice(0, 0, {
+    tabs.splice(1, 0, {
         name: 'Notifications',
         icon: 'alarm',
         com: <Notifications/>
@@ -80,6 +86,7 @@ export const Settings: FunctionalComponent = () => {
             <button onClick={() => changeTab(i)}
                     key={i}
                     data-type={type}
+                    tabIndex={active ? -1 : 0}
                     className={cn(styles.tabButton, {
                         [styles.active]: active
                     })}>
@@ -105,7 +112,7 @@ export const Settings: FunctionalComponent = () => {
                     <CollapsibleList ref={mobileMenu} header={open =>
                         <button className={cn(styles.toggleButton, {
                             [styles.open]: open
-                        })}>
+                        })} aria-label="Open settings">
                             <div>
                                 <div/>
                                 <div/>

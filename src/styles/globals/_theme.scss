@@ -22,6 +22,10 @@
     --c-background-secondary: #ecedef;
     --c-background-secondary-accent: #e1e2e3;
     --c-background-tertiary: #ceced4; // Used for box-shadows
+
+    // Specials
+    --c-focus-border-red: rgba(227, 41, 41, 0.51);
+    --c-focus-border-primary: rgba(3, 102, 214, .3);
 }
 
 @mixin dark_theme() {
@@ -35,4 +39,31 @@
     --c-background-secondary: #202225;
     --c-background-secondary-accent: #1d1f21;
     --c-background-tertiary: #1e1e1e;
+
+    --c-focus-border-primary: rgba(41, 129, 227, 0.51);
+}
+
+@mixin high_contrast_theme() {
+    --c-red: #ff1b25;
+    --c-red-accent: #d00e17;
+
+    --c-yellow: #d2c800;
+    --c-yellow-accent: #a39c05;
+
+    --c-primary: #0655ec;
+    --c-primary-accent: #0d52d2;
+
+    --c-text-primary: #fff;
+    --c-text-primary-accent: #f2f2f2;
+    --c-text-secondary: #fff;
+    --c-text-disabled: #b6b9bf;
+
+    --c-background-primary: #373a40;
+    --c-background-primary-accent: #000;
+    --c-background-secondary: #16171a;
+    --c-background-secondary-accent: #000;
+    --c-background-tertiary: #000;
+
+    --c-focus-border-red: rgb(255, 29, 29);
+    --c-focus-border-primary: rgb(2, 53, 255);
 }

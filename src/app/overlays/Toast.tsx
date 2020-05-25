@@ -1,6 +1,7 @@
-import {Component, h} from 'preact';
 import {singleton}    from '@utils/preact-singleton';
 import {cn}           from '@utils/preact-utils';
+import {uid}          from '@utils/uid';
+import {Component, h} from 'preact';
 import styles         from './Toast.module.scss';
 
 export type ToastItem = {
@@ -65,14 +66,19 @@ export const Toast = singleton(class extends Component<Props, State> {
 
     render() {
         const {item, visible} = this.state;
+        const describedby = uid('aria');
+        const labelledby = uid('aria');
 
         return (
-            <div className={cn(styles.toast, {
-                [styles.show]: visible
-            })}>
+            <div role={visible ? 'alert' : undefined}
+                 aria-labelledby={visible ? labelledby : undefined}
+                 aria-describedby={visible ? describedby : undefined}
+                 className={cn(styles.toast, {
+                     [styles.show]: visible
+                 })}>
                 <div data-state={item.type || 'success'}>
-                    <h3>{item.text}</h3>
-                    {item.body ? <p>{item.body}</p> : ''}
+                    <h3 id={labelledby}>{item.text}</h3>
+                    {item.body ? <p id={describedby}>{item.body}</p> : ''}
                 </div>
             </div>
         );

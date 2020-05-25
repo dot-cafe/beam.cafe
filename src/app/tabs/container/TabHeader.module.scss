@@ -26,15 +26,23 @@
             color: var(--color);
         }
 
-        @include mq-desktop {
-            &:not(.active):hover {
-                --bg: var(--c-background-secondary);
-                --color: var(--c-text-primary);
-                z-index: 4;
+        &:focus {
+            --bg: var(--c-background-secondary);
+            box-shadow: none;
+        }
 
-                &::before,
-                &::after {
-                    visibility: visible;
+        @include mq-desktop {
+            &:not(.active) {
+
+                &:hover {
+                    --bg: var(--c-background-secondary);
+                    --color: var(--c-text-primary);
+                    z-index: 4;
+
+                    &::before,
+                    &::after {
+                        visibility: visible;
+                    }
                 }
             }
         }

@@ -11,10 +11,11 @@
     @include position(auto, 0, 0, 0);
     @include flex(row, center, center);
     position: absolute;
-    margin: 0.75em auto;
+    margin: 0 auto;
+    padding: 0.75em 0;
 
     @include mq-phones {
-        margin-bottom: 0;
+        padding-bottom: 0;
     }
 
     > button {
@@ -31,6 +32,10 @@
 
         &:last-child {
             @include hover_effect(--c-red);
+
+            &:focus {
+                box-shadow: 0 0 0 2px var(--c-focus-border-red);
+            }
         }
 
         &:first-child {

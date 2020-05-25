@@ -110,11 +110,13 @@ export class FileItem extends Component<Props> {
 
         return (
             <div className={styles.fileItem}
-                 data-state={item.status}>
+                 data-state={item.status}
+                 role="listitem">
 
                 {!isMobile && <Checkbox checked={selected}
                                         className={styles.checkBox}
-                                        onChange={this.toggleSelect}/>}
+                                        onChange={this.toggleSelect}
+                                        aria-label="Select file"/>}
 
                 <FileStatus status={item.status} text={label}/>
 

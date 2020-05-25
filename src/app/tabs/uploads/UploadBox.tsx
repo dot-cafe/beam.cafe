@@ -27,10 +27,13 @@ export class UploadBox extends Component<Props> {
 
     render() {
         const {uploadItems, listedFile} = this.props;
+        const {name} = listedFile.file;
         const massActions = uploads.getAvailableMassActions(uploadItems);
 
         return (
-            <div className={styles.uploadBox}>
+            <div className={styles.uploadBox}
+                 role="listbox"
+                 aria-label={`Grouped uploads of ${name}`}>
 
                 <div className={styles.header}>
                     <div className={styles.fileName}>
@@ -39,25 +42,29 @@ export class UploadBox extends Component<Props> {
 
                     <div className={styles.controls}>
                         <button disabled={!massActions.includes('resume')}
-                                onClick={this.massAction(uploadItems, 'resume')}>
+                                onClick={this.massAction(uploadItems, 'resume')}
+                                aria-label={`Resume uploads of ${name}`}>
                             <bc-tooltip content="Resume all"/>
                             Resume
                         </button>
 
                         <button disabled={!massActions.includes('pause')}
-                                onClick={this.massAction(uploadItems, 'pause')}>
+                                onClick={this.massAction(uploadItems, 'pause')}
+                                aria-label={`Pause uploads of ${name}`}>
                             <bc-tooltip content="Pause all"/>
                             Pause
                         </button>
 
                         <button disabled={!massActions.includes('cancel')}
-                                onClick={this.massAction(uploadItems, 'cancel')}>
+                                onClick={this.massAction(uploadItems, 'cancel')}
+                                aria-label={`Cancel uploads of ${name}`}>
                             <bc-tooltip content="Cancel all"/>
                             Cancel
                         </button>
 
                         {massActions.includes('remove') ?
-                            <button onClick={this.massAction(uploadItems, 'remove')}>
+                            <button onClick={this.massAction(uploadItems, 'remove')}
+                                    aria-label={`Remove finished uploads of ${name}`}>
                                 <bc-tooltip content="Clear all"/>
                                 Clear
                             </button> : ''}

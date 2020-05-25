@@ -1,12 +1,12 @@
+import {SearchBar}             from '@components/SearchBar';
 import {DialogBox}             from '@overlays/DialogBox';
-import {ListedFile}            from '@state/models/ListedFile';
-import {observer}              from 'mobx-react';
-import {Component, h}          from 'preact';
 import {files, uploads}        from '@state/index';
+import {ListedFile}            from '@state/models/ListedFile';
 import {fuzzyStringSimilarity} from '@utils/fuzzy-string-similarity';
 import {bind}                  from '@utils/preact-utils';
+import {observer}              from 'mobx-react';
+import {Component, h}          from 'preact';
 import {isMobile}              from '../../browserenv';
-import {SearchBar}             from '@components/SearchBar';
 import {DropZone}              from './DropZone';
 import {FileItem}              from './FileItem';
 import styles                  from './FileList.module.scss';
@@ -181,7 +181,9 @@ export class FileList extends Component<{}, State> {
                     )}
                 </div>
 
-                <div className={styles.list}>
+                <div className={styles.list}
+                     role="list"
+                     aria-label="List of added files">
                     {this.sortedElements.map(item =>
                         <FileItem key={item.index}
                                   item={item}
@@ -200,7 +202,7 @@ export class FileList extends Component<{}, State> {
                     {!isMobile && selectedAmount ?
                         <button onClick={this.removeSelectedFiles}>
                             <bc-icon name="trash"/>
-                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'one file'}</span>
+                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
                         </button> : ''
                     }
                 </div>

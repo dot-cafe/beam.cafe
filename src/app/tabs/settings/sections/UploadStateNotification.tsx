@@ -1,10 +1,10 @@
-import {Component, h}     from 'preact';
-import {observer}         from 'mobx-react';
+import {DropDown}         from '@components/DropDown';
 import {settings}         from '@state/index';
 import {UploadState}      from '@state/models/Upload';
 import {UploadExtensions} from '@state/models/UploadExtensions';
 import {bind}             from '@utils/preact-utils';
-import {DropDown}         from '@components/DropDown';
+import {observer}         from 'mobx-react';
+import {Component, h}     from 'preact';
 import styles             from './UploadStateNotification.module.scss';
 
 @observer
@@ -75,8 +75,9 @@ export class UploadStateNotification extends Component {
                         <DropDown items={[
                             [key, name],
                             ...availableSettings
-                        ]} onSelect={this.replaceState(i)}/>
-                        <button onClick={this.unwatchState(key)}>
+                        ]} onSelect={this.replaceState(i)} aria-label={`Change upload state notification from when a upload ${name}`}/>
+                        <button onClick={this.unwatchState(key)}
+                                aria-label={`Remove notification when a upload ${name}`}>
                             <bc-icon name="delete"/>
                         </button>
                     </div>

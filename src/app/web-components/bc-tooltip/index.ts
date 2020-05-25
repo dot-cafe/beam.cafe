@@ -107,6 +107,7 @@ class BeamCafeTooltip extends HTMLElement {
 
     connectedCallback(): void {
         if (!this._connected) {
+            this.setAttribute('role', 'tooltip');
             this.style.display = 'none';
             this._connected = true;
 

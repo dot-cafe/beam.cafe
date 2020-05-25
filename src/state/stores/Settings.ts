@@ -16,6 +16,7 @@ export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
     theme: 'light' | 'dark';
+    highContrast: boolean;
     autoPause: boolean;
 
     notifications: SwitchState;
@@ -33,6 +34,7 @@ class Settings {
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         reusableDownloadKeys: true,
         strictSession: false,
+        highContrast: false,
         autoPause: false,
 
         notifications: false,

@@ -1,5 +1,5 @@
-import {FunctionalComponent, h} from 'preact';
 import {cn}                     from '@utils/preact-utils';
+import {FunctionalComponent, h} from 'preact';
 import baseStyles               from './_base.module.scss';
 import styles                   from './About.module.scss';
 
@@ -8,7 +8,8 @@ export const About: FunctionalComponent = () => {
     const build = new Date(env.BUILD_DATE).toUTCString();
 
     return (
-        <div className={cn(baseStyles.section, styles.about)}>
+        <div className={cn(baseStyles.section, styles.about)}
+             role="comment">
             <header>
                 <bc-icon name="help"/>
                 <h1>About</h1>

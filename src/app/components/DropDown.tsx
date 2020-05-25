@@ -1,9 +1,10 @@
-import {Component, createRef, h} from 'preact';
 import {bind, cn}                from '@utils/preact-utils';
-import {Popper}                  from './Popper';
+import {Component, createRef, h} from 'preact';
 import styles                    from './DropDown.module.scss';
+import {Popper}                  from './Popper';
 
 type Props = {
+    'aria-label'?: string;
     selected?: number | string;
     items: Array<string> | {[key: string]: string} | Array<[string, string]>;
     onSelect: (index: number | string) => void;
@@ -21,7 +22,7 @@ export class DropDown extends Component<Props> {
     }
 
     render() {
-        const {items, selected} = this.props;
+        const {items, selected, ...props} = this.props;
         const isEntries = Array.isArray(items) && items[0]?.length === 2;
 
         // Convert input to key-value pairs
@@ -43,7 +44,8 @@ export class DropDown extends Component<Props> {
             if (key !== selectedItem) {
                 buttons.push(
                     <button key={key}
-                            onClick={this.select(key)}>
+                            onClick={this.select(key)}
+                            aria-label={value}>
                         {value}
                     </button>
                 );
@@ -56,7 +58,7 @@ export class DropDown extends Component<Props> {
                         <button className={cn(styles.button, {
                             [styles.open]: open,
                             [styles.empty]: !buttons.length
-                        })}>
+                        })} aria-label={props['aria-label'] || 'Open context menu'}>
                             <span>{current[1]}</span>
                             <bc-icon name="arrow-down"/>
                         </button>

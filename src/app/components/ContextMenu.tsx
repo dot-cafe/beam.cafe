@@ -30,7 +30,9 @@ export const ContextMenu: FunctionalComponent<Props> = (
             content={
                 <div className={styles.buttonList}>{
                     content.map((value, index) => (
-                        <button key={index} onClick={() => onAction(value.id)}>
+                        <button key={index}
+                                onClick={() => onAction(value.id)}
+                                aria-label={`Context menu: ${value.text}`}>
                             {value.icon ? <bc-icon name={value.icon}/> : ''}
                             <span>{value.text}</span>
                         </button>

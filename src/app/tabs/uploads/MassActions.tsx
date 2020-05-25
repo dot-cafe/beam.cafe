@@ -45,19 +45,22 @@ export class MassActions extends Component {
                 <div className={styles.controls}>
                     <button disabled={!massAction.includes('resume')}
                             onClick={this.massAction('resume')}
-                            className={styles.actionBtn}>
+                            className={styles.actionBtn}
+                            aria-label="Resume download for selected elements">
                         Resume
                     </button>
 
                     <button disabled={!massAction.includes('pause')}
                             onClick={this.massAction('pause')}
-                            className={styles.actionBtn}>
+                            className={styles.actionBtn}
+                            aria-label="Pause download for selected elements">
                         Pause
                     </button>
 
                     <button disabled={!massAction.includes('cancel')}
                             onClick={this.massAction('cancel')}
-                            className={styles.actionBtn}>
+                            className={styles.actionBtn}
+                            aria-label="Cancel download for selected elements">
                         Cancel
                     </button>
 
@@ -69,7 +72,8 @@ export class MassActions extends Component {
                     </button>
 
                     <button onClick={this.clearSelection}
-                            className={styles.clearSelectionBtn}>
+                            className={styles.clearSelectionBtn}
+                            aria-label="Clear selection">
                         <bc-tooltip content="Clear Selection" pos="top-middle"/>
                         <bc-icon name="delete"/>
                     </button>

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import {uid}                from '@utils/uid';
 import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
 import {Upload}             from '../models/Upload';
@@ -92,7 +93,7 @@ class Socket {
 
     public request(type: string, data: unknown = null): Promise<unknown> {
         return new Promise<unknown>((resolve, reject) => {
-            const id = Date.now().toString(36) + Math.round(Math.random() * 1e15).toString(36);
+            const id = uid('wsr');
 
             this.sendMessage('request', {
                 id, type, data

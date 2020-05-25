@@ -59,13 +59,17 @@ $grid-margin: 1em;
             padding: 0 $grid-margin * 0.75;
             height: 3em;
 
-            > button {
+            .headerBtn {
                 @include button_small;
                 @include hover_effect(--c-primary);
                 transition: all 0.3s;
 
                 &.danger {
                     @include hover_effect(--c-red);
+
+                    &:focus {
+                        box-shadow: 0 0 0 2px var(--c-focus-border-red);
+                    }
                 }
 
                 @include disabled {
