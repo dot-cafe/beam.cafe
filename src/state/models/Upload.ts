@@ -1,6 +1,6 @@
+import {on}                           from '@utils/events';
 import {action, computed, observable} from 'mobx';
 import {settings, socket}             from '..';
-import {on}                           from '@utils/events';
 import {ListedFile}                   from './ListedFile';
 import {UploadExtensions}             from './UploadExtensions';
 
@@ -16,9 +16,17 @@ export type UploadState = 'idle' |
     'removed' |
     'connection-lost';
 
+export type UploadConstructorObject = {
+    listedFile: ListedFile;
+    id: string;
+    url: string;
+    range?: [number, number];
+};
+
 export class Upload {
     public static readonly SPEED_BUFFER_SIZE = 10;
 
+    public readonly range: null | [number, number];
     public readonly listedFile: ListedFile;
     public readonly id: string;
     public transferred = 0;
@@ -37,11 +45,12 @@ export class Upload {
     // Current request instance, byte-offset and if paused
     private xhr: XMLHttpRequest | null;
 
-    constructor(listedFile: ListedFile, id: string, url: string) {
+    constructor({listedFile, id, url, range}: UploadConstructorObject) {
         this.listedFile = listedFile;
         this.id = id;
         this.url = url;
         this.xhr = null;
+        this.range = range || null;
         this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
     }
 
@@ -165,7 +174,7 @@ export class Upload {
 
     @action
     private start(): XMLHttpRequest {
-        const {listedFile: {file}, url} = this;
+        const {listedFile: {file}, url, range} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 
         // Disable timeouts entirely
@@ -217,7 +226,11 @@ export class Upload {
 
         // Transfer bytes
         xhr.open('POST', url, true);
-        xhr.send(file.slice(this.transferred, file.size, file.type));
+
+        const filePart = range ? file.slice(range[0], range[1], file.type) : file;
+        const fileBlob = filePart.slice(this.transferred, file.size, file.type);
+
+        xhr.send(fileBlob);
         return xhr;
     }
 }

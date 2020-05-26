@@ -188,11 +188,39 @@ class Socket {
                 }
 
                 uploads.registerUpload(
-                    new Upload(item, downloadId, `${env.API_ENDPOINT}/file/${downloadId}`)
+                    new Upload({
+                        listedFile: item,
+                        id: downloadId,
+                        url: `${env.API_ENDPOINT}/file/${downloadId}`
+                    })
                 );
 
                 break;
             }
+            case 'stream-request': {
+                const {fileId, downloadId, range} = payload;
+
+                const item = files.listedFiles.find(
+                    value => value.id === fileId
+                );
+
+                if (!item) {
+                    console.warn('[WS] File not longer available...');
+                    break;
+                }
+
+                uploads.registerUpload(
+                    new Upload({
+                        listedFile: item,
+                        id: downloadId,
+                        url: `${env.API_ENDPOINT}/stream/${downloadId}`,
+                        range
+                    })
+                );
+
+                break;
+            }
+            case 'stream-cancelled':
             case 'download-cancelled': {
                 uploads.updateUploadState(payload, 'peer-cancelled');
                 break;
