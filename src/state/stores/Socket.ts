@@ -215,17 +215,17 @@ class Socket {
                 });
 
                 if (stream && range !== undefined) {
-                    console.log('Continue', range);
-                    (stream as UploadStream).consume(
-                        range, `${env.API_ENDPOINT}/stream/${streamId}`
-                    );
+                    (stream as UploadStream).consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
                 } else {
-                    console.log('new 🧒');
                     const upload = new UploadStream(streamKey, item);
-                    upload.consume(range, `${env.API_ENDPOINT}/stream/${streamId}`);
+                    upload.consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
                     uploads.registerUpload(upload);
                 }
 
+                break;
+            }
+            case 'stream-cancelled': {
+                uploads.cancelStream(payload);
                 break;
             }
             case 'download-cancelled': {

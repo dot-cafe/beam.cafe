@@ -1,6 +1,5 @@
 import {ListedFile}          from '@state/models/ListedFile';
 import {UploadLike}          from '@state/models/types';
-import {Upload}              from '@state/models/Upload';
 import {bind}                from '@utils/preact-utils';
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';

@@ -1,8 +1,10 @@
 import {Checkbox}     from '@components/Checkbox';
 import {UploadStream} from '@state/models/UploadStream';
+import {uploads}      from '@state/stores/Uploads';
 import {bind, cn}     from '@utils/preact-utils';
 import {observer}     from 'mobx-react';
 import {Component, h} from 'preact';
+import prettyBytes    from 'pretty-bytes';
 import styles         from './UploadStreamItem.module.scss';
 
 type Props = {
@@ -15,18 +17,10 @@ type Props = {
 export class UploadStreamItem extends Component<Props> {
 
     @bind
-    togglePause(): void {
-        const {item} = this.props;
-    }
-
-    @bind
-    remove(): void {
-        const {item} = this.props;
-    }
-
-    @bind
     cancel(): void {
         const {item} = this.props;
+        uploads.remove(item.id);
+        item.cancel();
     }
 
     @bind
@@ -37,7 +31,8 @@ export class UploadStreamItem extends Component<Props> {
 
     render() {
         const {item, selected} = this.props;
-        const {state, activeUploads} = item;
+        const {state, progress} = item;
+        const transferred = `${prettyBytes(progress)} transferred`;
 
         return (
             <div className={styles.uploadStream}
@@ -50,10 +45,10 @@ export class UploadStreamItem extends Component<Props> {
 
                 <div className={styles.progressBar}
                      aria-label="Active uploads">
-                    <p><span>{activeUploads} uploads active.</span></p>
+                    <p><span>{transferred}</span></p>
                 </div>
 
-                <button onClick={this.remove}
+                <button onClick={this.cancel}
                         className={cn(styles.btn, styles.stop)}
                         aria-label="Cancel stream">
                     <bc-tooltip content="Remove"/>
