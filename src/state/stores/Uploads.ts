@@ -1,9 +1,9 @@
-import {UploadLike}         from '@state/models/types';
-import {UploadStream}       from '@state/models/UploadStream';
-import {Selectable}         from '@state/wrapper/Selectable';
-import {clearArray}         from '@utils/array';
-import {action, observable} from 'mobx';
-import {UploadState}        from '../models/Upload';
+import {UploadLike}          from '@state/models/types';
+import {UploadStream}        from '@state/models/UploadStream';
+import {Selectable}          from '@state/wrapper/Selectable';
+import {clearArray}          from '@utils/array';
+import {action, observable}  from 'mobx';
+import {Upload, UploadState} from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
 
@@ -33,7 +33,7 @@ class Uploads extends Selectable<UploadLike> {
             case 'remove': {
 
                 this.remove(
-                    ...uploads.filter(v => v.simpleState === 'done')
+                    ...uploads.filter(v => v instanceof Upload && v.simpleState === 'done')
                         .map(value => value.id)
                 );
 

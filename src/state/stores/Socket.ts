@@ -194,7 +194,6 @@ class Socket {
                     url: `${env.API_ENDPOINT}/file/${downloadId}`
                 });
 
-                upload.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
                 uploads.registerUpload(upload);
                 break;
             }

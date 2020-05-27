@@ -1,7 +1,7 @@
 import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
 import {on}                                from '@utils/events';
 import {action, computed, observable}      from 'mobx';
-import {settings, socket}                  from '..';
+import {settings, socket, uploads}         from '..';
 import {ListedFile}                        from './ListedFile';
 import {UploadExtensions}                  from './UploadExtensions';
 
@@ -49,6 +49,8 @@ export class Upload implements UploadLike<UploadState> {
         this.id = id;
         this.url = url;
         this.xhr = null;
+
+        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
     }
 
     @computed
@@ -137,6 +139,7 @@ export class Upload implements UploadLike<UploadState> {
 
                 this.secureAbort();
                 socket.sendMessage('cancel-request', this.id);
+                uploads.remove(this.id);
                 this.progress = 1;
                 break;
             }

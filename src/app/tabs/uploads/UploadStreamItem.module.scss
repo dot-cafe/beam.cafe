@@ -9,6 +9,9 @@
     --checkbox-focus-color: var(--c-focus-border-green);
     --checkbox-color: var(--c-green);
     --checkbox-color-accent: var(--c-green-accent);
+    --pause-color: var(--c-yellow);
+    --pause-color-accent: var(--c-yellow-accent);
+    --pause-color-focus: var(--c-yellow-accent);
 
     .btn {
         @include size(1em);
@@ -23,10 +26,26 @@
             fill: currentColor;
         }
 
-        &.stop {
+        &.stopBtn {
             @include hover_effect(--c-red, color);
             @include focus_border(var(--c-focus-border-red));
         }
+
+        &.approveBtn {
+            @include hover_effect(--c-primary, color);
+            @include focus_border(var(--c-focus-border-primary));
+        }
+
+        &.pauseBtn {
+            @include hover_effect(--pause-color, color);
+            @include focus_border(var(--pause-color-focus));
+        }
+    }
+
+    &[data-state='paused'] {
+        --pause-color: var(--c-primary);
+        --pause-color-accent: var(--c-primary-accent);
+        --pause-color-focus: var(--c-focus-border-primary);
     }
 }
 

@@ -1,22 +1,44 @@
 import {ListedFile}                        from '@state/models/ListedFile';
 import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
+import {settings}                          from '@state/stores/Settings';
 import {socket}                            from '@state/stores/Socket';
 import {on}                                from '@utils/events';
 import {uid}                               from '@utils/uid';
 import {action, computed, observable}      from 'mobx';
 
-export type UploadStreamState = 'active';
+type PendingStream = {
+    url: string;
+    range: [number, number];
+};
+
+export type UploadStreamState = 'idle' |
+    'awaiting-approval' |
+    'running' |
+    'paused' |
+    'cancelled';
 
 export class UploadStream implements UploadLike<UploadStreamState> {
     @observable public streaming = false;
     @observable public progress = 0;
-    public readonly state: UploadStreamState = 'active';
     public readonly streamKey: string;
     public readonly listedFile: ListedFile;
     public readonly id: string;
 
+    // Current stream state
+    @observable public state: UploadStreamState = 'idle';
+
     // Internal chunks
     @observable private uploads: Map<string, XMLHttpRequest> = new Map();
+
+    // Pending uploads in case it's paused or is awaiting user-approval
+    private pendingUploads: Map<string, PendingStream> = new Map();
+
+    constructor(streamKey: string, listedFile: ListedFile) {
+        this.streamKey = streamKey;
+        this.listedFile = listedFile;
+        this.id = uid(); // TODO: Redundant?
+        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
+    }
 
     @computed
     get activeUploads(): number {
@@ -37,18 +59,14 @@ export class UploadStream implements UploadLike<UploadStreamState> {
         return 'done';
     }
 
-    constructor(streamKey: string, listedFile: ListedFile) {
-        this.streamKey = streamKey;
-        this.listedFile = listedFile;
-        this.id = uid(); // TODO: Redundant?
-    }
-
     @action
     public cancelStream(key: string): boolean {
         const req = this.uploads.get(key);
 
         if (!req) {
             return false;
+        } else if (this.pendingUploads.get(key)) {
+            return true;
         }
 
         const {readyState} = req;
@@ -62,24 +80,12 @@ export class UploadStream implements UploadLike<UploadStreamState> {
     }
 
     @action
-    public cancel(): void {
-
-        // Cancel all streams
-        for (const [key, req] of this.uploads) {
-            const {readyState} = req;
-            this.uploads.delete(key);
-
-            if (readyState > XMLHttpRequest.UNSENT && readyState < XMLHttpRequest.DONE) {
-                req.abort();
-            }
+    public consume(range: [number, number], url: string, id: string) {
+        if (this.state !== 'running') {
+            this.pendingUploads.set(id, {range, url});
+            return;
         }
 
-        // Cancel stream-key server-side
-        socket.sendMessage('cancel-stream', this.streamKey);
-    }
-
-    @action
-    public consume(range: [number, number], url: string, id: string) {
         const {file} = this.listedFile;
         const xhr = new XMLHttpRequest();
 
@@ -116,7 +122,60 @@ export class UploadStream implements UploadLike<UploadStreamState> {
         this.uploads.set(id, xhr);
     }
 
-    update(status: string): boolean {
-        return false;
+    update(status: UploadStreamState): boolean {
+        const {state} = this;
+
+        switch (status) {
+            case 'awaiting-approval':
+            case 'idle': {
+                if (state !== 'idle') {
+                    return false;
+                }
+
+                break;
+            }
+            case 'paused': {
+                if (state !== 'running') {
+                    return false;
+                }
+
+                break;
+            }
+            case 'running': {
+                if (state === 'running' || state === 'cancelled') {
+                    return false;
+                }
+
+                break;
+            }
+            case 'cancelled': {
+
+                // Cancel all streams
+                for (const [key, req] of this.uploads) {
+                    const {readyState} = req;
+                    this.uploads.delete(key);
+
+                    if (readyState > XMLHttpRequest.UNSENT && readyState < XMLHttpRequest.DONE) {
+                        req.abort();
+                    }
+                }
+
+                // Cancel stream-key server-side
+                socket.sendMessage('cancel-stream', this.streamKey);
+            }
+        }
+
+        this.state = status;
+
+        // Start pending streams
+        if (status === 'running' && this.pendingUploads.size) {
+            for (const [key, {range, url}] of this.pendingUploads) {
+                this.consume(range, url, key);
+            }
+
+            this.pendingUploads.clear();
+        }
+
+        return true;
     }
 }
