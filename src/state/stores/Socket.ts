@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import {UploadStream}       from '@state/models/UploadStream';
 import {uid}                from '@utils/uid';
 import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
@@ -187,18 +188,18 @@ class Socket {
                     break;
                 }
 
-                uploads.registerUpload(
-                    new Upload({
-                        listedFile: item,
-                        id: downloadId,
-                        url: `${env.API_ENDPOINT}/file/${downloadId}`
-                    })
-                );
+                const upload = new Upload({
+                    listedFile: item,
+                    id: downloadId,
+                    url: `${env.API_ENDPOINT}/file/${downloadId}`
+                });
 
+                upload.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
+                uploads.registerUpload(upload);
                 break;
             }
             case 'stream-request': {
-                const {fileId, downloadId, range} = payload;
+                const {fileId, streamId, streamKey, range} = payload;
 
                 const item = files.listedFiles.find(
                     value => value.id === fileId
@@ -209,18 +210,24 @@ class Socket {
                     break;
                 }
 
-                uploads.registerUpload(
-                    new Upload({
-                        listedFile: item,
-                        id: downloadId,
-                        url: `${env.API_ENDPOINT}/stream/${downloadId}`,
-                        range
-                    })
-                );
+                const stream = uploads.listedUploads.find(value => {
+                    return value instanceof UploadStream && value.streamKey === streamKey;
+                });
+
+                if (stream && range !== undefined) {
+                    console.log('Continue', range);
+                    (stream as UploadStream).consume(
+                        range, `${env.API_ENDPOINT}/stream/${streamId}`
+                    );
+                } else {
+                    console.log('new 🧒');
+                    const upload = new UploadStream(streamKey, item);
+                    upload.consume(range, `${env.API_ENDPOINT}/stream/${streamId}`);
+                    uploads.registerUpload(upload);
+                }
 
                 break;
             }
-            case 'stream-cancelled':
             case 'download-cancelled': {
                 uploads.updateUploadState(payload, 'peer-cancelled');
                 break;
@@ -230,7 +237,6 @@ class Socket {
             }
         }
     }
-
 }
 
 export const socket = new Socket();

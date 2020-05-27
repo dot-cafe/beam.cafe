@@ -1,6 +1,9 @@
 @mixin light_theme() {
 
     // Fix colors
+    --c-green: #1dd081;
+    --c-green-accent: #1eba76;
+
     --c-red: #ef3840;
     --c-red-accent: #d43136;
 
@@ -24,9 +27,10 @@
     --c-background-tertiary: #ceced4; // Used for box-shadows
 
     // Specials
-    --c-focus-border-red: rgba(227, 41, 41, 0.51);
-    --c-focus-border-yellow: rgba(232, 230, 22, 0.51);
-    --c-focus-border-primary: rgba(3, 102, 214, .3);
+    --c-focus-border-red: rgba(227, 41, 41, 0.42);
+    --c-focus-border-green: rgba(22, 232, 81, 0.42);
+    --c-focus-border-yellow: rgba(232, 230, 22, 0.42);
+    --c-focus-border-primary: rgba(3, 102, 214, 0.42);
 }
 
 @mixin dark_theme() {
@@ -41,7 +45,7 @@
     --c-background-secondary-accent: #1d1f21;
     --c-background-tertiary: #1e1e1e;
 
-    --c-focus-border-primary: rgba(41, 129, 227, 0.51);
+    --c-focus-border-primary: rgba(41, 129, 227, 0.42);
 }
 
 @mixin high_contrast_theme() {
