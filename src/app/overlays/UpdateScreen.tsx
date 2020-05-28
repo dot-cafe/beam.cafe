@@ -11,7 +11,6 @@ export const UpdateScreen = () => {
         updated = true;
     }
 
-    // TODO: Hide if high-contrast is enabled?
     return updated ? (
         <div className={styles.loadingScreen}>
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 411 411">

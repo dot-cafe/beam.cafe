@@ -3,7 +3,7 @@ $grid-margin: 1em;
 .section {
 
     > * {
-        @include width(80%, auto, 25em);
+        @include width(80%, auto, 27.5em);
 
         @include mq-phones {
             min-width: 100%;

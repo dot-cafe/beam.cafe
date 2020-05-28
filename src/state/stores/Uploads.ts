@@ -41,7 +41,6 @@ class Uploads extends Selectable<UploadLike> {
             }
             case 'pause': {
 
-                // TODO: What about confirmation?
                 for (const upload of uploads) {
                     if (upload.state === 'running') {
                         upload.update('paused');

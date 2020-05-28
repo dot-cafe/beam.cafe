@@ -15,6 +15,7 @@ export type NotificationSettings = {
 export type AvailableSettings = {
     reusableDownloadKeys: SwitchState;
     strictSession: SwitchState;
+    allowStreaming: SwitchState;
     theme: 'light' | 'dark';
     highContrast: boolean;
     autoPause: boolean;
@@ -27,7 +28,8 @@ class Settings {
 
     private static readonly SERVER_SIDE_SETTINGS: Partial<Array<keyof AvailableSettings>> = [
         'reusableDownloadKeys',
-        'strictSession'
+        'strictSession',
+        'allowStreaming'
     ];
 
     public static readonly DEFAULT_SETTINGS: AvailableSettings = {
@@ -36,6 +38,7 @@ class Settings {
         strictSession: false,
         highContrast: false,
         autoPause: false,
+        allowStreaming: true,
 
         notifications: false,
         notificationSettings: {
