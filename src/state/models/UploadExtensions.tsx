@@ -1,8 +1,8 @@
-import {h}                                            from 'preact';
-import {JSXInternal}                                  from 'preact/src/jsx';
-import prettyBytes                                    from 'pretty-bytes';
-import {pushNotification, settings, showNotification} from '..';
-import {Upload, UploadState}                          from './Upload';
+import {h}                                  from 'preact';
+import {JSXInternal}                        from 'preact/src/jsx';
+import prettyBytes                          from 'pretty-bytes';
+import {pushNotification, showNotification} from '..';
+import {Upload, UploadState}                from './Upload';
 
 export const UploadExtensions = {
     availableNotifications: [

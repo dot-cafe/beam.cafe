@@ -1,3 +1,5 @@
+import {UploadLike}          from '@state/models/types';
+import {UploadStream}        from '@state/models/UploadStream';
 import {Selectable}          from '@state/wrapper/Selectable';
 import {clearArray}          from '@utils/array';
 import {action, observable}  from 'mobx';
@@ -5,12 +7,12 @@ import {Upload, UploadState} from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
 
-class Uploads extends Selectable<Upload> {
-    @observable public readonly listedUploads: Array<Upload> = [];
+class Uploads extends Selectable<UploadLike> {
+    @observable public readonly listedUploads: Array<UploadLike> = [];
 
-    public getAvailableMassActions(uploads: Array<Upload>): Map<MassAction, number> {
+    public getAvailableMassActions(uploads: Array<UploadLike>): Map<MassAction, number> {
         const massActionsMap = new Map();
-        const calcMassActions = (name: MassAction, predicate: (v: Upload) => boolean): void => {
+        const calcMassActions = (name: MassAction, predicate: (v: UploadLike) => boolean): void => {
             const amount = uploads.filter(predicate).length;
 
             if (amount) {
@@ -26,12 +28,12 @@ class Uploads extends Selectable<Upload> {
     }
 
     @action
-    public performMassAction(uploads: Array<Upload>, massAction: MassAction): void {
+    public performMassAction(uploads: Array<UploadLike>, massAction: MassAction): void {
         switch (massAction) {
             case 'remove': {
 
                 this.remove(
-                    ...uploads.filter(v => v.simpleState === 'done')
+                    ...uploads.filter(v => v instanceof Upload && v.simpleState === 'done')
                         .map(value => value.id)
                 );
 
@@ -39,7 +41,6 @@ class Uploads extends Selectable<Upload> {
             }
             case 'pause': {
 
-                // TODO: What about confirmation?
                 for (const upload of uploads) {
                     if (upload.state === 'running') {
                         upload.update('paused');
@@ -68,19 +69,19 @@ class Uploads extends Selectable<Upload> {
     }
 
     @action
-    public performMassStatusUpdate(uploads: Array<Upload>, newState: UploadState): void {
+    public performMassStatusUpdate(uploads: Array<UploadLike>, newState: UploadState): void {
         for (const upload of uploads) {
             upload.update(newState);
         }
     }
 
     @action
-    public registerUpload(upload: Upload): void {
+    public registerUpload(upload: UploadLike): void {
         this.listedUploads.push(upload);
     }
 
     @action
-    public updateUploadState(upload: string | Upload, newState: UploadState): void {
+    public updateUploadState(upload: string | UploadLike, newState: UploadState): void {
         if (typeof upload === 'string') {
             const index = this.listedUploads.findIndex(v => {
                 return v.id === upload;
@@ -126,6 +127,15 @@ class Uploads extends Selectable<Upload> {
     public clear() {
         this.massAction('cancel');
         clearArray(this.listedUploads);
+    }
+
+    @action
+    public cancelStream(payload: string) {
+        for (const upload of this.listedUploads) {
+            if (upload instanceof UploadStream && upload.cancelStream(payload)) {
+                return;
+            }
+        }
     }
 }
 

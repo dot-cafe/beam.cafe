@@ -1,14 +1,17 @@
 import {ListedFile}          from '@state/models/ListedFile';
+import {UploadLike}          from '@state/models/types';
 import {Upload}              from '@state/models/Upload';
+import {UploadStream}        from '@state/models/UploadStream';
 import {MassAction, uploads} from '@state/stores/Uploads';
 import {bind}                from '@utils/preact-utils';
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
 import styles                from './UploadBox.module.scss';
 import {UploadItem}          from './UploadItem';
+import {UploadStreamItem}    from './UploadStreamItem';
 
 type Props = {
-    uploadItems: Array<Upload>;
+    uploadItems: Array<UploadLike>;
     listedFile: ListedFile;
 };
 
@@ -16,12 +19,12 @@ type Props = {
 export class UploadBox extends Component<Props> {
 
     @bind
-    massAction(ups: Array<Upload>, action: MassAction) {
+    massAction(ups: Array<UploadLike>, action: MassAction) {
         return () => uploads.performMassAction(ups, action);
     }
 
     @bind
-    selectItem(item: Upload, ev: MouseEvent) {
+    selectItem(item: UploadLike, ev: MouseEvent) {
         uploads.selectViaMouseEvent(ev, item, this.props.uploadItems);
     }
 
@@ -73,10 +76,15 @@ export class UploadBox extends Component<Props> {
 
                 <div className={styles.uploadList}>
                     {uploadItems.map(item =>
-                        <UploadItem key={item.id}
-                                    item={item}
-                                    selected={uploads.isSelected(item)}
-                                    onSelect={this.selectItem}/>
+                        item instanceof Upload ?
+                            <UploadItem key={item.id}
+                                        item={item}
+                                        selected={uploads.isSelected(item)}
+                                        onSelect={this.selectItem}/> :
+                            <UploadStreamItem key={item.id}
+                                              item={item as UploadStream}
+                                              selected={uploads.isSelected(item)}
+                                              onSelect={this.selectItem}/>
                     )}
                 </div>
             </div>

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import {UploadStream}       from '@state/models/UploadStream';
 import {uid}                from '@utils/uid';
 import GracefulWebSocket    from 'graceful-ws';
 import {action, observable} from 'mobx';
@@ -187,10 +188,43 @@ class Socket {
                     break;
                 }
 
-                uploads.registerUpload(
-                    new Upload(item, downloadId, `${env.API_ENDPOINT}/file/${downloadId}`)
+                const upload = new Upload({
+                    listedFile: item,
+                    id: downloadId,
+                    url: `${env.API_ENDPOINT}/file/${downloadId}`
+                });
+
+                uploads.registerUpload(upload);
+                break;
+            }
+            case 'stream-request': {
+                const {fileId, streamId, streamKey, range} = payload;
+
+                const item = files.listedFiles.find(
+                    value => value.id === fileId
                 );
 
+                if (!item) {
+                    console.warn('[WS] File not longer available...');
+                    break;
+                }
+
+                const stream = uploads.listedUploads.find(value => {
+                    return value instanceof UploadStream && value.streamKey === streamKey;
+                });
+
+                if (stream && range !== undefined) {
+                    (stream as UploadStream).consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
+                } else {
+                    const upload = new UploadStream(streamKey, item);
+                    upload.consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
+                    uploads.registerUpload(upload);
+                }
+
+                break;
+            }
+            case 'stream-cancelled': {
+                uploads.cancelStream(payload);
                 break;
             }
             case 'download-cancelled': {
@@ -202,7 +236,6 @@ class Socket {
             }
         }
     }
-
 }
 
 export const socket = new Socket();

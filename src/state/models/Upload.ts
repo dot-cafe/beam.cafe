@@ -1,10 +1,10 @@
-import {action, computed, observable} from 'mobx';
-import {settings, socket}             from '..';
-import {on}                           from '@utils/events';
-import {ListedFile}                   from './ListedFile';
-import {UploadExtensions}             from './UploadExtensions';
+import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
+import {on}                                from '@utils/events';
+import {action, computed, observable}      from 'mobx';
+import {settings, socket}                  from '..';
+import {ListedFile}                        from './ListedFile';
+import {UploadExtensions}                  from './UploadExtensions';
 
-export type SimpleUploadState = 'pending' | 'active' | 'done';
 export type UploadState = 'idle' |
     'paused' |
     'running' |
@@ -16,12 +16,18 @@ export type UploadState = 'idle' |
     'removed' |
     'connection-lost';
 
-export class Upload {
+export type UploadConstructorObject = {
+    listedFile: ListedFile;
+    id: string;
+    url: string;
+    range?: [number, number];
+};
+
+export class Upload implements UploadLike<UploadState> {
     public static readonly SPEED_BUFFER_SIZE = 10;
 
     public readonly listedFile: ListedFile;
     public readonly id: string;
-    public transferred = 0;
 
     @observable public state: UploadState = 'idle';
     @observable public progress = 0;
@@ -36,12 +42,14 @@ export class Upload {
 
     // Current request instance, byte-offset and if paused
     private xhr: XMLHttpRequest | null;
+    private transferred = 0;
 
-    constructor(listedFile: ListedFile, id: string, url: string) {
+    constructor({listedFile, id, url}: UploadConstructorObject) {
         this.listedFile = listedFile;
         this.id = id;
         this.url = url;
         this.xhr = null;
+
         this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
     }
 
@@ -64,7 +72,7 @@ export class Upload {
     }
 
     @computed
-    get simpleState(): SimpleUploadState {
+    get simpleState(): UploadLikeSimpleState {
         switch (this.state) {
             case 'awaiting-approval':
             case 'paused':
@@ -98,7 +106,7 @@ export class Upload {
                 break;
             }
             case 'paused': {
-                if (state !== 'running') {
+                if (simpleState !== 'active') {
                     return false;
                 }
 
@@ -162,9 +170,8 @@ export class Upload {
         }
     }
 
-
     @action
-    private start(): XMLHttpRequest {
+    protected start(): void {
         const {listedFile: {file}, url} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 
@@ -218,6 +225,5 @@ export class Upload {
         // Transfer bytes
         xhr.open('POST', url, true);
         xhr.send(file.slice(this.transferred, file.size, file.type));
-        return xhr;
     }
 }

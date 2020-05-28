@@ -1,5 +1,5 @@
 import {ListedFile}          from '@state/models/ListedFile';
-import {Upload}              from '@state/models/Upload';
+import {UploadLike}          from '@state/models/types';
 import {bind}                from '@utils/preact-utils';
 import {observer}            from 'mobx-react';
 import {Component, h}        from 'preact';
@@ -12,13 +12,13 @@ import styles                from './Uploads.module.scss';
 export class Uploads extends Component {
 
     @bind
-    massAction(ups: Array<Upload>, action: MassAction) {
+    massAction(ups: Array<UploadLike>, action: MassAction) {
         return () => uploads.performMassAction(ups, action);
     }
 
     render() {
         const {listedUploads} = uploads;
-        const groupedDownloads = new Map<ListedFile, Array<Upload>>();
+        const groupedDownloads = new Map<ListedFile, Array<UploadLike>>();
 
         for (const upload of listedUploads) {
             const fileName = upload.listedFile;

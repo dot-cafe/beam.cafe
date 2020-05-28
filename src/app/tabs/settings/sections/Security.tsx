@@ -74,6 +74,21 @@ export class Security extends Component {
                         receive a new download link.
                     </article>
                 </section>
+
+                <section>
+                    <header>
+                        <bc-icon name="online"/>
+                        <h3>Streaming</h3>
+                        <Switch state={settings.get('allowStreaming')}
+                                onChange={this.option('allowStreaming')}
+                                aria-describedby={label3}/>
+                    </header>
+
+                    <article id={label3}>
+                        Streaming allows your peers to request partial content of a file (e.g. streaming a video / audio file.)
+                        Disable this to force your peer to download the file.
+                    </article>
+                </section>
             </div>
         );
     }

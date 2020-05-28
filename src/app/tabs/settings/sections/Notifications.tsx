@@ -92,7 +92,6 @@ export class Notifications extends Component {
     render() {
         const notify = settings.get('notifications');
 
-        // TODO: Clean up base-styles mess
         return (
             <div className={cn(baseStyles.section, styles.notifications, {
                 [styles.enabled]: notify === true
