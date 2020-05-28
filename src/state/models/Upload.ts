@@ -1,7 +1,7 @@
 import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
 import {on}                                from '@utils/events';
 import {action, computed, observable}      from 'mobx';
-import {settings, socket, uploads}         from '..';
+import {settings, socket}                  from '..';
 import {ListedFile}                        from './ListedFile';
 import {UploadExtensions}                  from './UploadExtensions';
 
@@ -33,9 +33,9 @@ export class Upload implements UploadLike<UploadState> {
     @observable public progress = 0;
 
     // Amount of bytes transferred and current upload speed
-    private speedBufferIndex = 0;
-    private speedBufferFull = false;
-    private speedBuffer = new Uint32Array(Upload.SPEED_BUFFER_SIZE);
+    @observable private speedBufferIndex = 0;
+    @observable private speedBufferFull = false;
+    @observable private speedBuffer = new Uint32Array(Upload.SPEED_BUFFER_SIZE);
 
     // Download url
     private readonly url: string;
@@ -139,7 +139,6 @@ export class Upload implements UploadLike<UploadState> {
 
                 this.secureAbort();
                 socket.sendMessage('cancel-request', this.id);
-                uploads.remove(this.id);
                 this.progress = 1;
                 break;
             }
