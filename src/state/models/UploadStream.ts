@@ -2,6 +2,7 @@ import {ListedFile}                        from '@state/models/ListedFile';
 import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
 import {settings}                          from '@state/stores/Settings';
 import {socket}                            from '@state/stores/Socket';
+import {uploads}                           from '@state/stores/Uploads';
 import {on}                                from '@utils/events';
 import {uid}                               from '@utils/uid';
 import {action, computed, observable}      from 'mobx';
@@ -161,6 +162,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 }
 
                 // Cancel stream-key server-side
+                uploads.remove(this.id);
                 socket.sendMessage('cancel-stream', this.streamKey);
             }
         }
