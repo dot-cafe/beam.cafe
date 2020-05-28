@@ -18,7 +18,11 @@
         padding-bottom: 0;
     }
 
-    > button {
+    bc-icon {
+        @include size(12px);
+    }
+
+    button {
         @include margin-between-h(0.5em);
         @include button_middle;
         @include flex(row, center, space-between);
@@ -30,11 +34,7 @@
             margin-left: 0.5em;
         }
 
-        &:last-child {
-            @include button_color('red');
-        }
-
-        &:first-child {
+        &.addBtn {
             @include hover_effect(--c-primary);
 
             @include mq-phones {
@@ -49,6 +49,27 @@
                 > span {
                     margin-left: 0.5em;
                 }
+            }
+        }
+    }
+
+    .removeBtn {
+        @include flex(row, stretch);
+
+        > button {
+            @include button_middle;
+            @include button_color('red');
+            border-radius: 0;
+
+            &:first-child {
+                margin-right: 0;
+                border-radius: 10em 0 0 10em;
+            }
+
+            &:last-child {
+                margin-left: 0;
+                border-radius: 0 10em 10em 0;
+                border-left: 2px solid var(--c-red-accent);
             }
         }
     }

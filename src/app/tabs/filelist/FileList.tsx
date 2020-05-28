@@ -136,6 +136,11 @@ export class FileList extends Component<{}, State> {
     }
 
     @bind
+    clearSelection() {
+        files.clearSelection();
+    }
+
+    @bind
     selectItem(item: ListedFile, ev: MouseEvent) {
         files.selectViaMouseEvent(ev, item, this.sortedElements);
     }
@@ -194,16 +199,27 @@ export class FileList extends Component<{}, State> {
                 </div>
 
                 <div className={styles.actionBar}>
-                    <button onClick={this.chooseFiles}>
+                    <button onClick={this.chooseFiles}
+                            className={styles.addBtn}
+                            aria-label="Add files manually">
                         <bc-icon name="plus"/>
                         <span>Add Files</span>
                     </button>
 
                     {!isMobile && selectedAmount ?
-                        <button onClick={this.removeSelectedFiles}>
-                            <bc-icon name="trash"/>
-                            <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
-                        </button> : ''
+                        <div className={styles.removeBtn}>
+                            <button onClick={this.removeSelectedFiles}
+                                    aria-label="Remove files">
+                                <bc-icon name="trash"/>
+                                <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
+                            </button>
+
+                            <button onClick={this.clearSelection}
+                                    aria-label="Clear selection">
+                                <bc-icon name="delete"/>
+                                <bc-tooltip content="Clear Selection"/>
+                            </button>
+                        </div> : ''
                     }
                 </div>
             </div>
