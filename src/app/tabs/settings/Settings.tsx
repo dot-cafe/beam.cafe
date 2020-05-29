@@ -87,6 +87,7 @@ export const Settings: FunctionalComponent = () => {
                     key={i}
                     data-type={type}
                     tabIndex={active ? -1 : 0}
+                    aria-label={`Go to settings about ${name}`}
                     className={cn(styles.tabButton, {
                         [styles.active]: active
                     })}>

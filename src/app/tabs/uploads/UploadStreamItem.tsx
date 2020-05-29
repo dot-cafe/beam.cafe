@@ -81,8 +81,8 @@ export class UploadStreamItem extends Component<Props> {
                     </button> :
                     <button onClick={this.updateState('cancelled')}
                             className={cn(styles.btn, styles.redBtn)}
-                            aria-label="Cancel upload">
-                        <bc-tooltip content="Cancel Upload"/>
+                            aria-label="Cancel stream">
+                        <bc-tooltip content="Cancel stream"/>
                         <bc-icon name="delete"/>
                     </button>
                 }
