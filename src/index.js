@@ -48,5 +48,7 @@ if (env.NODE_ENV === 'development') {
     });
 }
 
+// See https://github.com/mobxjs/mobx-react-lite/#observer-batching
+require('mobx-react/batchingForReactDom');
 require('./app/web-components');
 require('./app');
