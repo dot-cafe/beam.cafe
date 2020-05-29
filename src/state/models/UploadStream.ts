@@ -2,7 +2,6 @@ import {ListedFile}                        from '@state/models/ListedFile';
 import {UploadLike, UploadLikeSimpleState} from '@state/models/types';
 import {settings}                          from '@state/stores/Settings';
 import {socket}                            from '@state/stores/Socket';
-import {uploads}                           from '@state/stores/Uploads';
 import {on}                                from '@utils/events';
 import {uid}                               from '@utils/uid';
 import {action, computed, observable}      from 'mobx';
@@ -53,11 +52,18 @@ export class UploadStream implements UploadLike<UploadStreamState> {
 
     @computed
     get simpleState(): UploadLikeSimpleState {
-        if (this.uploads.size) {
-            return 'active';
-        }
+        switch (this.state) {
+            case 'awaiting-approval':
+            case 'paused':
+            case 'idle':
+                return 'pending';
 
-        return 'done';
+            case 'running':
+                return 'active';
+
+            case 'cancelled':
+                return 'done';
+        }
     }
 
     @action
@@ -124,7 +130,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
     }
 
     update(status: UploadStreamState): boolean {
-        const {state} = this;
+        const {state, simpleState} = this;
 
         switch (status) {
             case 'awaiting-approval':
@@ -150,6 +156,9 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 break;
             }
             case 'cancelled': {
+                if (simpleState === 'done') {
+                    return false;
+                }
 
                 // Cancel all streams
                 for (const [key, req] of this.uploads) {
@@ -162,7 +171,6 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 }
 
                 // Cancel stream-key server-side
-                uploads.remove(this.id);
                 socket.sendMessage('cancel-stream', this.streamKey);
             }
         }

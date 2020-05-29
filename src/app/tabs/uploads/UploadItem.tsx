@@ -38,12 +38,7 @@ export class UploadItem extends Component<Props> {
 
     @bind
     cancel(): void {
-        const {item} = this.props;
-
-        if (item.simpleState === 'active' ||
-            item.simpleState === 'pending') {
-            item.update('cancelled');
-        }
+        this.props.item.update('cancelled');
     }
 
     @bind
