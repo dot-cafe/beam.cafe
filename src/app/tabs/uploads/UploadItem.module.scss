@@ -8,16 +8,17 @@
     padding: 0.35em 0.25em;
     --c-status: var(--c-primary);
     --c-status-accent: var(--c-primary-accent);
-    --c-focus: var(--c-focus-border-primary);
-    --checkbox-focus-color: var(--c-focus);
+    --c-status-focus: var(--c-focus-border-primary);
+
     --checkbox-color: var(--c-status);
     --checkbox-color-accent: var(--c-status-accent);
+    --checkbox-focus-color: var(--c-status-focus);
 
     .btn {
         @include size(1em);
         @include flex(row, center, center);
         @include hover_effect(--c-status, color);
-        @include focus_border(var(--c-focus));
+        @include focus_border(var(--c-status-focus));
         border-radius: 100%;
         border: 2px solid currentColor;
 
@@ -26,25 +27,23 @@
             fill: currentColor;
         }
 
-        &.abortBtn {
+        &.redBtn {
             @include hover_effect(--c-red, color);
             @include focus_border(var(--c-focus-border-red));
         }
 
-        &.removeBtn {
+        &.primaryBtn {
             @include hover_effect(--c-primary, color);
             @include focus_border(var(--c-focus-border-primary));
         }
     }
 
-    @mixin disabled_buttons {
-        .btn {
-            &:not(.removeBtn) {
-                pointer-events: none;
-                cursor: not-allowed;
-            }
+    &[data-simple-state='done'] {
+        grid-template: 1em / min-content 1fr min-content;
 
-            &.abortBtn {
+        .btn {
+            &.abortBtn,
+            &.pauseBtn {
                 display: none;
             }
         }
@@ -55,15 +54,10 @@
     &[data-state='paused'] {
         --c-status: var(--c-yellow);
         --c-status-accent: var(--c-yellow-accent);
-        --c-focus: var(--c-focus-border-yellow);
-    }
-
-    &[data-state='removed'] {
-        @include disabled_buttons;
+        --c-status-focus: var(--c-focus-border-yellow);
     }
 
     &[data-state='finished'] {
-        @include disabled_buttons;
         --c-status: var(--c-primary);
         --c-status-accent: var(--c-primary-accent);
     }
@@ -72,10 +66,9 @@
     &[data-state='errored'],
     &[data-state='connection-lost'],
     &[data-state='peer-cancelled'], {
-        @include disabled_buttons;
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
-        --c-focus: var(--c-focus-border-red);
+        --c-status-focus: var(--c-focus-border-red);
     }
 }
 

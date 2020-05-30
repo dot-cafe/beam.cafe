@@ -49,7 +49,7 @@ export class UploadItem extends Component<Props> {
 
     render() {
         const {item, selected} = this.props;
-        const {state, progress} = item;
+        const {state, simpleState, progress} = item;
 
         // Styling information
         const percentage = Math.round(progress * 10000) / 100;
@@ -75,6 +75,7 @@ export class UploadItem extends Component<Props> {
         return (
             <div className={styles.upload}
                  data-state={state}
+                 data-simple-state={simpleState}
                  role="listitem">
 
                 <Checkbox checked={selected}
@@ -97,13 +98,13 @@ export class UploadItem extends Component<Props> {
 
                 {item.simpleState === 'done' ?
                     <button onClick={this.remove}
-                            className={cn(styles.btn, styles.removeBtn)}
+                            className={cn(styles.btn, styles.primaryBtn)}
                             aria-label="Remove upload">
                         <bc-tooltip content="Remove"/>
                         <bc-icon name="trash"/>
                     </button> :
                     <button onClick={this.cancel}
-                            className={cn(styles.btn, styles.abortBtn)}
+                            className={cn(styles.btn, styles.redBtn)}
                             aria-label="Cancel upload">
                         <bc-tooltip content="Cancel Upload"/>
                         <bc-icon name="delete"/>

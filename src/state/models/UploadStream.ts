@@ -105,7 +105,6 @@ export class UploadStream implements UploadLike<UploadStreamState> {
              * While requesting the stream the transfer got cancelled.
              */
             if (xhr.readyState === xhr.HEADERS_RECEIVED && xhr.status === 204) {
-                console.log('cancel early');
                 xhr.abort();
             }
         });

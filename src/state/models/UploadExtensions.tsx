@@ -70,7 +70,7 @@ export const UploadExtensions = {
             case 'removed':
                 return 'File removed';
             case 'cancelled':
-                return 'Cancelled by you';
+                return 'Cancelled by You';
             case 'connection-lost':
                 return 'Connection to server lost.';
             case 'peer-cancelled':

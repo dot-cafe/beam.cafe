@@ -1,3 +1,5 @@
+// TODO: Most of the styles are copy-pasted, refactor this!
+
 .uploadStream {
     font-size: 1.5em;
     display: grid;
@@ -6,18 +8,23 @@
     border-bottom: 1px solid var(--c-background-secondary);
     align-items: center;
     padding: 0.35em 0.25em;
-    --checkbox-focus-color: var(--c-focus-border-green);
-    --checkbox-color: var(--c-green);
-    --checkbox-color-accent: var(--c-green-accent);
+    --c-status: var(--c-green);
+    --c-status-accent: var(--c-green-accent);
+    --c-status-focus: var(--c-focus-border-green);
+
     --pause-color: var(--c-yellow);
     --pause-color-accent: var(--c-yellow-accent);
     --pause-color-focus: var(--c-yellow-accent);
+
+    --checkbox-color: var(--c-status);
+    --checkbox-color-accent: var(--c-status-accent);
+    --checkbox-focus-color: var(--c-status-focus);
 
     .btn {
         @include size(1em);
         @include flex(row, center, center);
         @include hover_effect(--c-status, color);
-        @include focus_border(var(--c-focus));
+        @include focus_border(var(--c-status-focus));
         border-radius: 100%;
         border: 2px solid currentColor;
 
@@ -46,17 +53,26 @@
         --pause-color: var(--c-primary);
         --pause-color-accent: var(--c-primary-accent);
         --pause-color-focus: var(--c-focus-border-primary);
+        --c-status: var(--c-yellow);
+        --c-status-accent: var(--c-yellow-accent);
+        --c-status-focus: var(--c-focus-border-yellow);
     }
-
 
     &[data-state='cancelled'] {
         grid-template: 1em / min-content 1fr min-content;
+        --c-status: var(--c-red);
+        --c-status-accent: var(--c-red-accent);
+        --c-status-focus: var(--c-focus-border-red);
+    }
+
+    &[data-state='running'] .progressBar::before {
+        animation-play-state: running;
     }
 }
 
 .progressBar {
     @include flex(row, center, center);
-    border: 2px solid var(--c-green); // A border causes a gap
+    border: 2px solid var(--c-status); // A border causes a gap
     position: relative;
     border-radius: 50em;
     height: 1em;
@@ -83,7 +99,17 @@
         border-radius: 50em;
         z-index: -1;
         clip-path: inset(0 calc(100% - var(--progress)) 0 0);
-        background: striped_background(var(--c-green), var(--c-green-accent), 8px);
+        background: striped_background(var(--c-status), var(--c-status-accent), 6px);
+        background-size: 200% 100%;
         transition: clip-path 0.3s;
+
+        @include animate('45s linear infinite paused') {
+            from {
+                background-position: 100% 0;
+            }
+            to {
+                background-position: 0 0;
+            }
+        }
     }
 }

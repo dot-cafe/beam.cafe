@@ -39,7 +39,26 @@ export class UploadStreamItem extends Component<Props> {
     render() {
         const {item, selected} = this.props;
         const {state, progress} = item;
-        const transferred = progress ? `${prettyBytes(progress)} transferred` : 'Pending Stream...';
+        let text;
+
+        switch (state) {
+            case 'idle':
+            case 'awaiting-approval': {
+                text = 'Auto-pause is activated. Press start to initiate upload.';
+                break;
+            }
+            case 'running': {
+                text = progress ? `${prettyBytes(progress)} Transferred` : 'Pending Stream...';
+                break;
+            }
+            case 'paused': {
+                text = progress ? `Stream paused (${prettyBytes(progress)} Transferred)` : 'Stream paused';
+                break;
+            }
+            case 'cancelled': {
+                text = progress ? `Stream cancelled (${prettyBytes(progress)} Transferred)` : 'Stream cancelled';
+            }
+        }
 
         return (
             <div className={styles.uploadStream}
@@ -52,7 +71,7 @@ export class UploadStreamItem extends Component<Props> {
 
                 <div className={styles.progressBar}
                      aria-label="Active uploads">
-                    <p><span>{transferred}</span></p>
+                    <p><span>{text}</span></p>
                 </div>
 
                 {
