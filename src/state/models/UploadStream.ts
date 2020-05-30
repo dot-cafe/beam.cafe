@@ -77,7 +77,6 @@ export class UploadStream implements UploadLike<UploadStreamState> {
         }
 
         const {readyState} = req;
-        this.uploads.delete(key);
 
         if (readyState > XMLHttpRequest.UNSENT && readyState < XMLHttpRequest.DONE) {
             req.abort();
@@ -100,10 +99,22 @@ export class UploadStream implements UploadLike<UploadStreamState> {
         // See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/timeout
         xhr.timeout = 0;
 
+        on(xhr, 'readystatechange', () => {
+
+            /**
+             * While requesting the stream the transfer got cancelled.
+             */
+            if (xhr.readyState === xhr.HEADERS_RECEIVED && xhr.status === 204) {
+                console.log('cancel early');
+                xhr.abort();
+            }
+        });
+
         let lastLoad = 0;
         on(xhr.upload, [
             'progress',
             'error',
+            'abort',
             'load'
         ], (e: ProgressEvent) => {
             switch (e.type) {
@@ -117,6 +128,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
 
                 // Remove on finish
                 case 'error':
+                case 'abort':
                 case 'load': {
                     this.uploads.delete(id);
                 }
@@ -161,9 +173,8 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 }
 
                 // Cancel all streams
-                for (const [key, req] of this.uploads) {
+                for (const [, req] of this.uploads) {
                     const {readyState} = req;
-                    this.uploads.delete(key);
 
                     if (readyState > XMLHttpRequest.UNSENT && readyState < XMLHttpRequest.DONE) {
                         req.abort();
