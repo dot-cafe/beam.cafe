@@ -193,7 +193,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 this.consume(range, url, key);
             }
 
-            this.pendingUploads.clear();
+            this.pendingUploads.unbind();
         }
 
         return true;
