@@ -1,28 +1,27 @@
 import {observer}    from 'mobx-react';
-import {h}           from 'preact';
+import {Fragment, h} from 'preact';
 import {JSXInternal} from 'preact/src/jsx';
 import {socket}      from '../state';
 import styles        from './StatusBar.module.scss';
 
 export const StatusBar = observer(() => {
     const {connectionState} = socket;
-    let content: Array<JSXInternal.Element> = [];
+    let content: JSXInternal.Element;
 
-    /* eslint-disable react/jsx-key */
     switch (connectionState) {
         case 'connected': {
-            content = [
-                <bc-icon name="connected"/>,
+            content = <Fragment>
+                <bc-icon name="connected"/>
                 <span>Connected!</span>
-            ];
+            </Fragment>;
 
             break;
         }
         case 'disconnected': {
-            content = [
-                <bc-icon name="disconnected"/>,
+            content = <Fragment>
+                <bc-icon name="disconnected"/>
                 <span>Connecting...</span>
-            ];
+            </Fragment>;
 
             break;
         }
