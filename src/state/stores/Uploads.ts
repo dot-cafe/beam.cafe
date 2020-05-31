@@ -81,23 +81,6 @@ class Uploads extends Selectable<UploadLike> {
     }
 
     @action
-    public updateUploadState(upload: string | UploadLike, newState: UploadState): void {
-        if (typeof upload === 'string') {
-            const index = this.listedUploads.findIndex(v => {
-                return v.id === upload;
-            });
-
-            if (index === -1) {
-                throw new Error('Failed to update upload status.');
-            }
-
-            upload = this.listedUploads[index];
-        }
-
-        this.performMassStatusUpdate([upload], newState);
-    }
-
-    @action
     public remove(...ids: Array<string>): void {
         for (let i = 0; i < this.listedUploads.length; i++) {
             const upload = this.listedUploads[i];

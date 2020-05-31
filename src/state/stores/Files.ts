@@ -28,10 +28,6 @@ class Files extends Selectable<ListedFile> {
         return this.listedFiles.length === 0;
     }
 
-    public byId(id: string): ListedFile | null {
-        return this.listedFiles.find(value => value.id === id) || null;
-    }
-
     public openDialog(): Promise<boolean> {
         return chooseFiles().then(list => this.add(...Array.from(list)))
             .then(() => true)
@@ -59,8 +55,8 @@ class Files extends Selectable<ListedFile> {
             });
         }
 
-        // Request first set of download-keys
-        socket.sendMessage('download-keys', keysToRequest);
+        // Request first set of register-files
+        socket.sendMessage('register-files', keysToRequest);
 
         // Show toast if files were skipped
         if (skipped > 0) {
@@ -72,34 +68,37 @@ class Files extends Selectable<ListedFile> {
     }
 
     @action
-    public removeFile(id: string) {
-        const file = this.byId(id);
+    public remove(...files: Array<ListedFile>) {
+        const ids = [];
 
-        if (file) {
-            file.remove();
+        for (const file of files) {
 
-            // Cancel uploads
-            const relatedUploads = uploads.listedUploads.filter(u => u.listedFile === file);
-            for (const upload of relatedUploads) {
-                if (upload.state === 'paused' ||
-                    upload.state === 'running' ||
-                    upload.state === 'idle' ||
-                    upload.state === 'awaiting-approval') {
-                    uploads.updateUploadState(upload.id, 'removed');
-                }
-            }
+            // File is about to get removed
+            file.status = 'removing';
 
             setTimeout(() => {
-                const index = this.listedFiles.findIndex(value => value.id === id);
+                const index = this.listedFiles.findIndex(value => value.id === file.id);
                 this.unselect(file);
                 this.listedFiles.splice(index, 1);
             }, remainingWaitingTime(file.updated));
-        } else {
-            console.warn('File not registered yet.');
+
+            // Check if file was registered
+            if (file.id) {
+                ids.push(file.id);
+
+                // Cancel uploads
+                uploads.performMassStatusUpdate(
+                    uploads.listedUploads.filter(
+                        u => u.listedFile === file && u.simpleState !== 'done'
+                    ), 'removed'
+                );
+            }
         }
+
+        socket.sendMessage('remove-files', ids);
     }
 
-    public refresh(files: Array<ListedFile> = this.listedFiles) {
+    public refresh(...files: Array<ListedFile>) {
         const partials = files
             .filter(v => v.status === 'ready')
             .map(v => {
@@ -107,7 +106,15 @@ class Files extends Selectable<ListedFile> {
                 return pick(v.file, ['name', 'size']);
             });
 
-        socket.sendMessage('download-keys', partials);
+        // Cancel uploads
+        uploads.performMassStatusUpdate(
+            uploads.listedUploads.filter(
+                u => files.includes(u.listedFile) && u.simpleState !== 'done'
+            ), 'cancelled'
+        );
+
+        // Request new keys
+        socket.sendMessage('register-files', partials);
     }
 
     @action
@@ -119,7 +126,7 @@ class Files extends Selectable<ListedFile> {
 
             if (target) {
                 setTimeout(
-                    () => target.setId(id),
+                    () => target.activate(id),
                     remainingWaitingTime(target.updated)
                 );
             } else {

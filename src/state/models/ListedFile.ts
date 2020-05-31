@@ -1,6 +1,4 @@
-import {pick}               from '@utils/pick';
 import {action, observable} from 'mobx';
-import {socket}             from '../';
 
 export type ListedFileStatus = 'loading' | 'ready' | 'removing';
 
@@ -27,27 +25,8 @@ export class ListedFile {
     }
 
     @action
-    public remove(): void {
-        this.updated = performance.now();
-        this.status = 'removing';
-
-        // Cancel download-request
-        socket.sendMessage('remove-file', this.id);
-    }
-
-    @action
-    public setId(id: string): void {
-        this.updated = performance.now();
+    public activate(id: string): void {
         this.status = 'ready';
         this.id = id;
-    }
-
-    @action
-    public refresh(): void {
-        this.status = 'loading';
-
-        socket.sendMessage('download-keys', [
-            pick(this.file, ['name', 'size'])
-        ]);
     }
 }

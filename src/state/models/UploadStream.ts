@@ -181,7 +181,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 }
 
                 // Cancel stream-key server-side
-                socket.sendMessage('cancel-stream', this.streamKey);
+                socket.sendMessage('cancel-streams', [this.streamKey]);
             }
         }
 
@@ -193,7 +193,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 this.consume(range, url, key);
             }
 
-            this.pendingUploads.unbind();
+            this.pendingUploads.clear();
         }
 
         return true;

@@ -35,15 +35,11 @@ export const ActionBar: FunctionalComponent = observer(() => {
     };
 
     const removeSelectedFiles = () => preConfirmAction(() => {
-        for (const item of files.selectedItems) {
-            if (item.id) {
-                files.removeFile(item.id);
-            }
-        }
+        files.remove(...files.selectedItems);
     }, 'Remove');
 
     const refreshSelectedFiles = () => preConfirmAction(() => {
-        files.refresh(files.selectedItems);
+        files.refresh(...files.selectedItems);
     }, 'Refresh');
 
     const {selectedItems, selectedAmount} = files;

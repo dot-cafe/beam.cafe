@@ -53,16 +53,16 @@ export class FileItem extends Component<Props> {
 
     @bind
     refresh() {
-        this.props.item.refresh();
+        files.refresh(this.props.item);
     }
 
     @bind
     remove() {
-        const {id} = this.props.item;
+        const {item} = this.props;
 
-        if (id) {
+        if (item) {
             const relatedUploads = uploads.listedUploads.filter(
-                v => v.listedFile.id === id && v.simpleState !== 'done'
+                v => v.listedFile === item && v.simpleState !== 'done'
             ).length;
 
             // Tell the user that uploads are about to get cancelled
@@ -85,11 +85,11 @@ export class FileItem extends Component<Props> {
                     ]
                 }).then(value => {
                     if (value === 1) {
-                        files.removeFile(id);
+                        files.remove(item);
                     }
                 });
             } else {
-                files.removeFile(id);
+                files.remove(item);
             }
         }
     }

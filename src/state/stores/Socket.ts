@@ -166,7 +166,7 @@ class Socket {
                 this.sessionKey = payload;
 
                 // Refresh keys, cancel all uploads and sync settings with server
-                files.refresh();
+                files.refresh(...files.listedFiles);
                 settings.syncServer();
                 uploads.massStatusUpdate('connection-lost');
                 this.flushMessageQueue();
@@ -228,7 +228,12 @@ class Socket {
                 break;
             }
             case 'download-cancelled': {
-                uploads.updateUploadState(payload, 'peer-cancelled');
+                const target = uploads.listedUploads.find(v => v.id === payload);
+
+                if (target) {
+                    uploads.performMassStatusUpdate([target], 'peer-cancelled');
+                }
+
                 break;
             }
             default: {

@@ -121,7 +121,6 @@ export class Upload implements UploadLike<UploadState> {
                 this.start();
                 break;
             }
-            case 'removed':
             case 'peer-cancelled':
             case 'connection-lost': {
                 if (simpleState === 'done') {
@@ -132,13 +131,15 @@ export class Upload implements UploadLike<UploadState> {
                 this.progress = 1;
                 break;
             }
+            case 'removed':
             case 'cancelled': {
                 if (simpleState === 'done') {
                     return false;
                 }
 
+                // TODO: This is pretty inefficient in case of mass-actions
+                socket.sendMessage('cancel-requests', [this.id]);
                 this.secureAbort();
-                socket.sendMessage('cancel-request', this.id);
                 this.progress = 1;
                 break;
             }
