@@ -1,4 +1,4 @@
-import {SearchBar}                  from '@components/SearchBar';
+import {SearchBar}                  from './SearchBar';
 import {DialogBox}                  from '@overlays/DialogBox';
 import {files, uploads}             from '@state/index';
 import {ListedFile}                 from '@state/models/ListedFile';
