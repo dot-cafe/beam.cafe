@@ -166,7 +166,7 @@ class Socket {
                 this.sessionKey = payload;
 
                 // Refresh keys, cancel all uploads and sync settings with server
-                files.refreshAll();
+                files.refresh();
                 settings.syncServer();
                 uploads.massStatusUpdate('connection-lost');
                 this.flushMessageQueue();

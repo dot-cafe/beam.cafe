@@ -13,8 +13,11 @@
         @include size(12px);
     }
 
-    button {
+    > * {
         @include margin-between-h(0.5em);
+    }
+
+    button {
         @include button_middle;
         @include flex(row, center, space-between);
         border-radius: 100em;
@@ -23,6 +26,15 @@
         > span {
             font-size: 0.9em;
             margin-left: 0.5em;
+        }
+
+        &[disabled] {
+            @include button_disabled;
+        }
+
+        &.refreshBtn {
+            @include hover_effect(--c-green);
+            @include focus_border(var(--c-focus-border-green));
         }
 
         &.addBtn {
@@ -48,7 +60,6 @@
         @include flex(row, stretch);
 
         > button {
-            @include button_middle;
             @include button_color('red');
             border-radius: 0;
 
@@ -61,6 +72,10 @@
                 margin-left: 0;
                 border-radius: 0 10em 10em 0;
                 border-left: 2px solid var(--c-red-accent);
+            }
+
+            &[disabled]:last-child {
+                border-color: transparent;
             }
         }
     }

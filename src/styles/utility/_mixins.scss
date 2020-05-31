@@ -37,8 +37,8 @@
 @mixin button_disabled {
     pointer-events: none;
     cursor: not-allowed;
-    background: var(--c-background-secondary);
-    color: var(--c-text-disabled);
+    background: var(--c-background-secondary) !important;
+    color: var(--c-text-disabled) !important;
 }
 
 @mixin hover_effect($color, $props...) {

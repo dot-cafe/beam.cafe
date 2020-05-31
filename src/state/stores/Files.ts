@@ -1,10 +1,11 @@
 import {Toast}                        from '@overlays/Toast';
 import {Selectable}                   from '@state/wrapper/Selectable';
-import {action, computed, observable} from 'mobx';
 import {chooseFiles}                  from '@utils/choose-files';
+import {pick}                         from '@utils/pick';
+import {action, computed, observable} from 'mobx';
+import {socket}                       from '../';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
-import {socket}                       from '../';
 
 export type Keys = Array<{
     id: string;
@@ -98,6 +99,17 @@ class Files extends Selectable<ListedFile> {
         }
     }
 
+    public refresh(files: Array<ListedFile> = this.listedFiles) {
+        const partials = files
+            .filter(v => v.status === 'ready')
+            .map(v => {
+                v.status = 'loading';
+                return pick(v.file, ['name', 'size']);
+            });
+
+        socket.sendMessage('download-keys', partials);
+    }
+
     @action
     public activate(idPairs: Keys) {
         for (const {name, id} of idPairs) {
@@ -114,17 +126,6 @@ class Files extends Selectable<ListedFile> {
                 console.warn(`[LF] File ${name} not longer available`);
             }
         }
-    }
-
-    public refreshAll() {
-        const files = this.listedFiles
-            .filter(v => v.status === 'loading')
-            .map(v => ({
-                name: v.file.name,
-                size: v.file.size
-            }));
-
-        socket.sendMessage('download-keys', files);
     }
 
     @action

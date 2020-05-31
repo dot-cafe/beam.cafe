@@ -1,10 +1,11 @@
+import {pick}               from '@utils/pick';
 import {action, observable} from 'mobx';
 import {socket}             from '../';
 
 export type ListedFileStatus = 'loading' | 'ready' | 'removing';
 
 export class ListedFile {
-    @observable public status: ListedFileStatus = 'loading';
+    @observable private _status: ListedFileStatus = 'loading';
     @observable public updated: number = performance.now();
     @observable public id: null | string = null;
     public readonly index: number;
@@ -14,6 +15,15 @@ export class ListedFile {
     constructor(file: File) {
         this.file = file;
         this.index = ListedFile.counter++;
+    }
+
+    get status() {
+        return this._status;
+    }
+
+    set status(status) {
+        this.updated = performance.now();
+        this._status = status;
     }
 
     @action
@@ -30,5 +40,14 @@ export class ListedFile {
         this.updated = performance.now();
         this.status = 'ready';
         this.id = id;
+    }
+
+    @action
+    public refresh(): void {
+        this.status = 'loading';
+
+        socket.sendMessage('download-keys', [
+            pick(this.file, ['name', 'size'])
+        ]);
     }
 }

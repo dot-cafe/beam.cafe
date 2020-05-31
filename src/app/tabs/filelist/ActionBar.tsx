@@ -7,46 +7,48 @@ import {isMobile}               from '../../browserenv';
 import styles                   from './ActionBar.module.scss';
 
 export const ActionBar: FunctionalComponent = observer(() => {
-    const removeSelectedFiles = () => {
-        const {selectedItems} = files;
-
-        const relatedUploads = uploads.listedUploads.filter(
-            v => v.simpleState !== 'done' && selectedItems.includes(v.listedFile)
-        ).length;
-
-        const remove = () => {
-            for (const item of selectedItems) {
-                if (item.id) {
-                    files.removeFile(item.id);
-                }
-            }
-        };
+    const preConfirmAction = (cb: () => void, confirm = 'Okay', cancel = 'Cancel') => {
+        const relatedUploads = !!uploads.listedUploads.find(
+            v => v.simpleState !== 'done' && files.isSelected(v.listedFile)
+        );
 
         // Tell the user that uploads are about to get cancelled
-        if (relatedUploads > 0) {
+        if (relatedUploads) {
             DialogBox.instance.open({
                 icon: 'exclamation-mark',
                 title: 'Uh Oh! Are you sure about that?',
-                description: relatedUploads > 1 ?
-                    `There are currently ${relatedUploads} uploads related to the selected files. Continue?` :
-                    'One of the files selected is currently being uploaded. Continue?',
+                description: 'This actions will cause all related streams and uploads to get cancelled, are you sure?',
                 buttons: [
                     {
                         type: 'success',
-                        text: 'Keep File'
+                        text: cancel
                     },
                     {
                         type: 'error',
-                        text: 'Remove'
+                        text: confirm
                     }
                 ]
-            }).then(value => value === 1 && remove());
+            }).then(value => value === 1 && cb());
         } else {
-            remove();
+            cb();
         }
     };
 
-    const {selectedAmount} = files;
+    const removeSelectedFiles = () => preConfirmAction(() => {
+        for (const item of files.selectedItems) {
+            if (item.id) {
+                files.removeFile(item.id);
+            }
+        }
+    }, 'Remove');
+
+    const refreshSelectedFiles = () => preConfirmAction(() => {
+        files.refresh(files.selectedItems);
+    }, 'Refresh');
+
+    const {selectedItems, selectedAmount} = files;
+    const loading = !!selectedItems.find(value => value.status !== 'ready');
+
     return (
         <div className={styles.actionBar}>
             <button onClick={() => files.openDialog()}
@@ -56,16 +58,28 @@ export const ActionBar: FunctionalComponent = observer(() => {
                 <span>Add Files</span>
             </button>
 
+            {selectedAmount ?
+                <button onClick={refreshSelectedFiles}
+                        className={styles.refreshBtn}
+                        aria-label="Refresh Access Key"
+                        disabled={loading}>
+                    <bc-icon name="reset"/>
+                    <span>Refresh {selectedAmount > 1 ? `${selectedAmount} keys` : 'Key'}</span>
+                </button> : ''
+            }
+
             {!isMobile && selectedAmount ?
                 <div className={styles.removeBtn}>
                     <button onClick={removeSelectedFiles}
-                            aria-label="Remove files">
+                            aria-label="Remove files"
+                            disabled={loading}>
                         <bc-icon name="trash"/>
-                        <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
+                        <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'File'}</span>
                     </button>
 
                     <button onClick={() => files.clearSelection()}
-                            aria-label="Clear selection">
+                            aria-label="Clear selection"
+                            disabled={loading}>
                         <bc-icon name="delete"/>
                         <bc-tooltip content="Clear Selection"/>
                     </button>

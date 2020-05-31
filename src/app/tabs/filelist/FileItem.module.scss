@@ -89,10 +89,17 @@
 
         &.shareBtn {
             --color: var(--c-primary);
+            @include focus_border(var(--c-focus-border-primary));
         }
 
         &.removeBtn {
             --color: var(--c-red);
+            @include focus_border(var(--c-focus-border-red));
+        }
+
+        &.refreshBtn {
+            --color: var(--c-green);
+            @include focus_border(var(--c-focus-border-green));
         }
     }
 

@@ -1,6 +1,6 @@
+import {cn}                     from '@utils/preact-utils';
 import {FunctionalComponent, h} from 'preact';
 import {JSXInternal}            from 'preact/src/jsx';
-import {cn}                     from '@utils/preact-utils';
 import styles                   from './ContextMenu.module.scss';
 import {Popper}                 from './Popper';
 
@@ -8,20 +8,20 @@ export type ContextMenuButtons = Array<{
     id: string;
     text: string;
     icon?: string;
+    onClick?: () => void;
 }>;
 
 type Props = {
     className?: string;
-    onAction: (id: string) => void;
     content: ContextMenuButtons;
     button: JSXInternal.Element;
 };
 
+// TODO: Close on click?
 export const ContextMenu: FunctionalComponent<Props> = (
     {
         button,
         content,
-        onAction,
         className = ''
     }
 ) => (
@@ -31,7 +31,7 @@ export const ContextMenu: FunctionalComponent<Props> = (
                 <div className={styles.buttonList}>{
                     content.map((value, index) => (
                         <button key={index}
-                                onClick={() => onAction(value.id)}
+                                onClick={() => value.onClick?.()}
                                 aria-label={`Context menu: ${value.text}`}>
                             {value.icon ? <bc-icon name={value.icon}/> : ''}
                             <span>{value.text}</span>

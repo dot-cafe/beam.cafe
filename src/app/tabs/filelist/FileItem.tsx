@@ -1,17 +1,17 @@
 import {Checkbox}        from '@components/Checkbox';
-import {observer}        from 'mobx-react';
-import {Component, h}    from 'preact';
-import prettyBytes       from 'pretty-bytes';
+import {ContextMenu}     from '@components/ContextMenu';
+import {DialogBox}       from '@overlays/DialogBox';
+import {Toast}           from '@overlays/Toast';
 import {files, uploads}  from '@state/index';
 import {ListedFile}      from '@state/models/ListedFile';
 import {copyToClipboard} from '@utils/copy-to-clipboard';
 import {bind, cn}        from '@utils/preact-utils';
+import {observer}        from 'mobx-react';
+import {Component, h}    from 'preact';
+import prettyBytes       from 'pretty-bytes';
 import {isMobile}        from '../../browserenv';
-import {ContextMenu}     from '@components/ContextMenu';
-import {DialogBox}       from '@overlays/DialogBox';
-import {Toast}           from '@overlays/Toast';
-import {FileStatus}      from './FileStatus';
 import styles            from './FileItem.module.scss';
+import {FileStatus}      from './FileStatus';
 
 type Props = {
     item: ListedFile;
@@ -52,7 +52,12 @@ export class FileItem extends Component<Props> {
     }
 
     @bind
-    removeFile() {
+    refresh() {
+        this.props.item.refresh();
+    }
+
+    @bind
+    remove() {
         const {id} = this.props.item;
 
         if (id) {
@@ -90,16 +95,6 @@ export class FileItem extends Component<Props> {
     }
 
     @bind
-    contextMenuOption(id: string) {
-        switch (id) {
-            case 'share':
-                return this.share();
-            case 'remove':
-                return this.removeFile();
-        }
-    }
-
-    @bind
     toggleSelect(_: boolean, ev: MouseEvent) {
         const {onSelect, item} = this.props;
         onSelect(item, ev);
@@ -130,27 +125,39 @@ export class FileItem extends Component<Props> {
 
                 {isMobile ? (
                     <ContextMenu className={styles.menuButton}
-                                 onAction={this.contextMenuOption}
                                  button={<bc-icon name="more" className={styles.menuButton}/>}
                                  content={[{
+                                     id: 'refresh',
+                                     icon: 'sync',
+                                     text: 'Refresh Key',
+                                     onClick: this.refresh
+                                 }, {
                                      id: 'share',
                                      icon: navigator.share && isMobile ? 'share' : 'copy',
-                                     text: navigator.share && isMobile ? 'Share' : 'Copy Link'
+                                     text: navigator.share && isMobile ? 'Share' : 'Copy Link',
+                                     onClick: this.share
                                  }, {
                                      id: 'remove',
                                      icon: 'trash',
-                                     text: 'Remove'
+                                     text: 'Remove',
+                                     onClick: this.remove
                                  }]}/>
                 ) : (
                     <div className={styles.actionsBox}>
+                        <button className={styles.refreshBtn}
+                                onClick={this.refresh}>
+                            <bc-tooltip content="Refresh Access Key"/>
+                            <bc-icon name="sync"/>
+                        </button>
+
                         <button className={styles.shareBtn}
                                 onClick={this.share}>
-                            <bc-tooltip content={'Copy Link to Clipboard'}/>
+                            <bc-tooltip content="Copy Link to Clipboard"/>
                             <bc-icon name="copy"/>
                         </button>
 
                         <button className={styles.removeBtn}
-                                onClick={this.removeFile}>
+                                onClick={this.remove}>
                             <bc-tooltip content="Remove File"/>
                             <bc-icon name="trash"/>
                         </button>
