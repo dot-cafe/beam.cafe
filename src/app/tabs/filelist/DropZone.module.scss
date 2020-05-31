@@ -17,7 +17,7 @@
         > button {
             @include flex(row, center);
             @include button_large;
-            @include hover_effect(--c-primary);
+            @include button_color('primary');
             margin-top: 0.35em;
             pointer-events: all;
             border-radius: 5em;

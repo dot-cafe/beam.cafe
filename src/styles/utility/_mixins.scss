@@ -14,7 +14,6 @@
     @include font(600, 1em);
     border-radius: 0.2em;
     padding: 0.5em 0.85em;
-    background: var(--c-primary);
     color: var(--c-text-secondary);
 }
 
@@ -22,7 +21,6 @@
     @include font(600, 1.05em);
     border-radius: 0.15em;
     padding: 0.5em 0.85em;
-    background: var(--c-primary);
     color: var(--c-text-secondary);
 }
 
@@ -69,17 +67,19 @@
     }
 }
 
-@mixin focus_border($color) {
+@mixin focus_border($var) {
     &:focus {
-        box-shadow: 0 0 0 2px $color;
+        box-shadow: 0 0 0 2px var($var);
     }
 }
 
-@mixin button_color($name) {
-    background: var(#{'--c-' + $name});
+@mixin button_color($name, $target: 'background') {
+    #{$target}: var(#{'--c-' + $name});
+    transition: all 0.3s;
 
-    &:hover {
-        background: var(#{'--c-' + $name + '-accent'});
+    &:hover,
+    &:active {
+        #{$target}: var(#{'--c-' + $name + '-accent'});
     }
 
     &:focus {

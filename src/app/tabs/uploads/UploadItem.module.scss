@@ -17,8 +17,6 @@
     .btn {
         @include size(1em);
         @include flex(row, center, center);
-        @include hover_effect(--c-status, color);
-        @include focus_border(var(--c-status-focus));
         border-radius: 100%;
         border: 2px solid currentColor;
 
@@ -28,13 +26,15 @@
         }
 
         &.redBtn {
-            @include hover_effect(--c-red, color);
-            @include focus_border(var(--c-focus-border-red));
+            @include button_color('red', 'color');
         }
 
         &.primaryBtn {
-            @include hover_effect(--c-primary, color);
-            @include focus_border(var(--c-focus-border-primary));
+            @include button_color('primary', 'color');
+        }
+
+        &.yellowBtn {
+            @include button_color('yellow', 'color');
         }
     }
 

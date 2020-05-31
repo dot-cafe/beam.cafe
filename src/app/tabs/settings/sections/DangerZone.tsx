@@ -2,9 +2,11 @@ import {Toast}                            from '@overlays/Toast';
 import {files, settings, socket, uploads} from '@state/index';
 import {bind, cn}                         from '@utils/preact-utils';
 import {uids}                             from '@utils/uid';
+import {observer}                         from 'mobx-react';
 import {Component, h}                     from 'preact';
 import baseStyles                         from './_base.module.scss';
 
+@observer
 export class DangerZone extends Component {
 
     @bind

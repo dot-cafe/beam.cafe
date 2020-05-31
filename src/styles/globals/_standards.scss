@@ -19,6 +19,10 @@ button {
 
 button {
     cursor: pointer;
+
+    @include disabled {
+        @include button_disabled;
+    }
 }
 
 code {

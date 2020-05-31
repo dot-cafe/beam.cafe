@@ -71,20 +71,20 @@
     > button {
         @include margin-between-h(0.5em);
         @include flex(row, center);
-        @include hover_effect(--c-primary);
         @include button_small;
+        @include button_color('primary');
         padding: 0.7em 1.25em;
         font-size: 0.9em;
 
         $types: (
-                ('success', --c-primary),
-                ('warning', --c-yellow),
-                ('error', --c-red)
+                ('success', 'primary'),
+                ('warning', 'yellow'),
+                ('error', 'red')
         );
 
         @each $type in $types {
             &[data-severity="#{nth($type, 1)}"] {
-                @include hover_effect(nth($type, 2));
+                @include button_color(nth($type, 2));
             }
         }
 

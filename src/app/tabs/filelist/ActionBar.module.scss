@@ -28,13 +28,8 @@
             margin-left: 0.5em;
         }
 
-        &[disabled] {
-            @include button_disabled;
-        }
-
         &.refreshBtn {
-            @include hover_effect(--c-green);
-            @include focus_border(var(--c-focus-border-green));
+            @include button_color('green');
         }
 
         &.addBtn {

@@ -73,7 +73,6 @@
         @include flex(row, center);
         text-transform: uppercase;
         transition: all 0.3s;
-        color: var(--c-text-primary);
         position: relative;
         overflow: hidden;
         pointer-events: all;
@@ -83,23 +82,19 @@
             @include size(100%);
         }
 
-        &:hover {
-            color: var(--color);
-        }
-
         &.shareBtn {
-            --color: var(--c-primary);
-            @include focus_border(var(--c-focus-border-primary));
+            @include button_color('primary', 'color');
+            color: var(--c-text-primary);
         }
 
         &.removeBtn {
-            --color: var(--c-red);
-            @include focus_border(var(--c-focus-border-red));
+            @include button_color('red', 'color');
+            color: var(--c-text-primary);
         }
 
         &.refreshBtn {
-            --color: var(--c-green);
-            @include focus_border(var(--c-focus-border-green));
+            @include button_color('green', 'color');
+            color: var(--c-text-primary);
         }
     }
 

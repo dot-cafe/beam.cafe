@@ -90,7 +90,7 @@ export class UploadItem extends Component<Props> {
                 </div>
 
                 <button onClick={this.togglePause}
-                        className={cn(styles.btn, styles.pauseBtn)}
+                        className={cn(styles.btn, styles.yellowBtn, styles.pauseBtn)}
                         aria-label={ariaLabel}>
                     <bc-tooltip content={toolTipNote}/>
                     {statusIcon}
