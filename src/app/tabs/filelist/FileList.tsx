@@ -1,15 +1,16 @@
-import {SearchBar}             from '@components/SearchBar';
-import {DialogBox}             from '@overlays/DialogBox';
-import {files, uploads}        from '@state/index';
-import {ListedFile}            from '@state/models/ListedFile';
-import {fuzzyStringSimilarity} from '@utils/fuzzy-string-similarity';
-import {bind}                  from '@utils/preact-utils';
-import {observer}              from 'mobx-react';
-import {Component, h}          from 'preact';
-import {isMobile}              from '../../browserenv';
-import {DropZone}              from './DropZone';
-import {FileItem}              from './FileItem';
-import styles                  from './FileList.module.scss';
+import {SearchBar}                  from '@components/SearchBar';
+import {DialogBox}                  from '@overlays/DialogBox';
+import {files, uploads}             from '@state/index';
+import {ListedFile}                 from '@state/models/ListedFile';
+import {createNativeEventContainer} from '@utils/events';
+import {fuzzyStringSimilarity}      from '@utils/fuzzy-string-similarity';
+import {bind}                       from '@utils/preact-utils';
+import {observer}                   from 'mobx-react';
+import {Component, h}               from 'preact';
+import {isMobile}                   from '../../browserenv';
+import {DropZone}                   from './DropZone';
+import {FileItem}                   from './FileItem';
+import styles                       from './FileList.module.scss';
 
 export type SortKey = 'index' | 'name' | 'size';
 
@@ -21,11 +22,48 @@ type State = {
 
 @observer
 export class FileList extends Component<{}, State> {
+    private readonly events = createNativeEventContainer();
+
     readonly state = {
         searchTerm: null,
         sortKey: 'index' as SortKey,
         toggleSortKey: false
     };
+
+    componentDidMount() {
+        this.events.on(window, 'keydown', (e: KeyboardEvent) => {
+            switch (e.code) {
+                case 'KeyA': {
+                    if (e.ctrlKey || e.metaKey) {
+                        files.select(...files.listedFiles);
+                    }
+
+                    break;
+                }
+                case 'ArrowUp':
+                case 'ArrowDown': {
+                    const {sortedElements} = this;
+                    const dir = e.code === 'ArrowUp' ? -1 : 1;
+
+                    // Resolve last-selected file
+                    const last = this.sortedElements
+                        .findIndex(f => files.isSelected(f)) + dir;
+
+                    files.clearSelection();
+                    files.select(
+                        dir === 1 ?
+                            sortedElements[last >= sortedElements.length ? 0 : last] :
+                            sortedElements[last < 0 ? sortedElements.length - 1 : last]
+                    );
+                    break;
+                }
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this.events.unbind();
+    }
 
     get sortedElements() {
         const {searchTerm, sortKey, toggleSortKey} = this.state as State;
@@ -198,6 +236,7 @@ export class FileList extends Component<{}, State> {
                     )}
                 </div>
 
+                {/* TODO: Move to separate Component */}
                 <div className={styles.actionBar}>
                     <button onClick={this.chooseFiles}
                             className={styles.addBtn}
