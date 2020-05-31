@@ -1,0 +1,67 @@
+.actionBar {
+    @include position(auto, 0, 0, 0);
+    @include flex(row, center, center);
+    position: absolute;
+    margin: 0 auto;
+    padding: 0.75em 0;
+
+    @include mq-phones {
+        padding-bottom: 0;
+    }
+
+    bc-icon {
+        @include size(12px);
+    }
+
+    button {
+        @include margin-between-h(0.5em);
+        @include button_middle;
+        @include flex(row, center, space-between);
+        border-radius: 100em;
+        transition: all 0.3s;
+
+        > span {
+            font-size: 0.9em;
+            margin-left: 0.5em;
+        }
+
+        &.addBtn {
+            @include hover_effect(--c-primary);
+
+            @include mq-phones {
+                @include fixed-height(11.5vmin);
+                position: static;
+                flex-shrink: 0;
+                margin: auto 0 0 0;
+                border-radius: 0;
+                justify-content: center;
+                width: 100%;
+
+                > span {
+                    margin-left: 0.5em;
+                }
+            }
+        }
+    }
+
+    .removeBtn {
+        @include flex(row, stretch);
+
+        > button {
+            @include button_middle;
+            @include button_color('red');
+            border-radius: 0;
+
+            &:first-child {
+                margin-right: 0;
+                border-radius: 10em 0 0 10em;
+            }
+
+            &:last-child {
+                margin-left: 0;
+                border-radius: 0 10em 10em 0;
+                border-left: 2px solid var(--c-red-accent);
+            }
+        }
+    }
+}

@@ -19,7 +19,7 @@
             "@utils/*": ["./src/utils/*"],
             "@overlays/*": ["./src/app/overlays/*"],
             "@components/*": ["./src/app/components/*"],
-            "/*": ["./node_modules/*"]
+            "*": ["./node_modules/*"]
         }
     },
     "include": [

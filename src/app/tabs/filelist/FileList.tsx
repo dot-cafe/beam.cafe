@@ -1,6 +1,4 @@
-import {SearchBar}                  from './SearchBar';
-import {DialogBox}                  from '@overlays/DialogBox';
-import {files, uploads}             from '@state/index';
+import {files}                      from '@state/index';
 import {ListedFile}                 from '@state/models/ListedFile';
 import {createNativeEventContainer} from '@utils/events';
 import {fuzzyStringSimilarity}      from '@utils/fuzzy-string-similarity';
@@ -8,9 +6,11 @@ import {bind}                       from '@utils/preact-utils';
 import {observer}                   from 'mobx-react';
 import {Component, h}               from 'preact';
 import {isMobile}                   from '../../browserenv';
+import {ActionBar}                  from './ActionBar';
 import {DropZone}                   from './DropZone';
 import {FileItem}                   from './FileItem';
 import styles                       from './FileList.module.scss';
+import {SearchBar}                  from './SearchBar';
 
 export type SortKey = 'index' | 'name' | 'size';
 
@@ -112,11 +112,6 @@ export class FileList extends Component<{}, State> {
     }
 
     @bind
-    chooseFiles(): void {
-        files.openDialog();
-    }
-
-    @bind
     sortBy(key: SortKey) {
         return () => {
             const {sortKey, toggleSortKey} = this.state;
@@ -134,62 +129,16 @@ export class FileList extends Component<{}, State> {
     }
 
     @bind
-    removeSelectedFiles() {
-        const {selectedItems} = files;
-
-        const relatedUploads = uploads.listedUploads.filter(
-            v => v.simpleState !== 'done' && selectedItems.includes(v.listedFile)
-        ).length;
-
-        const remove = () => {
-            for (const item of selectedItems) {
-                if (item.id) {
-                    files.removeFile(item.id);
-                }
-            }
-        };
-
-        // Tell the user that uploads are about to get cancelled
-        if (relatedUploads > 0) {
-            DialogBox.instance.open({
-                icon: 'exclamation-mark',
-                title: 'Uh Oh! Are you sure about that?',
-                description: relatedUploads > 1 ?
-                    `There are currently ${relatedUploads} uploads related to the selected files. Continue?` :
-                    'One of the files selected is currently being uploaded. Continue?',
-                buttons: [
-                    {
-                        type: 'success',
-                        text: 'Keep File'
-                    },
-                    {
-                        type: 'error',
-                        text: 'Remove'
-                    }
-                ]
-            }).then(value => value === 1 && remove());
-        } else {
-            remove();
-        }
-    }
-
-    @bind
-    clearSelection() {
-        files.clearSelection();
-    }
-
-    @bind
     selectItem(item: ListedFile, ev: MouseEvent) {
         files.selectViaMouseEvent(ev, item, this.sortedElements);
     }
 
     render() {
         const {searchTerm} = this.state as State;
-        const {listedFiles, selectedAmount} = files;
+        const {listedFiles} = files;
         const indexPadding = Math.max(String(listedFiles.length).length, 2);
 
         // TODO: Infinity scrolling? It gets really slow with ~200 items
-
         return (
             <div className={styles.fileList}>
                 <DropZone/>
@@ -236,31 +185,7 @@ export class FileList extends Component<{}, State> {
                     )}
                 </div>
 
-                {/* TODO: Move to separate Component */}
-                <div className={styles.actionBar}>
-                    <button onClick={this.chooseFiles}
-                            className={styles.addBtn}
-                            aria-label="Add files manually">
-                        <bc-icon name="plus"/>
-                        <span>Add Files</span>
-                    </button>
-
-                    {!isMobile && selectedAmount ?
-                        <div className={styles.removeBtn}>
-                            <button onClick={this.removeSelectedFiles}
-                                    aria-label="Remove files">
-                                <bc-icon name="trash"/>
-                                <span>Remove {selectedAmount > 1 ? `${selectedAmount} files` : 'file'}</span>
-                            </button>
-
-                            <button onClick={this.clearSelection}
-                                    aria-label="Clear selection">
-                                <bc-icon name="delete"/>
-                                <bc-tooltip content="Clear Selection"/>
-                            </button>
-                        </div> : ''
-                    }
-                </div>
+                <ActionBar/>
             </div>
         );
     }
