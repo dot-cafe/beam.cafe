@@ -50,7 +50,7 @@ export class Upload implements UploadLike<UploadState> {
         this.url = url;
         this.xhr = null;
 
-        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
+        this.update(settings.autoPause ? 'awaiting-approval' : 'running');
     }
 
     @computed
@@ -152,8 +152,8 @@ export class Upload implements UploadLike<UploadState> {
         this.state = status;
 
         // Fire notification if set
-        if (settings.get('notifications') === true &&
-            settings.get('notificationSettings').uploadStateChange.includes(status)) {
+        if (settings.notifications.turnedOn === true &&
+            settings.notifications.onUploadStateChange.includes(status)) {
             UploadExtensions.notifyFor(this);
         }
 

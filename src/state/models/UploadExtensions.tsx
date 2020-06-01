@@ -1,3 +1,4 @@
+import {EventTarget}                        from '@utils/polyfills/EventTarget';
 import {h}                                  from 'preact';
 import {JSXInternal}                        from 'preact/src/jsx';
 import prettyBytes                          from 'pretty-bytes';

@@ -49,7 +49,7 @@ export class TabHeader extends Component<Props, State> {
         this.setState({updateAvailable: true});
 
         // Show notification if set
-        if (settings.get('notificationSettings').updateAvailable) {
+        if (settings.notifications.onUpdateAvailable) {
             pushNotification({
                 title: 'A new version is available!'
             });

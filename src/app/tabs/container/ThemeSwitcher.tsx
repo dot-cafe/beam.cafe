@@ -9,13 +9,13 @@ import styles         from './ThemeSwitcher.module.scss';
 export class ThemeSwitcher extends Component {
 
     componentDidMount() {
-        this.setTheme(settings.get('theme'), true);
+        this.setTheme(settings.theme, true);
     }
 
     setTheme(theme: 'light' | 'dark', silent = false) {
-        const oldTheme = settings.get('theme');
+        const oldTheme = settings.theme;
 
-        if (settings.get('highContrast')) {
+        if (settings.highContrast) {
             if (!silent) {
                 Toast.instance.show({
                     type: 'error',
@@ -36,17 +36,17 @@ export class ThemeSwitcher extends Component {
         }, 300);
 
         // Update settings
-        settings.set('theme', theme);
+        settings.theme = theme;
     }
 
     @bind
     toggleTheme() {
-        const theme = settings.get('theme');
+        const theme = settings.theme;
         this.setTheme(theme === 'light' ? 'dark' : 'light');
     }
 
     render() {
-        const theme = settings.get('theme');
+        const theme = settings.theme;
         const tooltip = `Change Theme to ${theme === 'light' ? 'dark' : 'light'}`;
 
         return (

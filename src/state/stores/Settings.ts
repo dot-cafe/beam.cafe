@@ -1,119 +1,90 @@
-import {SwitchState}        from '@components/Switch';
-import {localStorageUtils}  from '@utils/local-storage-utils';
-import {pick}               from '@utils/pick';
-import {action, observable} from 'mobx';
-import {UploadState}        from '../models/Upload';
-import {socket}             from './Socket';
-
-export type NotificationSettings = {
-    updateAvailable: boolean;
-    connectionChange: boolean;
-    hideIfAppIsVisible: boolean;
-    uploadStateChange: Array<UploadState>;
-};
+import {SwitchState}               from '@components/Switch';
+import {socket}                    from '@state/stores/Socket';
+import {clone}                     from '@utils/clone';
+import {localStorageUtils}         from '@utils/local-storage-utils';
+import {autorun, observable, toJS} from 'mobx';
+import {UploadState}               from '../models/Upload';
 
 export type AvailableSettings = {
-    reusableDownloadKeys: SwitchState;
-    strictSession: SwitchState;
-    allowStreaming: SwitchState;
     theme: 'light' | 'dark';
     highContrast: boolean;
     autoPause: boolean;
 
-    notifications: SwitchState;
-    notificationSettings: NotificationSettings;
-};
+    notifications: {
+        turnedOn: SwitchState;
+        hideIfAppIsVisible: boolean;
 
-class Settings {
-
-    private static readonly SERVER_SIDE_SETTINGS: Partial<Array<keyof AvailableSettings>> = [
-        'reusableDownloadKeys',
-        'strictSession',
-        'allowStreaming'
-    ];
-
-    public static readonly DEFAULT_SETTINGS: AvailableSettings = {
-        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-        reusableDownloadKeys: true,
-        strictSession: false,
-        highContrast: false,
-        autoPause: false,
-        allowStreaming: true,
-
-        notifications: false,
-        notificationSettings: {
-            updateAvailable: false,
-            connectionChange: true,
-            hideIfAppIsVisible: true,
-            uploadStateChange: [
-                'awaiting-approval',
-                'running'
-            ]
-        }
+        onUpdateAvailable: boolean;
+        onConnectionChange: boolean;
+        onUploadStateChange: Array<UploadState>;
     };
 
-    @observable private settings: AvailableSettings;
+    remote: {
+        reusableDownloadKeys: SwitchState;
+        strictSession: SwitchState;
+        allowStreaming: SwitchState;
+    };
+};
 
-    constructor() {
-        this.settings = {
-            ...Settings.DEFAULT_SETTINGS,
-            ...(localStorageUtils.getJSON('settings') as object || {})
-        };
+const defaultSettings: AvailableSettings = {
+
+    // Local settings
+    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    highContrast: false,
+    autoPause: false,
+
+    // Notifications related settings
+    notifications: {
+        turnedOn: false,
+        hideIfAppIsVisible: true,
+
+        onUpdateAvailable: false,
+        onConnectionChange: true,
+        onUploadStateChange: [
+            'awaiting-approval',
+            'running'
+        ]
+    },
+
+    // Server-side settings
+    remote: {
+        reusableDownloadKeys: true,
+        strictSession: false,
+        allowStreaming: true
     }
+};
 
-    public syncLocal(): void {
-        localStorageUtils.setJSON('settings', this.settings);
-    }
+export const settings = observable<AvailableSettings>({
+    ...clone(defaultSettings),
+    ...(localStorageUtils.getJSON('settings') || {})
+});
 
-    public syncServer() {
-        const toSync = pick(this.settings, Settings.SERVER_SIDE_SETTINGS);
+// Resets all settings
+export const resetSettings = (): void => {
+    Object.assign(settings, clone(defaultSettings));
+};
 
-        socket.request('settings', toSync).catch(() => {
+// Resets just the remote settings
+export const resetRemoteSettings = (base = clone(defaultSettings.remote)): void => {
+    Object.assign(settings.remote, base);
+};
 
-            // Fallback to default settings
-            const defaults = pick(Settings.DEFAULT_SETTINGS, Settings.SERVER_SIDE_SETTINGS);
-            Object.assign(this.settings, defaults);
-        });
-    }
+// Syncs currently saved remote settings
+export const syncRemoteSettings = () => {
+    socket.request('settings', settings.remote)
+        .catch(() => Object.assign(settings.remote, clone(defaultSettings.remote)));
+};
 
-    public get<K extends keyof AvailableSettings>(key: K): AvailableSettings[K] {
-        return this.settings[key];
-    }
+// Sync local settings
+autorun(() => {
+    localStorageUtils.setJSON('settings', toJS(settings));
+});
 
-    @action
-    public apply(settings: Partial<AvailableSettings>): void {
-        Object.assign(this.settings, settings);
-    }
-
-    @action
-    public set<K extends keyof AvailableSettings>(key: K, value: AvailableSettings[K]): void {
-
-        // Type-checking for "in" is somewhat broken or I'm just dumb
-        // see https://github.com/Microsoft/TypeScript/issues/10485
-        if (Settings.SERVER_SIDE_SETTINGS.includes(key)) {
-
-            /* eslint-disable @typescript-eslint/no-explicit-any */
-            this.settings[key] = 'intermediate' as any;
-
-            socket.request('settings', {
-                [key]: value
-            }).then(() => {
-                this.settings[key] = value;
-            }).catch(() => {
-                this.settings[key] = Settings.DEFAULT_SETTINGS[key];
-            });
-        } else {
-            this.settings[key] = value;
-            this.syncLocal();
-        }
-    }
-
-    @action
-    public reset() {
-        this.settings = {...Settings.DEFAULT_SETTINGS};
-        this.syncServer();
-        this.syncLocal();
-    }
-}
-
-export const settings = new Settings();
+// Sync remote settings
+let previousRemoteState = clone(defaultSettings.remote);
+autorun(() => {
+    const remoteSettings = toJS(settings.remote);
+    socket.request('settings', remoteSettings)
+        .then(() => previousRemoteState = remoteSettings)
+        .catch(() => Object.assign(settings.remote, previousRemoteState));
+});

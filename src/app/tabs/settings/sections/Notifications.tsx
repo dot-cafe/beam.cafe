@@ -1,44 +1,33 @@
-import {Switch, SwitchState}                              from '@components/Switch';
-import {Toast}                                            from '@overlays/Toast';
-import {NotificationSettings, pushNotification, settings} from '@state/index';
-import {bind, cn}                                         from '@utils/preact-utils';
-import {observer}                                         from 'mobx-react';
-import {Component, h}                                     from 'preact';
-import baseStyles                                         from './_base.module.scss';
-import styles                                             from './Notifications.module.scss';
-import {UploadStateNotification}                          from './UploadStateNotification';
+import {Switch}                     from '@components/Switch';
+import {Toast}                      from '@overlays/Toast';
+import {pushNotification, settings} from '@state/index';
+import {cn}                         from '@utils/preact-utils';
+import {observer}                   from 'mobx-react';
+import {FunctionalComponent, h}     from 'preact';
+import baseStyles                   from './_base.module.scss';
+import styles                       from './Notifications.module.scss';
+import {UploadStateNotification}    from './UploadStateNotification';
 
-@observer
-export class Notifications extends Component {
+export const Notifications: FunctionalComponent = observer(() => {
+    const {notifications} = settings;
 
-    setting(key: keyof NotificationSettings) {
-        return settings.get('notificationSettings')[key];
-    }
-
-    option(key: keyof Omit<NotificationSettings, 'uploadStateChange'>) {
-        return (newValue: boolean) => {
-            settings.get('notificationSettings')[key] = newValue;
-            settings.syncLocal();
-        };
-    }
-
-    @bind
-    toggle() {
+    const toggle = () => {
 
         // TODO: What if the user removed permissions during runtime?
-        const state = settings.get('notifications');
-        if (state === true) {
-            settings.set('notifications', false);
-        } else if (state === false) {
+        const {turnedOn} = notifications;
+
+        if (turnedOn === true) {
+            notifications.turnedOn = false;
+        } else if (turnedOn === false) {
             switch (Notification.permission) {
                 case 'default': {
-                    settings.set('notifications', 'intermediate');
+                    notifications.turnedOn = 'intermediate';
 
                     /**
                      * Request permissions, safari again is really slow in
                      * catching up with other browser so we have to provide an callback.
                      */
-                    const resolve = (status: string) => settings.set('notifications', status === 'granted');
+                    const resolve = (status: string) => notifications.turnedOn = status === 'granted';
                     const request = Notification.requestPermission(resolve);
 
                     if (request instanceof Promise) {
@@ -48,7 +37,7 @@ export class Notifications extends Component {
                     break;
                 }
                 case 'denied': {
-                    settings.set('notifications', false);
+                    notifications.turnedOn = false;
 
                     Toast.instance.show({
                         text: 'Notifications are disabled by your browser!',
@@ -58,22 +47,21 @@ export class Notifications extends Component {
                     break;
                 }
                 case 'granted': {
-                    settings.set('notifications', true);
+                    notifications.turnedOn = true;
                     break;
                 }
             }
         }
-    }
+    };
 
-    @bind
-    testNotifications() {
+    const testNotifications = () => {
         const success = pushNotification({
             title: 'Hello World!',
             body: 'Now go and share a file :)'
         });
 
         if (!success) {
-            if (this.setting('hideIfAppIsVisible')) {
+            if (notifications.hideIfAppIsVisible) {
                 Toast.instance.show({
                     text: 'Notifications are hidden if app is visible!',
                     body: 'Disable the option to view a notification if the app is open.',
@@ -87,67 +75,63 @@ export class Notifications extends Component {
                 });
             }
         }
-    }
+    };
 
-    render() {
-        const notify = settings.get('notifications');
+    return (
+        <div className={cn(baseStyles.section, styles.notifications, {
+            [styles.enabled]: notifications.turnedOn === true
+        })}>
 
-        return (
-            <div className={cn(baseStyles.section, styles.notifications, {
-                [styles.enabled]: notify === true
-            })}>
+            <section className={baseStyles.standalone}>
+                <header>
+                    <bc-icon name="notification"/>
+                    <h3>Turn on Notifications</h3>
+                    <Switch state={notifications.turnedOn}
+                            onChange={toggle}
+                            aria-describedby="Turn on notifications"/>
+                </header>
+            </section>
 
-                <section className={baseStyles.standalone}>
-                    <header>
-                        <bc-icon name="notification"/>
-                        <h3>Turn on Notifications</h3>
-                        <Switch state={notify}
-                                onChange={this.toggle}
-                                aria-describedby="Turn on notifications"/>
-                    </header>
-                </section>
+            <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
+                <h3>Customize Notifications</h3>
 
-                <section className={cn(styles.optionsHeader, baseStyles.borderless)}>
-                    <h3>Customize Notifications</h3>
+                <button onClick={testNotifications}
+                        aria-label="Show test Notification">
+                    <bc-tooltip content="Show test Notification"/>
+                    <bc-icon name="notification-color"/>
+                </button>
+            </section>
 
-                    <button onClick={this.testNotifications}
-                            aria-label="Show test Notification">
-                        <bc-tooltip content="Show test Notification"/>
-                        <bc-icon name="notification-color"/>
-                    </button>
-                </section>
+            <section className={cn(styles.options, baseStyles.borderless)}>
+                <div>
+                    <h3>Hide notifications if app is visible</h3>
+                    <Switch state={notifications.hideIfAppIsVisible}
+                            onChange={v => notifications.hideIfAppIsVisible = v}
+                            aria-label="Hide notifications if app is visible"/>
+                </div>
 
-                <section className={cn(styles.options, baseStyles.borderless)}>
-                    <div>
-                        <h3>Hide notifications if app is visible</h3>
-                        <Switch state={this.setting('hideIfAppIsVisible') as SwitchState}
-                                onChange={this.option('hideIfAppIsVisible')}
-                                aria-label="Hide notifications if app is visible"/>
-                    </div>
+                <div>
+                    <h3>Connection lost / re-established</h3>
+                    <Switch state={notifications.onConnectionChange}
+                            onChange={v => notifications.onConnectionChange = v}
+                            aria-label="Connection lost / re-established"/>
+                </div>
 
-                    <div>
-                        <h3>Connection lost / re-established</h3>
-                        <Switch state={this.setting('connectionChange') as SwitchState}
-                                onChange={this.option('connectionChange')}
-                                aria-label="Connection lost / re-established"/>
-                    </div>
+                <div>
+                    <h3>Update available</h3>
+                    <Switch state={notifications.onUpdateAvailable}
+                            onChange={v => notifications.onUpdateAvailable = v}
+                            aria-label="Update available"/>
+                </div>
+            </section>
 
-                    <div>
-                        <h3>Update available</h3>
-                        <Switch state={this.setting('updateAvailable') as SwitchState}
-                                onChange={this.option('updateAvailable')}
-                                aria-label="Update available"/>
-                    </div>
-                </section>
+            <section className={cn(styles.optionsHeader, baseStyles.borderless)} aria-rule="banner">
+                <h3>Notify me when a upload...</h3>
+            </section>
 
-                <section className={cn(styles.optionsHeader, baseStyles.borderless)} aria-rule="banner">
-                    <h3>Notify me when a upload...</h3>
-                </section>
-
-                <section className={cn(styles.options, baseStyles.borderless)}>
-                    <UploadStateNotification/>
-                </section>
-            </div>
-        );
-    }
-}
+            <section className={cn(styles.options, baseStyles.borderless)}>
+                <UploadStateNotification/>
+            </section>
+        </div>
+    );
+});

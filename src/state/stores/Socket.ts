@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import {UploadStream}       from '@state/models/UploadStream';
-import {uid}                from '@utils/uid';
-import GracefulWebSocket    from 'graceful-ws';
-import {action, observable} from 'mobx';
-import {Upload}             from '../models/Upload';
-import {files, Keys}        from './Files';
-import {pushNotification}   from './Notify';
-import {settings}           from './Settings';
-import {uploads}            from './Uploads';
+import {UploadStream}                                      from '@state/models/UploadStream';
+import {uid}                                               from '@utils/uid';
+import GracefulWebSocket                                   from 'graceful-ws';
+import {action, observable}                                from 'mobx';
+import {Upload}                                            from '../models/Upload';
+import {files, Keys}                                       from './Files';
+import {pushNotification}                                  from './Notify';
+import {resetRemoteSettings, settings, syncRemoteSettings} from './Settings';
+import {uploads}                                           from './Uploads';
 
 export type ConnectionState = 'connected' | 'disconnected';
 
@@ -34,7 +34,7 @@ class Socket {
         this.ws.addEventListener('connected', () => {
             console.log('[WS] Connected!');
 
-            if (settings.get('notificationSettings').connectionChange && this.connectionLost) {
+            if (settings.notifications.onConnectionChange && this.connectionLost) {
                 this.connectionLost = false;
 
                 // Show notification if enabled
@@ -60,7 +60,7 @@ class Socket {
             console.log('[WS] Disconnected!');
 
             // Show notification if enabled
-            if (settings.get('notificationSettings').connectionChange) {
+            if (settings.notifications.onConnectionChange) {
                 pushNotification({
                     title: 'Connection lost... 😢',
                     body: 'Tell your friends to wait a second, we\'re working on it!'
@@ -147,7 +147,7 @@ class Socket {
                 console.log('[WS] Session restored.');
 
                 // Restore settings and files
-                settings.apply(payload.settings);
+                resetRemoteSettings(payload.settings);
                 files.activate(payload.files);
 
                 // Send pending messages
@@ -167,7 +167,7 @@ class Socket {
 
                 // Refresh keys, cancel all uploads and sync settings with server
                 files.refresh(...files.listedFiles);
-                settings.syncServer();
+                syncRemoteSettings();
                 uploads.massStatusUpdate('connection-lost');
                 this.flushMessageQueue();
                 break;

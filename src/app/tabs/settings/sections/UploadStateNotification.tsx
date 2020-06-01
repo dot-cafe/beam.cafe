@@ -11,62 +11,45 @@ import styles             from './UploadStateNotification.module.scss';
 export class UploadStateNotification extends Component {
     private static namings = UploadExtensions.availableNotifications;
 
-    get uploadStateChange() {
-        return settings.get('notificationSettings').uploadStateChange;
+    get onUploadStateChange() {
+        return settings.notifications.onUploadStateChange;
     }
 
     get availableSettings() {
         return UploadStateNotification.namings
-            .filter(v => !this.uploadStateChange.includes(v[0]));
+            .filter(v => !this.onUploadStateChange.includes(v[0]));
     }
 
     @bind
     replaceState(oldIndex: number) {
         return (key: string | number) => {
-            const notificationSettings = settings.get('notificationSettings');
-            const copy = [...this.uploadStateChange];
-            copy.splice(oldIndex, 1, key as UploadState);
-
-            settings.set('notificationSettings', {
-                ...notificationSettings,
-                uploadStateChange: copy
-            });
+            this.onUploadStateChange
+                .splice(oldIndex, 1, key as UploadState);
         };
     }
 
     @bind
     watchState(key: string | number) {
-        settings.set('notificationSettings', {
-            ...settings.get('notificationSettings'),
-            uploadStateChange: [
-                ...this.uploadStateChange, key as UploadState
-            ]
-        });
+        this.onUploadStateChange.push(key as UploadState);
     }
 
     @bind
     unwatchState(key: string) {
         return () => {
-            const notificationSettings = settings.get('notificationSettings');
-
-            settings.set('notificationSettings', {
-                ...notificationSettings,
-                uploadStateChange: [
-                    ...this.uploadStateChange.filter(
-                        value => value !== key
-                    )
-                ]
-            });
+            settings.notifications.onUploadStateChange =
+                this.onUploadStateChange.filter(
+                    value => value !== key
+                );
         };
     }
 
     render() {
-        const {availableSettings, uploadStateChange} = this;
+        const {availableSettings, onUploadStateChange} = this;
         const {namings} = UploadStateNotification;
 
         const buttons = [];
-        for (let i = 0; i < uploadStateChange.length; i++) {
-            const key = uploadStateChange[i];
+        for (let i = 0; i < onUploadStateChange.length; i++) {
+            const key = onUploadStateChange[i];
             const name = namings.find(v => v[0] === key)?.[1];
 
             if (name) {

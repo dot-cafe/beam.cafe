@@ -34,12 +34,12 @@ navigator.serviceWorker.ready.then(() => {
 const requestNotification = (options: NotificationPayload, interaction = false): string | null => {
 
     // Check if notifications are enabled
-    if (settings.get('notifications') !== true) {
+    if (settings.notifications.turnedOn !== true) {
         return null;
     }
 
     // Check if document has to be visible
-    if (settings.get('notificationSettings').hideIfAppIsVisible ||
+    if (settings.notifications.hideIfAppIsVisible ||
         document.visibilityState !== 'visible') {
         return null;
     }

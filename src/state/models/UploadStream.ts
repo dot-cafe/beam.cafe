@@ -37,7 +37,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
         this.streamKey = streamKey;
         this.listedFile = listedFile;
         this.id = uid(); // TODO: Redundant?
-        this.update(settings.get('autoPause') ? 'awaiting-approval' : 'running');
+        this.update(settings.autoPause ? 'awaiting-approval' : 'running');
     }
 
     @computed
