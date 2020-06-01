@@ -39,7 +39,7 @@ const requestNotification = (options: NotificationPayload, interaction = false):
     }
 
     // Check if document has to be visible
-    if (settings.notifications.hideIfAppIsVisible ||
+    if (settings.notifications.hideIfAppIsVisible &&
         document.visibilityState !== 'visible') {
         return null;
     }
