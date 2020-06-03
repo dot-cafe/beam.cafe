@@ -1,3 +1,4 @@
+import {Toast}    from '@overlays/Toast';
 import {uid}      from '@utils/uid';
 import {settings} from './Settings';
 
@@ -41,6 +42,18 @@ const requestNotification = (options: NotificationPayload, interaction = false):
     // Check if document has to be visible
     if (settings.notifications.hideIfAppIsVisible &&
         document.visibilityState !== 'visible') {
+        return null;
+    }
+
+    // Check if notifications are actually allowed
+    if (Notification.permission !== 'granted') {
+        settings.notifications.turnedOn = false;
+
+        Toast.instance.show({
+            text: 'Notifications are disabled by your browser.',
+            body: 'Go to Settings > Notifications to turn them on'
+        });
+
         return null;
     }
 

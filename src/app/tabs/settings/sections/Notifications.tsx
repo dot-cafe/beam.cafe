@@ -13,7 +13,6 @@ export const Notifications: FunctionalComponent = observer(() => {
 
     const toggle = () => {
 
-        // TODO: What if the user removed permissions during runtime?
         const {turnedOn} = notifications;
 
         if (turnedOn === true) {
