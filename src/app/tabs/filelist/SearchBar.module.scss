@@ -1,7 +1,7 @@
 .searchBar {
     @include flex(row, center);
     background: var(--c-primary);
-    padding: 0.5em 1em;
+    padding: 0.25em 1em 0.45em;
 
     > bc-icon {
         color: var(--c-text-secondary);
@@ -13,8 +13,9 @@
         @include font(600, 0.875em);
         color: var(--c-text-secondary);
         width: 100%;
-        padding-left: 1em;
-        margin-top: 2px;
+        padding: 0.25em 0.5em;
+        margin: 2px 0 0 0.5em;
+        border-radius: 0.15em;
 
         &::placeholder {
             color: var(--c-text-secondary);

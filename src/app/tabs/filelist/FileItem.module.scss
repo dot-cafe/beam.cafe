@@ -32,8 +32,10 @@
         }
 
         span {
-            @include button_small;
             @include font(600, 0.95em);
+            background: var(--c-background-primary);
+            padding: 0.25em 1em;
+            border-radius: 0.15em;
             color: var(--c-text-primary);
         }
 
@@ -69,7 +71,7 @@
     z-index: 2;
 
     > button {
-        @include size(1em);
+        @include size(15px);
         @include flex(row, center);
         text-transform: uppercase;
         transition: all 0.3s;
