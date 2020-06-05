@@ -34,20 +34,23 @@
             margin-top: 1px;
         }
     }
-
 }
 
 .controls {
     flex-shrink: 0;
 
     > button {
+        @include inline-flex(row, center, center);
+        @include size(22px);
         @include margin-between-h(0.25em);
         @include button_small;
+        padding: 0;
         transition: all 0.3s;
         flex-shrink: 0;
+        border-radius: 100%;
 
         > bc-icon {
-            font-size: 0.7em;
+            font-size: 10px;
         }
 
         $colors: ('primary', 'yellow', 'red', 'primary');

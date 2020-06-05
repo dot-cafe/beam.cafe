@@ -2,7 +2,7 @@
     @include flex(row, center, center);
     position: relative;
     align-self: stretch;
-    justify-self: flex-start;
+    justify-self: center;
     padding: 0 0.5em;
     overflow: visible;
     --color: var(--c-primary);

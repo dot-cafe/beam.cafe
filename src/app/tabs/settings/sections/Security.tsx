@@ -77,7 +77,7 @@ export const Security: FunctionalComponent = observer(() => {
 
                 <article id={label3}>
                     Streaming allows your peers to request partial content of a file (e.g. streaming a video / audio file.)
-                    Disable this to force your peer to download the file.
+                    Disable this to force your peer to download the whole file.
                 </article>
             </section>
         </div>

@@ -48,28 +48,28 @@ export class UploadBox extends Component<Props> {
                                 onClick={this.massAction(uploadItems, 'resume')}
                                 aria-label={`Resume uploads of ${name}`}>
                             <bc-tooltip content="Resume all"/>
-                            Resume
+                            <bc-icon name="play"/>
                         </button>
 
                         <button disabled={!massActions.has('pause')}
                                 onClick={this.massAction(uploadItems, 'pause')}
                                 aria-label={`Pause uploads of ${name}`}>
                             <bc-tooltip content="Pause all"/>
-                            Pause
+                            <bc-icon name="pause"/>
                         </button>
 
                         <button disabled={!massActions.has('cancel')}
                                 onClick={this.massAction(uploadItems, 'cancel')}
                                 aria-label={`Cancel uploads of ${name}`}>
                             <bc-tooltip content="Cancel all"/>
-                            Cancel
+                            <bc-icon name="delete"/>
                         </button>
 
                         {massActions.has('remove') ?
                             <button onClick={this.massAction(uploadItems, 'remove')}
                                     aria-label={`Remove finished uploads of ${name}`}>
                                 <bc-tooltip content="Clear all"/>
-                                Clear
+                                <bc-icon name="trash"/>
                             </button> : ''}
                     </div>
                 </div>

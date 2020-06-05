@@ -148,7 +148,7 @@ export class FileList extends Component<{}, State> {
                 <div className={styles.header}>
                     {!isMobile && <p className={styles.checkboxPlaceholder}/>}
 
-                    <p>
+                    <p className={styles.alignCenter}>
                         <span onClick={this.sortBy('index')}>
                             <bc-tooltip content="Sort by Index"/>#
                         </span>
