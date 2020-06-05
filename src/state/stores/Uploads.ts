@@ -69,7 +69,7 @@ class Uploads extends Selectable<UploadLike> {
     }
 
     @action
-    public performMassStatusUpdate(uploads: Array<UploadLike>, newState: UploadState): void {
+    public performMassStatusUpdate(newState: UploadState, ...uploads: Array<UploadLike>): void {
         for (const upload of uploads) {
             upload.update(newState);
         }
@@ -99,11 +99,6 @@ class Uploads extends Selectable<UploadLike> {
     @action
     public massAction(action: MassAction) {
         this.performMassAction(this.listedUploads, action);
-    }
-
-    @action
-    public massStatusUpdate(newState: UploadState) {
-        this.performMassStatusUpdate(this.listedUploads, newState);
     }
 
     @action

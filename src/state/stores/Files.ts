@@ -88,9 +88,10 @@ class Files extends Selectable<ListedFile> {
 
                 // Cancel uploads
                 uploads.performMassStatusUpdate(
-                    uploads.listedUploads.filter(
+                    'removed',
+                    ...uploads.listedUploads.filter(
                         u => u.listedFile === file && u.simpleState !== 'done'
-                    ), 'removed'
+                    )
                 );
             }
         }
@@ -108,9 +109,10 @@ class Files extends Selectable<ListedFile> {
 
         // Cancel uploads
         uploads.performMassStatusUpdate(
-            uploads.listedUploads.filter(
+            'cancelled',
+            ...uploads.listedUploads.filter(
                 u => files.includes(u.listedFile) && u.simpleState !== 'done'
-            ), 'cancelled'
+            )
         );
 
         // Request new keys

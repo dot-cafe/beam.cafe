@@ -165,10 +165,10 @@ class Socket {
                 this.updateState('connected');
                 this.sessionKey = payload;
 
-                // Refresh keys, cancel all uploads and sync settings with server
-                files.refresh(...files.listedFiles);
+                // Sync server-side settings, refresh keys and cancel uploads
                 syncRemoteSettings();
-                uploads.massStatusUpdate('connection-lost');
+                files.refresh(...files.listedFiles);
+                uploads.performMassStatusUpdate('connection-lost', ...uploads.listedUploads);
                 this.flushMessageQueue();
                 break;
             }
@@ -231,7 +231,7 @@ class Socket {
                 const target = uploads.listedUploads.find(v => v.id === payload);
 
                 if (target) {
-                    uploads.performMassStatusUpdate([target], 'peer-cancelled');
+                    uploads.performMassStatusUpdate('peer-cancelled', target);
                 }
 
                 break;
