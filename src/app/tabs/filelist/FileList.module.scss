@@ -9,7 +9,8 @@
 
 .header {
     @include table-layout;
-    @include text_decent;
+    @include font(600, 14px);
+    color: var(--c-text-primary-accent);
     border-bottom: 2px solid var(--c-background-secondary);
     margin: 1.25em 0 0;
     padding: 0 1em 0.25em;
