@@ -44,6 +44,10 @@
         }
     }
 
+    @include mq-phones {
+        grid-template: 1em / 1fr min-content min-content;
+    }
+
     &[data-state='paused'] {
         --pause-color: var(--c-primary);
         --pause-color-accent: var(--c-primary-accent);
@@ -58,6 +62,10 @@
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
         --c-status-focus: var(--c-focus-border-red);
+
+        @include mq-phones {
+            grid-template: 1em / 1fr min-content;
+        }
     }
 
     &[data-state='running'] .progressBar::before {

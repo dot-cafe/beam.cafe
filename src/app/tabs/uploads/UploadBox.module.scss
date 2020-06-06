@@ -53,6 +53,15 @@
             font-size: 10px;
         }
 
+        @include mq-phones {
+            @include size(26px);
+            @include margin-between-h(0.5em);
+
+            > bc-icon {
+                font-size: 12px;
+            }
+        }
+
         $colors: ('primary', 'yellow', 'red', 'primary');
         @for $i from 1 through 4 {
             &:nth-child(#{$i}) {

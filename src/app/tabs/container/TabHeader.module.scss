@@ -22,13 +22,18 @@
         z-index: 0;
 
         > span {
-            @include text_decent;
+            @include font(600, 0.95em);
             color: var(--color);
         }
 
         &:focus {
             --bg: var(--c-background-secondary);
             box-shadow: none;
+        }
+
+        @include mq-phones {
+            font-size: 0.9em;
+            padding: 0.65em 1em;
         }
 
         @include mq-desktop {

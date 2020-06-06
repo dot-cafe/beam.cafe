@@ -5,6 +5,7 @@ import {bind, cn}                        from '@utils/preact-utils';
 import {observer}                        from 'mobx-react';
 import {Component, h}                    from 'preact';
 import prettyBytes                       from 'pretty-bytes';
+import {isMobile}                        from '../../browserenv';
 import styles                            from './UploadStreamItem.module.scss';
 
 type Props = {
@@ -65,9 +66,10 @@ export class UploadStreamItem extends Component<Props> {
                  data-state={state}
                  role="listitem">
 
-                <Checkbox checked={selected}
-                          onChange={this.toggleSelect}
-                          aria-label="Select stream"/>
+
+                {!isMobile && <Checkbox checked={selected}
+                                        onChange={this.toggleSelect}
+                                        aria-label="Select stream"/>}
 
                 <div className={styles.progressBar}
                      aria-label="Active uploads">

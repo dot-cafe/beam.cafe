@@ -2,6 +2,7 @@ import {files, uploads}         from '@state/index';
 import {observer}               from 'mobx-react';
 import {FunctionalComponent, h} from 'preact';
 import {useState}               from 'preact/hooks';
+import {isMobile}               from '../../browserenv';
 import {FileList}               from '../filelist/FileList';
 import {Settings}               from '../settings/Settings';
 import {Uploads}                from '../uploads/Uploads';
@@ -30,8 +31,8 @@ export const Tabs: FunctionalComponent = observer(() => {
     };
 
     const titles = [
-        listedFiles.length ? `Files (${listedFiles.length})` : 'Files',
-        listedUploads.length ? `Uploads (${listedUploads.length})` : 'Uploads',
+        listedFiles.length && !isMobile ? `Files (${listedFiles.length})` : 'Files',
+        listedUploads.length && !isMobile ? `Uploads (${listedUploads.length})` : 'Uploads',
         'Settings'
     ];
 

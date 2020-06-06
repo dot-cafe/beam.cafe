@@ -1,8 +1,3 @@
-@mixin text_decent {
-    @include font(600, 14px);
-    color: var(--c-text-primary-accent);
-}
-
 @mixin button_small {
     @include font(800, 0.75em);
     color: var(--c-text-secondary);

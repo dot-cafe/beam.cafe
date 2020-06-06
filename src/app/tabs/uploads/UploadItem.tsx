@@ -5,6 +5,7 @@ import {uploads}          from '@state/stores/Uploads';
 import {bind, cn}         from '@utils/preact-utils';
 import {observer}         from 'mobx-react';
 import {Component, h}     from 'preact';
+import {isMobile}         from '../../browserenv';
 import styles             from './UploadItem.module.scss';
 
 type Props = {
@@ -78,9 +79,9 @@ export class UploadItem extends Component<Props> {
                  data-simple-state={simpleState}
                  role="listitem">
 
-                <Checkbox checked={selected}
-                          onChange={this.toggleSelect}
-                          aria-label="Select upload"/>
+                {!isMobile && <Checkbox checked={selected}
+                                        onChange={this.toggleSelect}
+                                        aria-label="Select upload"/>}
 
                 <div className={styles.progressBar}
                      style={progressBarStyle}

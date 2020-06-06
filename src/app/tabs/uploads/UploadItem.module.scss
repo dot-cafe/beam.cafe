@@ -38,8 +38,16 @@
         }
     }
 
+    @include mq-phones {
+        grid-template: 1em / 1fr min-content min-content;
+    }
+
     &[data-simple-state='done'] {
         grid-template: 1em / min-content 1fr min-content;
+
+        @include mq-phones {
+            grid-template: 1em / 1fr min-content;
+        }
 
         .btn {
             &.abortBtn,
