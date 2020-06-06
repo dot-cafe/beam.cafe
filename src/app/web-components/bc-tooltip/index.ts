@@ -1,5 +1,6 @@
+import {EventBindingArgs, off, on} from '@utils/events';
 import {NanoPop, NanoPopPosition}  from 'nanopop';
-import {EventBindingArgs, off, on} from '../../../utils/events';
+import {isMobile}                  from '../../browserenv';
 import styles                      from './tooltip.module.scss';
 
 const REFLECTED_ATTRIBUTES = ['content', 'pos'];
@@ -106,7 +107,7 @@ class BeamCafeTooltip extends HTMLElement {
     }
 
     connectedCallback(): void {
-        if (!this._connected) {
+        if (!isMobile && !this._connected) {
             this.setAttribute('role', 'tooltip');
             this.style.display = 'none';
             this._connected = true;
@@ -119,11 +120,13 @@ class BeamCafeTooltip extends HTMLElement {
     }
 
     disconnectedCallback() {
-        this._connected = false;
-        this.hide();
+        if (!isMobile) {
+            this._connected = false;
+            this.hide();
 
-        // Clean up listeners
-        this._triggerEventListener && off(...this._triggerEventListener);
+            // Clean up listeners
+            this._triggerEventListener && off(...this._triggerEventListener);
+        }
     }
 
     attributeChangedCallback(name: string): void {
