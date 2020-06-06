@@ -1,8 +1,8 @@
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const resolveAppVersion = require('./scripts/resolveAppVersion');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
-const pkg = require('./package');
 const path = require('path');
 
 const globalSCSS = path.resolve(__dirname, 'src/styles/_global.scss');
@@ -134,7 +134,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'env': {
                 'NODE_ENV': JSON.stringify('development'),
-                'VERSION': JSON.stringify(pkg.version),
+                'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
                 'WS_ENDPOINT': JSON.stringify('ws://localhost:8080'),
                 'API_ENDPOINT': JSON.stringify('http://localhost:8080')

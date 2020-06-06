@@ -1,5 +1,6 @@
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const resolveAppVersion = require('./scripts/resolveAppVersion');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,7 +8,6 @@ const WorkBoxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
-const pkg = require('./package');
 const path = require('path');
 
 const globalSCSS = path.resolve(__dirname, 'src/styles/_global.scss');
@@ -125,7 +125,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'env': {
                 'NODE_ENV': JSON.stringify('production'),
-                'VERSION': JSON.stringify(pkg.version),
+                'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
                 'WS_ENDPOINT': JSON.stringify('wss://beam.cafe/ws'),
                 'API_ENDPOINT': JSON.stringify('https://beam.cafe')
