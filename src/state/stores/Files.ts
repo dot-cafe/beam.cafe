@@ -101,7 +101,7 @@ class Files extends Selectable<ListedFile> {
 
     public refresh(...files: Array<ListedFile>) {
         const partials = files
-            .filter(v => v.status === 'ready')
+            .filter(v => v.status !== 'removing')
             .map(v => {
                 v.status = 'loading';
                 return pick(v.file, ['name', 'size']);
