@@ -7,6 +7,7 @@ import {UploadState}               from '../models/Upload';
 
 export type AvailableSettings = {
     theme: 'light' | 'dark';
+    themeColor: [number, number, number];
     highContrast: boolean;
     autoPause: boolean;
 
@@ -30,6 +31,7 @@ const defaultSettings: AvailableSettings = {
 
     // Local settings
     theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    themeColor: [220, 94, 61],
     highContrast: false,
     autoPause: false,
 

@@ -1,0 +1,24 @@
+.colors {
+    @include flex(row, center);
+    margin-left: auto;
+
+    > button {
+        @include margin-between-h(0.15em);
+        @include size(15px);
+        @include focus_border(--c-focus);
+        border-radius: 100%;
+        background: var(--c-color);
+        position: relative;
+        transition: all 0.3s;
+
+        &::before {
+            @include pseudo();
+            @include position(0, 0, 0, 0);
+            @include size(8px);
+            border-radius: 100%;
+            margin: auto;
+            background: var(--c-accent);
+            z-index: 55;
+        }
+    }
+}
