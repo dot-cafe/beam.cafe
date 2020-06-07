@@ -10,6 +10,7 @@ import {ListedFile}                   from '../models/ListedFile';
 export type Keys = Array<{
     id: string;
     name: string;
+    serializedName: string;
     key: string;
 }>;
 
@@ -77,7 +78,7 @@ class Files extends Selectable<ListedFile> {
             file.status = 'removing';
 
             setTimeout(() => {
-                const index = this.listedFiles.findIndex(value => value.id === file.id);
+                const index = this.listedFiles.indexOf(file);
                 this.unselect(file);
                 this.listedFiles.splice(index, 1);
             }, remainingWaitingTime(file.updated));
@@ -121,14 +122,14 @@ class Files extends Selectable<ListedFile> {
 
     @action
     public activate(idPairs: Keys) {
-        for (const {name, id} of idPairs) {
+        for (const {name, serializedName, id} of idPairs) {
             const target = this.listedFiles.find(
                 value => value.file.name === name
             );
 
             if (target) {
                 setTimeout(
-                    () => target.activate(id),
+                    () => target.activate(id, serializedName),
                     remainingWaitingTime(target.updated)
                 );
             } else {

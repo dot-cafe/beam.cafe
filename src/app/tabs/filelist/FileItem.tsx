@@ -102,6 +102,8 @@ export class FileItem extends Component<Props> {
 
     render() {
         const {item, label, selected} = this.props;
+        const fn = item.file.name;
+        const sn = item.serializedName;
 
         return (
             <div className={styles.fileItem}
@@ -116,7 +118,12 @@ export class FileItem extends Component<Props> {
                 <FileStatus status={item.status} text={label}/>
 
                 <p className={cn(styles.itemText, styles.fileName)}>
-                    {item.file.name}
+                    <span>{fn}</span>
+                    {
+                        sn && sn !== fn ?
+                            <span className={styles.serializedName}>- {item.serializedName}</span> :
+                            ''
+                    }
                 </p>
 
                 <p className={cn(styles.itemText, styles.alignRight)}>

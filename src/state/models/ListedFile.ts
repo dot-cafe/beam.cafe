@@ -5,7 +5,8 @@ export type ListedFileStatus = 'loading' | 'ready' | 'removing';
 export class ListedFile {
     @observable private _status: ListedFileStatus = 'loading';
     @observable public updated: number = performance.now();
-    @observable public id: null | string = null;
+    @observable public id: string | null = null;
+    @observable public serializedName: string | null = null;
     public readonly index: number;
     public readonly file: File;
     private static counter = 0;
@@ -25,8 +26,9 @@ export class ListedFile {
     }
 
     @action
-    public activate(id: string): void {
+    public activate(id: string, serializedName: string): void {
         this.status = 'ready';
         this.id = id;
+        this.serializedName = serializedName;
     }
 }

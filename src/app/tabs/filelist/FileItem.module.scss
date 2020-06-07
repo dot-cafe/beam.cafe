@@ -108,7 +108,36 @@
 }
 
 .fileName {
-    @include white-space-overflow();
+    @include flex(row, center);
+    overflow: hidden;
+
+    span {
+        @include white-space-overflow();
+
+        &:first-child {
+            max-width: 90%;
+        }
+
+        &:last-child {
+            @include white-space-overflow();
+            max-width: 50%;
+        }
+
+        &.serializedName {
+            font-size: 0.85em;
+            margin-left: 0.35em;
+            color: var(--c-text-secondary);
+
+            @include animate('0.3s ease-in') {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+        }
+    }
 }
 
 .itemText {
