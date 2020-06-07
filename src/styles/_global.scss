@@ -49,14 +49,18 @@ body {
 
     &.light {
         @include light_theme;
+
+        &.high-contrast {
+            @include light_theme_high_contrast;
+        }
     }
 
     &.dark {
         @include dark_theme;
-    }
 
-    &.high-contrast {
-        @include high_contrast_theme;
+        &.high-contrast {
+            @include dark_theme_high_contrast;
+        }
     }
 
     // TODO: Transitioning does not work in chrome:

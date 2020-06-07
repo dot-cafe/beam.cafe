@@ -1,4 +1,3 @@
-import {Toast}        from '@overlays/Toast';
 import {settings}     from '@state/index';
 import {bind, cn}     from '@utils/preact-utils';
 import {observer}     from 'mobx-react';
@@ -9,23 +8,11 @@ import styles         from './ThemeSwitcher.module.scss';
 export class ThemeSwitcher extends Component {
 
     componentDidMount() {
-        this.setTheme(settings.theme, true);
+        this.setTheme(settings.theme);
     }
 
-    setTheme(theme: 'light' | 'dark', silent = false) {
+    setTheme(theme: 'light' | 'dark') {
         const oldTheme = settings.theme;
-
-        if (settings.highContrast) {
-            if (!silent) {
-                Toast.instance.show({
-                    type: 'error',
-                    text: 'High contrast is enabled. Disable it first.'
-                });
-            }
-
-            return;
-        }
-
         const {classList} = document.body;
         classList.remove(oldTheme);
         classList.add(theme, 'theme-transition');
