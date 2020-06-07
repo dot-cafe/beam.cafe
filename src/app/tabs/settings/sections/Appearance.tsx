@@ -1,4 +1,5 @@
 import {Switch}                 from '@components/Switch';
+import {Toast}                  from '@overlays/Toast';
 import {settings}               from '@state/index';
 import {observer}               from 'mobx-react';
 import {FunctionalComponent, h} from 'preact';
@@ -17,6 +18,17 @@ export const Appearance: FunctionalComponent = observer(() => {
             `hsl(${hue}, ${saturation - 12}%, ${lightness - 6}%)`,
             `hsla(${hue}, ${saturation - 12}%, ${lightness - 6}%, 0.42)`
         ];
+    };
+
+    const applyCustomColor = (hue: number, saturation: number, lightness: number) => {
+        if (settings.highContrast) {
+            Toast.instance.show({
+                text: 'Turn of high contrast to use custom colors!',
+                type: 'success'
+            });
+        } else {
+            settings.themeColor = [hue, saturation, lightness];
+        }
     };
 
     const bodyStyle = document.body.style;
@@ -48,7 +60,7 @@ export const Appearance: FunctionalComponent = observer(() => {
 
         customColorButtons.push(
             <button style={`--c-color:${color};--c-accent:${accent};--c-focus:${focus};`}
-                    onClick={() => settings.themeColor = [hue, cs, cl]}/>
+                    onClick={() => applyCustomColor(hue, cs, cl)}/>
         );
     }
 

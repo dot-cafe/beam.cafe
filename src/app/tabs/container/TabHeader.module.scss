@@ -22,7 +22,7 @@
         z-index: 0;
 
         > span {
-            @include font(600, 0.95em);
+            @include font(600, 0.9em);
             color: var(--color);
         }
 
