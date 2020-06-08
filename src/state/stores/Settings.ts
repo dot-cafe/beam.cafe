@@ -10,6 +10,7 @@ export type AvailableSettings = {
     themeColor: [number, number, number];
     highContrast: boolean;
     autoPause: boolean;
+    processDuplicateFilenames: boolean;
 
     notifications: {
         turnedOn: SwitchState;
@@ -34,6 +35,7 @@ const defaultSettings: AvailableSettings = {
     themeColor: [220, 94, 61],
     highContrast: false,
     autoPause: false,
+    processDuplicateFilenames: true,
 
     // Notifications related settings
     notifications: {

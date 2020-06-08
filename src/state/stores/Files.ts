@@ -3,7 +3,7 @@ import {Selectable}                   from '@state/wrapper/Selectable';
 import {chooseFiles}                  from '@utils/choose-files';
 import {pick}                         from '@utils/pick';
 import {action, computed, observable} from 'mobx';
-import {socket}                       from '../';
+import {settings, socket}             from '../';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
 
@@ -39,7 +39,7 @@ class Files extends Selectable<ListedFile> {
     public add(...files: Array<File>) {
 
         // Read and save files
-        const skipped = 0;
+        let skipped = 0;
         const keysToRequest = [];
         for (const file of files) {
 
@@ -53,11 +53,16 @@ class Files extends Selectable<ListedFile> {
             const suffix = duplicates.length;
 
             if (suffix) {
-                const lastDotIndex = nameToUse.lastIndexOf('.');
-                if (lastDotIndex !== -1) {
-                    nameToUse = `${nameToUse.slice(0, lastDotIndex)} (${suffix})${nameToUse.slice(lastDotIndex)}`;
+                if (settings.processDuplicateFilenames) {
+                    const lastDotIndex = nameToUse.lastIndexOf('.');
+                    if (lastDotIndex !== -1) {
+                        nameToUse = `${nameToUse.slice(0, lastDotIndex)} (${suffix})${nameToUse.slice(lastDotIndex)}`;
+                    } else {
+                        nameToUse = `${nameToUse} (${suffix})`;
+                    }
                 } else {
-                    nameToUse = `${nameToUse} (${suffix})`;
+                    skipped++;
+                    continue;
                 }
             }
 
@@ -75,6 +80,7 @@ class Files extends Selectable<ListedFile> {
         if (skipped > 0) {
             Toast.instance.show({
                 text: `Skipped ${skipped} file${skipped > 1 ? 's' : ''} which were already listed.`,
+                body: 'Go to settings to change that',
                 type: 'warning'
             });
         }

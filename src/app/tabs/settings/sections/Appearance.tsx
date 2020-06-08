@@ -91,6 +91,20 @@ export const Appearance: FunctionalComponent = observer(() => {
                     Increases the contrast of all UI-Elements.
                 </article>
             </section>
+
+            <section>
+                <header>
+                    <bc-icon name="services"/>
+                    <h3>Process duplicate filename</h3>
+                    <Switch state={settings.processDuplicateFilenames}
+                            onChange={v => settings.processDuplicateFilenames = v}/>
+                </header>
+
+                <article>
+                    In case you add a file of which the name is already used, a suffix will be added.
+                    If you turn this option off these files will be skipped.
+                </article>
+            </section>
         </div>
     );
 });
