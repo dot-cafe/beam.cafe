@@ -93,6 +93,9 @@ class ToastSingleton extends Component<Props, State> {
         const {item, visible} = this.state;
         const describedby = uid('aria');
         const labelledby = uid('aria');
+        const icon = item.type === 'warning' ? 'exclamation-mark' :
+            item.type === 'error' ? 'error' :
+                item.type === 'success' ? 'checkmark' : null;
 
         return (
             <div role={visible ? 'alert' : undefined}
@@ -106,8 +109,13 @@ class ToastSingleton extends Component<Props, State> {
                      onMouseMove={this.resetTimer}
                      onTouchMove={this.resetTimer}>
                     <div ref={this.timeoutBar} style={`--timeout: ${ToastSingleton.TIMEOUT}ms`}/>
-                    <h3 id={labelledby}>{item.text}</h3>
-                    {item.body ? <p id={describedby}>{item.body}</p> : ''}
+
+                    {icon && <bc-icon name={icon}/>}
+
+                    <article>
+                        <h3 id={labelledby}>{item.text}</h3>
+                        {item.body ? <p id={describedby}>{item.body}</p> : ''}
+                    </article>
                 </div>
             </div>
         );

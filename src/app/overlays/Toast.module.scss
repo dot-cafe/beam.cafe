@@ -9,21 +9,31 @@
     z-index: 20;
 
     > div {
-        @include flex(column, center);
-        padding: 0.75em 2em;
+        @include flex(row, center);
+        padding: 0.75em 1em;
         border-radius: 0.3em;
-        text-align: center;
         position: relative;
         overflow: hidden;
         pointer-events: all;
 
+        > bc-icon {
+            color: var(--c-text-secondary);
+            margin-right: 1em;
+        }
+
+        > article {
+            @include flex(column, center);
+            line-height: 0.95em;
+            flex-grow: 1;
+        }
+
         > div {
+            background: rgba(black, 0.25);
             height: 2px;
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            transform-origin: left;
 
             &.timeout {
                 @include animate(#{var(--timeout) + ' cubic-bezier(0.15, 0, 0.95, 1) forwards'}) {
@@ -66,10 +76,6 @@
             $color: nth($state, 2);
             &[data-state=#{nth($state, 1)}] {
                 background: var(#{'--c-' + $color});
-
-                > div {
-                    background: var(#{'--c-' + $color + '-accent'});
-                }
             }
         }
     }
