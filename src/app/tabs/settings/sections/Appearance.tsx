@@ -55,11 +55,14 @@ export const Appearance: FunctionalComponent = observer(() => {
         [360, 75, 56]
     ];
 
+    const currentThemeColor = bodyStyle.getPropertyValue('--c-primary');
     for (const [hue, cs, cl] of colors) {
         const [color, accent, focus] = generateThemeColors(hue, cs, cl);
 
         customColorButtons.push(
             <button style={`--c-color:${color};--c-accent:${accent};--c-focus:${focus};`}
+                    data-active={color === currentThemeColor}
+                    data-hidden={settings.highContrast}
                     onClick={() => applyCustomColor(hue, cs, cl)}/>
         );
     }

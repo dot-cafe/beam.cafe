@@ -11,14 +11,39 @@
         position: relative;
         transition: all 0.3s;
 
+        &::before,
+        &::after {
+            @include pseudo();
+            border-radius: 100%;
+            margin: auto;
+        }
+
         &::before {
             @include pseudo();
             @include position(0, 0, 0, 0);
-            @include size(8px);
-            border-radius: 100%;
-            margin: auto;
+            @include size(7px);
             background: var(--c-accent);
             z-index: 55;
+        }
+
+        &::after {
+            @include size(3px);
+            @include position(auto, 0, -5px, 0);
+            background: var(--c-color);
+            transition: all 0.3s;
+            transform: translateY(-0.5em) scale(0);
+            opacity: 0;
+        }
+
+        &[data-active]:not(:focus)::after {
+            opacity: 1;
+            transform: none;
+        }
+
+        &[data-hidden] {
+            filter: grayscale(1);
+            pointer-events: none;
+            cursor: not-allowed;
         }
     }
 }
