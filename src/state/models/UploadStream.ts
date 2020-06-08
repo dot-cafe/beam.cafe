@@ -92,7 +92,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
             return;
         }
 
-        const {file} = this.listedFile;
+        const {blob} = this.listedFile;
         const xhr = new XMLHttpRequest();
 
         // Disable timeouts entirely
@@ -136,7 +136,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
 
         // Transfer bytes
         xhr.open('POST', url, true);
-        xhr.send(file.slice(range[0], range[1], file.type));
+        xhr.send(blob.slice(range[0], range[1], blob.type));
         this.uploads.set(id, xhr);
     }
 

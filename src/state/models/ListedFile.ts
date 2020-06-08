@@ -7,13 +7,17 @@ export class ListedFile {
     @observable public updated: number = performance.now();
     @observable public id: string | null = null;
     @observable public serializedName: string | null = null;
+    private static counter = 0; // TODO: Reset counter?
+    private readonly _file: File;
+    public readonly name: string;
+    public readonly nameIndex: number; // In case of duplicates a file gets a (<index>) suffix
     public readonly index: number;
-    public readonly file: File;
-    private static counter = 0;
 
-    constructor(file: File) {
-        this.file = file;
+    constructor(file: File, name: string, nameIndex: number) {
+        this._file = file;
         this.index = ListedFile.counter++;
+        this.nameIndex = nameIndex;
+        this.name = name;
     }
 
     get status() {
@@ -23,6 +27,22 @@ export class ListedFile {
     set status(status) {
         this.updated = performance.now();
         this._status = status;
+    }
+
+    get originalName() {
+        return this._file.name;
+    }
+
+    get size() {
+        return this._file.size;
+    }
+
+    get type() {
+        return this._file.type;
+    }
+
+    get blob() {
+        return this._file.slice(0, this.size, this.type);
     }
 
     @action

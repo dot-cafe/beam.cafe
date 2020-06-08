@@ -173,7 +173,7 @@ export class Upload implements UploadLike<UploadState> {
 
     @action
     protected start(): void {
-        const {listedFile: {file}, url} = this;
+        const {listedFile: {blob, size}, url} = this;
         const xhr = this.xhr = new XMLHttpRequest();
 
         // Disable timeouts entirely
@@ -198,7 +198,7 @@ export class Upload implements UploadLike<UploadState> {
                     lastLoad = e.loaded;
 
                     this.transferred += loaded;
-                    this.progress = this.transferred / file.size;
+                    this.progress = this.transferred / size;
 
                     const now = performance.now();
                     this.speedBuffer[this.speedBufferIndex] = (loaded / (now - lastMeasure)) * 1000;
@@ -225,6 +225,6 @@ export class Upload implements UploadLike<UploadState> {
 
         // Transfer bytes
         xhr.open('POST', url, true);
-        xhr.send(file.slice(this.transferred, file.size, file.type));
+        xhr.send(blob.slice(this.transferred, size, blob.type));
     }
 }

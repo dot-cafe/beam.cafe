@@ -39,19 +39,31 @@ class Files extends Selectable<ListedFile> {
     public add(...files: Array<File>) {
 
         // Read and save files
-        let skipped = 0;
+        const skipped = 0;
         const keysToRequest = [];
         for (const file of files) {
 
-            // Skip duplicates
-            if (this.listedFiles.find(ef => ef.file.name === file.name)) {
-                skipped++;
-                continue;
+            // Resolve file-index
+            const duplicates = this.listedFiles
+                .filter(v => v.originalName === file.name)
+                .map(v => v.nameIndex)
+                .sort();
+
+            let nameToUse = file.name;
+            const suffix = duplicates.length;
+
+            if (suffix) {
+                const lastDotIndex = nameToUse.lastIndexOf('.');
+                if (lastDotIndex !== -1) {
+                    nameToUse = `${nameToUse.slice(0, lastDotIndex)} (${suffix})${nameToUse.slice(lastDotIndex)}`;
+                } else {
+                    nameToUse = `${nameToUse} (${suffix})`;
+                }
             }
 
-            this.listedFiles.push(new ListedFile(file));
+            this.listedFiles.push(new ListedFile(file, nameToUse, suffix));
             keysToRequest.push({
-                name: file.name,
+                name: nameToUse,
                 size: file.size
             });
         }
@@ -105,7 +117,7 @@ class Files extends Selectable<ListedFile> {
             .filter(v => v.status !== 'removing')
             .map(v => {
                 v.status = 'loading';
-                return pick(v.file, ['name', 'size']);
+                return pick(v, ['name', 'size']);
             });
 
         // Cancel uploads
@@ -124,7 +136,7 @@ class Files extends Selectable<ListedFile> {
     public activate(idPairs: Keys) {
         for (const {name, serializedName, id} of idPairs) {
             const target = this.listedFiles.find(
-                value => value.file.name === name
+                value => value.name === name
             );
 
             if (target) {

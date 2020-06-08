@@ -25,7 +25,7 @@ export class FileItem extends Component<Props> {
 
     @bind
     share() {
-        const {id, file} = this.props.item;
+        const {id, name} = this.props.item;
         const toast = Toast.instance;
         const link = `${env.API_ENDPOINT}/d/${id}`;
 
@@ -37,8 +37,8 @@ export class FileItem extends Component<Props> {
          */
         if (navigator.share && isMobile) {
             navigator.share({
-                title: file.name,
-                text: `Download ${file.name}`,
+                title: name,
+                text: `Download ${name}`,
                 url: link
             }).then(() => null).then(() => null);
         } else {
@@ -102,7 +102,7 @@ export class FileItem extends Component<Props> {
 
     render() {
         const {item, label, selected} = this.props;
-        const fn = item.file.name;
+        const fn = item.name;
         const sn = item.serializedName;
 
         return (
@@ -127,7 +127,7 @@ export class FileItem extends Component<Props> {
                 </p>
 
                 <p className={cn(styles.itemText, styles.alignRight)}>
-                    {prettyBytes(item.file.size)}
+                    {prettyBytes(item.size)}
                 </p>
 
                 {isMobile ? (

@@ -30,7 +30,7 @@ export class UploadBox extends Component<Props> {
 
     render() {
         const {uploadItems, listedFile} = this.props;
-        const {name} = listedFile.file;
+        const {name} = listedFile;
         const massActions = uploads.getAvailableMassActions(uploadItems);
 
         return (
@@ -40,7 +40,7 @@ export class UploadBox extends Component<Props> {
 
                 <div className={styles.header}>
                     <div className={styles.fileName}>
-                        <h3>{listedFile.file.name}</h3>
+                        <h3>{name}</h3>
                     </div>
 
                     <div className={styles.controls}>

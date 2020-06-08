@@ -74,8 +74,8 @@ export class FileList extends Component<{}, State> {
             // Sort files and cache similarities
             const matches: Map<string, number> = new Map();
             sortedList.sort((a, b) => {
-                const an = a.file.name;
-                const bn = b.file.name;
+                const an = a.name;
+                const bn = b.name;
 
                 let sa = matches.get(an);
                 if (sa === undefined) {
@@ -101,9 +101,9 @@ export class FileList extends Component<{}, State> {
                     case 'index':
                         return a.index > b.index ? 1 : -1;
                     case 'name':
-                        return a.file.name.localeCompare(b.file.name);
+                        return a.name.localeCompare(b.name);
                     case 'size':
-                        return a.file.size > b.file.size ? 1 : -1;
+                        return a.size > b.size ? 1 : -1;
                 }
             });
         }

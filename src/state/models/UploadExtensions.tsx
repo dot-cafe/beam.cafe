@@ -20,12 +20,12 @@ export const UploadExtensions = {
             case 'running':
                 return pushNotification({
                     title: 'You started uploading a file!',
-                    body: `Upload of "${listedFile.file.name}" has started!`
+                    body: `Upload of "${listedFile.name}" has started!`
                 });
             case 'awaiting-approval':
                 return showNotification({
                     title: 'Someone requested a file!',
-                    body: `Click to approve the request of "${listedFile.file.name}"`
+                    body: `Click to approve the request of "${listedFile.name}"`
                 }).then(data => {
                     if (data === 'click') {
                         upload.update('running');
@@ -36,17 +36,17 @@ export const UploadExtensions = {
             case 'peer-cancelled':
                 return pushNotification({
                     title: 'Upload cancelled by your peer.',
-                    body: `Your peer cancelled the download of "${listedFile.file.name}"`
+                    body: `Your peer cancelled the download of "${listedFile.name}"`
                 });
             case 'finished':
                 return pushNotification({
                     title: 'Upload finished.',
-                    body: `Upload of "${listedFile.file.name}" was successful!`
+                    body: `Upload of "${listedFile.name}" was successful!`
                 });
             case 'errored':
                 return pushNotification({
                     title: 'Upload failed.',
-                    body: `Upload of "${listedFile.file.name}" failed, you might want to tell your friend to retry it.`
+                    body: `Upload of "${listedFile.name}" failed, you might want to tell your friend to retry it.`
                 });
         }
     },
