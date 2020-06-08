@@ -11,8 +11,31 @@
     > div {
         @include flex(column, center);
         padding: 0.75em 2em;
-        border-radius: 50em;
+        border-radius: 0.3em;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        pointer-events: all;
+
+        > div {
+            height: 2px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transform-origin: left;
+
+            &.timeout {
+                @include animate(#{var(--timeout) + ' cubic-bezier(0.15, 0, 0.95, 1) forwards'}) {
+                    from {
+                        transform: scaleX(1);
+                    }
+                    to {
+                        transform: scaleX(0);
+                    }
+                }
+            }
+        }
 
         p, h3 {
             color: var(--c-text-secondary);
@@ -34,15 +57,19 @@
         }
 
         $states: (
-                ('success', --c-primary-accent),
-                ('warning', --c-yellow-accent),
-                ('error', --c-red-accent),
+                ('success', primary),
+                ('warning', yellow),
+                ('error', red),
         );
 
         @each $state in $states {
             $color: nth($state, 2);
             &[data-state=#{nth($state, 1)}] {
-                background: var(#{$color});
+                background: var(#{'--c-' + $color});
+
+                > div {
+                    background: var(#{'--c-' + $color + '-accent'});
+                }
             }
         }
     }
