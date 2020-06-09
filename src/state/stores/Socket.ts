@@ -82,10 +82,14 @@ class Socket {
         });
     }
 
+    get connected() {
+        return this.ws.connected;
+    }
+
     public sendMessage(type: string, payload: unknown = null): void {
         const message = {type, payload};
 
-        if (this.ws.connected) {
+        if (this.connected) {
             this.ws.send(JSON.stringify(message));
         } else {
             this.messageQueue.push(message);
@@ -108,7 +112,7 @@ class Socket {
     private flushMessageQueue() {
 
         // TODO: Bulk often empty!
-        if (!this.ws.connected) {
+        if (!this.connected) {
             throw new Error('Cannot clear message queue if not connected.');
         }
 

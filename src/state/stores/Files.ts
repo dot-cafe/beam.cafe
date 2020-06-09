@@ -177,8 +177,8 @@ class Files extends Selectable<ListedFile> {
                 continue;
             }
 
-            if (target.status === 'ready') {
-                console.warn('[LF] File is already ready!');
+            if (target.status === 'removing') {
+                console.warn('[LF] File is about to get removed!');
                 continue;
             }
 

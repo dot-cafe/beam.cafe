@@ -24,15 +24,16 @@ export class DangerZone extends Component {
         // Mark all files as pending
         files.resetFiles();
 
-        // Request a new key-set
-        socket.request('reset-keys').then(() => {
+        if (socket.connected) {
+            socket.sendMessage('refresh-all-files');
             Toast.instance.show('Keys refreshed!');
-        }).catch(() => {
+        } else {
             Toast.instance.show({
                 text: 'Failed to reset keys.',
+                body: 'Try again later',
                 type: 'error'
             });
-        });
+        }
     }
 
     render() {
