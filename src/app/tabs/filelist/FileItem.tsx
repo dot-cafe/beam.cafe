@@ -53,7 +53,7 @@ export class FileItem extends Component<Props> {
 
     @bind
     refresh() {
-        files.refresh(this.props.item);
+        files.requestRefreshment(this.props.item);
     }
 
     @bind

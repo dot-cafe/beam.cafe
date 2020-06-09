@@ -39,7 +39,7 @@ export const ActionBar: FunctionalComponent = observer(() => {
     }, 'Remove');
 
     const refreshSelectedFiles = () => preConfirmAction(() => {
-        files.refresh(...files.selectedItems);
+        files.requestRefreshment(...files.selectedItems);
     }, 'Refresh');
 
     const {selectedItems, selectedAmount} = files;

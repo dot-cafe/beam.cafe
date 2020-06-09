@@ -4,7 +4,7 @@ import {uid}                                               from '@utils/uid';
 import GracefulWebSocket                                   from 'graceful-ws';
 import {action, observable}                                from 'mobx';
 import {Upload}                                            from '../models/Upload';
-import {files, Keys}                                       from './Files';
+import {FileRefreshments, FileRegistrations, files}        from './Files';
 import {pushNotification}                                  from './Notify';
 import {resetRemoteSettings, settings, syncRemoteSettings} from './Settings';
 import {uploads}                                           from './Uploads';
@@ -106,6 +106,8 @@ class Socket {
 
     @action
     private flushMessageQueue() {
+
+        // TODO: Bulk often empty!
         if (!this.ws.connected) {
             throw new Error('Cannot clear message queue if not connected.');
         }
@@ -167,13 +169,17 @@ class Socket {
 
                 // Sync server-side settings, refresh keys and cancel uploads
                 syncRemoteSettings();
-                files.refresh(...files.listedFiles);
+                files.requestReRegistration();
                 uploads.performMassStatusUpdate('connection-lost', ...uploads.listedUploads);
                 this.flushMessageQueue();
                 break;
             }
-            case 'file-registrations': {
-                files.activate(payload as Keys);
+            case 'register-files': {
+                files.activate(payload as FileRegistrations);
+                break;
+            }
+            case 'refresh-files': {
+                files.reActivate(payload as FileRefreshments);
                 break;
             }
             case 'file-request': {

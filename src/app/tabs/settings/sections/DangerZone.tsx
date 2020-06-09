@@ -1,10 +1,10 @@
-import {Toast}                                           from '@overlays/Toast';
-import {files, resetSettings, settings, socket, uploads} from '@state/index';
-import {bind, cn}                                        from '@utils/preact-utils';
-import {uids}                                            from '@utils/uid';
-import {observer}                                        from 'mobx-react';
-import {Component, h}                                    from 'preact';
-import baseStyles                                        from './_base.module.scss';
+import {Toast}                                 from '@overlays/Toast';
+import {files, resetSettings, socket, uploads} from '@state/index';
+import {bind, cn}                              from '@utils/preact-utils';
+import {uids}                                  from '@utils/uid';
+import {observer}                              from 'mobx-react';
+import {Component, h}                          from 'preact';
+import baseStyles                              from './_base.module.scss';
 
 @observer
 export class DangerZone extends Component {
@@ -20,6 +20,9 @@ export class DangerZone extends Component {
 
         // Cancel downloads
         uploads.massAction('cancel');
+
+        // Mark all files as pending
+        files.resetFiles();
 
         // Request a new key-set
         socket.request('reset-keys').then(() => {

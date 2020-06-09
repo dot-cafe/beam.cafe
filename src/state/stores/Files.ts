@@ -1,17 +1,21 @@
 import {Toast}                        from '@overlays/Toast';
 import {Selectable}                   from '@state/wrapper/Selectable';
 import {chooseFiles}                  from '@utils/choose-files';
-import {pick}                         from '@utils/pick';
 import {action, computed, observable} from 'mobx';
 import {settings, socket}             from '../';
 import {uploads}                      from '../index';
 import {ListedFile}                   from '../models/ListedFile';
 
-export type Keys = Array<{
+export type FileRegistrations = Array<{
     id: string;
     name: string;
     serializedName: string;
     key: string;
+}>;
+
+export type FileRefreshments = Array<{
+    id: string;
+    newId: string;
 }>;
 
 const remainingWaitingTime = (ts: number): number => {
@@ -118,12 +122,20 @@ class Files extends Selectable<ListedFile> {
         socket.sendMessage('remove-files', ids);
     }
 
-    public refresh(...files: Array<ListedFile>) {
-        const partials = files
-            .filter(v => v.status !== 'removing')
+    public requestReRegistration() {
+        socket.sendMessage('register-files', this.listedFiles.map(v => ({
+            name: v.name,
+            size: v.size
+        })));
+    }
+
+    @action
+    public requestRefreshment(...files: Array<ListedFile>) {
+        const ids = files
+            .filter(v => v.status !== 'removing' && v.id !== null)
             .map(v => {
                 v.status = 'loading';
-                return pick(v, ['name', 'size']);
+                return v.id;
             });
 
         // Cancel uploads
@@ -135,11 +147,10 @@ class Files extends Selectable<ListedFile> {
         );
 
         // Request new keys
-        socket.sendMessage('register-files', partials);
+        socket.sendMessage('refresh-files', ids);
     }
 
-    @action
-    public activate(idPairs: Keys) {
+    public activate(idPairs: FileRegistrations) {
         for (const {name, serializedName, id} of idPairs) {
             const target = this.listedFiles.find(
                 value => value.name === name
@@ -153,6 +164,29 @@ class Files extends Selectable<ListedFile> {
             } else {
                 console.warn(`[LF] File ${name} not longer available`);
             }
+        }
+    }
+
+    @action
+    public reActivate(idPairs: FileRefreshments) {
+        for (const {id, newId} of idPairs) {
+            const target = this.listedFiles.find(value => value.id === id);
+
+            if (!target) {
+                console.warn(`[LF] Invalid ID update (from ${id} to ${newId})`);
+                continue;
+            }
+
+            if (target.status === 'ready') {
+                console.warn('[LF] File is already ready!');
+                continue;
+            }
+
+            target.id = newId;
+            setTimeout(
+                () => target.status = 'ready',
+                remainingWaitingTime(target.updated)
+            );
         }
     }
 
