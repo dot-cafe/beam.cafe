@@ -35,6 +35,8 @@ export class MassActions extends Component {
 
     render() {
         const massAction = uploads.getAvailableMassActions(uploads.selectedItems);
+        const amount = uploads.selectedItems.length;
+
         const getTextFor = (name: MassAction): string => {
             const amount = massAction.get(name);
             return amount && amount > 1 ? `(${amount})` : '';
@@ -42,9 +44,9 @@ export class MassActions extends Component {
 
         return (
             <div className={cn(styles.massActions, {
-                [styles.visible]: uploads.selectedItems.length > 0
+                [styles.visible]: amount > 0
             })}>
-                <h3>{uploads.selectedItems.length} Uploads selected</h3>
+                <h3>{amount > 1 ? `${amount} Uploads Selected` : 'One Upload Selected'}</h3>
 
                 <div className={styles.controls}>
                     <button disabled={!massAction.has('resume')}

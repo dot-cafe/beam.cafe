@@ -49,7 +49,7 @@ export class UploadStreamItem extends Component<Props> {
                 break;
             }
             case 'running': {
-                text = progress ? `${prettyBytes(progress)} Transferred` : 'Pending Stream...';
+                text = progress ? `${prettyBytes(progress)} Transferred` : 'Pending stream...';
                 break;
             }
             case 'paused': {
@@ -65,7 +65,6 @@ export class UploadStreamItem extends Component<Props> {
             <div className={styles.uploadStream}
                  data-state={state}
                  role="listitem">
-
 
                 {!isMobile && <Checkbox checked={selected}
                                         onChange={this.toggleSelect}

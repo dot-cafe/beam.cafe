@@ -85,10 +85,14 @@ autorun(() => {
 });
 
 // Sync remote settings
+/* eslint-disable no-console */
 let previousRemoteState = clone(defaultSettings.remote);
 autorun(() => {
     const remoteSettings = toJS(settings.remote);
     socket.request('settings', remoteSettings)
         .then(() => previousRemoteState = remoteSettings)
-        .catch(() => Object.assign(settings.remote, previousRemoteState));
+        .catch(() => {
+            console.warn('[CFG] Failed to update settings');
+            Object.assign(settings.remote, previousRemoteState);
+        });
 });
