@@ -6,7 +6,24 @@ import {FunctionalComponent, h} from 'preact';
 import baseStyles               from './_base.module.scss';
 import styles                   from './Appearance.module.scss';
 
+const colors: Array<[number, number, number]> = [
+    [50, 92, 45],
+    [90, 86, 42],
+    [160, 79, 45],
+    [220, 94, 61],
+    [260, 94, 61],
+    [300, 79, 54],
+    [360, 75, 56]
+];
+
 export const Appearance: FunctionalComponent = observer(() => {
+    const themeColorMetaElements: Array<HTMLMetaElement> = Array.from(document.querySelectorAll('meta[data-meta="theme-color"]'));
+    const updatePageTheme = (hue: number, saturation: number, lightness: number) => {
+        for (const el of themeColorMetaElements) {
+            el.content = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+    };
+
     const toggleHighContrast = (newValue: boolean) => {
         document.body.classList[newValue ? 'add' : 'remove']('high-contrast');
         settings.highContrast = newValue;
@@ -37,24 +54,16 @@ export const Appearance: FunctionalComponent = observer(() => {
         bodyStyle.removeProperty('--c-primary');
         bodyStyle.removeProperty('--c-primary-accent');
         bodyStyle.removeProperty('--c-focus-border-primary');
+        updatePageTheme(...colors[3]); // The fourth value is the original theme color
     } else {
         const [color, accent, focus] = generateThemeColors(...settings.themeColor);
         bodyStyle.setProperty('--c-primary', color);
         bodyStyle.setProperty('--c-primary-accent', accent);
         bodyStyle.setProperty('--c-focus-border-primary', focus);
+        updatePageTheme(...settings.themeColor);
     }
 
     const customColorButtons = [];
-    const colors: Array<Array<number>> = [
-        [50, 92, 45],
-        [90, 86, 42],
-        [160, 79, 45],
-        [220, 94, 61],
-        [260, 94, 61],
-        [300, 79, 54],
-        [360, 75, 56]
-    ];
-
     const currentThemeColor = bodyStyle.getPropertyValue('--c-primary');
     for (const [hue, cs, cl] of colors) {
         const [color, accent, focus] = generateThemeColors(hue, cs, cl);
