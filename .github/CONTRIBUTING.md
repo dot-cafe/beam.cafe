@@ -15,7 +15,7 @@ install them on your local machine and start both dev-servers with `npm run dev`
 
 ### Issue checklist
 
- 1. [Use the search](https://github.com/dot-cafe/beam.cafesearch?type=Issues), maybe there is already an answer or a PR.
+ 1. [Use the search](https://github.com/dot-cafe/beam.cafe/search?type=Issues), maybe there is already an answer or a PR.
  2. If not found, [create an issue](https://github.com/dot-cafe/beam.cafe/issues/new), please don't forget to carefully describe how to reproduce it / pay attention to the issue-template.
 
 ### Pull request checklist
