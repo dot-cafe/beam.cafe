@@ -201,7 +201,7 @@ class Socket {
                 const upload = new Upload({
                     listedFile: item,
                     id: downloadId,
-                    url: `${env.API_ENDPOINT}/file/${downloadId}`
+                    url: `${env.HTTPS_ENDPOINT}/b/file/${downloadId}`
                 });
 
                 uploads.registerUpload(upload);
@@ -224,10 +224,10 @@ class Socket {
                 });
 
                 if (stream && range !== undefined) {
-                    (stream as UploadStream).consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
+                    (stream as UploadStream).consume(range, `${env.HTTPS_ENDPOINT}/b/stream/${streamId}`, streamId);
                 } else {
                     const upload = new UploadStream(streamKey, item);
-                    upload.consume(range, `${env.API_ENDPOINT}/stream/${streamId}`, streamId);
+                    upload.consume(range, `${env.HTTPS_ENDPOINT}/b/stream/${streamId}`, streamId);
                     uploads.registerUpload(upload);
                 }
 

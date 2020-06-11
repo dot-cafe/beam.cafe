@@ -137,7 +137,7 @@ module.exports = {
                 'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
                 'WS_ENDPOINT': JSON.stringify('ws://localhost:8080'),
-                'API_ENDPOINT': JSON.stringify('http://localhost:8080')
+                'HTTPS_ENDPOINT': JSON.stringify('http://localhost:8080')
             }
         }),
 

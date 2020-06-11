@@ -27,7 +27,7 @@ export class FileItem extends Component<Props> {
     share() {
         const {id, name} = this.props.item;
         const toast = Toast.instance;
-        const link = `${env.API_ENDPOINT}/d/${id}`;
+        const link = `${env.HTTPS_ENDPOINT}/d/${id}`;
 
         /**
          * Check if share-api is available, only for mobile devices - it sucks on
