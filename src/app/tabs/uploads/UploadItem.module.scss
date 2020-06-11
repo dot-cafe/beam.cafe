@@ -73,7 +73,7 @@
     &[data-state='cancelled'],
     &[data-state='errored'],
     &[data-state='connection-lost'],
-    &[data-state='peer-cancelled'], {
+    &[data-state='peer-cancelled'] {
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
         --c-status-focus: var(--c-focus-border-red);

@@ -57,7 +57,8 @@
         --c-status-focus: var(--c-focus-border-yellow);
     }
 
-    &[data-state='cancelled'] {
+    &[data-state='cancelled'],
+    &[data-state='connection-lost'] {
         grid-template: 1em / min-content 1fr min-content;
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);

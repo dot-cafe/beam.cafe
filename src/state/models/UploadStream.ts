@@ -15,7 +15,8 @@ export type UploadStreamState = 'idle' |
     'awaiting-approval' |
     'running' |
     'paused' |
-    'cancelled';
+    'cancelled' |
+    'connection-lost';
 
 export class UploadStream implements UploadLike<UploadStreamState> {
     @observable public streaming = false;
@@ -36,7 +37,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
     constructor(streamKey: string, listedFile: ListedFile) {
         this.streamKey = streamKey;
         this.listedFile = listedFile;
-        this.id = uid(); // TODO: Redundant?
+        this.id = uid();
         this.update(settings.autoPause ? 'awaiting-approval' : 'running');
     }
 
@@ -62,6 +63,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
                 return 'active';
 
             case 'cancelled':
+            case 'connection-lost':
                 return 'done';
         }
     }

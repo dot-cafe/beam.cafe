@@ -1,10 +1,10 @@
 import {Checkbox}                        from '@components/Checkbox';
+import {UploadExtensions}                from '@state/models/UploadExtensions';
 import {UploadStream, UploadStreamState} from '@state/models/UploadStream';
 import {uploads}                         from '@state/stores/Uploads';
 import {bind, cn}                        from '@utils/preact-utils';
 import {observer}                        from 'mobx-react';
 import {Component, h}                    from 'preact';
-import prettyBytes                       from 'pretty-bytes';
 import {isMobile}                        from '../../browserenv';
 import styles                            from './UploadStreamItem.module.scss';
 
@@ -39,27 +39,7 @@ export class UploadStreamItem extends Component<Props> {
 
     render() {
         const {item, selected} = this.props;
-        const {state, progress} = item;
-        let text;
-
-        switch (state) {
-            case 'idle':
-            case 'awaiting-approval': {
-                text = 'Auto-pause is activated. Press start to initiate upload.';
-                break;
-            }
-            case 'running': {
-                text = progress ? `${prettyBytes(progress)} Transferred` : 'Pending stream...';
-                break;
-            }
-            case 'paused': {
-                text = progress ? `Stream paused (${prettyBytes(progress)} Transferred)` : 'Stream paused';
-                break;
-            }
-            case 'cancelled': {
-                text = progress ? `Stream cancelled (${prettyBytes(progress)} Transferred)` : 'Stream cancelled';
-            }
-        }
+        const {state} = item;
 
         return (
             <div className={styles.uploadStream}
@@ -72,7 +52,7 @@ export class UploadStreamItem extends Component<Props> {
 
                 <div className={styles.progressBar}
                      aria-label="Active uploads">
-                    <p><span>{text}</span></p>
+                    <p><span>{UploadExtensions.getStatusMessageFor(item)}</span></p>
                 </div>
 
                 {
