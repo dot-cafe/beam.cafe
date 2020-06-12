@@ -19,6 +19,7 @@ type State = {
 class ToastSingleton extends Component<Props, State> {
     private static readonly TIMEOUT = 2500;
     private readonly timeoutBar = createRef<HTMLDivElement>();
+    private readonly toastEl = createRef<HTMLDivElement>();
     private hideTimeout: number | null = null;
     private locked = false;
 
@@ -70,19 +71,20 @@ class ToastSingleton extends Component<Props, State> {
     }
 
     @bind
-    private resetTimer(): void {
-        const timeoutBar = this.timeoutBar.current;
-
-        if (timeoutBar) {
-            timeoutBar.classList.remove(styles.timeout);
-            requestAnimationFrame(() => {
-                timeoutBar.classList.add(styles.timeout);
-            });
-        }
+    private lockTimer(): void {
+        this.timeoutBar.current?.classList.remove(styles.timeout);
 
         if (this.hideTimeout !== null) {
             clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
+    }
 
+    @bind
+    private unlockTimer(): void {
+        this.timeoutBar.current?.classList.add(styles.timeout);
+
+        if (this.hideTimeout === null) {
             this.hideTimeout = setTimeout(() => {
                 this.hide();
             }, ToastSingleton.TIMEOUT) as unknown as number;
@@ -106,8 +108,9 @@ class ToastSingleton extends Component<Props, State> {
                  })}>
 
                 <div data-state={item.type || 'success'}
-                     onMouseMove={this.resetTimer}
-                     onTouchMove={this.resetTimer}>
+                     onMouseEnter={this.lockTimer}
+                     onMouseLeave={this.unlockTimer}
+                     ref={this.toastEl}>
                     <div ref={this.timeoutBar} style={`--timeout: ${ToastSingleton.TIMEOUT}ms`}/>
 
                     {icon && <bc-icon name={icon}/>}
