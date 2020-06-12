@@ -53,13 +53,13 @@ export const Appearance: FunctionalComponent = observer(() => {
         document.body.classList.add('high-contrast');
         bodyStyle.removeProperty('--c-primary');
         bodyStyle.removeProperty('--c-primary-accent');
-        bodyStyle.removeProperty('--c-focus-border-primary');
+        bodyStyle.removeProperty('--c-primary-focus');
         updatePageTheme(...colors[3]); // The fourth value is the original theme color
     } else {
         const [color, accent, focus] = generateThemeColors(...settings.themeColor);
         bodyStyle.setProperty('--c-primary', color);
         bodyStyle.setProperty('--c-primary-accent', accent);
-        bodyStyle.setProperty('--c-focus-border-primary', focus);
+        bodyStyle.setProperty('--c-primary-focus', focus);
         updatePageTheme(...settings.themeColor);
     }
 

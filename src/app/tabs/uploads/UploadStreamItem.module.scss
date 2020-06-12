@@ -10,11 +10,11 @@
     padding: 0.35em 0.25em;
     --c-status: var(--c-green);
     --c-status-accent: var(--c-green-accent);
-    --c-status-focus: var(--c-focus-border-green);
+    --c-status-focus: var(--c-green-focus);
 
     --pause-color: var(--c-yellow);
     --pause-color-accent: var(--c-yellow-accent);
-    --pause-color-focus: var(--c-focus-border-yellow);
+    --pause-color-focus: var(--c-yellow-focus);
 
     --checkbox-color: var(--c-status);
     --checkbox-color-accent: var(--c-status-accent);
@@ -51,10 +51,10 @@
     &[data-state='paused'] {
         --pause-color: var(--c-primary);
         --pause-color-accent: var(--c-primary-accent);
-        --pause-color-focus: var(--c-focus-border-primary);
+        --pause-color-focus: var(--c-primary-focus);
         --c-status: var(--c-yellow);
         --c-status-accent: var(--c-yellow-accent);
-        --c-status-focus: var(--c-focus-border-yellow);
+        --c-status-focus: var(--c-yellow-focus);
     }
 
     &[data-state='cancelled'],
@@ -62,7 +62,7 @@
         grid-template: 1em / min-content 1fr min-content;
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
-        --c-status-focus: var(--c-focus-border-red);
+        --c-status-focus: var(--c-red-focus);
 
         @include mq-phones {
             grid-template: 1em / 1fr min-content;

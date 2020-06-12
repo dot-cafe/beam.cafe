@@ -72,7 +72,7 @@
             $color: nth($item, 2);
             --c-status: var(#{'--c-' + $color});
             --c-status-accent: var(#{'--c-' + $color + '-accent'});
-            --c-status-focus: var(#{'--c-focus-border-' + $color});
+            --c-status-focus: var(#{'--c-' + $color + '-focus'});
         }
     }
 }

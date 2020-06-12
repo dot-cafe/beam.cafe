@@ -78,6 +78,6 @@
     }
 
     &:focus {
-        box-shadow: 0 0 0 2px var(#{'--c-focus-border-' + $name});
+        box-shadow: 0 0 0 2px var(#{'--c-' + $name + '-focus'});
     }
 }

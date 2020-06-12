@@ -68,7 +68,7 @@ $grid-margin: 1em;
                     @include hover_effect(--c-red);
 
                     &:focus {
-                        box-shadow: 0 0 0 2px var(--c-focus-border-red);
+                        box-shadow: 0 0 0 2px var(--c-red-focus);
                     }
                 }
             }

@@ -1,6 +1,6 @@
 .checkbox {
     --color: var(--checkbox-color, var(--c-text-primary));
-    --color-focus: var(--checkbox-focus-color, var(--c-focus-border-primary));
+    --color-focus: var(--checkbox-focus-color, var(--c-primary-focus));
     --color-accent: var(--checkbox-color-accent, var(--c-text-primary-accent));
     --stroke: var(--checkbox-stroke, var(--c-background-primary));
     --stroke-width: var(--checkbox-stroke-width, 5);

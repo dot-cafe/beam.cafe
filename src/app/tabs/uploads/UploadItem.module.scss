@@ -8,7 +8,7 @@
     padding: 0.35em 0.25em;
     --c-status: var(--c-primary);
     --c-status-accent: var(--c-primary-accent);
-    --c-status-focus: var(--c-focus-border-primary);
+    --c-status-focus: var(--c-primary-focus);
 
     --checkbox-color: var(--c-status);
     --checkbox-color-accent: var(--c-status-accent);
@@ -62,7 +62,7 @@
     &[data-state='paused'] {
         --c-status: var(--c-yellow);
         --c-status-accent: var(--c-yellow-accent);
-        --c-status-focus: var(--c-focus-border-yellow);
+        --c-status-focus: var(--c-yellow-focus);
     }
 
     &[data-state='finished'] {
@@ -76,7 +76,7 @@
     &[data-state='peer-cancelled'] {
         --c-status: var(--c-red);
         --c-status-accent: var(--c-red-accent);
-        --c-status-focus: var(--c-focus-border-red);
+        --c-status-focus: var(--c-red-focus);
     }
 }
 

@@ -45,7 +45,7 @@
         }
 
         &[data-type='danger'] {
-            @include focus_border(--c-focus-border-red);
+            @include focus_border(--c-red-focus);
             color: var(--c-red);
 
             &.active {
