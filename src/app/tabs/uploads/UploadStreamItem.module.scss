@@ -18,7 +18,7 @@
 
     --checkbox-color: var(--c-status);
     --checkbox-color-accent: var(--c-status-accent);
-    --checkbox-focus-color: var(--c-status-focus);
+    --checkbox-color-focus: var(--c-status-focus);
 
     .btn {
         @include size(1em);
