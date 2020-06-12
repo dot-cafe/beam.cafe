@@ -26,3 +26,17 @@ install them on your local machine and start both dev-servers with `npm run dev`
  4. Reference any relevant issues / PRs in your PR.
 
 There is no test-suite (yet) so every feature has to be carefully implemented :)
+
+### Versioning
+The versioning of beam.cafe looks like the following (example):
+
+```
+1.3.2.23
+      ^^---- Commits on master since last patch version, minor changes mostly
+    ^------- Patch version: A bug fix
+  ^--------- Minor version: A new feature
+^----------- Major version: Major change, more that just a feature / change
+```
+
+The version of a deployed instance is resolved during build-time using tags and the amount of commits since the last tag.
+`0.0.0.x` was used for un-released versions.
