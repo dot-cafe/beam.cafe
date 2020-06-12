@@ -5,8 +5,8 @@
     .header {
         @include flex(row, center, space-between);
         border-bottom: 2px solid var(--c-background-secondary);
-        padding: 0.75em 0.65em 0.35em;
-        font-size: 0.85em;
+        padding: 0.25em 0.5em 0.35em;
+        font-size: 1.5em;
         width: 100%;
     }
 
@@ -37,6 +37,7 @@
 }
 
 .controls {
+    @include flex(row, center);
     flex-shrink: 0;
 
     > button {
