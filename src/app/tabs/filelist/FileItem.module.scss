@@ -62,9 +62,9 @@
     }
 
     $state-color: (
-            ('loading', yellow),
-            ('ready', primary),
-            ('removing', red),
+            ('loading', 'yellow'),
+            ('ready', 'primary'),
+            ('removing', 'red'),
     );
 
     @each $item in $state-color {

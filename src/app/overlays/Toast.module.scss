@@ -67,9 +67,9 @@
         }
 
         $states: (
-                ('success', primary),
-                ('warning', yellow),
-                ('error', red),
+                ('success', 'primary'),
+                ('warning', 'yellow'),
+                ('error', 'red'),
         );
 
         @each $state in $states {
