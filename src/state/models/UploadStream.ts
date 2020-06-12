@@ -16,6 +16,8 @@ export type UploadStreamState = 'idle' |
     'running' |
     'paused' |
     'cancelled' |
+    'removed' |
+    'peer-cancelled' |
     'connection-lost';
 
 export class UploadStream implements UploadLike<UploadStreamState> {
@@ -62,7 +64,9 @@ export class UploadStream implements UploadLike<UploadStreamState> {
             case 'running':
                 return 'active';
 
+            case 'removed':
             case 'cancelled':
+            case 'peer-cancelled':
             case 'connection-lost':
                 return 'done';
         }

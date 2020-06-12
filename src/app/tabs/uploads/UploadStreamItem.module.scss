@@ -57,7 +57,9 @@
         --c-status-focus: var(--c-yellow-focus);
     }
 
+    &[data-state='removed'],
     &[data-state='cancelled'],
+    &[data-state='peer-cancelled'],
     &[data-state='connection-lost'] {
         grid-template: 1em / min-content 1fr min-content;
         --c-status: var(--c-red);

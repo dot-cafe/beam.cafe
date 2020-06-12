@@ -1,11 +1,12 @@
-import {UploadLike}         from '@state/models/types';
-import {UploadStream}       from '@state/models/UploadStream';
-import {Selectable}         from '@state/wrapper/Selectable';
-import {clearArray}         from '@utils/array';
-import {action, observable} from 'mobx';
-import {UploadState}        from '../models/Upload';
+import {UploadLike}                      from '@state/models/types';
+import {UploadStream, UploadStreamState} from '@state/models/UploadStream';
+import {Selectable}                      from '@state/wrapper/Selectable';
+import {clearArray}                      from '@utils/array';
+import {action, observable}              from 'mobx';
+import {UploadState}                     from '../models/Upload';
 
 export type MassAction = 'remove' | 'pause' | 'resume' | 'cancel';
+export type JoinedUploadState = UploadState & UploadStreamState;
 
 class Uploads extends Selectable<UploadLike> {
     @observable public readonly listedUploads: Array<UploadLike> = [];
@@ -69,7 +70,7 @@ class Uploads extends Selectable<UploadLike> {
     }
 
     @action
-    public performMassStatusUpdate(newState: UploadState, ...uploads: Array<UploadLike>): void {
+    public performMassStatusUpdate(newState: JoinedUploadState, ...uploads: Array<UploadLike>): void {
         for (const upload of uploads) {
             upload.update(newState);
         }

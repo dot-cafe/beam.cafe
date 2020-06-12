@@ -75,7 +75,7 @@ export const UploadExtensions = {
                 case 'connection-lost':
                     return 'Connection to server lost.';
                 case 'peer-cancelled':
-                    return ' Cancelled by peer';
+                    return 'Cancelled by peer';
                 case 'errored':
                     return 'Errored';
                 case 'finished':
@@ -90,10 +90,14 @@ export const UploadExtensions = {
                     return 'Auto-pause is activated. Press start to initiate upload.';
                 case 'running':
                     return progress ? `${prettyBytes(progress)} Transferred` : 'Pending stream...';
+                case 'removed':
+                    return progress ? `File removed (${prettyBytes(progress)} Transferred)` : 'File removed';
                 case 'paused':
                     return progress ? `Stream paused (${prettyBytes(progress)} Transferred)` : 'Stream paused';
                 case 'connection-lost':
-                    return progress ? `Connection to server lost (${prettyBytes(progress)} Transferred)` : 'Stream paused';
+                    return progress ? `Connection to server lost (${prettyBytes(progress)} Transferred)` : 'Connection to server lost';
+                case 'peer-cancelled':
+                    return progress ? `Cancelled by peer (${prettyBytes(progress)} Transferred)` : 'Cancelled by peer';
                 case 'cancelled':
                     return progress ? `Stream cancelled (${prettyBytes(progress)} Transferred)` : 'Stream cancelled';
             }

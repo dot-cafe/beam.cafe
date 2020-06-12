@@ -6,12 +6,12 @@ import {ListedFile}                        from './ListedFile';
 import {UploadExtensions}                  from './UploadExtensions';
 
 export type UploadState = 'idle' |
+    'awaiting-approval' |
     'paused' |
     'running' |
     'cancelled' |
     'errored' |
     'finished' |
-    'awaiting-approval' |
     'peer-cancelled' |
     'removed' |
     'connection-lost';
