@@ -5,11 +5,10 @@
     justify-self: center;
     padding: 0 0.5em;
     overflow: visible;
-    --color: var(--c-primary);
 
     span {
         @include font(800, 12px);
-        color: var(--color);
+        color: var(--c-status);
         transition: all 0.3s;
         line-height: 0.5em;
     }
@@ -31,7 +30,7 @@
             &.outline {
                 transition: all 0.3s;
                 stroke-dasharray: 20 80;
-                stroke: var(--color);
+                stroke: var(--c-status);
 
                 @include animate('1s infinite linear') {
                     from {
@@ -53,8 +52,8 @@
         }
     }
 
-    &[data-status='loading'],
-    &[data-status='removing'] {
+    &[data-state='loading'],
+    &[data-state='removing'] {
         svg rect {
             &:not(.outline) {
                 stroke: var(--c-background-secondary);
@@ -64,13 +63,5 @@
                 animation-play-state: running;
             }
         }
-    }
-
-    &[data-status='loading'] {
-        --color: var(--c-yellow);
-    }
-
-    &[data-status='removing'] {
-        --color: var(--c-red);
     }
 }

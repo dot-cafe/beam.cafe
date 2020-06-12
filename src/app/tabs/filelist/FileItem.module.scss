@@ -12,8 +12,9 @@
     --checkbox-border-width: 1.5px;
     --checkbox-size: 1.25em;
     --checkbox-stroke-width: 7.5;
-    --checkbox-color: var(--c-primary);
-    --checkbox-color-accent: var(--c-primary-accent);
+    --checkbox-color: var(--c-status);
+    --checkbox-color-accent: var(--c-status-accent);
+    --checkbox-focus-color: var(--c-status-focus);
 
     > p:hover ~ .copyLinkOverlay {
         visibility: visible;
@@ -57,6 +58,21 @@
             &:hover {
                 color: var(--c-text-primary-accent);
             }
+        }
+    }
+
+    $state-color: (
+            ('loading', yellow),
+            ('ready', primary),
+            ('removing', red),
+    );
+
+    @each $item in $state-color {
+        &[data-state=#{nth($item, 1)}] {
+            $color: nth($item, 2);
+            --c-status: var(#{'--c-' + $color});
+            --c-status-accent: var(#{'--c-' + $color + '-accent'});
+            --c-status-focus: var(#{'--c-focus-border-' + $color});
         }
     }
 }

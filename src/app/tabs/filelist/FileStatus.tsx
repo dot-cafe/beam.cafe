@@ -37,7 +37,7 @@ export class FileStatus extends Component<Props> {
 
         return (
             <div className={styles.status}
-                 data-status={status}
+                 data-state={status}
                  aria-label={`File status: ${status}`}>
                 <span>{text}</span>
 
