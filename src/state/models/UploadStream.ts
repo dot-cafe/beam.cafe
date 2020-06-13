@@ -142,7 +142,7 @@ export class UploadStream implements UploadLike<UploadStreamState> {
 
         // Transfer bytes
         xhr.open('POST', url, true);
-        xhr.send(blob.slice(range[0], range[1], blob.type));
+        xhr.send(blob.slice(range[0], range[1] + 1, blob.type));
         this.uploads.set(id, xhr);
     }
 
