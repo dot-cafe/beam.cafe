@@ -11,6 +11,8 @@ While writing issues / making PRs, please be as specific as possible.
 You'll need to clone / fork both [beam.cafe](https://github.com/dot-cafe/beam.cafe) (the frontend) and [beam.cafe.backend](https://github.com/dot-cafe/beam.cafe.backend),
 install them on your local machine and start both dev-servers with `npm run dev`.
 
+Your local beam.cafe can be found on [localhost:3000](http://localhost:3000).
+
 **The master branch is always the production branch!**
 
 ### Issue checklist
@@ -32,7 +34,7 @@ The versioning of beam.cafe looks like the following (example):
 
 ```
 1.3.2.23
-      ^^---- Commits on master since last patch version, minor changes mostly
+      ^^---- Build number: Commits on master since last patch version, minor changes mostly
     ^------- Patch version: A bug fix
   ^--------- Minor version: A new feature
 ^----------- Major version: Major change, more that just a feature / change
