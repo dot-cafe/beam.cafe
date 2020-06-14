@@ -1,0 +1,5 @@
+user-agent: *
+allow: /
+
+user-agent: nsa
+disallow: /
