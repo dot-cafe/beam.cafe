@@ -36,7 +36,7 @@ module.exports = {
     },
 
     devServer: {
-        port: 3003,
+        port: 3000,
         disableHostCheck: true,
         historyApiFallback: true,
         clientLogLevel: 'none',
@@ -136,8 +136,10 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('development'),
                 'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
-                'WS_ENDPOINT': JSON.stringify('ws://localhost:8080'),
-                'HTTPS_ENDPOINT': JSON.stringify('http://localhost:8080')
+                // 'WS_ENDPOINT': JSON.stringify('ws://localhost:8080'),
+                // 'HTTPS_ENDPOINT': JSON.stringify('http://localhost:8080'),
+                'WS_ENDPOINT': JSON.stringify('ws://192.168.178.49:8080'),
+                'HTTPS_ENDPOINT': JSON.stringify('http://192.168.178.49:8080')
             }
         }),
 
