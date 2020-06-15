@@ -14,8 +14,5 @@ export const App: FunctionalComponent = () => (
         <UpdateScreen/>
         <StatusBar/>
         <Tabs/>
-
-        {/* TODO: Remove with first, stable release */}
-        <p>WIP</p>
     </div>
 );
