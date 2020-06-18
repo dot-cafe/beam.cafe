@@ -46,7 +46,6 @@
         "align-import/align-import": "error",
         "no-unused-vars": "off",
         "func-call-spacing": "off",
-        "linebreak-style": "off",
         "indent": "off"
     }
 }
