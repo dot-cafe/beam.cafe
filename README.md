@@ -45,7 +45,7 @@ You can always check who's downloading or streaming your files and, in case a li
 * 🎁 Tiny - Beam Cafe only uses libraries with a minimal footprint such as [preact](https://preactjs.com/), [graceful-ws](https://github.com/Simonwep/graceful-ws) and [nanopop](https://github.com/Simonwep/nanopop).
 * 🔧 Customizable - Many settings around security, appearance, notifications and more!
 * 🌜 Multi-themed - Light theme or dark theme? beam.cafe has both, even a high-contrast mode.
-* 🦾 Accessibly - High contrast theme paired with modern aria-labels will make using it an ease (PR's are welcome!).
+* 🦾 Accessible - High contrast theme paired with modern aria-labels will make using it an ease (PR's are welcome!).
 * ✨ Modern - A modern design makes using beam.cafe a breeze.
 
 
