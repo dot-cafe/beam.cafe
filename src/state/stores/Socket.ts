@@ -259,7 +259,7 @@ class Socket {
 
                 DialogBox.instance.open({
                     icon: 'low-connection',
-                    title: `You've been rate limited!`,
+                    title: 'You\'ve been rate limited!',
                     description,
                     buttons: [
                         {text: 'Okay'}
