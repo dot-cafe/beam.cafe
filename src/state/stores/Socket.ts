@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
+import {DialogBox}                                         from '@overlays/DialogBox';
 import {UploadStream}                                      from '@state/models/UploadStream';
+import {prettyRemainingTime}                               from '@utils/prettyRemainingTime';
 import {uid}                                               from '@utils/uid';
 import GracefulWebSocket                                   from 'graceful-ws';
 import {action, observable}                                from 'mobx';
+import prettyBytes                                         from 'pretty-bytes';
 import {Upload}                                            from '../models/Upload';
 import {FileRefreshments, FileRegistrations, files}        from './Files';
 import {pushNotification}                                  from './Notify';
@@ -243,6 +246,25 @@ class Socket {
                 if (target) {
                     uploads.performMassStatusUpdate('peer-cancelled', target);
                 }
+
+                break;
+            }
+            case 'rate-limited': {
+                console.log('[WS] Rate limited.', payload);
+
+                const description =
+                    'Rate limits are used to prevent abuse. ' +
+                    `It's currently set to ${prettyBytes(payload.limit)} and you've exceeded that limit, pending downloads have been cancelled. ` +
+                    `Wait ${prettyRemainingTime(payload.remainingTime)} until you can upload something again.`;
+
+                DialogBox.instance.open({
+                    icon: 'low-connection',
+                    title: 'You\'ve been rate limited!',
+                    description,
+                    buttons: [
+                        {text: 'Okay'}
+                    ]
+                });
 
                 break;
             }

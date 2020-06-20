@@ -90,8 +90,7 @@
     p {
         @include position(0, 0, 0, 0);
         @include flex(row, center, center);
-        @include font(600, 0.45em);
-        font-weight: 800;
+        @include font(800, 0.45em);
         position: absolute;
         text-shadow: 0 0 2px rgba(black, 0.2);
         transition: clip-path 0.3s;
