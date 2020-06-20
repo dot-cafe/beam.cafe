@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import {DialogBox}                                         from '@overlays/DialogBox';
 import {UploadStream}                                      from '@state/models/UploadStream';
-import {prettyRemainingTime}                               from '@utils/prettyRemainingTime';
+import {prettyRemainingTime}                               from '@utils/pretty-remaining-time';
 import {uid}                                               from '@utils/uid';
 import GracefulWebSocket                                   from 'graceful-ws';
 import {action, observable}                                from 'mobx';
