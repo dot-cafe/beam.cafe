@@ -36,7 +36,7 @@
 
 ### The concept and Features
 beam.cafe knows very little about you - the names of your files, your IP and well, that's it.
-If you send over a file it won't get saved somewhere on the server but instead will be streamed from your local machine directly to your peer.
+If you send over a file it won't get saved somewhere on the server but instead will be streamed from your local machine over the server of beam.cafe directly to your peer.
 You can always check who's downloading or streaming your files and, in case a link fell into the wrong hands, invalidate a file. Also, beam.cafe comes with a wide set of features:
 
 * 💻 It's a [PWA](https://web.dev/progressive-web-apps/)! You can install it on desktop and on your phone.
