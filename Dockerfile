@@ -15,7 +15,7 @@ RUN npm run build
 ### Server
 FROM node:current-alpine
 
-WORKDIR /app
+WORKDIR /frontend
 
 # Copy the final build for the frontend and backend
 COPY --from=build-stage /frontend /frontend
@@ -24,4 +24,4 @@ COPY --from=build-stage /frontend /frontend
 EXPOSE 3000
 
 # Command to start the server
-CMD npm run start
+CMD npm run dev

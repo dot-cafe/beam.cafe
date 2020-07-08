@@ -3,7 +3,7 @@ services:
   beamcafe_frontend:
     image: dotcafe/beam.cafe
     container_name: beamcafe_frontend
-    env_file: env/production.env # change the path to your env file
+    #env_file: env/production.env # change the path to your env file
     ports:
       - 3000:3000
     links:
@@ -15,7 +15,7 @@ services:
   beamcafe_backend:
     image: dotcafe/beam.cafe.backend
     container_name: beamcafe_backend
-    env_file: env/production.env # change the path to your env file
+    # env_file: env/production.env # change the path to your env file
     ports:
       - 8080:8080
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
