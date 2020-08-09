@@ -9,11 +9,11 @@ $border-radius: 0.25em;
     background: black;
     border-radius: $border-radius;
     font-family: $font-family;
-    transition: opacity 0.3s, visibility 0.3s 0.3s;
+    transition: opacity 0.3s, visibility 0.3s 0.3s !important;
     opacity: 0;
 
     &.visible {
-        transition: opacity 0.3s;
+        transition: opacity 0.3s !important;
         opacity: 1;
     }
 
