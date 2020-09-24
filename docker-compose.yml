@@ -1,21 +1,23 @@
 version: "3.7"
-services:
-  beamcafe_frontend:
-    image: dotcafe/beam.cafe
-    container_name: beamcafe_frontend
-    #env_file: env/production.env # change the path to your env file
-    ports:
-      - 3000:3000
-    links:
-      - beamcafe_backend
-    depends_on:
-      - beamcafe_backend
-    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
 
-  beamcafe_backend:
-    image: dotcafe/beam.cafe.backend
-    container_name: beamcafe_backend
-    # env_file: env/production.env # change the path to your env file
-    ports:
-      - 8080:8080
-    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+services:
+    beamcafe_frontend:
+        image: dotcafe/beam.cafe
+        container_name: beamcafe_frontend
+        environment:
+            WS_ENDPOINT: "wss://gug.cafe/ws"
+            HTTPS_ENDPOINT: "https://gug.cafe"
+        volumes:
+            - ./beam.cafe:/app/dist
+        ports:
+            - 3000:3000
+        depends_on:
+            - beamcafe_backend
+        restart: unless-stopped
+
+    beamcafe_backend:
+        image: dotcafe/beam.cafe.backend
+        container_name: beamcafe_backend
+        ports:
+            - 8080:8080
+        restart: unless-stopped

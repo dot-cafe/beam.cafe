@@ -1,0 +1,5 @@
+/node_modules
+*.iml
+/.idea
+/dist
+/.psd
