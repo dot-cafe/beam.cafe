@@ -65,6 +65,10 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.woff2$/i,
+                use: 'file-loader'
+            },
+            {
                 test: /\.svg$/,
                 loader: 'svg-inline-loader'
             },
