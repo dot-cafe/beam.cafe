@@ -6,6 +6,8 @@ WORKDIR /app
 # Copy repository content
 COPY . .
 
+# Install dependencies
+RUN npm install
+
 # Build app
-ENTRYPOINT npm install && \
-           npm run build
+ENTRYPOINT npm run build
