@@ -1,23 +1,22 @@
 version: "3.7"
 
 services:
-    beamcafe_frontend:
+    frontend:
         image: dotcafe/beam.cafe
-        container_name: beamcafe_frontend
+        container_name: frontend
         environment:
-            WS_ENDPOINT: "wss://gug.cafe/ws"
-            HTTPS_ENDPOINT: "https://gug.cafe"
+            WS_ENDPOINT: "wss://beam.cafe/ws"
+            HTTPS_ENDPOINT: "https://beam.cafe"
         volumes:
-            - ./beam.cafe:/app/dist
-        ports:
-            - 3000:3000
+            - ./frontend:/app/dist
         depends_on:
-            - beamcafe_backend
-        restart: unless-stopped
+            - backend
 
-    beamcafe_backend:
+    backend:
         image: dotcafe/beam.cafe.backend
-        container_name: beamcafe_backend
+        container_name: backend
+        volumes:
+            - ./config:/config
         ports:
             - 8080:8080
         restart: unless-stopped
