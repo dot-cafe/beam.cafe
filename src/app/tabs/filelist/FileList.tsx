@@ -14,6 +14,7 @@ import {SearchBar}                  from './SearchBar';
 
 export type SortKey = 'index' | 'name' | 'size';
 
+type Props = unknown;
 type State = {
     searchTerm: null | string;
     sortKey: SortKey;
@@ -21,7 +22,7 @@ type State = {
 };
 
 @observer
-export class FileList extends Component<{}, State> {
+export class FileList extends Component<Props, State> {
     private readonly events = createNativeEventContainer();
 
     readonly state = {
@@ -31,7 +32,7 @@ export class FileList extends Component<{}, State> {
     };
 
     componentDidMount() {
-        this.events.on(window, 'keydown', (e: KeyboardEvent) => {
+        this.events.on(window, 'keydown', (e: KeyboardEvent): void => {
             switch (e.code) {
                 case 'KeyA': {
                     if (e.ctrlKey || e.metaKey) {

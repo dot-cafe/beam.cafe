@@ -5,7 +5,7 @@ import {observer}                  from 'mobx-react';
 import {Component, h}              from 'preact';
 import styles                      from './DropZone.module.scss';
 
-type Props = {};
+type Props = unknown;
 type State = {
     dragover: boolean;
 };
@@ -70,7 +70,7 @@ export class DropZone extends Component<Props, State> {
 
     @bind
     chooseFiles(): void {
-        files.openDialog();
+        void files.openDialog();
     }
 
     componentWillUnmount(): void {

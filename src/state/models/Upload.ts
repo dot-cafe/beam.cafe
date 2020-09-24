@@ -154,7 +154,7 @@ export class Upload implements UploadLike<UploadState> {
         // Fire notification if set
         if (settings.notifications.turnedOn === true &&
             settings.notifications.onUploadStateChange.includes(status)) {
-            UploadExtensions.notifyFor(this);
+            void UploadExtensions.notifyFor(this);
         }
 
         return true;

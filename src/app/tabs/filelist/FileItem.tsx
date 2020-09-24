@@ -36,11 +36,11 @@ export class FileItem extends Component<Props> {
          * and unusable.
          */
         if (navigator.share && isMobile) {
-            navigator.share({
+            void navigator.share({
                 title: name,
                 text: `Download ${name}`,
                 url: link
-            }).then(() => null).then(() => null);
+            }).then(() => null);
         } else {
             copyToClipboard(link).then(() => {
                 toast.show('Link copied to clipboard!');
@@ -67,7 +67,7 @@ export class FileItem extends Component<Props> {
 
             // Tell the user that uploads are about to get cancelled
             if (relatedUploads > 0) {
-                DialogBox.instance.open({
+                void DialogBox.instance.open({
                     icon: 'exclamation-mark',
                     title: 'Uh Oh! Are you sure about that?',
                     description: relatedUploads > 1 ?

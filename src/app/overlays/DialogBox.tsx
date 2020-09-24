@@ -26,7 +26,7 @@ type InternalDialogItem = {
     removing: boolean;
 };
 
-type Props = {};
+type Props = unknown;
 type State = {
     dialogs: Array<InternalDialogItem>;
 };

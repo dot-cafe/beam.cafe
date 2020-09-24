@@ -10,7 +10,7 @@ export type ToastItem = {
     body?: string;
 };
 
-type Props = {};
+type Props = unknown;
 type State = {
     visible: boolean;
     item: ToastItem;

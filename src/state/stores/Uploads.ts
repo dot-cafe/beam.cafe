@@ -12,7 +12,7 @@ class Uploads extends Selectable<UploadLike> {
     @observable public readonly listedUploads: Array<UploadLike> = [];
 
     public getAvailableMassActions(uploads: Array<UploadLike>): Map<MassAction, number> {
-        const massActionsMap = new Map();
+        const massActionsMap = new Map<MassAction, number>();
         const calcMassActions = (name: MassAction, predicate: (v: UploadLike) => boolean): void => {
             const amount = uploads.filter(predicate).length;
 

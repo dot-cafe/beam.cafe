@@ -14,7 +14,7 @@ export const ActionBar: FunctionalComponent = observer(() => {
 
         // Tell the user that uploads are about to get cancelled
         if (relatedUploads) {
-            DialogBox.instance.open({
+           void DialogBox.instance.open({
                 icon: 'exclamation-mark',
                 title: 'Uh Oh! Are you sure about that?',
                 description: 'This actions will cause all related streams and uploads to get cancelled, are you sure?',
@@ -47,7 +47,7 @@ export const ActionBar: FunctionalComponent = observer(() => {
 
     return (
         <div className={styles.actionBar}>
-            <button onClick={() => files.openDialog()}
+            <button onClick={() => void files.openDialog()}
                     className={styles.addBtn}
                     aria-label="Add files manually">
                 <bc-icon name="plus"/>

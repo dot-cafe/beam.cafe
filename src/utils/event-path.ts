@@ -5,8 +5,8 @@
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function eventPath(evt: any): Array<HTMLElement> {
-    let path = evt.path || (evt.composedPath && evt.composedPath());
+export function eventPath(evt: any): Array<EventTarget> {
+    let path: Array<EventTarget> = evt.path || (evt.composedPath && evt.composedPath());
     if (path) {
         return path;
     }

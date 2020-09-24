@@ -14,7 +14,7 @@ export type ResolveNotification = 'click' | 'close' | string | null;
 const pendingRequests = new Map<string, (s: ResolveNotification) => void>();
 
 // Wait until service worker is initialized
-navigator.serviceWorker.ready.then(() => {
+void navigator.serviceWorker.ready.then(() => {
 
     // Listen to resolved notifications
     navigator.serviceWorker.addEventListener('message', ev => {

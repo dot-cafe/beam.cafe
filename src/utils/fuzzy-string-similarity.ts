@@ -6,7 +6,7 @@
 export const fuzzyStringSimilarity = (
     a: string,
     b: string
-) => {
+): number => {
     const [min, max] = a.length < b.length ? [a, b] : [b, a];
     const minLength = min.length;
     const maxLength = max.length;

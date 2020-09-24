@@ -1,4 +1,5 @@
 import {Component, ComponentConstructor, createRef, h} from 'preact';
+import {Ref}                                           from 'preact/hooks';
 import {JSXInternal}                                   from 'preact/src/jsx';
 
 export type SingletonComponent<T> = {
@@ -11,7 +12,9 @@ export type SingletonComponent<T> = {
  * Does not work as decorator, see https://github.com/Microsoft/TypeScript/issues/4881
  * @param target
  */
-export function singleton<T extends Function>(
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+export function singleton<T extends {prototype: Record<string, any>}>(
     target: T
 ): SingletonComponent<T['prototype']> {
     const ref = createRef();
@@ -20,8 +23,8 @@ export function singleton<T extends Function>(
     const Component = target as unknown as ComponentConstructor;
 
     Object.defineProperty(target, 'instance', {
-        get: () => ref.current,
-        set: () => {
+        get: (): Ref<HTMLElement> => ref.current,
+        set: (): void => {
             throw new Error('instance is a readonly property');
         }
     });

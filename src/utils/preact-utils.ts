@@ -35,6 +35,7 @@ export function cn(...values: Array<string | {[key: string]: boolean}>): string 
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 export function bind(target: Record<string, any>, propertyKey: string, descriptor: PropertyDescriptor): any {
     return {
 

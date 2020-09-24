@@ -7,7 +7,7 @@ export const localStorageUtils = {
         }
 
         try {
-            return JSON.parse(data);
+            return JSON.parse(data) as T;
         } catch (e) {
             return null;
         }

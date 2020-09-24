@@ -1,6 +1,7 @@
 import {Switch}                     from '@components/Switch';
 import {Toast}                      from '@overlays/Toast';
 import {pushNotification, settings} from '@state/index';
+import {UploadExtensions}           from '@state/models/UploadExtensions';
 import {cn}                         from '@utils/preact-utils';
 import {observer}                   from 'mobx-react';
 import {FunctionalComponent, h}     from 'preact';
@@ -30,7 +31,7 @@ export const Notifications: FunctionalComponent = observer(() => {
                     const request = Notification.requestPermission(resolve);
 
                     if (request instanceof Promise) {
-                        request.then(resolve);
+                        void request.then(resolve);
                     }
 
                     break;

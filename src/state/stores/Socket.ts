@@ -257,7 +257,7 @@ class Socket {
                     `It's currently set to ${prettyBytes(payload.limit)} and you've exceeded that limit, pending downloads have been cancelled. ` +
                     `Wait ${prettyRemainingTime(payload.remainingTime)} until you can upload something again.`;
 
-                DialogBox.instance.open({
+                void DialogBox.instance.open({
                     icon: 'low-connection',
                     title: 'You\'ve been rate limited!',
                     description,

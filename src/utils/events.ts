@@ -1,23 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type Method = 'addEventListener' | 'removeEventListener';
-
-export type EventContainer = {
-    on(args: EventBindingArgs): void;
-    onMany(args: Array<EventBindingArgs>): void;
-    clear(): void;
-};
+type AnyFunction = (...arg: any) => any;
 
 export type EventBindingArgs = [
     EventTarget | Array<EventTarget>,
     string | Array<string>,
-    Function,
-    object?
+    AnyFunction,
+    Record<string, unknown>?
 ];
 
 interface EventBinding {
     (
         elements: EventTarget | Array<EventTarget>,
         events: string | Array<string>,
-        fn: Function, options?: object
+        fn: AnyFunction,
+        options?: Record<string, unknown>
     ): EventBindingArgs;
 }
 
@@ -26,7 +25,7 @@ function eventListener(method: Method): EventBinding {
     return (
         items: EventTarget | Array<EventTarget>,
         events: string | Array<string>,
-        fn: Function, options = {}
+        fn: AnyFunction, options = {}
     ): EventBindingArgs => {
 
         // Normalize array
@@ -101,7 +100,12 @@ export const createNativeEventContainer = () => {
  * Simplifies a touch / mouse-event
  * @param evt
  */
-export const simplifyEvent = (evt: TouchEvent) => {
+export const simplifyEvent = (evt: TouchEvent): {
+    tap: MouseEvent | Touch;
+    x: number;
+    y: number;
+    target: EventTarget;
+} => {
     const tap = (evt.touches && evt.touches[0] || evt);
     return {
         tap,
