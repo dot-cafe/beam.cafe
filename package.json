@@ -29,6 +29,7 @@
         "copy-webpack-plugin": "^6.0.2",
         "cross-env": "^7.0.2",
         "css-loader": "^3.6.0",
+        "dotenv": "^8.2.0",
         "eslint": "^7.2.0",
         "eslint-config-simon": "^2.1.0",
         "eslint-plugin-align-import": "^1.0.0",
