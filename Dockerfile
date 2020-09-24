@@ -1,4 +1,5 @@
-FROM node:12
+FROM node:12-alpine
+LABEL maintainer="Simon Reinisch <contact@reinisch.io>"
 
 # Use app as working directory
 WORKDIR /app
