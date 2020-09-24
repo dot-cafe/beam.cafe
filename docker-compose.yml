@@ -4,9 +4,8 @@ services:
     frontend:
         image: dotcafe/beam.cafe
         container_name: frontend
-        environment:
-            WS_ENDPOINT: "wss://beam.cafe/ws"
-            HTTPS_ENDPOINT: "https://beam.cafe"
+        env_file:
+            - .env
         volumes:
             - ./frontend:/app/dist
         depends_on:

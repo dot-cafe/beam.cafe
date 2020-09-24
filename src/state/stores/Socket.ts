@@ -28,7 +28,7 @@ class Socket {
     private sessionKey: string | null;
 
     constructor() {
-        this.ws = new GracefulWebSocket(env.WS_ENDPOINT);
+        this.ws = new GracefulWebSocket(env.API_WEBSOCKET);
         this.connectionState = 'disconnected';
         this.messageQueue = [];
         this.requests = new Map();
@@ -204,7 +204,7 @@ class Socket {
                 const upload = new Upload({
                     listedFile: item,
                     id: downloadId,
-                    url: `${env.HTTPS_ENDPOINT}/b/file/${downloadId}`
+                    url: `${env.API_HTTP}/b/file/${downloadId}`
                 });
 
                 uploads.registerUpload(upload);
@@ -227,10 +227,10 @@ class Socket {
                 });
 
                 if (stream && range !== undefined) {
-                    (stream as UploadStream).consume(range, `${env.HTTPS_ENDPOINT}/b/stream/${streamId}`, streamId);
+                    (stream as UploadStream).consume(range, `${env.API_HTTP}/b/stream/${streamId}`, streamId);
                 } else {
                     const upload = new UploadStream(streamKey, item);
-                    upload.consume(range, `${env.HTTPS_ENDPOINT}/b/stream/${streamId}`, streamId);
+                    upload.consume(range, `${env.API_HTTP}/b/stream/${streamId}`, streamId);
                     uploads.registerUpload(upload);
                 }
 

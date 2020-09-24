@@ -22,6 +22,6 @@ declare const env: {
     NODE_ENV: 'development' | 'production';
     BUILD_DATE: number;
     VERSION: string;
-    HTTPS_ENDPOINT: string;
-    WS_ENDPOINT: string;
+    API_HTTP: string;
+    API_WEBSOCKET: string;
 };

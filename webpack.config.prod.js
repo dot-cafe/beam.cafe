@@ -129,8 +129,8 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production'),
                 'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
-                'WS_ENDPOINT': JSON.stringify(process.env.WS_ENDPOINT || 'wss://beam.cafe/ws'),
-                'HTTPS_ENDPOINT': JSON.stringify(process.env.HTTPS_ENDPOINT || 'https://beam.cafe')
+                'API_WEBSOCKET': JSON.stringify(process.env.API_WEBSOCKET || 'wss://beam.cafe/ws'),
+                'API_HTTP': JSON.stringify(process.env.API_HTTP || 'https://beam.cafe')
             }
         }),
 
