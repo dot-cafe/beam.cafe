@@ -34,7 +34,7 @@
 </p>
 
 
-### The concept and Features
+### Concept and Features
 beam.cafe knows very little about you - the names of your files, your IP and well, that's it.
 If you send over a file it won't get saved somewhere on the server but instead will be streamed from your local machine over the server of beam.cafe directly to your peer.
 You can always check who's downloading or streaming your files and, in case a link fell into the wrong hands, invalidate a file. Also, beam.cafe comes with a wide set of features:
@@ -65,6 +65,26 @@ cd ../beam.cafe.backend && npm install && npm run dev
 
 The API will listen on port `8080` and the front-end will be served from `3000`, make sure these ports are open on your machine.
 
+### Deploy using docker
+beam.cafe can be set up using [docker-compose](https://docs.docker.com/compose/):
+
+```sh
+# Create directory for docker-compose.yml and all your config / build files
+mkdir beam.cafe && cd beam.cafe
+
+# Download docker-compose.yml and .env file
+curl -sSL https://raw.githubusercontent.com/dot-cafe/beam.cafe/master/docker-compose.yml > docker-compose.yml
+curl -sSL https://raw.githubusercontent.com/dot-cafe/beam.cafe/master/.env.example > .env
+
+# Setup blank config files
+mkdir config && echo "{}" > config/backend.json
+```
+
+Make sure to update the variables in your `.env` file before starting it.
+The documentation about `backend.json` can be found [here](https://github.com/dot-cafe/beam.cafe.backend#configuration). The `backend.json` file will be merged with the [default.json](https://github.com/dot-cafe/beam.cafe.backend/blob/master/config/default.json) config file so it's okay to leave it empty (`{}`).
+
+### Bare VPS Setup
+Head to [bare-vps.md](https://github.com/dot-cafe/beam.cafe.sh/blob/master/docs/bare-vps.md) to see how to setup it manually.
 
 ### Screenshots
 > ... or just [try it out](https://beam.cafe/)!
@@ -82,10 +102,6 @@ Maintaining a beaming cafe costs time and, although very little thanks to concep
 
 ### Contributing
 You've found a bug, have an idea for a future or want to make a PR? Check out our [contribution guidelines](https://github.com/dot-cafe/beam.cafe/blob/master/.github/CONTRIBUTING.md) to get started!
-
-
-### Production ready?
-You want to set up your own beaming station? Head over to [beam.cafe.sh](https://github.com/dot-cafe/beam.cafe.sh) to find instructions of how beam.cafe can be deployed using [nginx](https://nginx.org/)!
 
 ---
 
