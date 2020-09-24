@@ -60,7 +60,7 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true,
-                            prependData: '@import "src/styles/_variables.scss";',
+                            additionalData: '@import "src/styles/_variables.scss";',
                             sassOptions: {
                                 includePaths: [globalSCSS]
                             }
