@@ -83,8 +83,11 @@ mkdir config && echo "{}" > config/backend.json
 Make sure to update the variables in your `.env` file before starting it.
 The documentation about `backend.json` can be found [here](https://github.com/dot-cafe/beam.cafe.backend#configuration). The `backend.json` file will be merged with the [default.json](https://github.com/dot-cafe/beam.cafe.backend/blob/master/config/default.json) config file so it's okay to leave it empty (`{}`).
 
+If you're using nginx you can check out [this](docs/nginx.md) to see how to configure it properly.
+If you're using apache feel free to open an issue / PR to get that added as well.
+
 ### Bare VPS Setup
-Head to [bare-vps.md](https://github.com/dot-cafe/beam.cafe.sh/blob/master/docs/bare-vps.md) to see how to setup it manually.
+Go [here](docs/barevps.md) to see how to set beam.cafe up manually.
 
 ### Screenshots
 > ... or just [try it out](https://beam.cafe/)!
