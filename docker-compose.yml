@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+    frontend:
+        image: dotcafe/beam.cafe
+        container_name: frontend
+        env_file:
+            - .env
+        volumes:
+            - ./frontend:/app/dist
+        depends_on:
+            - backend
+
+    backend:
+        image: dotcafe/beam.cafe.backend
+        container_name: backend
+        volumes:
+            - ./config:/config
+        ports:
+            - 8080:8080
+        restart: unless-stopped

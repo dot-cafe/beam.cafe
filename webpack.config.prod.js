@@ -14,7 +14,9 @@ const globalSCSS = path.resolve(__dirname, 'src/styles/_global.scss');
 const dist = path.resolve(__dirname, 'dist');
 const src = path.resolve(__dirname, 'src');
 const app = path.resolve(src, 'app');
+require('dotenv').config();
 
+require('dotenv');
 module.exports = {
     mode: 'production',
 
@@ -131,8 +133,8 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production'),
                 'VERSION': JSON.stringify(resolveAppVersion()),
                 'BUILD_DATE': JSON.stringify(Date.now()),
-                'WS_ENDPOINT': JSON.stringify('wss://beam.cafe/ws'),
-                'HTTPS_ENDPOINT': JSON.stringify('https://beam.cafe')
+                'API_WEBSOCKET': JSON.stringify(process.env.API_WEBSOCKET || 'wss://beam.cafe/ws'),
+                'API_HTTP': JSON.stringify(process.env.API_HTTP || 'https://beam.cafe')
             }
         }),
 
