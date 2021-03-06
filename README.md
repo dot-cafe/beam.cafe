@@ -33,6 +33,14 @@
     <h3 align="center"><a href="https://beam.cafe">Beam Up Something!</a></h3>
 </p>
 
+### State of this project
+
+I consider this project to have reached a final state.
+Today I would do many things differently (more component based, less interdependent modules etc.) than I did a year / years ago.
+I finished this project shortly after graduating high school and do not intent to actively work on it anymore. 
+It was a great project and I learned many things from working on it though :)
+
+> It'll stay deployed until March 2022. Thereafter I'll take it down for security reason.
 
 ### Concept and Features
 beam.cafe knows very little about you - the names of your files, your IP and well, that's it.
@@ -47,7 +55,6 @@ You can always check who's downloading or streaming your files and, in case a li
 * 🌜 Multi-themed - Light theme or dark theme? beam.cafe has both, even a high-contrast mode.
 * 🦾 Accessible - High contrast theme paired with modern aria-labels will make using it an ease (PR's are welcome!).
 * ✨ Modern - A modern design makes using beam.cafe a breeze.
-
 
 ### Local setup
 You'll need both the [frontend](https://github.com/dot-cafe/beam.cafe) and [backend](https://github.com/dot-cafe/beam.cafe.backend) to work on it:
