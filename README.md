@@ -41,6 +41,7 @@ I finished this project shortly after graduating high school and do not intent t
 It was a great project and I learned many things from working on it though :)
 
 > It'll stay deployed until March 2022. Thereafter I'll take it down for security reason.
+> **Update:** Because of financial reasons I decided to take it down at the beginning of November 2021.  
 
 ### Concept and Features
 beam.cafe knows very little about you - the names of your files, your IP and well, that's it.
